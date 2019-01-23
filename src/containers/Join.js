@@ -17,9 +17,14 @@ class Join extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: '',
-      email: '',
-      password: ''
+      UserId: '',   // 아이디
+      Password: '',   // 비밀번호
+      Name: '',     // 이름
+      Email: '',    // 이메일
+      Department: '', // 소속(부서)
+      BuildingList: '', // 건물
+      PositionList: '',  // 층
+      Manager: '' // 관리자 여부
     }
   }
 
