@@ -27,3 +27,7 @@ export const OFFICE = 'Office';
 export const NEW_HOUSE = 'NewHouse';
 export const HOUSE = 'House';
 export const OUTDOOR = 'OutDoor';
+
+export const OK = 'OK';
+export const FAIL = 'Fail';
+export const APPROVE = "Aprove";
