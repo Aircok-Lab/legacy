@@ -41,9 +41,14 @@ class Join extends React.Component {
 
   render() {
     const {
-      name,
-      email,
-      password
+      UserId,
+      Password,
+      Name,
+      Email,
+      Department,
+      BuildingList,
+      PositionList,
+      Manager
     } = this.state;
     const {showMessage, loader, alertMessage} = this.props;
     return (
@@ -57,40 +62,80 @@ class Join extends React.Component {
 
             <div className="app-login-form">
               <form method="post" action="/">
-                <TextField
+              <TextField
                   type="text"
-                  label="Name"
-                  onChange={(event) => this.setState({name: event.target.value})}
+                  label="* 아이디"
+                  onChange={(event) => this.setState({UserId: event.target.value})}
                   fullWidth
-                  defaultValue={name}
-                  margin="normal"
-                  className="mt-0 mb-2"
-                />
-
-                <TextField
-                  type="email"
-                  onChange={(event) => this.setState({email: event.target.value})}
-                  label={<IntlMessages id="appModule.email"/>}
-                  fullWidth
-                  defaultValue={email}
+                  defaultValue={UserId}
                   margin="normal"
                   className="mt-0 mb-2"
                 />
 
                 <TextField
                   type="password"
-                  onChange={(event) => this.setState({password: event.target.value})}
-                  label={<IntlMessages id="appModule.password"/>}
+                  onChange={(event) => this.setState({Password: event.target.value})}
+                  label="* 비밀번호"
                   fullWidth
-                  defaultValue={password}
+                  defaultValue={Password}
                   margin="normal"
                   className="mt-0 mb-4"
+                />
+                
+                <TextField
+                  type="text"
+                  label="* 이름"
+                  onChange={(event) => this.setState({Name: event.target.value})}
+                  fullWidth
+                  defaultValue={Name}
+                  margin="normal"
+                  className="mt-0 mb-2"
+                />
+
+                <TextField
+                  type="email"
+                  onChange={(event) => this.setState({Email: event.target.value})}
+                  label="* 이메일"
+                  fullWidth
+                  defaultValue={Email}
+                  margin="normal"
+                  className="mt-0 mb-2"
+                />
+
+                <TextField
+                  type="text"
+                  label="소속(부서"
+                  onChange={(event) => this.setState({Department: event.target.value})}
+                  fullWidth
+                  defaultValue={Department}
+                  margin="normal"
+                  className="mt-0 mb-2"
+                />
+
+                <TextField
+                  type="text"
+                  label="* 건물명"
+                  onChange={(event) => this.setState({BuildingList: event.target.value})}
+                  fullWidth
+                  defaultValue={BuildingList}
+                  margin="normal"
+                  className="mt-0 mb-2"
+                />
+
+                <TextField
+                  type="text"
+                  label="* 층"
+                  onChange={(event) => this.setState({PositionList: event.target.value})}
+                  fullWidth
+                  defaultValue={PositionList}
+                  margin="normal"
+                  className="mt-0 mb-2"
                 />
 
                 <div className="mb-3 d-flex align-items-center justify-content-between">
                   <Button className="btn-block" variant="raised" onClick={() => {
                     this.props.showAuthLoader();
-                    this.props.userSignUp({email, password});
+                    //this.props.userSignUp({email, password});
                   }} color="primary">
                     승인요청
                   </Button>
