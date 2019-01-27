@@ -1,8 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {Link} from 'react-router-dom';
@@ -12,6 +17,44 @@ import {
   showAuthLoader,
   userSignUp
 } from 'actions/Auth';
+
+const buildings = [
+  {
+    value: 'building1',
+    label: '건물1'
+  },
+  {
+    value: 'building2',
+    label: '건물2'
+  },
+  {
+    value: 'building3',
+    label: '건물3'
+  },
+  {
+    value: 'building4',
+    label: '건물4'
+  },
+];
+
+const floors = [
+  {
+    value: '1',
+    label: '1층'
+  },
+  {
+    value: '2',
+    label: '2층'
+  },
+  {
+    value: '3',
+    label: '3층'
+  },
+  {
+    value: '4',
+    label: '4층'
+  },
+];
 
 class Join extends React.Component {
   constructor() {
@@ -37,6 +80,10 @@ class Join extends React.Component {
     if (this.props.authUser !== null) {
       this.props.history.push('/');
     }
+  }
+
+  handleChange(type) {
+    console.log(type);
   }
 
   render() {
@@ -79,7 +126,17 @@ class Join extends React.Component {
                   fullWidth
                   defaultValue={Password}
                   margin="normal"
-                  className="mt-0 mb-4"
+                  className="mt-0 mb-2"
+                />
+
+                <TextField
+                  type="password"
+                  onChange={(event) => this.setState({Password: event.target.value})}
+                  label="* 비밀번호 확인"
+                  fullWidth
+                  defaultValue={Password}
+                  margin="normal"
+                  className="mt-0 mb-2"
                 />
                 
                 <TextField
@@ -104,7 +161,7 @@ class Join extends React.Component {
 
                 <TextField
                   type="text"
-                  label="소속(부서"
+                  label="소속(부서)"
                   onChange={(event) => this.setState({Department: event.target.value})}
                   fullWidth
                   defaultValue={Department}
@@ -113,32 +170,62 @@ class Join extends React.Component {
                 />
 
                 <TextField
-                  type="text"
+                  select
                   label="* 건물명"
+                  value={BuildingList}
                   onChange={(event) => this.setState({BuildingList: event.target.value})}
-                  fullWidth
-                  defaultValue={BuildingList}
+                  SelectProps={{}}
                   margin="normal"
+                  fullWidth
                   className="mt-0 mb-2"
-                />
+                >
+                  {buildings.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
 
                 <TextField
-                  type="text"
+                  select
                   label="* 층"
+                  value={BuildingList}
                   onChange={(event) => this.setState({PositionList: event.target.value})}
-                  fullWidth
-                  defaultValue={PositionList}
+                  SelectProps={{}}
                   margin="normal"
+                  fullWidth
                   className="mt-0 mb-2"
-                />
+                >
+                  {floors.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
 
-                <div className="mb-3 d-flex align-items-center justify-content-between">
+                <FormControl component="fieldset" required>
+                  <RadioGroup
+                    className="d-flex flex-row"
+                    aria-label="gender"
+                    name="gender"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                  >
+                    <FormControlLabel value="male1" control={<Radio color="primary"/>} label="관리자"/>
+                    <FormControlLabel value="female1" control={<Radio color="primary"/>} label="사용자"/>
+                  </RadioGroup>
+                </FormControl>
+
+                <div className="mt-4 mb-3 d-flex align-items-center justify-content-between">
                   <Button className="btn-block" variant="raised" onClick={() => {
                     this.props.showAuthLoader();
                     //this.props.userSignUp({email, password});
                   }} color="primary">
                     승인요청
                   </Button>
+                </div>
+                <div>
+                  <p>* 담당자 승인 후 회원가입이 완료됩니다.</p>
                 </div>
               </form>
             </div>
