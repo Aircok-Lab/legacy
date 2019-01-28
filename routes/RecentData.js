@@ -1,11 +1,10 @@
+import {
+    OK,
+    FAIL
+} from "../public/javascripts/defined";
 var express = require('express');
 var router = express.Router();
 var RecentData=require('../models/RecentData');
-
-/* GET RecentData listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
 /* INSERT user */
 // router.post('/addRecentData', function(req, res, next) {
@@ -58,29 +57,30 @@ router.post('/getRecentDataById', function(req, res, next) {
     console.log('/getRecentDataById 호출됨.');
 
     var paramRecentDataID = req.body.id || req.query.id;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramRecentDataID);
 
     RecentData.getRecentDataById(paramRecentDataID, function(err, datas){
         if(err){
             console.error('오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(datas){
             console.dir(datas);
-            res.send(datas);
+            result.statusCode = OK;
+            result.message = '성공';
+            result.data = datas;
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 데이터 찾기 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });
@@ -139,25 +139,22 @@ router.delete('/deleteRecentData', function(req, res, next) {
     RecentData.deleteRecentData(paramRecentDataID, function(err, success){
         if(err){
             console.error('오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(success){
             console.dir(success);
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 데이터 삭제 완료</h2>');
-            res.end();
+            result.statusCode = OK;
+            result.message = '성공';
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 데이터 삭제 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });

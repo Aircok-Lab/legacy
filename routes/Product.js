@@ -1,11 +1,10 @@
+import {
+    OK,
+    FAIL
+} from "../public/javascripts/defined";
 var express = require('express');
 var router = express.Router();
 var Product=require('../models/Product');
-
-/* GET Product listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
 /* INSERT product */
 router.post('/addProduct', function(req, res, next) {
@@ -23,6 +22,7 @@ router.post('/addProduct', function(req, res, next) {
     var paramTemperature = req.body.temperature || req.query.temperature;
     var paramHumidity = req.body.humidity || req.query.humidity;
     var paramNoise = req.body.noise || req.query.noise;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramName + ',' + paramVersion + ',' + paramPeriod + ',' + paramIndoor + ',' + paramPM25 + ',' + 
                 paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise);
@@ -32,26 +32,24 @@ router.post('/addProduct', function(req, res, next) {
         // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
         if(err){
             console.error('제품 추가 중 오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>제품 추가 중 오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(addedProduct){
             console.dir(addedProduct);
-            console.log('inserted' + addedProduct.affectedRows + 'rows');
             console.log('추가된 레코드의 아이디 : ' + addedProduct.insertId);
-
-            res.send(addedProduct);
+            result.statusCode = OK;
+            result.message = '성공';
+            result.data = addedProduct.insertId;
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2>제품 추가 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });
@@ -59,27 +57,28 @@ router.post('/addProduct', function(req, res, next) {
 /* all products list */
 router.get('/allProduct', function(req, res, next) {
     console.log('/allProduct 호출됨.');
+    var result = {statusCode : null, message : null, data : null};
 
     Product.getAllProduct(function(err, allProducts){
         if(err){
             console.error('오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>모든 제품 리스트 가져오기 오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(allProducts){
             console.dir(allProducts);
-            res.send(allProducts);
+            result.statusCode = OK;
+            result.message = '성공';
+            result.data = allProducts;
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2>모든 제품 리스트 가져오기 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });
@@ -95,23 +94,23 @@ router.post('/getProductById', function(req, res, next) {
     Product.getProductById(paramProductID, function(err, products){
         if(err){
             console.error('오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(products){
             console.dir(products);
-            res.send(products);
+            result.statusCode = OK;
+            result.message = '성공';
+            result.data = products;
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 제품 찾기 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });
@@ -132,6 +131,7 @@ router.put('/updateProduct', function(req, res, next) {
     var paramTemperature = req.body.temperature || req.query.temperature;
     var paramHumidity = req.body.humidity || req.query.humidity;
     var paramNoise = req.body.noise || req.query.noise;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramProductID + ',' + paramName + ',' + paramVersion + ',' + paramPeriod + ',' + paramIndoor + ',' + paramPM25 + ',' + 
                 paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise);
@@ -140,25 +140,22 @@ router.put('/updateProduct', function(req, res, next) {
         paramVOC, paramTemperature, paramHumidity, paramNoise, function(err, success){
         if(err){
             console.error('제품 정보 수정 중 오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>제품 정보 수정 중 오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(success){
             console.dir(success);
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 제품 정보 변경 완료</h2>');
-            res.end();
+            result.statusCode = OK;
+            result.message = '성공';
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2>제품 정보 변경 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });
@@ -167,31 +164,29 @@ router.delete('/deleteProduct', function(req, res, next) {
     console.log('/deleteProduct 호출됨.');
 
     var paramProductID = req.body.id || req.query.id;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramProductID);
 
     Product.deleteProduct(paramProductID, function(err, success){
         if(err){
             console.error('오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(success){
             console.dir(success);
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 제품 삭제 완료</h2>');
-            res.end();
+            result.statusCode = OK;
+            result.message = '성공';
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 제품 삭제 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });

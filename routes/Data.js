@@ -1,3 +1,13 @@
+import {
+    PM10,
+    PM25,
+    CO2,
+    HCHO,
+    VOC,
+    OK,
+    FAIL
+} from "../public/javascripts/defined";
+
 var express = require('express');
 var router = express.Router();
 var Data=require('../models/Data');
@@ -5,19 +15,6 @@ var Alarm=require('../models/Alarm');
 var Device=require('../models/Device');
 var RecentData=require('../models/RecentData');
 var E3Core=require('../sensor/E3Core');
-
-import {
-    PM10,
-    PM25,
-    CO2,
-    HCHO,
-    VOC,
-} from "../public/javascripts/defined";
-
-/* GET Data listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
 /* INSERT user */
 router.post('/addData', function(req, res, next) {
@@ -33,6 +30,7 @@ router.post('/addData', function(req, res, next) {
     var paramNoise = req.body.noise || req.query.noise || null;
     var paramDate = req.body.date || req.query.date || null;
     var paramDeviceSN = req.body.deviceSN || req.query.deviceSN || null;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramPM25 + ',' + paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' +
                 paramTemperature + ',' + paramHumidity + ',' + paramNoise + ',' + paramDate + ',' + paramDeviceSN);
@@ -41,27 +39,25 @@ router.post('/addData', function(req, res, next) {
         // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
         if(err){
             console.error('데이터 추가 중 오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>데이터 추가 중 오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(addedData){
             console.dir(addedData);
-            console.log('inserted' + addedData.affectedRows + 'rows');
             console.log('추가된 레코드의 아이디 : ' + addedData.insertId);
             
-
-            res.send(addedData);
+            result.statusCode = OK;
+            result.message = '성공';
+            result.data = addedData.insertId;
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2>데이터 추가 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
     Device.getBuildingType(paramDeviceSN, function(err, buildingType){
@@ -84,12 +80,6 @@ router.post('/addData', function(req, res, next) {
             RecentData.updateRecentData(status.pm10, status.pm25, status.co2, status.hcho, status.voc, status.temperature, status.humidity, paramNoise, totalScore, paramDate, paramDeviceSN, function(err, success){
                 if(err){
                     console.error('최신 데이터 수정 중 오류 발생 :' + err.stack);
-        
-                    res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-                    res.write('<h2>최신 데이터 수정 중 오류 발생</h2>');
-                    res.write('<p>'+err.stack+'</p>');
-                    res.end();
-        
                     return;
                 }
                 if(success){
@@ -99,12 +89,6 @@ router.post('/addData', function(req, res, next) {
             Alarm.addAlarm(status.pm10, status.pm25, status.co2, status.hcho, status.voc, status.temperature, status.humidity, paramNoise, totalScore, paramDate, paramDeviceSN, function(err, success){
                 if(err){
                     console.error('데이터 추가 중 오류 발생 :' + err.stack);
-        
-                    res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-                    res.write('<h2>알람 데이터 추가 중 오류 발생</h2>');
-                    res.write('<p>'+err.stack+'</p>');
-                    res.end();
-        
                     return;
                 }
                 if(success){
@@ -124,29 +108,30 @@ router.post('/getDataById', function(req, res, next) {
 
     var paramDataID = req.body.id || req.query.id;
     var paramDeviceSN = req.body.deviceSN || req.query.deviceSN;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramDataID + paramDeviceSN);
 
     Data.getDataById(paramDeviceSN, paramDataID, function(err, datas){
         if(err){
             console.error('오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(datas){
             console.dir(datas);
-            res.send(datas);
+            result.statusCode = OK;
+            result.message = '성공';
+            result.data = datas;
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 데이터 찾기 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });
@@ -165,6 +150,7 @@ router.put('/updateData', function(req, res, next) {
     var paramNoise = req.body.noise || req.query.noise;
     var paramDate = req.body.date || req.query.date;
     var paramDeviceSN = req.body.deviceSN || req.query.deviceSN;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramPM25 + ',' + paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' +
                 paramTemperature + ',' + paramHumidity + ',' + paramNoise + ',' + paramDate + ',' + paramDeviceSN);
@@ -172,25 +158,22 @@ router.put('/updateData', function(req, res, next) {
     Data.updateData(paramDataID, paramPM25, paramPM10, paramCO2, paramHCHO, paramVOC, paramTemperature, paramHumidity, paramNoise, paramDate, paramDeviceSN, function(err, success){
         if(err){
             console.error('데이터 정보 수정 중 오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>데이터 정보 수정 중 오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(success){
             console.dir(success);
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 데이터 정보 변경 완료</h2>');
-            res.end();
+            result.statusCode = OK;
+            result.message = '성공';
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2>데이터 정보 변경 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });
@@ -206,25 +189,22 @@ router.delete('/deleteData', function(req, res, next) {
     Data.deleteData(paramDeviceSN, paramDataID, function(err, success){
         if(err){
             console.error('오류 발생 :' + err.stack);
-
-            res.writeHead('200', {'Content-Type' : 'text/html; charset=utf8'});
-            res.write('<h2>오류 발생</h2>');
-            res.write('<p>'+err.stack+'</p>');
-            res.end();
-
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
             return;
         }
 
         //결과 객체 있으면 성공 응답 전송
         if(success){
             console.dir(success);
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 데이터 삭제 완료</h2>');
-            res.end();
+            result.statusCode = OK;
+            result.message = '성공';
+            res.send(result);
         } else {
-            res.writeHead('200', {'Content-Type' : 'text/html;charset=utf8'});
-            res.write('<h2> 데이터 삭제 실패</h2>');
-            res.end();
+            result.statusCode = FAIL;
+            result.message = '실패';
+            res.send(result);
         }
     });
 });
