@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/icon_device_none"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:textSize="14dp"
+        android:textColor="#17bbff"
+        android:gravity="center_horizontal"
+        android:text="@string/setting_device_none" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="14dp"
+        android:textColor="#4b4d4e"
+        android:gravity="center_horizontal"
+        android:text="@string/setting_device_none_desc" />
+
+
+    <Button
+        android:id="@+id/btn_none_device_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="52dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="15dp"
+        android:singleLine="true"
+        android:textSize="18dp"
+        android:textColor="#ffffff"
+        android:text="@string/setting_device_search"
+        android:background="@drawable/btn_blue_selector" />
+
+</LinearLayout>

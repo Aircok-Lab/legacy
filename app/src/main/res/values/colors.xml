@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorAzure">#0fb4e7</color>
+
+    <color name="white">#FFffffff</color>
+    <color name="black333333">#b3333333</color>
+    <color name="switch_off">#c7c9c9</color>
+    <color name="switch_on">#17bbff</color>
+
+
+    <color name="action_tips_title">#a0a0a0</color>
+    <color name="action_tips_title_a">#09a1e1</color>
+    <color name="action_tips_title_b">#3abf82</color>
+    <color name="action_tips_title_c">#ffb71c</color>
+    <color name="action_tips_title_d">#f87b28</color>
+    <color name="action_tips_title_e">#f02a23</color>
+
+    <color name="inside_outside_select">#17bbff</color>
+    <color name="inside_outside_default">#a0a0a0</color>
+</resources>

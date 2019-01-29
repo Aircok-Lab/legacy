@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@android:color/transparent"
+    >
+
+    <ImageButton
+        android:id="@+id/btn_header_left_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:src="@drawable/btn_nav_menu_n"
+        android:background="@android:color/transparent"
+        android:visibility="invisible"
+        />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/tv_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text=""
+            android:textSize="18dp"
+            android:textColor="#4b4d4e"
+            android:visibility="invisible"
+            />
+
+        <ImageView
+            android:id="@+id/iv_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nav_logo"
+            android:visibility="invisible"
+            />
+
+    </FrameLayout>
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+    
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btn_header_right_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:src="@drawable/btn_nav_menu_n"
+            android:background="@android:color/transparent"
+            android:visibility="invisible"
+            />
+        
+        <LinearLayout
+            android:id="@+id/layout_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingRight="12dp"
+            android:visibility="gone"
+            >
+            
+            <TextView
+                android:id="@+id/tv_battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="18dp"
+                android:textColor="#ffffff"
+                />
+            
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                >
+                
+                <com.baby.aircok.acbaby.common.widget.CircleStateView
+                    android:id="@+id/state_battery"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_battery_charging"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/btn_nav_battery_charging"/>
+            </FrameLayout>
+        </LinearLayout>
+        
+    </FrameLayout>
+
+</LinearLayout>
