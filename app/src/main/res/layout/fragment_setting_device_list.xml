@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#ffffff"
+    >
+
+    <ImageView
+        android:id="@+id/ceonnect_device_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27.3dp"
+        android:background="@drawable/ic_aircok_on"
+        />
+
+    <TextView
+        android:id="@+id/ceonnect_device_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11.3dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/setting_device_can_connect"
+        android:textSize="13dp"
+        android:textColor="#6f6f6f"
+        />
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:listSelector="@android:color/transparent"
+        android:divider="#eeeeee"
+        android:dividerHeight="1dp"
+        android:cacheColorHint="@android:color/transparent" />
+
+</LinearLayout>

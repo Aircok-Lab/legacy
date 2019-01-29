@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.family.aircok.acfamily.TestActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/MainLocationSearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="MainLocationSearch"/>
+
+            <!--<com.family.aircok.acfamily.common.widget.CircleStateVieww-->
+                <!--android:id="@+id/state_battery"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:background="@android:color/transparent"-->
+                <!--android:layout_gravity="center"-->
+                <!--/>-->
+
+
+            <com.family.aircok.acfamily.common.widget.CircleChartView
+                android:id="@+id/circle_chart"
+                android:layout_below="@id/MainLocationSearch"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                />
+
+            <com.family.aircok.acfamily.common.widget.CircleChartView
+                android:id="@+id/circle_chart2"
+                android:layout_below="@id/circle_chart"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                />
+
+            <com.family.aircok.acfamily.common.widget.CircleChartView
+                android:id="@+id/circle_chart3"
+                android:layout_below="@id/circle_chart2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                />
+
+            <com.family.aircok.acfamily.TestCircle
+                android:id="@+id/test_circle"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
+
+
+            <FrameLayout
+                android:layout_below="@id/circle_chart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FF000000">
+                <com.family.aircok.acfamily.common.widget.CXSeekBar
+                        android:id="@+id/seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/index_line_num"
+                        android:padding="20dp" />
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/btn_acounnt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="계정만들기"/>
+
+            <Button
+                android:id="@+id/btn_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 변경/찾기"/>
+
+            <Button
+                android:id="@+id/btn_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="회원가입 완료"/>
+
+
+            <Button
+                android:id="@+id/btn_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="팝업"/>
+
+            <Button
+                android:id="@+id/btn_dialog2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="팝업2"/>
+
+            <Button
+                android:id="@+id/btn_sinupcomplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="소셜회원가입 완료"/>
+
+            <Button
+                android:id="@+id/btn_networktest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="전문테스트"/>
+
+            <com.kakao.usermgmt.LoginButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btn_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Calendar Test"/>
+
+            <!--<com.facebook.login.widget.LoginButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"/>-->
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

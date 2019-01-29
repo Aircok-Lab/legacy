@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="symptom">
+        <item>증상을 선택해주세요.</item>
+        <item>결막염</item>
+        <item>구내염</item>
+        <item>기관지천식</item>
+        <item>모세기관지염</item>
+        <item>수족구</item>
+        <item>알레르기비염</item>
+        <item>인후염</item>
+        <item>중이염</item>
+        <item>축농증</item>
+        <item>편도선염</item>
+        <item>폐렴</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="hospital">
+        <item>병원을 선택해주세요.</item>
+        <item>가정의학과</item>
+        <item>내과</item>
+        <item>소아청소년과</item>
+        <item>안과</item>
+        <item>이비인후과</item>
+        <item>기타</item>
+    </string-array>
+    
+    <string-array name="family_object">
+        <item>대상을 선택해주세요.</item>
+        <item>할머니</item>
+        <item>할아버지</item>
+        <item>아빠</item>
+        <item>엄마</item>
+        <item>아기</item>
+    </string-array>
+    
+</resources>

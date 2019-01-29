@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:gravity="center_horizontal"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27.3dp"
+        android:layout_marginBottom="13.3dp"
+        android:background="@drawable/ic_aircok_search"/>
+
+    <TextView
+        android:id="@+id/tv_device_search_coment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="16dp"
+        android:textColor="#6f6f6f"
+        android:text="@string/setting_device_search_coment"/>
+
+    <Button
+        android:id="@+id/btn_device_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="72dp"
+        android:gravity="center"
+        android:background="@drawable/btn_member_bg"
+        android:text="@string/setting_device_search"
+        android:textColor="@color/white"
+        android:textSize="18dp"/>
+
+</LinearLayout>
