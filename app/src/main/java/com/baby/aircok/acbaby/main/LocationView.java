@@ -69,7 +69,7 @@ public class LocationView extends LinearLayout {
             int point = C2Util.getTotalPoint(pm25);
             LogUtil.LOGE("pm25 : " + pm25);
             LogUtil.LOGE("point : " + point);
-            mCircleStateView.setProgressColor(getDustColor(point));
+            mCircleStateView.setProgressColor(getDustColor(pm25));
             mCircleStateView.setFillColor(Color.WHITE);
             mCircleStateView.setProgress(point);
             mCircleStateView.invalidate();
@@ -82,21 +82,15 @@ public class LocationView extends LinearLayout {
     }
 
     private int getDustColor(int point) {
-        int color = Color.WHITE;
-        if (point <= 20) {
-            color = Color.parseColor("#4bccf2");
+        int color = Color.parseColor("#ea3046");
+        if (point <= 15) {
+            color = Color.parseColor("#4ed2fb");
         }
-        else if (point <= 40) {
-            color = Color.parseColor("#75e2d4");
+        else if (point <= 35) {
+            color = Color.parseColor("#5ed36f");
         }
-        else if (point <= 60) {
-            color = Color.parseColor("#ff9320");
-        }
-        else if (point <= 80) {
-            color = Color.parseColor("#fdb0a9");
-        }
-        else if (point <= 100) {
-            color = Color.parseColor("#fd5f45");
+        else if (point <= 75) {
+            color = Color.parseColor("#ffb71c");
         }
         return color;
     }

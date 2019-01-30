@@ -142,20 +142,20 @@ public class C2Util {
         }
         else if (pm25 <= 25) {
             Shi = 40;   Slo = 21;
-            Chi = 25;   Clo = 10;
+            Chi = 25;   Clo = 11;
 
         }
-        else if (pm25 <= 50) {
+        else if (pm25 <= 35) {
             Shi = 60;   Slo = 41;
-            Chi = 50;   Clo = 25;
+            Chi = 35;   Clo = 26;
         }
-        else if (pm25 <= 100) {
+        else if (pm25 <= 75) {
             Shi = 80;   Slo = 61;
-            Chi = 100;   Clo = 50;
+            Chi = 75;   Clo = 36;
         }
         else  {
             Shi = 100;   Slo = 81;
-            Chi = 250;   Clo = 100;
+            Chi = 250;   Clo = 76;
         }
         float value = ((Shi - Slo) / (Chi - Clo)) * (pm25 - Clo) + Slo;
         LogUtil.LOGE("value : " + value);
