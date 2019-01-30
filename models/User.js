@@ -281,7 +281,7 @@ var User = {
             });
         });
     },
-    updateUser:function(id, password, name, email, department, manager, phone, buildinglist, positionlist, callback){
+    updateUser:function(userId, password, name, email, department, manager, phone, buildinglist, positionlist, callback){
         console.log('updateUser 호출됨');
 
         pool.getConnection(function(err, conn){
@@ -297,10 +297,10 @@ var User = {
 
             // 데이터를 객체로 만듭니다.
             var data = [name, password, email, department, false,
-                        manager, phone, buildinglist, positionlist, id];
+                        manager, phone, buildinglist, positionlist, userId];
 
             // SQL문을 실행합니다.
-            var exec = conn.query('update User set Name=?, Password=?, Email=?, Department=?, Approval=?, Manager=?, Phone=?, BuildingList=?, PositionList=? where id=?', data, function(err, result){
+            var exec = conn.query('update User set Name=?, Password=?, Email=?, Department=?, Approval=?, Manager=?, Phone=?, BuildingList=?, PositionList=? where UserID=?', data, function(err, result){
                 conn.release(); // 반드시 해제해야 합니다.
                 console.log('실행 대상 SQL : ' + exec.sql);
 
@@ -333,7 +333,7 @@ var User = {
 
             // 데이터를 객체로 만듭니다.
             var data = [id, password];
-            var loginUser = {UserID: 0, Name: null, Approval:0};
+            var loginUser = {UserID: 0, Name: '', Approval:0};
 
             // SQL문을 실행합니다.
             var exec = conn.query('select Approval, UserID, Name from User where UserID=? and Password=?', data, function(err, result){
@@ -347,6 +347,7 @@ var User = {
                     callback(err, null);
                     return;
                 }
+                console.dir(result);
                 loginUser.UserID = result[0].UserID;
                 loginUser.Name = result[0].Name;
                 loginUser.Approval = result[0].Approval;

@@ -129,14 +129,15 @@ router.post('/getRecentDataById', function(req, res, next) {
 //     });
 // });
 
-router.delete('/deleteRecentData', function(req, res, next) {
-    console.log('/deleteRecentData 호출됨.');
+router.delete('/deleteRecentDataByID', function(req, res, next) {
+    console.log('/deleteRecentDataByID 호출됨.');
 
     var paramRecentDataID = req.body.id || req.query.id;
-
+    var result = {statusCode : null, message : null, data : null};
+    
     console.log('요청 파라미터 : ' + paramRecentDataID);
 
-    RecentData.deleteRecentData(paramRecentDataID, function(err, success){
+    RecentData.deleteRecentDataByID(paramRecentDataID, function(err, success){
         if(err){
             console.error('오류 발생 :' + err.stack);
             result.statusCode = FAIL;

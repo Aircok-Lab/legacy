@@ -163,7 +163,7 @@ var Device = {
             console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
       
             // SQL문을 실행합니다.
-            var exec = conn.query('select count(*) from Device where PositionID=?', function(err, result){
+            var exec = conn.query('select * from Device where PositionID=?', positionId, function(err, result){
                 conn.release(); // 반드시 해제해야 합니다.
                 console.log('실행 대상 SQL : ' + exec.sql);
 
@@ -269,7 +269,7 @@ var Device = {
             console.log(serials);
             var queryString = 'delete from Device where ';
             for (i in serials){
-                let str = 'SerialNumber='+serials[i];
+                let str = 'SerialNumber=\''+serials[i]+'\'';
                 queryString = queryString + str;
                 if( i < (serials.length-1))
                     queryString = queryString + ' or ';

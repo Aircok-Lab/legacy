@@ -84,7 +84,8 @@ router.put('/updateIndexTable', function(req, res, next) {
     var paramGrade = req.body.grade || req.query.grade;
     var paramMin = req.body.min || req.query.min;
     var paramMax = req.body.max || req.query.max;
-
+    var result = {statusCode : null, message : null, data : null};
+    
     console.log('요청 파라미터 : ' + paramSensorType + ',' + paramGrade + ',' + paramMin + ',' + paramMax);
 
     IndexTable.updateIndexTable(paramSensorType, paramGrade, paramMin, paramMax, function(err, success){
