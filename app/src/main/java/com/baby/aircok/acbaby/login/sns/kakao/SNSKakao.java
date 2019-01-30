@@ -78,7 +78,7 @@ public class SNSKakao extends BaseSNS {
     }
 
     public void userInfo() {
-        UserManagement.requestMe(new MeResponseCallback() {
+        UserManagement.getInstance().requestMe(new MeResponseCallback() {
             @Override
             public void onFailure(ErrorResult errorResult) {
                 LogUtil.LOGE("onFailure");
