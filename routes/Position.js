@@ -20,7 +20,7 @@ router.post('/addPosition', function(req, res, next) {
 
     console.log('요청 파라미터 : ' + paramName + ',' + paramPosition + ',' + paramBuildingID + ',' + paramUserID);
 
-    Position.addPosition(paramName, paramPosition, paramBuildingID, paramUserID, function(err, addedPosition){
+    Position.addPosition(paramName, paramPosition, paramBuildingID, function(err, addedPosition){
         // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
         if(err){
             console.error('층 추가 중 오류 발생 :' + err.stack);
@@ -56,7 +56,7 @@ router.post('/addPosition', function(req, res, next) {
                         }
                         
                         if(success){
-                            console.error('사용자 정보 수정 완료:' + err.stack);
+                            console.error('사용자 정보 수정 완료');
                         }
                         else{
                             console.log('사용자 정보 없음');
@@ -77,7 +77,7 @@ router.post('/addPosition', function(req, res, next) {
 router.get('/allPosition', function(req, res, next) {
     console.log('/allPosition 호출됨.');
     var result = {statusCode : null, message : null, data : null};
-
+    
     Position.getAllPosition(function(err, allPositions){
         if(err){
             console.error('오류 발생 :' + err.stack);
@@ -139,6 +139,7 @@ router.post('/getPositionByBuildingId', function(req, res, next) {
     console.log('/getPositionByBuildingId 호출됨.');
 
     var paramBuildingID = req.body.id || req.query.id;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramBuildingID);
 
@@ -204,6 +205,7 @@ router.delete('/deletePosition', function(req, res, next) {
     console.log('/deletePosition 호출됨.');
 
     var paramPositionID = req.body.id || req.query.id;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramPositionID);
 

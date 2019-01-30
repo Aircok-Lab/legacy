@@ -8,6 +8,7 @@ var Device=require('../models/Device');
 var Data=require('../models/Data');
 var Alarm=require('../models/Alarm');
 var Product=require('../models/Product');
+var RecentData=require('../models/RecentData');
 
 /* INSERT user */
 router.post('/addDevice', function(req, res, next) {
@@ -237,6 +238,19 @@ router.delete('/deleteDevice', function(req, res, next) {
             result.statusCode = OK;
             result.message = '성공';
             res.send(result);
+            RecentData.deleteRecentDataBySN(paramDeviceSerialNumber, function(err, success){
+                if(err){
+                    console.error('오류 발생 :' + err.stack);
+                    return;
+                }
+        
+                //결과 객체 있으면 성공 응답 전송
+                if(success){
+                    console.log(success);
+                } else {
+                    console.log("실패");
+                }
+            });
         } else {
             result.statusCode = FAIL;
             result.message = '실패';

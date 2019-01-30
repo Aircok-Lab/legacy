@@ -110,7 +110,7 @@ router.post('/getDataById', function(req, res, next) {
     var paramDeviceSN = req.body.deviceSN || req.query.deviceSN;
     var result = {statusCode : null, message : null, data : null};
 
-    console.log('요청 파라미터 : ' + paramDataID + paramDeviceSN);
+    console.log('요청 파라미터 : ' + paramDataID +','+ paramDeviceSN);
 
     Data.getDataById(paramDeviceSN, paramDataID, function(err, datas){
         if(err){
@@ -136,7 +136,7 @@ router.post('/getDataById', function(req, res, next) {
     });
 });
 
-router.put('/updateData', function(req, res, next) {
+/*router.put('/updateData', function(req, res, next) {
     console.log('/updateData 호출됨.');
 
     var paramDataID = req.body.id || req.query.id;
@@ -177,12 +177,13 @@ router.put('/updateData', function(req, res, next) {
         }
     });
 });
-
+  */
 router.delete('/deleteData', function(req, res, next) {
     console.log('/deleteData 호출됨.');
 
     var paramDataID = req.body.id || req.query.id;
     var paramDeviceSN = req.body.deviceSN || req.query.deviceSN;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramDataID);
 

@@ -115,50 +115,50 @@ router.post('/getProductById', function(req, res, next) {
     });
 });
 
-router.put('/updateProduct', function(req, res, next) {
-    console.log('/updateProduct 호출됨.');
+// router.put('/updateProduct', function(req, res, next) {
+//     console.log('/updateProduct 호출됨.');
 
-    var paramProductID = req.body.id || req.query.id;
-    var paramName = req.body.name || req.query.name;
-    var paramVersion = req.body.version || req.query.version;
-    var paramPeriod = req.body.period || req.query.period;
-    var paramIndoor = req.body.indoor || req.query.indoor;
-    var paramPM25 = req.body.pm25 || req.query.pm25;
-    var paramPM10 = req.body.pm10 || req.query.pm10;
-    var paramCO2 = req.body.co2 || req.query.co2;
-    var paramHCHO = req.body.hcho || req.query.hcho;
-    var paramVOC = req.body.voc || req.query.voc;
-    var paramTemperature = req.body.temperature || req.query.temperature;
-    var paramHumidity = req.body.humidity || req.query.humidity;
-    var paramNoise = req.body.noise || req.query.noise;
-    var result = {statusCode : null, message : null, data : null};
+//     var paramProductID = req.body.id || req.query.id;
+//     var paramName = req.body.name || req.query.name;
+//     var paramVersion = req.body.version || req.query.version;
+//     var paramPeriod = req.body.period || req.query.period;
+//     var paramIndoor = req.body.indoor || req.query.indoor;
+//     var paramPM25 = req.body.pm25 || req.query.pm25;
+//     var paramPM10 = req.body.pm10 || req.query.pm10;
+//     var paramCO2 = req.body.co2 || req.query.co2;
+//     var paramHCHO = req.body.hcho || req.query.hcho;
+//     var paramVOC = req.body.voc || req.query.voc;
+//     var paramTemperature = req.body.temperature || req.query.temperature;
+//     var paramHumidity = req.body.humidity || req.query.humidity;
+//     var paramNoise = req.body.noise || req.query.noise;
+//     var result = {statusCode : null, message : null, data : null};
 
-    console.log('요청 파라미터 : ' + paramProductID + ',' + paramName + ',' + paramVersion + ',' + paramPeriod + ',' + paramIndoor + ',' + paramPM25 + ',' + 
-                paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise);
+//     console.log('요청 파라미터 : ' + paramProductID + ',' + paramName + ',' + paramVersion + ',' + paramPeriod + ',' + paramIndoor + ',' + paramPM25 + ',' + 
+//                 paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise);
 
-    Product.updateProduct(paramProductID, paramName, paramVersion, paramPeriod, paramIndoor, paramPM25, paramPM10, paramCO2, paramHCHO, 
-        paramVOC, paramTemperature, paramHumidity, paramNoise, function(err, success){
-        if(err){
-            console.error('제품 정보 수정 중 오류 발생 :' + err.stack);
-            result.statusCode = FAIL;
-            result.message = '오류 발생';
-            res.send(result);
-            return;
-        }
+//     Product.updateProduct(paramProductID, paramName, paramVersion, paramPeriod, paramIndoor, paramPM25, paramPM10, paramCO2, paramHCHO, 
+//         paramVOC, paramTemperature, paramHumidity, paramNoise, function(err, success){
+//         if(err){
+//             console.error('제품 정보 수정 중 오류 발생 :' + err.stack);
+//             result.statusCode = FAIL;
+//             result.message = '오류 발생';
+//             res.send(result);
+//             return;
+//         }
 
-        //결과 객체 있으면 성공 응답 전송
-        if(success){
-            console.dir(success);
-            result.statusCode = OK;
-            result.message = '성공';
-            res.send(result);
-        } else {
-            result.statusCode = FAIL;
-            result.message = '실패';
-            res.send(result);
-        }
-    });
-});
+//         //결과 객체 있으면 성공 응답 전송
+//         if(success){
+//             console.dir(success);
+//             result.statusCode = OK;
+//             result.message = '성공';
+//             res.send(result);
+//         } else {
+//             result.statusCode = FAIL;
+//             result.message = '실패';
+//             res.send(result);
+//         }
+//     });
+// });
 
 router.delete('/deleteProduct', function(req, res, next) {
     console.log('/deleteProduct 호출됨.');

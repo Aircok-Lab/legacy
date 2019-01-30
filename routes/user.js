@@ -30,7 +30,7 @@ router.post('/login', function(req, res, next) {
         if(loginUser){
             console.dir(loginUser);
             if(loginUser.Approval){
-                res.cookie(loginUser.Name, {
+                res.cookie("user", {
                     id : loginUser.UserID,
                     name : loginUser.Name,
                     authorized : true
@@ -62,7 +62,7 @@ router.get('/logout', function(req, res, next) {
 
     console.log('요청 파라미터 : ' + paramId);
 
-    res.clearCookie(paramName);
+    res.clearCookie("user");
     result.statusCode = OK;
     result.message = '성공';
     res.send(result);
@@ -343,7 +343,7 @@ router.get('/approvalUser', function(req, res, next) {
 router.put('/updateUser', function(req, res, next) {
     console.log('/updateUser 호출됨.');
 
-    var paramId = req.body.id || req.query.id;
+    var paramId = req.body.userId || req.query.userId;
     var paramPassword = req.body.password || req.query.password;
     var paramName = req.body.name || req.query.name;
     var paramEmail = req.body.email || req.query.email || null;
