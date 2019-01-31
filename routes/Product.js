@@ -88,6 +88,7 @@ router.post('/getProductById', function(req, res, next) {
     console.log('/getProductById 호출됨.');
 
     var paramProductID = req.body.id || req.query.id;
+    var result = {statusCode : null, message : null, data : null};
 
     console.log('요청 파라미터 : ' + paramProductID);
 
