@@ -130,36 +130,16 @@ var Alarm = {
 
             // 데이터를 객체로 만듭니다.
             var tableName = 'Alarm_'+deviceSN;
-            var data = {Date:date, E3Index:total.index, E3Score:total.score}
-            if(pm10.value){
-                data.PM10Index = pm10.index;
-                data.PM10Alarm = pm10.alarm;
-            }
-            if(pm25.value){
-                data.PM25Index = pm25.index;
-                data.PM25Alarm = pm25.alarm;
-            }
-            if(co2.value){
-                data.CO2Index = co2.index;
-                data.CO2Alarm = co2.alarm;
-            }
-            if(hcho.value){
-                data.HCHOIndex = hcho.index;
-                data.HCHOAlarm = hcho.alarm;
-            }
-            if(voc.value){
-                data.VOCIndex = voc.index;
-                data.VOCAlarm = voc.alarm;
-            }
-            if(temperature.value){
-                data.TemperatureIndex = temperature.index;
-                data.TemperatureAlarm = temperature.alarm;
-            }
-            if(humidity.value){
-                data.HumidityIndex = humidity.index;
-                data.HumidityAlarm = humidity.alarm;
-            }
-     
+            var data = {Date:date, E3Index:total.index, E3Score:total.score, 
+                        PM10Index:pm10.index, PM10Alarm:pm10.alarm, 
+                        PM25Index:pm25.index, PM25Alarm:pm25.alarm,
+                        CO2Index:co2.index, CO2Alarm:co2.alarm, 
+                        HCHOIndex:hcho.index, HCHOAlarm:hcho.alarm, 
+                        VOCIndex:voc.index, HCHOAlarm:voc.alarm, 
+                        TemperatureIndex:temperature.index, TemperatureAlarm:temperature.alarm, 
+                        HumidityIndex:humidity.index, HumidityAlarm:humidity.alarm, 
+                    };
+      
             // SQL문을 실행합니다.
             var exec = conn.query('insert into '+tableName+' set ?', data, function(err, result){
                 conn.release(); // 반드시 해제해야 합니다.
