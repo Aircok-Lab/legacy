@@ -19,8 +19,12 @@ class UserInfo extends React.Component {
         this.setState({open: true, anchorEl: event.currentTarget});
     };
 
-    handleRequestClose = () => {
+    handleLogout = () => {
         this.props.userSignOut();
+        this.setState({open: false});
+    }
+
+    handleRequestClose = () => {
         this.setState({open: false});
     };
 
@@ -54,11 +58,7 @@ class UserInfo extends React.Component {
                         <i className="zmdi zmdi-account zmdi-hc-fw mr-2"/>
                         <IntlMessages id="popup.profile"/>
                     </MenuItem>
-                    {/* <MenuItem onClick={this.handleRequestClose}>
-                        <i className="zmdi zmdi-settings zmdi-hc-fw mr-2"/>
-                        <IntlMessages id="popup.setting"/>
-                    </MenuItem> */}
-                    <MenuItem onClick={this.handleRequestClose}>
+                    <MenuItem onClick={this.handleLogout}>
                         <i className="zmdi zmdi-sign-in zmdi-hc-fw mr-2"/>
                         <IntlMessages id="popup.logout"/>
                     </MenuItem>
