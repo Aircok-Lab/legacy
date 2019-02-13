@@ -333,10 +333,10 @@ var User = {
 
             // 데이터를 객체로 만듭니다.
             var data = [id, password];
-            var loginUser = {UserID: 0, Name: '', Approval:0};
+            var loginUser = null;
 
             // SQL문을 실행합니다.
-            var exec = conn.query('select Approval, UserID, Name from User where UserID=? and Password=?', data, function(err, result){
+            var exec = conn.query('select * from User where UserID=? and Password=?', data, function(err, result){
                 conn.release(); // 반드시 해제해야 합니다.
                 console.log('실행 대상 SQL : ' + exec.sql);
 
@@ -348,9 +348,7 @@ var User = {
                     return;
                 }
                 console.dir(result);
-                loginUser.UserID = result[0].UserID;
-                loginUser.Name = result[0].Name;
-                loginUser.Approval = result[0].Approval;
+                loginUser = result[0];
                 callback(null, loginUser);
             });
         });

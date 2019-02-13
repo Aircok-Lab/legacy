@@ -37,7 +37,7 @@ router.post('/login', function(req, res, next) {
                 });
                 result.statusCode = OK;
                 result.message = '성공';
-                result.data = loginUser.UserID;
+                result.data = loginUser;
                 res.send(result);
             } else {
                 result.statusCode = APPROVE;
