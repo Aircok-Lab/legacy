@@ -27,7 +27,7 @@ class SideNav extends React.PureComponent {
     render() {
         const {navCollapsed, drawerType, width, navigationStyle, authUser} = this.props;
         let drawerStyle = drawerType.includes(FIXED_DRAWER) ? 'd-xl-flex' : drawerType.includes(COLLAPSED_DRAWER) ? '' : 'd-flex';
-        let type = 'permanent';
+        let type = 'temporary';
         if (drawerType.includes(COLLAPSED_DRAWER) || (drawerType.includes(FIXED_DRAWER) && width < 1200)) {
             type = 'temporary';
         }
@@ -48,8 +48,7 @@ class SideNav extends React.PureComponent {
                 >
                     <UserInfo/>
                     {authUser.Manager?
-                        <SidenavContent/>
-                        :
+                        <SidenavContent/>:
                         null
                     }
                 </Drawer>

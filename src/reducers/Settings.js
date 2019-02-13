@@ -1,5 +1,5 @@
 import {
-    FIXED_DRAWER,
+    COLLAPSED_DRAWER,
     INSIDE_THE_HEADER,
     SWITCH_LANGUAGE,
     TOGGLE_COLLAPSED_NAV,
@@ -10,7 +10,7 @@ import {
 const rltLocale = ['ar'];
 const initialSettings = {
     navCollapsed: false,
-    drawerType: FIXED_DRAWER,
+    drawerType: COLLAPSED_DRAWER,
     width: window.innerWidth,
     isDirectionRTL: false,
     navigationStyle: VERTICAL_NAVIGATION,
