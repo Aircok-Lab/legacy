@@ -4,6 +4,11 @@ import {connect} from 'react-redux';
 import Header from 'components/Header/index';
 import Sidebar from 'containers/SideNav/index';
 import Footer from 'components/Footer';
+import Monitoring from './routes/Monitoring';
+import Device from './routes/Device';
+import Product from './routes/Product';
+import User from './routes/User';
+import System from './routes/System';
 import {
     ABOVE_THE_HEADER,
     BELOW_THE_HEADER,
@@ -44,10 +49,18 @@ class App extends React.Component {
                     <main className="app-main-content-wrapper">
                         <div className="app-main-content">
                             <Switch>
-                                <Route path={`${match.url}/sample-page`}
-                                       component={asyncComponent(() => import('./routes/SamplePage'))}/> 
+                                <Route path={`${match.url}/monitoring`}
+                                    component={Monitoring}/> 
+                                <Route path={`${match.url}/device`}
+                                    component={Device}/> 
+                                <Route path={`${match.url}/product`}
+                                    component={Product}/> 
+                                <Route path={`${match.url}/user`}
+                                    component={User}/> 
+                                <Route path={`${match.url}/system`}
+                                    component={System}/> 
                                 <Route
-                                component={asyncComponent(() => import('components/Error404'))}/>
+                                    component={asyncComponent(() => import('components/Error404'))}/>
                             </Switch>
                         </div>
                         <Footer/>

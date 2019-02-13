@@ -25,7 +25,7 @@ class SideNav extends React.PureComponent {
     }
 
     render() {
-        const {navCollapsed, drawerType, width, navigationStyle} = this.props;
+        const {navCollapsed, drawerType, width, navigationStyle, authUser} = this.props;
         let drawerStyle = drawerType.includes(FIXED_DRAWER) ? 'd-xl-flex' : drawerType.includes(COLLAPSED_DRAWER) ? '' : 'd-flex';
         let type = 'permanent';
         if (drawerType.includes(COLLAPSED_DRAWER) || (drawerType.includes(FIXED_DRAWER) && width < 1200)) {
@@ -47,16 +47,21 @@ class SideNav extends React.PureComponent {
                         }}
                 >
                     <UserInfo/>
-                    <SidenavContent/>
+                    {authUser.Manager?
+                        <SidenavContent/>
+                        :
+                        null
+                    }
                 </Drawer>
             </div>
         );
     }
 }
 
-const mapStateToProps = ({settings}) => {
+const mapStateToProps = ({settings, auth}) => {
     const {navCollapsed, drawerType, width, navigationStyle} = settings;
-    return {navCollapsed, drawerType, width, navigationStyle}
+    const {authUser} = auth;
+    return {navCollapsed, drawerType, width, navigationStyle, authUser}
 };
 
 export default withRouter(connect(mapStateToProps, {toggleCollapsedNav, updateWindowWidth})(SideNav));

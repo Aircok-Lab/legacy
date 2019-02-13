@@ -30,7 +30,7 @@ class Login extends React.Component {
         this.props.hideMessage();
       }, 100);
     }
-    if (this.props.authUser.statusCode === 'OK') {
+    if (this.props.authUser !== null) {
       this.props.history.push('/');
     }
   }

@@ -44,18 +44,10 @@ function* signInUserWithEmailPassword({payload}) {
     if (signInUser.message) {
       yield put(showAuthMessage(signInUser.message));
     } else {
-      localStorage.setItem('user_id', signInUser.data);
-      yield put(userSignInSuccess(signInUser.data));
-      yield put(setInitUrl('/app/sample-page'));
+      localStorage.setItem('user_id', signInUser.data.data.UserID);
+      yield put(userSignInSuccess(signInUser.data.data));
+      yield put(setInitUrl('/app/monitoring'));
     }
-    // if(signInUser.data && signInUser.data.statusCode === "OK") {
-    //   localStorage.setItem('user_id', signInUser.data.data);
-    //   yield put(userSignInSuccess(signInUser.data.data));
-    //   yield put(setInitUrl('/app/sample-page'));
-    // }
-    // else if (signInUser.data && signInUser.data.message) {
-    //   yield put(showAuthMessage(signInUser.data.message));
-    // }
   } catch (error) {
     yield put(showAuthMessage(error));
   }

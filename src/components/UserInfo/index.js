@@ -4,6 +4,9 @@ import {connect} from 'react-redux'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IntlMessages from 'util/IntlMessages';
+import {
+    userSignOut
+  } from "actions/Auth";
 
 class UserInfo extends React.Component {
 
@@ -17,6 +20,7 @@ class UserInfo extends React.Component {
     };
 
     handleRequestClose = () => {
+        this.props.userSignOut();
         this.setState({open: false});
     };
 
@@ -29,7 +33,7 @@ class UserInfo extends React.Component {
                     className="user-avatar "
                 />
                 <div className="user-detail">
-                    <h4 className="user-name" onClick={this.handleClick}>Robert Johnson <i
+                    <h4 className="user-name" onClick={this.handleClick}>{this.props.authUser.UserID} <i
                         className="zmdi zmdi-caret-down zmdi-hc-fw align-middle"/>
                     </h4>
                 </div>
@@ -50,13 +54,12 @@ class UserInfo extends React.Component {
                         <i className="zmdi zmdi-account zmdi-hc-fw mr-2"/>
                         <IntlMessages id="popup.profile"/>
                     </MenuItem>
-                    <MenuItem onClick={this.handleRequestClose}>
+                    {/* <MenuItem onClick={this.handleRequestClose}>
                         <i className="zmdi zmdi-settings zmdi-hc-fw mr-2"/>
                         <IntlMessages id="popup.setting"/>
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem onClick={this.handleRequestClose}>
                         <i className="zmdi zmdi-sign-in zmdi-hc-fw mr-2"/>
-
                         <IntlMessages id="popup.logout"/>
                     </MenuItem>
                 </Menu>
@@ -65,10 +68,11 @@ class UserInfo extends React.Component {
     }
 }
 
-const mapStateToProps = ({settings}) => {
+const mapStateToProps = ({settings, auth}) => {
     const {locale} = settings;
-    return {locale}
+    const {authUser} = auth;
+    return {locale, authUser}
 };
-export default connect(mapStateToProps)(UserInfo);
+export default connect(mapStateToProps,{userSignOut})(UserInfo);
 
 

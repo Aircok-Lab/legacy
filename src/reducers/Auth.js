@@ -31,7 +31,6 @@ export default (state = INIT_STATE, action) => {
       return { 
         ...state,
         loader: false,
-        // initURL: '/app/sample-page',
         authUser: action.payload
       }
     }
@@ -45,7 +44,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         authUser: null,
-        initURL: '/app/sample-page',
+        initURL: '/app/monitoring',
         loader: false
       }
     }

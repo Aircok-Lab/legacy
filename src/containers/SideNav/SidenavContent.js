@@ -81,9 +81,25 @@ class SidenavContent extends Component {
 
                     <li className="nav-header"><IntlMessages id="sidebar.main"/></li>
                     <li className="menu no-arrow">
-                        <NavLink to="/app/sample-page">
+                        <NavLink to="/app/monitoring">
                             <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
-                            <span className="nav-text"><IntlMessages id="pages.samplePage"/> </span>
+                            <span className="nav-text">대기질센서 결과 확인 </span>
+                        </NavLink>
+                        <NavLink to="/app/device">
+                            <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
+                            <span className="nav-text">측정기 관리 </span>
+                        </NavLink>
+                        <NavLink to="/app/product">
+                            <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
+                            <span className="nav-text">제품군 관리 </span>
+                        </NavLink>
+                        <NavLink to="/app/user">
+                            <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
+                            <span className="nav-text">사용자 관리 </span>
+                        </NavLink>
+                        <NavLink to="/app/system">
+                            <i className="zmdi zmdi-view-dashboard zmdi-hc-fw"/>
+                            <span className="nav-text">시스템 관리 </span>
                         </NavLink>
                     </li>
                 </ul>
