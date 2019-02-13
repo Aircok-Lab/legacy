@@ -1,6 +1,7 @@
 import {
   HIDE_MESSAGE,
   INIT_URL,
+  INIT_USER,
   ON_HIDE_LOADER,
   ON_SHOW_LOADER,
   SHOW_MESSAGE,
@@ -38,6 +39,12 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         initURL: action.payload
+      }
+    }
+    case INIT_USER: {
+      return {
+        ...state,
+        authUser: action.payload
       }
     }
     case SIGNOUT_USER_SUCCESS: {

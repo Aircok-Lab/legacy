@@ -1,6 +1,7 @@
 import {
   HIDE_MESSAGE,
   INIT_URL,
+  INIT_USER,
   ON_HIDE_LOADER,
   ON_SHOW_LOADER,
   SHOW_MESSAGE,
@@ -59,6 +60,13 @@ export const setInitUrl = (url) => {
   return {
     type: INIT_URL,
     payload: url
+  };
+};
+
+export const setInitUser = (auth) => {
+  return {
+    type: INIT_USER,
+    payload: auth
   };
 };
 

@@ -44,9 +44,9 @@ function* signInUserWithEmailPassword({payload}) {
     if (signInUser.message) {
       yield put(showAuthMessage(signInUser.message));
     } else {
-      localStorage.setItem('user_id', signInUser.data.data.UserID);
       yield put(userSignInSuccess(signInUser.data.data));
       yield put(setInitUrl('/app/monitoring'));
+      localStorage.setItem('user_id', JSON.stringify(signInUser.data.data));
     }
   } catch (error) {
     yield put(showAuthMessage(error));

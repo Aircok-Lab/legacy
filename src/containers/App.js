@@ -17,7 +17,7 @@ import MainApp from 'app/index';
 import Login from './Login';
 import Join from './Join';
 import Forgot from './Forgot';
-import {setInitUrl} from '../actions/Auth';
+import {setInitUrl, setInitUser} from '../actions/Auth';
 import RTL from 'util/RTL';
 import asyncComponent from 'util/asyncComponent';
 
@@ -38,9 +38,23 @@ const RestrictedRoute = ({component: Component, authUser, ...rest}) =>
 class App extends Component {
 
     componentWillMount() {
+        console.log('componentDidMount');
         if (this.props.initURL === '') {
             this.props.setInitUrl(this.props.history.location.pathname);
         }
+
+        var retrievedObject = localStorage.getItem('user_id');
+
+        console.log('retrievedObject: ', JSON.parse(retrievedObject));
+        if (localStorage.getItem('user_id') !== null){
+            console.log(retrievedObject);
+            this.props.setInitUser(JSON.parse(retrievedObject));
+        }
+    }
+
+    componentDidMount() {
+        console.log('componentDidMount');
+        
     }
 
     render() {
@@ -97,5 +111,5 @@ const mapStateToProps = ({settings, auth}) => {
     return {sideNavColor, locale, isDirectionRTL, authUser, initURL}
 };
 
-export default connect(mapStateToProps, {setInitUrl})(App);
+export default connect(mapStateToProps, {setInitUrl, setInitUser})(App);
 
