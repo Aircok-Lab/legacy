@@ -84,7 +84,6 @@ function* signOut() {
 function* publicKey() {
   try {
     const pkey = yield call(publicKeyRequest);
-    console.log(pkey.data);
     if (pkey.message) {
       yield put(showAuthMessage(signInUser.message));
     } else {
