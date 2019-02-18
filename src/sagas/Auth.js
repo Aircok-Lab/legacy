@@ -85,7 +85,7 @@ function* publicKey() {
   try {
     const pkey = yield call(publicKeyRequest);
     if (pkey.message) {
-      yield put(showAuthMessage(signInUser.message));
+      yield put(showAuthMessage(pkey.message));
     } else {
       yield put(publicKeySuccess(pkey.data));
     }
