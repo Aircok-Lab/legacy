@@ -7,7 +7,8 @@ import {
   SHOW_MESSAGE,
   SIGNIN_USER_SUCCESS,
   SIGNOUT_USER_SUCCESS,
-  SIGNUP_USER_SUCCESS
+  SIGNUP_USER_SUCCESS,
+  PUBLICKEY_REQUEST_SUCCESS
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -16,6 +17,7 @@ const INIT_STATE = {
   showMessage: false,
   initURL: '',
   authUser: localStorage.getItem('user_id'),
+  pkey:''
 };
 
 
@@ -52,10 +54,16 @@ export default (state = INIT_STATE, action) => {
         ...state,
         authUser: null,
         initURL: '/app/monitoring',
-        loader: false
+        loader: false,
+        pkey: ''
       }
     }
-
+    case PUBLICKEY_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        pkey: action.payload
+      }
+    }
     case SHOW_MESSAGE: {
       return {
         ...state,

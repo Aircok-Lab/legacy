@@ -12,7 +12,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import {
   hideMessage,
   showAuthLoader,
-  userSignIn
+  userSignIn,
+  publicKeyRequest
 } from "actions/Auth";
 
 class Login extends React.Component {
@@ -22,6 +23,10 @@ class Login extends React.Component {
       email: 'aircok',
       password: '1qazxsw@'
     }
+  }
+
+  componentDidMount() {
+    this.props.publicKeyRequest();
   }
 
   componentDidUpdate() {
@@ -44,7 +49,7 @@ class Login extends React.Component {
       email,
       password
     } = this.state;
-    const {showMessage, loader, alertMessage} = this.props;
+    const {showMessage, loader, alertMessage, pkey} = this.props;
     return (
       <div
         className="app-login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
@@ -94,7 +99,7 @@ class Login extends React.Component {
                   <div className="mb-3 d-flex align-items-center justify-content-between">
                     <Button className="text-center btn-block" onClick={() => {
                       this.props.showAuthLoader();
-                      this.props.userSignIn({email, password});
+                      this.props.userSignIn({email, password, pkey});
                     }} variant="contained" color="primary">
                       로그인
                     </Button>
@@ -133,12 +138,13 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = ({auth}) => {
-  const {loader, alertMessage, showMessage, authUser} = auth;
-  return {loader, alertMessage, showMessage, authUser}
+  const {loader, alertMessage, showMessage, authUser, pkey} = auth;
+  return {loader, alertMessage, showMessage, authUser, pkey}
 };
 
 export default connect(mapStateToProps, {
   userSignIn,
   hideMessage,
-  showAuthLoader
+  showAuthLoader,
+  publicKeyRequest
 })(Login);

@@ -60,6 +60,8 @@ export const SIGNOUT_USER = 'signout_user';
 export const SIGNOUT_USER_SUCCESS = 'signout_user_success';
 export const INIT_URL = 'init_url';
 export const INIT_USER = 'init_user';
+export const PUBLICKEY_REQUEST = 'public_key_request';
+export const PUBLICKEY_REQUEST_SUCCESS = 'public_key_success';
 
 // Chat Module const
 

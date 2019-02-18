@@ -10,8 +10,16 @@ import {
   SIGNOUT_USER,
   SIGNOUT_USER_SUCCESS,
   SIGNUP_USER,
-  SIGNUP_USER_SUCCESS
+  SIGNUP_USER_SUCCESS,
+  PUBLICKEY_REQUEST,
+  PUBLICKEY_REQUEST_SUCCESS
 } from "constants/ActionTypes";
+
+export const publicKeyRequest = () => {
+  return {
+    type : PUBLICKEY_REQUEST
+  };
+};
 
 export const userSignUp = (user) => {
   return {
@@ -19,17 +27,27 @@ export const userSignUp = (user) => {
     payload: user
   };
 };
+
 export const userSignIn = (user) => {
   return {
     type: SIGNIN_USER,
     payload: user
   };
 };
+
 export const userSignOut = () => {
   return {
     type: SIGNOUT_USER
   };
 };
+
+export const publicKeySuccess = (key) => {
+  return {
+    type : PUBLICKEY_REQUEST_SUCCESS,
+    payload: key
+  };
+};
+
 export const userSignUpSuccess = (authUser) => {
   return {
     type: SIGNUP_USER_SUCCESS,
@@ -43,6 +61,7 @@ export const userSignInSuccess = (authUser) => {
     payload: authUser
   }
 };
+
 export const userSignOutSuccess = () => {
   return {
     type: SIGNOUT_USER_SUCCESS,
@@ -81,6 +100,7 @@ export const hideMessage = () => {
     type: HIDE_MESSAGE,
   };
 };
+
 export const hideAuthLoader = () => {
   return {
     type: ON_HIDE_LOADER,
