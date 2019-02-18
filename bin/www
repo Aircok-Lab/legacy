@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('myapp:server');
 var http = require('http');
+var cors = require('cors');
 
 /**
  * Get port from environment and store in Express.
@@ -21,11 +22,25 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+next();
+});
+
 /**
  * Listen on provided port, on all network interfaces.
  */
 
 server.listen(port);
+app.options('*', cors()); 
+
+app.all('/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:5000");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header("Access-Control-Allow-Headers", "X-Requested-With,     Content-Type");
+    next();
+});
 server.on('error', onError);
 server.on('listening', onListening);
 
