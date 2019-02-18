@@ -349,6 +349,7 @@ var User = {
                 }
                 console.dir(result);
                 loginUser = result[0];
+                delete loginUser.Password;
                 callback(null, loginUser);
             });
         });

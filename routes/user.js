@@ -5,52 +5,63 @@ import {
 } from "../public/javascripts/defined";
 var express = require('express');
 var router = express.Router();
+const passport = require('passport');
 var User=require('../models/User');
+var ursa = require('ursa');
+var fs = require('fs');
+var path = require('path');
+
+const publicKey = fs.readFileSync(path.resolve('ssl/public.pem'));
+const privateKey = ursa.createPrivateKey(fs.readFileSync(path.resolve('ssl/private.pem')));
+
+router.get('/pkey', function(req, res) {
+    return res.send(publicKey);
+  });
 
 /* LOGIN user */
 router.post('/login', function(req, res, next) {
-    console.log('/login 호출됨.');
-
-    var paramId = req.body.id || req.query.id;
-    var paramPassword = req.body.password || req.query.password;
-    var result = {statusCode : null, message : null, data : null};
-
-    console.log('요청 파라미터 : ' + paramId + ',' + paramPassword);
-
-    User.loginUser(paramId, paramPassword, function(err, loginUser){
-        if(err){
-            console.error('사용자 추가 중 오류 발생 :' + err.stack);
-            result.statusCode = FAIL;
-            result.message = '오류 발생';
-            res.send(result);
-            return;
-        }
-
-        //결과 객체 있으면 성공 응답 전송
-        if(loginUser){
-            console.dir(loginUser);
-            if(loginUser.Approval){
-                res.cookie("user", {
-                    id : loginUser.UserID,
-                    name : loginUser.Name,
-                    authorized : true
-                });
-                result.statusCode = OK;
-                result.message = '성공';
-                result.data = loginUser;
+        console.log('/login 호출됨.');
+        var paramId = req.body.id || req.query.id;
+        var paramPassword = req.body.password || req.query.password;
+        let password = privateKey.decrypt(paramPassword, 'base64', 'utf8');
+        var result = {statusCode : null, message : null, data : null};
+        
+        console.log('요청 파라미터 : ' + paramId + ',' + password);
+        User.loginUser(paramId, password, function(err, loginUser){
+            if(err){
+                console.error('사용자 추가 중 오류 발생 :' + err.stack);
+                result.statusCode = FAIL;
+                result.message = '오류 발생';
                 res.send(result);
+                return;
+            }
+    
+            //결과 객체 있으면 성공 응답 전송
+            if(loginUser){
+                console.dir(loginUser);
+                if(loginUser.Approval){
+                    res.cookie("user", {
+                        id : loginUser.UserID,
+                        name : loginUser.Name,
+                        authorized : true
+                    });
+                    result.statusCode = OK;
+                    result.message = '성공';
+                    result.data = loginUser;
+                    res.send(result);
+                } else {
+                    result.statusCode = APPROVE;
+                    result.message = '승인완료 후 로그인이 가능합니다.';
+                    res.send(result);
+                }
             } else {
-                result.statusCode = APPROVE;
-                result.message = '승인완료 후 로그인이 가능합니다.';
+                result.statusCode = FAIL;
+                result.message = '실패';
                 res.send(result);
             }
-        } else {
-            result.statusCode = FAIL;
-            result.message = '실패';
-            res.send(result);
-        }
-    });
-});
+        });
+    }
+);
 
 /*LOGOUT user */
 router.get('/logout', function(req, res, next) {
