@@ -22,6 +22,7 @@ import IntlMessages from 'util/IntlMessages';
 import LanguageSwitcher from 'components/LanguageSwitcher/index';
 import Menu from 'components/TopNav/Menu';
 import UserInfoPopup from 'components/UserInfo/UserInfoPopup';
+import IndexHeader from '../Header/IndexHeader';
 
 class Header extends React.Component {
 
@@ -116,6 +117,11 @@ class Header extends React.Component {
                                value={this.state.searchText}/>
                     {(navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === INSIDE_THE_HEADER) &&
                     <Menu/>} */}
+                    <ul className="header-notifications list-inline ml-auto">
+                        <li className="ist-inline-item">
+                            <IndexHeader/>
+                        </li>
+                    </ul>
 
                     {/* <ul className="header-notifications list-inline ml-auto">
                         <li className="d-inline-block d-lg-none list-inline-item">
@@ -235,7 +241,7 @@ class Header extends React.Component {
                                 </DropdownMenu>
                             </Dropdown>
                         </li>}
-                    </ul> */}
+                    </ul> */}                 
                 </Toolbar>
             </AppBar>
         );
