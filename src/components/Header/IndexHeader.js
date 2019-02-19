@@ -2,7 +2,7 @@ import React from "react";
 
 const IndexHeader = props => {
   return (
-    <div>
+    <div className="ml-auto">
       <div className="float-right">
         <div
           className="col d-flex justify-content-end align-items-center font-weight-bold"

@@ -110,18 +110,14 @@ class Header extends React.Component {
                     <Link className="app-logo mr-2 d-none d-sm-block" to="/">
                         <img src="/assets/images/smart_aircok.png" alt="smart aircok" title="Smart Aircok"/>
                     </Link>
-
+                    <IndexHeader />
 
                     {/* <SearchBox styleName="d-none d-lg-block" placeholder=""
                                onChange={this.updateSearchText.bind(this)}
                                value={this.state.searchText}/>
                     {(navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === INSIDE_THE_HEADER) &&
                     <Menu/>} */}
-                    <ul className="header-notifications list-inline ml-auto">
-                        <li className="ist-inline-item">
-                            <IndexHeader/>
-                        </li>
-                    </ul>
+                    
 
                     {/* <ul className="header-notifications list-inline ml-auto">
                         <li className="d-inline-block d-lg-none list-inline-item">
