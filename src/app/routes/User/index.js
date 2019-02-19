@@ -19,6 +19,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Input from '@material-ui/core/Input';
 
 const data = [
     [1, '', '', '', '', '', '', ''],
@@ -30,9 +34,25 @@ const data = [
     [7, '', '', '', '', '', '', '']
 ];
 
+const userStates = [
+    {
+      value: 0,
+      label: '상태'
+    },
+    {
+      value: 1,
+      label: '승인요청중'
+    },
+    {
+      value: 2,
+      label: '승인완료'
+    }
+];
+
 class UserPage extends React.Component {
     state = {
         open: false,
+        userState: 0
     };
 
     handleClickOpen = () => {
@@ -44,6 +64,9 @@ class UserPage extends React.Component {
     };
 
     render() {
+        const {
+            userState
+        } = this.state;
         return (
             <div className="app-wrapper">
                 <ContainerHeader match={this.props.match} title='사용자 관리'/>
@@ -80,7 +103,25 @@ class UserPage extends React.Component {
                                 <CardBox styleName="col-12" cardStyle="p-0" heading="" headerOutside>
 
                                     <div className="row">
-                                        <div className="col-md-4 offset-md-4">
+                                        <div className="col-md-2">
+                                            <FormControl className="w-100">
+                                                <Select
+                                                    value={userState}
+                                                    onChange={(event) => this.setState({userState: event.target.value})}
+                                                    input={<Input id="userState"/>}
+                                                >
+                                                    {userStates.map(userState => (
+                                                    <MenuItem
+                                                        key={userState.value}
+                                                        value={userState.value}
+                                                    >
+                                                        {userState.label}
+                                                    </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </div>
+                                        <div className="col-md-4 offset-md-2">
                                             <h2 className="text-center">사용자 목록</h2>
                                         </div>
                                         <div className="col-md-4 text-right">
