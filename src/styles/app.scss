@@ -128,33 +128,17 @@ Version        : 1.0
     color: #141414;
   }
 
-  // table
-  .bg-lightgray {
-    background-color: #ededed;
-    color: #000000 !important;
-  }
-  
-  .bg-darkgray {
-    background-color: #dbdbdb;
-    color: #000000 !important;
-  }
-  
-  .bg-green {
-    background-color: #1ea683;
-  }
-  
-  .bg-lightgreen {
-    background-color: #1db7a2;
-  }
-  
-  .bg-darkgreen {
+  // table header
+  .table-header-row0-class {
     background-color: #169887;
+    color: white;
+    text-align: center !important;
+    vertical-align: middle !important;
   }
-  
-  .border-blue {
-    border-color: #0f66be;
-  }
-  
-  .border-green {
-    border-color: #1ea683;
+
+  .table-header-row1-class {
+    background-color: #1db7a2;
+    color: white;
+    text-align: center !important;
+    vertical-align: middle !important;
   }

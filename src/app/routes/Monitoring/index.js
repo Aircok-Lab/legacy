@@ -1,120 +1,74 @@
 import React from 'react';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import ContainerHeader from 'components/ContainerHeader/index';
 import IntlMessages from 'util/IntlMessages';
 
-class SamplePage extends React.Component {
+const products = [];
 
+const qualityType = {
+    0: 'good',
+    1: 'Bad',
+    2: 'unknown'
+  };
+
+function addProducts(quantity) {
+    const startId = products.length;
+    for (let i = 0; i < quantity; i++) {
+        const id = startId + i;
+        products.push({
+        building : id,
+        id: id,
+        name: 'Item ' + id,
+        price: 2100 + i
+        });
+    }
+}
+
+addProducts(5);
+
+function headerColumnClassNameFormat(row) {
+    return row === 0 ? 'table-header-row0-class' : 'table-header-row1-class';
+  }
+
+class SamplePage extends React.Component {
     render() {
         return (
             <div className="app-wrapper">
-                <table className="table table-bordered text-center">
-                    <thead className="text-white bg-lightgreen">
-                    <tr>
-                        <th className="bg-darkgreen align-middle">구분</th>
-                        <th className="bg-darkgreen align-middle">측정기명</th>
-                        <th className="bg-darkgreen align-middle"> 공기질관리지수</th>
-                        <th className="bg-darkgreen align-middle"> 온도</br>(℃)</th>
-                        <th className="bg-darkgreen align-middle"> 습도</br>(%)</th>
-                        <th className="bg-darkgreen align-middle"> 공기질관리지수</th>
-                        <th className="bg-darkgreen align-middle"> 공기질관리지수</th>
-                        <th className="bg-darkgreen align-middle"> 공기질관리지수</th>
-                        {/* <th className="darkgreen">
-                            <tr>
-                                <p>온도</p>
-                                <p>(℃)</p>
-                            </tr>
-                            <tr>
-                                <td>기준</td>
-                                <td>현재</td>
-                                <td>알람</td>
-                            </tr>
-                        </th>
-                        <th className="col-sm-1">
-                            <tr>
-                                <p>습도</p>
-                                <p>(%)</p>
-                            </tr>
-                            <tr>
-                                <td>기준</td>
-                                <td>현재</td>
-                                <td>알람</td>
-                            </tr>
-                        </th>
-                        <th className="col-sm-1">
-                            <tr>
-                                <p>미세먼지(PM10)</p>
-                                <p>(㎍/㎥)</p>
-                            </tr>
-                            <tr>
-                                <td>기준</td>
-                                <td>현재</td>
-                                <td>알람</td>
-                            </tr>
-                        </th>
-                        <th className="col-sm-1">
-                            <tr>
-                                <p>초미세먼지(PM2.5)</p>
-                                <p>(㎍/㎥)</p>
-                            </tr>
-                            <tr>
-                                <td>기준</td>
-                                <td>현재</td>
-                                <td>알람</td>
-                            </tr>
-                        </th>
-                        <th className="col-sm-1">
-                            <tr>
-                                <p>이산화탄소(CO2)</p>
-                                <p>(ppm)</p>
-                            </tr>
-                            <tr>
-                                <td>기준</td>
-                                <td>현재</td>
-                                <td>알람</td>
-                            </tr>
-                        </th>
-                        <th className="col-sm-1">
-                            <tr>
-                                <p>포름알데히드(HCHO)</p>
-                                <p>(ppm)</p>
-                            </tr>
-                            <tr>
-                                <td>기준</td>
-                                <td>현재</td>
-                                <td>알람</td>
-                            </tr>
-                        </th>
-                        <th className="col-sm-1">
-                            <tr>
-                                <p>휘발성유기화합물(VOCs)</p>
-                                <p>(㎍/㎥)</p>
-                            </tr>
-                            <tr>
-                                <td>기준</td>
-                                <td>현재</td>
-                                <td>알람</td>
-                            </tr>
-                        </th> */}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {/* <tr>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>Mary</td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>July</td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                    </tr> */}
-                    </tbody>
-                </table>
+                <BootstrapTable data={ products } > 
+                    {/* <TableHeaderColumn row='0' rowSpan='2' dataField='building' isKey={ true } filterFormatted formatExtraData={ qualityType }
+          filter={ { type: 'SelectFilter', options: qualityType } }>구분</TableHeaderColumn> */}
+                    <TableHeaderColumn row='0' rowSpan='2' dataField='building' isKey={ true } className={ headerColumnClassNameFormat(0) }>구분</TableHeaderColumn>
+                    <TableHeaderColumn row='0' rowSpan='2' dataField='position' className={ headerColumnClassNameFormat(0) }>측정기명</TableHeaderColumn>
+                    <TableHeaderColumn row='0' rowSpan='2' dataField='id' className={ headerColumnClassNameFormat(0) }>공기질관리지수</TableHeaderColumn>
+                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>온도<br />(℃)</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='name' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
+                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>습도<br />(%)</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='name' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
+                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>미세먼지(PM10)<br />(㎍/㎥)</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='name' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
+                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>미세먼지(PM2.5)<br />(㎍/㎥</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='name' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
+                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>이산화탄소(CO2)<br />(ppm)</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='name' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
+                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>포름알데히드(HCHO)<br />(ppm)</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='name' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
+                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>휘발성유기화합물(VOCs)<br />(㎍/㎥)</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='name' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
+                    <TableHeaderColumn row='1' dataField='price' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
+                </BootstrapTable>
             </div>
         );
     }
