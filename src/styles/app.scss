@@ -84,6 +84,7 @@ Version        : 1.0
     width: 100%;
 }
 
+// index header
 .bg-good {
     background-color: #289ed7;
   }
@@ -125,4 +126,35 @@ Version        : 1.0
   }
   .text-very-bad {
     color: #141414;
+  }
+
+  // table
+  .bg-lightgray {
+    background-color: #ededed;
+    color: #000000 !important;
+  }
+  
+  .bg-darkgray {
+    background-color: #dbdbdb;
+    color: #000000 !important;
+  }
+  
+  .bg-green {
+    background-color: #1ea683;
+  }
+  
+  .bg-lightgreen {
+    background-color: #1db7a2;
+  }
+  
+  .bg-darkgreen {
+    background-color: #169887;
+  }
+  
+  .border-blue {
+    border-color: #0f66be;
+  }
+  
+  .border-green {
+    border-color: #1ea683;
   }
