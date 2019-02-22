@@ -36,7 +36,7 @@ var Building = {
             });
         });
     },
-    getBuildingById:function(id, callback){
+    getBuildingById:function(buildingId, callback){
         console.log('getBuildingById 호출됨');
 
         pool.getConnection(function(err, conn){
@@ -50,8 +50,18 @@ var Building = {
             }
             console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
 
+            var ids = buildingId.split(",");
+            console.log(ids);
+            var queryString = 'Select * from Building where ';
+            for (i in ids){
+                let str = 'id='+ids[i];
+                queryString = queryString + str;
+                if( i < (ids.length-1))
+                    queryString = queryString + ' or ';
+            }
+
             // SQL문을 실행합니다.
-            var exec = conn.query('Select * from Building where id=?', id, function(err, result){
+            var exec = conn.query(queryString, function(err, result){
                 conn.release(); // 반드시 해제해야 합니다.
                 console.log('실행 대상 SQL : ' + exec.sql);
 
