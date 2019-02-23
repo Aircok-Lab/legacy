@@ -77,68 +77,113 @@ Version        : 1.0
 @import "module/_module-dir";
 
 .app-login-content {
-    width: 100%;
+  width: 100%;
 }
 
 .app-login-main-content.join {
-    width: 100%;
+  width: 100%;
 }
 
 // index header
 .bg-good {
-    background-color: #289ed7;
-  }
-  .text-good {
-    color: #289ed7;
-  }
-  
-  .bg-normal {
-    background-color: #2ab67f;
-    color: #ffffff;
-  }
-  .text-normal {
-    color: #2ab67f;
-  }
-  
-  .bg-sensitive1 {
-    background-color: #e5a222;
-  }
-  .text-sensitive1 {
-    color: #e5a222;
-  }
-  
-  .bg-sensitive2 {
-    background-color: #e24a1b;
-  }
-  .text-sensitive2 {
-    color: #e24a1b;
-  }
-  
-  .bg-bad {
-    background-color: #d50119;
-  }
-  .text-bad {
-    color: #d50119;
-  }
-  
-  .bg-very-bad {
-    background-color: #141414;
-  }
-  .text-very-bad {
-    color: #141414;
-  }
+  background-color: #289ed7;
+}
+.text-good {
+  color: #289ed7;
+}
 
-  // table header
-  .table-header-row0-class {
-    background-color: #169887;
-    color: white;
-    text-align: center !important;
-    vertical-align: middle !important;
-  }
+.bg-normal {
+  background-color: #2ab67f;
+  color: #ffffff;
+}
+.text-normal {
+  color: #2ab67f;
+}
 
-  .table-header-row1-class {
-    background-color: #1db7a2;
-    color: white;
-    text-align: center !important;
-    vertical-align: middle !important;
-  }
+.bg-sensitive1 {
+  background-color: #e5a222;
+}
+.text-sensitive1 {
+  color: #e5a222;
+}
+
+.bg-sensitive2 {
+  background-color: #e24a1b;
+}
+.text-sensitive2 {
+  color: #e24a1b;
+}
+
+.bg-bad {
+  background-color: #d50119;
+}
+.text-bad {
+  color: #d50119;
+}
+
+.bg-very-bad {
+  background-color: #141414;
+}
+.text-very-bad {
+  color: #141414;
+}
+
+// table header
+.table-header-row0-class {
+  background-color: #169887;
+  color: white;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.table-header-row1-class {
+  background-color: #1db7a2;
+  color: white;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/*** ACCORDION ***/
+
+/* Header */
+.accordion > div > div:first-of-type {
+  padding: 1em;
+  background-color: #4abdac;
+  color: white;
+  text-transform: uppercase;
+  user-select: none;
+  font-weight: 200;
+  cursor: pointer;
+  border-radius: 0.5em;
+  box-shadow: 0 -10px 30px 2px rgba(0, 0, 0, 0.1) inset;
+}
+.accordion > div > div:first-of-type:hover {
+  background-color: #59c3b3;
+}
+
+/* Content */
+.accordion > div > div:last-of-type {
+  background-color: #f9f9f9;
+  margin: 0 0.5em;
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Inner */
+.accordion .accordion-item {
+  padding: 1em;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  overflow: auto;
+}
+.accordion > div:first-child .accordion-item {
+  max-height: 200px;
+}
+.accordion > div.open .accordion-item {
+  opacity: 1;
+  transition: opacity 700ms ease;
+}
+.accordion img.accordion-item {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
