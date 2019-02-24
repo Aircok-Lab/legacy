@@ -167,7 +167,7 @@ router.post("/getDeviceBySerialNumber", function(req, res, next) {
 });
 
 router.post("/getDeviceByPositionId", function(req, res, next) {
-  console.log("/getDeviceByPositionId 호출됨. 000000", req.body);
+  console.log("/getDeviceByPositionId 호출됨.", req.body);
 
   var paramPositionID = req.body.id || req.query.id;
   var result = { statusCode: null, message: null, data: null };
@@ -175,6 +175,38 @@ router.post("/getDeviceByPositionId", function(req, res, next) {
   console.log("요청 파라미터 : " + paramPositionID);
 
   Device.getDeviceByPositionId(paramPositionID, function(err, devices) {
+    if (err) {
+      console.error("오류 발생 :" + err.stack);
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
+    }
+
+    //결과 객체 있으면 성공 응답 전송
+    if (devices) {
+      console.dir(devices);
+      result.statusCode = OK;
+      result.message = "성공";
+      result.data = devices;
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "실패";
+      res.send(result);
+    }
+  });
+});
+
+router.post("/getDeviceByBuildingId", function(req, res, next) {
+  console.log("/getDeviceByBuildingId 호출됨.", req.body);
+
+  var paramBuildingID = req.body.id || req.query.id;
+  var result = { statusCode: null, message: null, data: null };
+
+  console.log("요청 파라미터 : " + paramBuildingID);
+
+  Device.getDeviceByBuildingId(paramBuildingID, function(err, devices) {
     if (err) {
       console.error("오류 발생 :" + err.stack);
       result.statusCode = FAIL;

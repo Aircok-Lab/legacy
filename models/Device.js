@@ -1,296 +1,395 @@
-var pool = require('../config/database');
+var pool = require("../config/database");
 
 var Device = {
-    getAllDevice:function(callback){
-        console.log('getAllDevice 호출됨');
+  getAllDevice: function(callback) {
+    console.log("getAllDevice 호출됨");
 
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-            // SQL문을 실행합니다.
-            var exec = conn.query('Select * from Device', function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+      // SQL문을 실행합니다.
+      var exec = conn.query("Select * from Device", function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-                    callback(err, null);
-                    return;
-                }
-                var string=JSON.stringify(result);
-                var json =  JSON.parse(string);
-                console.log('>> json: ', json);
-                var allDevices = json;
+          callback(err, null);
+          return;
+        }
+        var string = JSON.stringify(result);
+        var json = JSON.parse(string);
+        console.log(">> json: ", json);
+        var allDevices = json;
 
-                callback(null, allDevices);
-            });
+        callback(null, allDevices);
+      });
+    });
+  },
+  getDeviceById: function(serialNumber, callback) {
+    console.log("getDeviceById 호출됨");
+
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "Select * from Device where SerialNumber=?",
+        serialNumber,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
+
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
+
+            callback(err, null);
+            return;
+          }
+          // console.log('>> result: ', result );
+          var string = JSON.stringify(result);
+          // console.log('>> string: ', string );
+          var json = JSON.parse(string);
+          console.log(">> json: ", json);
+          var DeviceInfo = json;
+
+          callback(null, DeviceInfo);
+        }
+      );
+    });
+  },
+  getBuildingType: function(deviceSN, callback) {
+    console.log("getBuildingType 호출됨 deviceSN : " + deviceSN);
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "select BuildingType from Device where SerialNumber = ?",
+        deviceSN,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
+
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
+
+            callback(err, null);
+            return;
+          }
+          console.dir(result);
+          var buildingType = result[0].BuildingType;
+
+          callback(null, buildingType);
+        }
+      );
+    });
+  },
+  getDeviceByPositionId: function(positionId, callback) {
+    console.log("getDeviceByPositionId 호출됨 positionId : " + positionId);
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      // 데이터를 객체로 만듭니다.
+      var ids = positionId.split(",");
+      console.log(ids);
+      var queryString = "select * from Device where ";
+      for (i in ids) {
+        // let str = 'instr(PositionID,\''+ids[i]+'\') > 0';
+        let str = "PositionID=" + ids[i];
+        queryString = queryString + str;
+        if (i < ids.length - 1) queryString = queryString + " or ";
+      }
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(queryString, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
+
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
+
+          callback(err, null);
+          return;
+        }
+        var string = JSON.stringify(result);
+        var json = JSON.parse(string);
+        var deviceByPositionId = json;
+
+        callback(null, deviceByPositionId);
+      });
+    });
+  },
+  getDeviceByBuildingId: function(buildingId, callback) {
+    console.log("getDeviceByBuildingId 호출됨 buildingId : " + buildingId);
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      var queryString =
+        "select * from Position where BuildingID = " + buildingId;
+      var exec = conn.query(queryString, function(err, result) {
+        // conn.release(); // callback에서 쿼리실행하므로 해제하지 않습니다.
+        console.log("실행 대상 SQL : " + exec.sql);
+
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
+
+          callback(err, null);
+          return;
+        }
+
+        var ids = result.map(row => row.id);
+        console.log("ids : ", ids);
+
+        queryString = "select * from Device where ";
+        for (i in ids) {
+          // let str = 'instr(PositionID,\''+ids[i]+'\') > 0';
+          let str = "PositionID=" + ids[i];
+          queryString = queryString + str;
+          if (i < ids.length - 1) queryString = queryString + " or ";
+        }
+
+        // SQL문을 실행합니다.
+        exec = conn.query(queryString, function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
+
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
+
+            callback(err, null);
+            return;
+          }
+          var string = JSON.stringify(result);
+          var json = JSON.parse(string);
+          var deviceByBuildingId = json;
+
+          callback(null, deviceByBuildingId);
         });
-    },
-    getDeviceById:function(serialNumber, callback){
-        console.log('getDeviceById 호출됨');
+      });
+    });
+  },
+  getDeviceCountByPositionId: function(positionId, callback) {
+    console.log("getDeviceCountByPositionId 호출됨 positionId : " + positionId);
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "select * from Device where PositionID=?",
+        positionId,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
 
-            // SQL문을 실행합니다.
-            var exec = conn.query('Select * from Device where SerialNumber=?', serialNumber, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+            callback(err, null);
+            return;
+          }
+          var deviceCountByPositionId = result;
 
-                    callback(err, null);
-                    return;
-                }
-                // console.log('>> result: ', result );
-                var string=JSON.stringify(result);
-                // console.log('>> string: ', string );
-                var json =  JSON.parse(string);
-                console.log('>> json: ', json);
-                var DeviceInfo = json;
+          callback(null, deviceCountByPositionId);
+        }
+      );
+    });
+  },
+  addDevice: function(
+    name,
+    serialNumber,
+    phone,
+    positionID,
+    productID,
+    callback
+  ) {
+    console.log("addDevice 호출됨");
 
-                callback(null, DeviceInfo);
-            });
-        });
-    },
-    getBuildingType:function(deviceSN, callback){
-        console.log('getBuildingType 호출됨 deviceSN : ' + deviceSN);
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-      
-            // SQL문을 실행합니다.
-            var exec = conn.query('select BuildingType from Device where SerialNumber = ?', deviceSN, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+      // 데이터를 객체로 만듭니다.
+      var data = {
+        Name: name,
+        SerialNumber: serialNumber,
+        Phone: phone,
+        PositionID: positionID,
+        ProductID: productID
+      };
 
-                    callback(err, null);
-                    return;
-                }
-                console.dir(result);
-                var buildingType = result[0].BuildingType;
+      // SQL문을 실행합니다.
+      var exec = conn.query("insert into Device set ?", data, function(
+        err,
+        result
+      ) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-                callback(null, buildingType);
-            });
-        });
-    },
-    getDeviceByPositionId:function(positionId, callback){
-        console.log('getDeviceByPositionId 호출됨 positionId : ' + positionId);
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+          callback(err, null);
+          return;
+        }
+        callback(null, result);
+      });
+    });
+  },
+  updateDevice: function(
+    name,
+    serialNumber,
+    phone,
+    positionID,
+    productID,
+    callback
+  ) {
+    console.log("updateDevice 호출됨");
 
-            // 데이터를 객체로 만듭니다.
-            var ids = positionId.split(",");
-            console.log(ids);
-            var queryString = 'select * from Device where ';
-            for (i in ids){
-                let str = 'instr(PositionID,\''+ids[i]+'\') > 0';
-                queryString = queryString + str;
-                if( i < (ids.length-1))
-                    queryString = queryString + ' or ';
-            }
-      
-            // SQL문을 실행합니다.
-            var exec = conn.query(queryString, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-                    callback(err, null);
-                    return;
-                }
-                var string=JSON.stringify(result);
-                var json =  JSON.parse(string);
-                var deviceByPositionId = json;
+      // 데이터를 객체로 만듭니다.
+      var data = [name, phone, positionID, productID, serialNumber];
 
-                callback(null, deviceByPositionId);
-            });
-        });
-    },
-    getDeviceCountByPositionId:function(positionId, callback){
-        console.log('getDeviceCountByPositionId 호출됨 positionId : ' + positionId);
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "update Device set Name=?, Phone=?, PositionID=? ,ProductID=? where SerialNumber=?",
+        data,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-      
-            // SQL문을 실행합니다.
-            var exec = conn.query('select * from Device where PositionID=?', positionId, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+            callback(err, null);
+            return;
+          }
+          var string = JSON.stringify(result);
+          var json = JSON.parse(string);
+          console.log(">> json: ", json);
+          var deviceInfo = json;
 
-                    callback(err, null);
-                    return;
-                }
-                var deviceCountByPositionId = result;
+          callback(null, deviceInfo);
+        }
+      );
+    });
+  },
+  deleteDevice: function(deviceSerialNumber, callback) {
+    console.log(
+      "deleteDevice 호출됨 deviceSerialNumber : " + deviceSerialNumber
+    );
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-                callback(null, deviceCountByPositionId);
-            });
-        });
-    },
-    addDevice:function(name, serialNumber, phone, positionID, productID, callback){
-        console.log('addDevice 호출됨');
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+      // 데이터를 객체로 만듭니다.
+      var serials = deviceSerialNumber.split(",");
+      console.log(serials);
+      var queryString = "delete from Device where ";
+      for (i in serials) {
+        let str = "SerialNumber='" + serials[i] + "'";
+        queryString = queryString + str;
+        if (i < serials.length - 1) queryString = queryString + " or ";
+      }
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+      // SQL문을 실행합니다.
+      var exec = conn.query(queryString, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-            // 데이터를 객체로 만듭니다.
-            var data = {Name:name, SerialNumber:serialNumber, Phone:phone, PositionID:positionID, ProductID:productID};
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            // SQL문을 실행합니다.
-            var exec = conn.query('insert into Device set ?', data, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
-
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
-
-                    callback(err, null);
-                    return;
-                }
-                callback(null, result);
-            });
-        });
-    },
-    updateDevice:function(name, serialNumber, phone, positionID, productID, callback){
-        console.log('updateDevice 호출됨');
-
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
-
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-
-            // 데이터를 객체로 만듭니다.
-            var data = [name, phone, positionID, productID, serialNumber];
-
-            // SQL문을 실행합니다.
-            var exec = conn.query('update Device set Name=?, Phone=?, PositionID=? ,ProductID=? where SerialNumber=?', data, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
-
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
-
-                    callback(err, null);
-                    return;
-                }
-                var string=JSON.stringify(result);
-                var json =  JSON.parse(string);
-                console.log('>> json: ', json);
-                var deviceInfo = json;
-
-                callback(null, deviceInfo);
-            });
-        });
-    },
-    deleteDevice:function(deviceSerialNumber, callback){
-        console.log('deleteDevice 호출됨 deviceSerialNumber : ' + deviceSerialNumber);
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
-
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-
-            // 데이터를 객체로 만듭니다.
-            var serials = deviceSerialNumber.split(",");
-            console.log(serials);
-            var queryString = 'delete from Device where ';
-            for (i in serials){
-                let str = 'SerialNumber=\''+serials[i]+'\'';
-                queryString = queryString + str;
-                if( i < (serials.length-1))
-                    queryString = queryString + ' or ';
-            }
-      
-            // SQL문을 실행합니다.
-            var exec = conn.query(queryString, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
-
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
-
-                    callback(err, null);
-                    return;
-                }
-                var success = 'true';
-                callback(null, success);
-            });
-        });
-    },
-}
-module.exports=Device;
+          callback(err, null);
+          return;
+        }
+        var success = "true";
+        callback(null, success);
+      });
+    });
+  }
+};
+module.exports = Device;

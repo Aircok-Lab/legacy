@@ -1,264 +1,286 @@
-var pool = require('../config/database');
+var pool = require("../config/database");
 
 var Position = {
-    getAllPosition:function(callback){
-        console.log('getAllPosition 호출됨');
+  getAllPosition: function(callback) {
+    console.log("getAllPosition 호출됨");
 
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-            // SQL문을 실행합니다.
-            var exec = conn.query('Select * from Position', function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+      // SQL문을 실행합니다.
+      var exec = conn.query("Select * from Position", function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-                    callback(err, null);
-                    return;
-                }
-                var string=JSON.stringify(result);
-                var json =  JSON.parse(string);
-                console.log('>> json: ', json);
-                var allPositions = json;
+          callback(err, null);
+          return;
+        }
+        var string = JSON.stringify(result);
+        var json = JSON.parse(string);
+        console.log(">> json: ", json);
+        var allPositions = json;
 
-                callback(null, allPositions);
-            });
-        });
-    },
-    getPositionById:function(id, callback){
-        console.log('getPositionById 호출됨');
+        callback(null, allPositions);
+      });
+    });
+  },
+  getPositionById: function(positionId, callback) {
+    console.log("getPositionById 호출됨");
 
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-            // SQL문을 실행합니다.
-            var exec = conn.query('Select * from Position where id=?', id, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+      // 데이터를 객체로 만듭니다.
+      var ids = positionId.split(",");
+      console.log(ids);
+      var queryString = "select * from Position where ";
+      for (i in ids) {
+        let str = "instr(id,'" + ids[i] + "') > 0";
+        queryString = queryString + str;
+        if (i < ids.length - 1) queryString = queryString + " or ";
+      }
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+      // SQL문을 실행합니다.
+      // var exec = conn.query('Select * from Position where id=?', id, function(err, result){
+      var exec = conn.query(queryString, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-                    callback(err, null);
-                    return;
-                }
-                // console.log('>> result: ', result );
-                var string=JSON.stringify(result);
-                // console.log('>> string: ', string );
-                var json =  JSON.parse(string);
-                console.log('>> json: ', json);
-                var PositionInfo = json;
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-                callback(null, PositionInfo);
-            });
-        });
-    },
-    getPositionByBuildingId:function(buildingId, callback){
-        console.log('getPositionByBuildingId 호출됨 buildingId : ' + buildingId);
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+          callback(err, null);
+          return;
+        }
+        // console.log('>> result: ', result );
+        var string = JSON.stringify(result);
+        // console.log('>> string: ', string );
+        var json = JSON.parse(string);
+        console.log(">> json: ", json);
+        var PositionInfo = json;
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+        callback(null, PositionInfo);
+      });
+    });
+  },
+  getPositionByBuildingId: function(buildingId, callback) {
+    console.log("getPositionByBuildingId 호출됨 buildingId : " + buildingId);
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-            // 데이터를 객체로 만듭니다.
-            var ids = buildingId.split(",");
-            console.log(ids);
-            var queryString = 'select * from Position where ';
-            for (i in ids){
-                let str = 'instr(BuildingID,\''+ids[i]+'\') > 0';
-                queryString = queryString + str;
-                if( i < (ids.length-1))
-                    queryString = queryString + ' or ';
-            }
-      
-            // SQL문을 실행합니다.
-            var exec = conn.query(queryString, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+      // 데이터를 객체로 만듭니다.
+      var ids = buildingId.split(",");
+      console.log(ids);
+      var queryString = "select * from Position where ";
+      for (i in ids) {
+        let str = "instr(BuildingID,'" + ids[i] + "') > 0";
+        queryString = queryString + str;
+        if (i < ids.length - 1) queryString = queryString + " or ";
+      }
 
-                    callback(err, null);
-                    return;
-                }
-                var string=JSON.stringify(result);
-                var json =  JSON.parse(string);
-                var positionsByBuildingId = json;
+      // SQL문을 실행합니다.
+      var exec = conn.query(queryString, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-                callback(null, positionsByBuildingId);
-            });
-        });
-    },
-    getPositionCountByBuildingId:function(buildingId, callback){
-        console.log('getPositionCountByBuildingId 호출됨 buildingId : ' + buildingId);
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+          callback(err, null);
+          return;
+        }
+        var string = JSON.stringify(result);
+        var json = JSON.parse(string);
+        var positionsByBuildingId = json;
 
-            // SQL문을 실행합니다.
-            var exec = conn.query('select * from Position where BuildingID=?;', buildingId, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+        callback(null, positionsByBuildingId);
+      });
+    });
+  },
+  getPositionCountByBuildingId: function(buildingId, callback) {
+    console.log(
+      "getPositionCountByBuildingId 호출됨 buildingId : " + buildingId
+    );
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-                    callback(err, null);
-                    return;
-                }
-                var positionsCount= result;
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "select * from Position where BuildingID=?;",
+        buildingId,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
 
-                callback(null, positionsCount);
-            });
-        });
-    },
-    addPosition:function(name, position, buildingId, callback){
-        console.log('addPosition 호출됨');
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
 
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+            callback(err, null);
+            return;
+          }
+          var positionsCount = result;
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+          callback(null, positionsCount);
+        }
+      );
+    });
+  },
+  addPosition: function(name, position, buildingId, callback) {
+    console.log("addPosition 호출됨");
 
-            // 데이터를 객체로 만듭니다.
-            var data = {Name:name, Position:position, buildingId:buildingId};
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-            // SQL문을 실행합니다.
-            var exec = conn.query('insert into Position set ?', data, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+      // 데이터를 객체로 만듭니다.
+      var data = { Name: name, Position: position, buildingId: buildingId };
 
-                    callback(err, null);
-                    return;
-                }
-                callback(null, result);
-            });
-        });
-    },
-    updatePosition:function(id, name, position, buildingId, callback){
-        console.log('updateBuilding 호출됨');
+      // SQL문을 실행합니다.
+      var exec = conn.query("insert into Position set ?", data, function(
+        err,
+        result
+      ) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+          callback(err, null);
+          return;
+        }
+        callback(null, result);
+      });
+    });
+  },
+  updatePosition: function(id, name, position, buildingId, callback) {
+    console.log("updateBuilding 호출됨");
 
-            // 데이터를 객체로 만듭니다.
-            var data = [name, position, buildingId, id];
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-            // SQL문을 실행합니다.
-            var exec = conn.query('update Position set Name=?, Position=?, BuildingId=? where id=?', data, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+      // 데이터를 객체로 만듭니다.
+      var data = [name, position, buildingId, id];
 
-                    callback(err, null);
-                    return;
-                }
-                var string=JSON.stringify(result);
-                var json =  JSON.parse(string);
-                console.log('>> json: ', json);
-                var positionInfo = json;
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "update Position set Name=?, Position=?, BuildingId=? where id=?",
+        data,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
 
-                callback(null, positionInfo);
-            });
-        });
-    },
-    deletePosition:function(positionId, callback){
-        console.log('deletePosition 호출됨 positionId : ' + positionId);
-        pool.getConnection(function(err, conn){
-            if(err){
-                if(conn){
-                    conn.release(); // 반드시 해제해야 합니다.
-                }
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
 
-                callback(err, null);
-                return;
-            }
-            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+            callback(err, null);
+            return;
+          }
+          var string = JSON.stringify(result);
+          var json = JSON.parse(string);
+          console.log(">> json: ", json);
+          var positionInfo = json;
 
-            // 데이터를 객체로 만듭니다.
-            var ids = positionId.split(",");
-            console.log(ids);
-            var queryString = 'delete from Position where ';
-            for (i in ids){
-                let str = 'id='+ids[i];
-                queryString = queryString + str;
-                if( i < (ids.length-1))
-                    queryString = queryString + ' or ';
-            }
-      
-            // SQL문을 실행합니다.
-            var exec = conn.query(queryString, function(err, result){
-                conn.release(); // 반드시 해제해야 합니다.
-                console.log('실행 대상 SQL : ' + exec.sql);
+          callback(null, positionInfo);
+        }
+      );
+    });
+  },
+  deletePosition: function(positionId, callback) {
+    console.log("deletePosition 호출됨 positionId : " + positionId);
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
 
-                if(err) {
-                    console.log('SQL 실행 시 오류 발생함');
-                    console.dir(err);
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-                    callback(err, null);
-                    return;
-                }
-                var success = 'true';
-                callback(null, success);
-            });
-        });
-    },
-}
-module.exports=Position;
+      // 데이터를 객체로 만듭니다.
+      var ids = positionId.split(",");
+      console.log(ids);
+      var queryString = "delete from Position where ";
+      for (i in ids) {
+        let str = "id=" + ids[i];
+        queryString = queryString + str;
+        if (i < ids.length - 1) queryString = queryString + " or ";
+      }
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(queryString, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
+
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
+
+          callback(err, null);
+          return;
+        }
+        var success = "true";
+        callback(null, success);
+      });
+    });
+  }
+};
+module.exports = Position;
