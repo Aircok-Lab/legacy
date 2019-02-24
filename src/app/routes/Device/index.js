@@ -43,7 +43,7 @@ const customStyles = {
   }
 };
 
-Modal.setAppElement("#app-site");
+Modal.setAppElement("#body");
 
 class DevicePage extends React.Component {
   state = {
