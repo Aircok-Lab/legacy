@@ -7,6 +7,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";
 import "w3-css/w3.css";
+import "font-awesome/css/font-awesome.min.css";
 import "react-big-calendar/lib/less/styles.less";
 import "styles/bootstrap.scss";
 import "styles/app.scss";
@@ -43,22 +44,22 @@ const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
 
 class App extends Component {
   componentWillMount() {
-    console.log("componentDidMount");
+    // console.log("componentDidMount");
     if (this.props.initURL === "") {
       this.props.setInitUrl(this.props.history.location.pathname);
     }
 
     var retrievedObject = localStorage.getItem("user_id");
 
-    console.log("retrievedObject: ", JSON.parse(retrievedObject));
+    // console.log("retrievedObject: ", JSON.parse(retrievedObject));
     if (localStorage.getItem("user_id") !== null) {
-      console.log(retrievedObject);
+      // console.log(retrievedObject);
       this.props.setInitUser(JSON.parse(retrievedObject));
     }
   }
 
   componentDidMount() {
-    console.log("componentDidMount");
+    // console.log("componentDidMount");
   }
 
   render() {

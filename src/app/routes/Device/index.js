@@ -36,10 +36,12 @@ const customStyles = {
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
-    transform: "translate(-50%, -50%)"
+    transform: "translate(-50%, -50%)",
+    zIndex: "9999"
   },
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.75)"
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    zIndex: "9999"
   }
 };
 
@@ -47,28 +49,96 @@ Modal.setAppElement("#body");
 
 class DevicePage extends React.Component {
   state = {
-    showModal: false
+    showModal: false,
+    modalMode: "",
+    selectedNode: ""
+    // selectedNode: "31-25"
   };
 
-  constructor() {
-    super();
-
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
+  constructor(props) {
+    super(props);
+    this.nodeClick = this.nodeClick.bind(this);
   }
 
-  handleOpenModal() {
-    this.setState({ showModal: true });
-  }
+  openModal = param => e => {
+    let modalMode = param;
+    this.setState({ showModal: true, modalMode });
+  };
 
-  handleCloseModal() {
+  closeModal = () => {
     this.setState({ showModal: false });
-  }
+  };
 
   componentDidMount() {
+    // console.log("componentDidMount() 호출");
     this.props.buildingListRequest({ id: this.props.authUser.BuildingList });
     this.props.positionListRequest({ id: this.props.authUser.PositionList });
-    this.props.deviceListByBuildingIdRequest({ id: 1 });
+    // this.props.deviceListByBuildingIdRequest({ id: 1 });
+  }
+
+  componentWillReceiveProps() {
+    // console.log("componentWillReceiveProps() 호출");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // console.log("shouldComponentUpdate() 호출");
+    // console.log("this.props, nextProps", this.props, nextProps);
+    // console.log("this.state, nextState", this.state, nextState);
+    return true;
+  }
+
+  nodeClick = item => {
+    // bound arrow function handler
+    // this.setState({ item: item });
+    console.log("nodeClick ", item);
+
+    let nodeId = "";
+    if (item.BuildingID) {
+      // 층의 경우
+      nodeId = "" + item.BuildingID + "-" + item.id;
+      this.props.deviceListByPositionIdRequest({ id: "" + item.id });
+    } else {
+      // 건물의 경우
+      nodeId = "" + item.id;
+      this.props.deviceListByBuildingIdRequest({ id: item.id });
+    }
+    this.setState({
+      selectedNode: nodeId
+    });
+  };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // console.log("componentDidUpdate() 호출", prevProps, prevState, snapshot);
+    // console.log(
+    //   "this.props.buildingList .... ",
+    //   this.state.selectedNode,
+    //   prevProps.buildingList,
+    //   this.props.buildingList
+    // );
+
+    // if (
+    //   prevProps.buildingList.length == 0 &&
+    //   this.props.buildingList.length > 0
+    // ) {
+    //   this.setState({
+    //     selectedNode: "" + this.props.buildingList[0].id
+    //   });
+    // }
+
+    if (!this.state.selectedNode && this.props.buildingList.length > 0) {
+      // this.setState({
+      //   selectedNode: "" + this.props.buildingList[0].id
+      // });
+      // console.log(
+      //   "this.state.selectedNode.... call nodeChage >>>> ",
+      //   this.state.selectedNode,
+      //   this.props.buildingList[0].id
+      // );
+      // this.nodeClick("" + this.props.buildingList[0].id, null);
+      // this.nodeClick(1, null);
+      // this.testChange(55, 77);
+      this.nodeClick(this.props.buildingList[0]);
+    }
   }
 
   render() {
@@ -81,7 +151,7 @@ class DevicePage extends React.Component {
         item.positions = items;
       }
     });
-    console.log("buildingPositionList : ", buildingPositionList);
+    // console.log("buildingPositionList : ", buildingPositionList);
     if (!buildingPositionList) return null;
 
     return (
@@ -92,127 +162,118 @@ class DevicePage extends React.Component {
 
         <div className="row">
           <div className="col-md-3">
-            <button onClick={this.handleOpenModal}>Trigger Modal</button>
-
-            <Modal
-              isOpen={this.state.showModal}
-              onRequestClose={this.handleCloseModal}
-              contentLabel="측정기 관리 Modal"
-              style={customStyles}
+            <div
+              className="w3-margin-bottom"
+              style={{ display: "flex", justifyContent: "flex-end" }}
             >
-              <button onClick={this.handleCloseModal}>Close Modal</button>
-              <DialogTitle>건물 등록</DialogTitle>
-              <DialogContent>
-                <DialogContentText />
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-3" style={{ lineHeight: "40px" }}>
-                      <label>건물명</label>
-                    </div>
-                    <div className="col-md-9">
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label=""
-                        type="email"
-                        fullWidth
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-3" style={{ lineHeight: "40px" }}>
-                      <label>주소</label>
-                    </div>
-                    <div className="col-md-9">
-                      <div className="row">
-                        <div className="col-md-8">
-                          <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label=""
-                            type="email"
-                            fullWidth
-                          />
-                        </div>
-                        <div
-                          className="col-md-4"
-                          style={{ lineHeight: "40px" }}
-                        >
-                          <Button
-                            variant="raised"
-                            className="jr-btn jr-btn-xs bg-white text-black"
-                          >
-                            좌표검색
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-3" style={{ lineHeight: "40px" }}>
-                      <label>위도</label>
-                    </div>
-                    <div className="col-md-9">
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label=""
-                        type="email"
-                        fullWidth
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-3" style={{ lineHeight: "40px" }}>
-                      <label>경도</label>
-                    </div>
-                    <div className="col-md-9">
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label=""
-                        type="email"
-                        fullWidth
-                      />
-                    </div>
-                  </div>
-                </div>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  variant="raised"
-                  color="primary"
-                  className="jr-btn text-white"
+              <div>
+                <button
+                  className="w3-small w3-padding-small"
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("addBuilding")}
                 >
-                  OK
-                </Button>
-              </DialogActions>
-            </Modal>
-
-            <div>건물목록 </div>
+                  건물등록
+                </button>
+                <button
+                  className="w3-small w3-padding-small"
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("addPosition")}
+                >
+                  층등록
+                </button>
+                <button
+                  className="w3-small w3-padding-small"
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("updateBuilding")}
+                >
+                  건물수정
+                </button>
+                <button
+                  className="w3-small w3-padding-small"
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("updatePosition")}
+                >
+                  층수정
+                </button>
+              </div>
+            </div>
 
             {buildingPositionList.map(item => (
               <div key={item.id}>
-                <div className="w3-button w3-light-grey w3-block w3-left-align w3-dark-grey">
-                  {item.Name} : {item.id}
+                <div
+                  style={{ cursor: "pointer" }}
+                  className={
+                    "w3-block w3-padding w3-border " +
+                    (this.state.selectedNode === "" + item.id ? "w3-blue" : "")
+                  }
+                  // onClick={this.nodeClick(item.id, null)}
+                  // onClick={this.nodeClick}
+                  onClick={e => this.nodeClick(item)}
+                >
+                  <i className="fa fa-plus-square-o" aria-hidden="true" />
+                  {/* <i
+                    className="fa fa-minus-square-o w3-large"
+                    aria-hidden="true"
+                  /> */}
+                  <span>
+                    {" "}
+                    {item.Name} {item.id}{" "}
+                  </span>
                 </div>
-                {item.positions &&
+
+                <div className="">
+                  <ul className="w3-ul">
+                    {item.positions &&
+                      item.positions.map(position => (
+                        <li
+                          key={position.id}
+                          // className="w3-border-0 w3-padding-left"
+                          style={{ cursor: "pointer" }}
+                          className={
+                            "w3-border-0 w3-padding-left " +
+                            (this.state.selectedNode ===
+                            "" + position.BuildingID + "-" + position.id
+                              ? "w3-blue"
+                              : "")
+                          }
+                          // onClick={this.nodeClick(
+                          //   position.BuildingID,
+                          //   position.id
+                          // )}
+                          onClick={this.nodeClick}
+                          onClick={e => this.nodeClick(position)}
+                        >
+                          <i
+                            className="fa fa-caret-right w3-large"
+                            aria-hidden="true"
+                          />{" "}
+                          {position.Name} {position.id} |{" "}
+                          {"" + position.BuildingID + "-" + position.id}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+
+                {/* {item.positions &&
                   item.positions.map(position => (
                     <div key={position.id} className="w3-border">
                       <ul className="w3-ul">
                         {item.positions &&
                           item.positions.map(position => (
-                            <li key={position.id}>{position.Name}</li>
+                            <li key={position.id}>
+                              <i
+                                className="fa fa-caret-right w3-large"
+                                aria-hidden="true"
+                              />{" "}
+                              {position.Name}
+                            </li>
                           ))}
                       </ul>
                     </div>
-                  ))}
+                  ))} */}
               </div>
             ))}
+            {/* 
             <div>
               <p>
                 <button onClick={() => this.setState({ selectedIndex: 0 })}>
@@ -284,27 +345,16 @@ class DevicePage extends React.Component {
               <Button variant="raised" className="jr-btn bg-info text-white">
                 수정
               </Button>
-            </div>
+            </div> */}
           </div>
           <div className="col-md-9">
             <div className="animated slideInUpTiny animation-duration-3">
-              <div className="text-right">
-                <Button
-                  variant="raised"
-                  color="primary"
-                  className="jr-btn text-white"
-                >
-                  등록
-                </Button>
-                <Button variant="raised" className="jr-btn bg-info text-white">
-                  수정
-                </Button>
-                <Button
-                  variant="raised"
-                  className="jr-btn bg-danger text-white"
-                >
+              <div className="text-right w3-margin-bottom">
+                <button onClick={this.openModal("addDevice")}>등록</button>
+                <button onClick={this.openModal("updateDevice")}>수정</button>
+                <button onClick={this.openModal("deleteConfirmDevice")}>
                   삭제
-                </Button>
+                </button>
               </div>
 
               <table className="w3-table-all w3-centered">
@@ -352,6 +402,147 @@ class DevicePage extends React.Component {
             </div>
           </div>
         </div>
+
+        <Modal
+          isOpen={this.state.showModal}
+          // onRequestClose={this.closeModal}
+          contentLabel="측정기 관리 Modal"
+          style={customStyles}
+          // className="w3-display-container"
+        >
+          <button className="w3-display-topright" onClick={this.closeModal}>
+            X
+          </button>
+
+          {
+            {
+              addBuilding: (
+                <div>
+                  addBuilding
+                  <DialogTitle>건물 등록</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText />
+                    <div className="container">
+                      <div className="row">
+                        <div
+                          className="col-md-3"
+                          style={{ lineHeight: "40px" }}
+                        >
+                          <label>건물명</label>
+                        </div>
+                        <div className="col-md-9">
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label=""
+                            type="email"
+                            fullWidth
+                          />
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div
+                          className="col-md-3"
+                          style={{ lineHeight: "40px" }}
+                        >
+                          <label>주소</label>
+                        </div>
+                        <div className="col-md-9">
+                          <div className="row">
+                            <div className="col-md-8">
+                              <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label=""
+                                type="email"
+                                fullWidth
+                              />
+                            </div>
+                            <div
+                              className="col-md-4"
+                              style={{ lineHeight: "40px" }}
+                            >
+                              <Button
+                                variant="raised"
+                                className="jr-btn jr-btn-xs bg-white text-black"
+                              >
+                                좌표검색
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div
+                          className="col-md-3"
+                          style={{ lineHeight: "40px" }}
+                        >
+                          <label>위도</label>
+                        </div>
+                        <div className="col-md-9">
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label=""
+                            type="email"
+                            fullWidth
+                          />
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div
+                          className="col-md-3"
+                          style={{ lineHeight: "40px" }}
+                        >
+                          <label>경도</label>
+                        </div>
+                        <div className="col-md-9">
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label=""
+                            type="email"
+                            fullWidth
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      variant="raised"
+                      color="primary"
+                      className="jr-btn text-white"
+                    >
+                      OK
+                    </Button>
+                  </DialogActions>
+                </div>
+              ),
+              addPosition: <div>addPosition</div>,
+              updateBuilding: <div>updateBuilding</div>,
+              updatePosition: <div>updatePosition</div>,
+              addDevice: <div>addDevice</div>,
+              updateDevice: <div>updateDevice</div>,
+              deleteConfirmDevice: (
+                <div>
+                  deleteConfirmDevice
+                  <button onClick={this.openModal("deleteNoticeDevice")}>
+                    삭제
+                  </button>
+                </div>
+              ),
+              deleteNoticeDevice: <div>deleteNoticeDevice</div>
+            }[this.state.modalMode]
+          }
+
+          {/*
+           */}
+        </Modal>
       </div>
     );
   }

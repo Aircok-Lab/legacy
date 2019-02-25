@@ -26,7 +26,7 @@ export default (state = INIT_STATE, action) => {
     }
     case BUILDING_LIST_SUCCESS: {
       // alert("SUCCESS");
-      console.log("SUCCESS", action.payload);
+      // console.log("SUCCESS", action.payload);
       return {
         ...state,
         loader: false,

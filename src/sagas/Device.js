@@ -1,5 +1,5 @@
 import { push } from "react-router-redux";
-import { all, call, fork, put, takeEvery } from "redux-saga/effects";
+import { all, call, fork, put, takeEvery, delay } from "redux-saga/effects";
 import {
   DEVICE_LIST_BY_BUILDING_ID_REQUEST,
   DEVICE_LIST_BY_BUILDING_ID_SUCCESS,
