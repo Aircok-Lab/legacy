@@ -4,6 +4,7 @@ import ContainerHeader from 'components/ContainerHeader/index';
 import IntlMessages from 'util/IntlMessages';
 
 const products = [];
+var index = 0;
 
 const qualityType = {
     0: 'good',
@@ -66,15 +67,42 @@ function headerColumnClassNameFormat(row) {
   }
 
 class SamplePage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            scrollIndex : 0
+        };
+        this.tick = this.tick.bind(this);
+        
+        index = 0;
+    }
+
+    componentDidMount(){
+        //this.intervalHandle = setInterval(this.tick, 3000);
+    }
+
+    tick(){
+        index += 5;
+        console.log(this.state.scrollIndex);
+        this.setState = ({
+            scrollIndex : index
+        });
+        console.log(index);
+    }
+
     render() {
+        const selectRow = {
+            //mode: 'checkbox',  // multi select
+            selected: [ 'row10' ]
+          };
         return (
             <div className="app-wrapper" style={{overflowy: 'hidden'}}>
-                <BootstrapTable data={ products} bodyContainerClass='my-custom-class' height='500px' scrollTop={ 'Bottom' }> 
+                <BootstrapTable data={ products} tableHeaderClass='my-custom-header-class' tableBodyClass='my-custom-body-class' height='150' scrollTop={ 'Bottom' } selectRow={ selectRow }> 
                     {/* <TableHeaderColumn row='0' rowSpan='2' dataField='building' isKey={ true } filterFormatted formatExtraData={ qualityType }
           filter={ { type: 'SelectFilter', options: qualityType } }>구분</TableHeaderColumn> */}
                     <TableHeaderColumn row='0' rowSpan='2' dataField='buildingName' isKey={ true } className={ headerColumnClassNameFormat(0) }>구분</TableHeaderColumn>
                     <TableHeaderColumn row='0' rowSpan='2' dataField='positionName' className={ headerColumnClassNameFormat(0) }>측정기명</TableHeaderColumn>
-                    <TableHeaderColumn row='0' rowSpan='2' dataField='E3Score' className={ headerColumnClassNameFormat(0) }>공기질관리지수</TableHeaderColumn>
+                    <TableHeaderColumn row='0' rowSpan='2' dataField='id' className={ headerColumnClassNameFormat(0) }>공기질관리지수</TableHeaderColumn>
                     <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>온도<br />(℃)</TableHeaderColumn>
                     <TableHeaderColumn row='1' dataField='temperature' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
                     <TableHeaderColumn row='1' dataField='Temperature' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
