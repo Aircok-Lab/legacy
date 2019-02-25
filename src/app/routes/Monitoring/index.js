@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import ContainerHeader from 'components/ContainerHeader/index';
 import IntlMessages from 'util/IntlMessages';
@@ -69,70 +70,143 @@ function headerColumnClassNameFormat(row) {
 class SamplePage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            scrollIndex : 0
-        };
-        this.tick = this.tick.bind(this);
-        
-        index = 0;
+        this.pageScroll = this.pageScroll.bind(this);
     }
 
     componentDidMount(){
-        //this.intervalHandle = setInterval(this.tick, 3000);
+      this.intervalHandle = setInterval(this.pageScroll, 1000 * 10);
     }
 
-    tick(){
-        index += 5;
-        console.log(this.state.scrollIndex);
-        this.setState = ({
-            scrollIndex : index
-        });
-        console.log(index);
+    componentWillUnmount(){
+      clearInterval(this.intervalHandle);
+    }
+
+    pageScroll() { 
+      var objDiv =  document.getElementById('contain');
+
+      objDiv.scrollTop = objDiv.scrollTop + 100;  
+      if (objDiv.scrollTop == (objDiv.scrollHeight - 200)) {
+        objDiv.scrollTop = 0;
+      }
     }
 
     render() {
-        const selectRow = {
-            //mode: 'checkbox',  // multi select
-            selected: [ 'row10' ]
-          };
+        
         return (
-            <div className="app-wrapper" style={{overflowy: 'hidden'}}>
-                <BootstrapTable data={ products} tableHeaderClass='my-custom-header-class' tableBodyClass='my-custom-body-class' height='150' scrollTop={ 'Bottom' } selectRow={ selectRow }> 
-                    {/* <TableHeaderColumn row='0' rowSpan='2' dataField='building' isKey={ true } filterFormatted formatExtraData={ qualityType }
-          filter={ { type: 'SelectFilter', options: qualityType } }>구분</TableHeaderColumn> */}
-                    <TableHeaderColumn row='0' rowSpan='2' dataField='buildingName' isKey={ true } className={ headerColumnClassNameFormat(0) }>구분</TableHeaderColumn>
-                    <TableHeaderColumn row='0' rowSpan='2' dataField='positionName' className={ headerColumnClassNameFormat(0) }>측정기명</TableHeaderColumn>
-                    <TableHeaderColumn row='0' rowSpan='2' dataField='id' className={ headerColumnClassNameFormat(0) }>공기질관리지수</TableHeaderColumn>
-                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>온도<br />(℃)</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='temperature' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='Temperature' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='TemperatureAlarm' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
-                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>습도<br />(%)</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='humidity' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='Humidity' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='HumidityAlarm' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
-                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>미세먼지(PM10)<br />(㎍/㎥)</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='pm10' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='PM10' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='PM10Alarm' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
-                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>미세먼지(PM2.5)<br />(㎍/㎥</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='pm25' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='PM25' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='PM25Alarm' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
-                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>이산화탄소(CO2)<br />(ppm)</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='co2' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='CO2' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='CO2Alarm' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
-                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>포름알데히드(HCHO)<br />(ppm)</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='hcho' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='HCHO' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='HCHOAlarm' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
-                    <TableHeaderColumn row='0' colSpan='3' headerAlign='center' className={ headerColumnClassNameFormat(0) }>휘발성유기화합물(VOCs)<br />(㎍/㎥)</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='voc' className={ headerColumnClassNameFormat(1) }>기준</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='VOC' className={ headerColumnClassNameFormat(1) }>현재</TableHeaderColumn>
-                    <TableHeaderColumn row='1' dataField='VOCAlarm' className={ headerColumnClassNameFormat(1) }>알람</TableHeaderColumn>
-                </BootstrapTable>
-            </div>
+            <div className="app-wrapper" warnings={false}>
+            <table className="table table-fixed">
+              <thead>
+                <tr>
+                  <th className="col-3">First Name</th>
+                  <th className="col-3">Last Name</th>
+                  <th className="col-6">E-mail</th>
+                </tr>
+              </thead>
+              <tbody  id="contain" ref="contain">
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+          
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+                <tr>
+                  <td className="col-3">John</td>
+                  <td className="col-3">Doe</td>
+                  <td className="col-6">johndoe@email.com</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         );
     }
 }

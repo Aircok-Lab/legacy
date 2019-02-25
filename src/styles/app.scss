@@ -147,11 +147,40 @@ Version        : 1.0
     //overflow-y: 'auto'!important;
     display: block;
     //height: 500px;
+    width : 100%;
   }
 
   .my-custom-body-class {
     //overflow-y: 'auto'!important;
     display: block;
-    height: 500px;
+    height: 600px;
+    width : 100%;
     overflow-y: scroll;
+  }
+
+  .table-fixed{
+    width: 100%;
+    background-color: #f3f3f3;
+    tbody{
+      height:200px;
+      overflow-y:auto;
+      width: 100%;
+      }
+    thead,tbody,tr,td,th{
+      display:block;
+    }
+    tbody{
+      td{
+        float:left;
+      }
+    }
+    thead {
+      tr{
+        th{
+          float:left;
+         background-color: #f39c12;
+         border-color:#e67e22;
+        }
+      }
+    }
   }
