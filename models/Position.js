@@ -51,7 +51,9 @@ var Position = {
             console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
 
             // SQL문을 실행합니다.
-            var exec = conn.query('Select * from Position where id=?', id, function(err, result){
+            var queryString = 'Select * from Position where id in('+id+')';
+
+            var exec = conn.query(queryString, function(err, result){
                 conn.release(); // 반드시 해제해야 합니다.
                 console.log('실행 대상 SQL : ' + exec.sql);
 
