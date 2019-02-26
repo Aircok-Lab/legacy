@@ -120,7 +120,7 @@ var Device = {
 
             // 데이터를 객체로 만듭니다.
             var queryString = 'select Device.*,  Product.Name as ProductName, Product.Period from Device, Product where Device.PositionID in ('+positionId+') and Device.ProductID = Product.id';
-      
+
             // SQL문을 실행합니다.
             var exec = conn.query(queryString, function(err, result){
                 conn.release(); // 반드시 해제해야 합니다.
