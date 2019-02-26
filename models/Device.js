@@ -119,15 +119,7 @@ var Device = {
             console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
 
             // 데이터를 객체로 만듭니다.
-            var ids = positionId.split(",");
-            console.log(ids);
-            var queryString = 'select * from Device where ';
-            for (i in ids){
-                let str = 'instr(PositionID,\''+ids[i]+'\') > 0';
-                queryString = queryString + str;
-                if( i < (ids.length-1))
-                    queryString = queryString + ' or ';
-            }
+            var queryString = 'select Device.*,  Product.Name as ProductName, Product.Period from Device, Product where Device.PositionID in ('+positionId+') and Device.ProductID = Product.id';
       
             // SQL문을 실행합니다.
             var exec = conn.query(queryString, function(err, result){
