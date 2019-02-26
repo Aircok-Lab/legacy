@@ -417,9 +417,101 @@ class DevicePage extends React.Component {
           {
             {
               addBuilding: (
-                <div>
+                <div className="">
                   addBuilding
-                  <DialogTitle>건물 등록</DialogTitle>
+                  <form className="w3-text-blue w3-margin">
+                    <h2 className="w3-center">건물등록</h2>
+
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        NAME
+                      </div>
+                      <div className="w3-rest">
+                        <input type="text" />
+                        <input
+                          className="w3-input w3-border"
+                          name="first"
+                          type="text"
+                          placeholder="First Name"
+                        />
+                      </div>
+                    </div>
+                    {/* 
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        <i className="w3-xxlarge fa fa-user" />
+                      </div>
+                      <div className="w3-rest">
+                        <input
+                          className="w3-input w3-border"
+                          name="last"
+                          type="text"
+                          placeholder="Last Name"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        <i className="w3-xxlarge fa fa-envelope-o" />
+                      </div>
+                      <div className="w3-rest">
+                        <input
+                          className="w3-input w3-border"
+                          name="email"
+                          type="text"
+                          placeholder="Email"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        <i className="w3-xxlarge fa fa-phone" />
+                      </div>
+                      <div className="w3-rest">
+                        <input
+                          className="w3-input w3-border"
+                          name="phone"
+                          type="text"
+                          placeholder="Phone"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        <i className="w3-xxlarge fa fa-pencil" />
+                      </div>
+                      <div className="w3-rest">
+                        <input
+                          className="w3-input w3-border"
+                          name="message"
+                          type="text"
+                          placeholder="Message"
+                        />
+                      </div>
+                    </div> */}
+
+                    <button className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">
+                      Send
+                    </button>
+                  </form>
+                  {/* <form className="w3-container">
+                    <p>
+                      <label>First Name</label>
+                      <input className="w3-input w3-border" type="text" />
+                    </p>
+                    <p>
+                      <label>Last Name</label>
+                      <input className="w3-input" type="text" />
+                    </p>
+                    <p>
+                      <label>Email</label>
+                      <input className="w3-input" type="text" />
+                    </p>
+                  </form> */}
+                  {/* <DialogTitle>건물 등록</DialogTitle>
                   <DialogContent>
                     <DialogContentText />
                     <div className="container">
@@ -520,7 +612,7 @@ class DevicePage extends React.Component {
                     >
                       OK
                     </Button>
-                  </DialogActions>
+                  </DialogActions> */}
                 </div>
               ),
               addPosition: <div>addPosition</div>,
