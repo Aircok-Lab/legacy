@@ -39,6 +39,49 @@ var User = {
       });
     });
   },
+
+  getUserById: function(userId, callback) {
+    console.log("getUserById 호출됨 userId :", userId);
+
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      // SQL문을 실행합니다.
+      var exec = conn.query("Select * from User where id=" + userId, function(
+        err,
+        result
+      ) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
+
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
+
+          callback(err, null);
+          return;
+        }
+
+        // console.log('>> result: ', result );
+        var string = JSON.stringify(result[0]);
+        // console.log('>> string: ', string );
+        var json = JSON.parse(string);
+        console.log(">> json: ", json);
+        var allUsers = json;
+
+        callback(null, allUsers);
+      });
+    });
+  },
+
   getUserByBuildingId: function(buildingId, callback) {
     console.log("getUserByBuildingId 호출됨 buildingId : " + buildingId);
     pool.getConnection(function(err, conn) {
