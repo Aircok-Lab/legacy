@@ -172,6 +172,44 @@ var Device = {
             });
         });
     },
+    getDeviceCountByBuildingId:function(buildingId, callback){
+        console.log('getDeviceCountByBuildingId 호출됨 buildingId : ' + buildingId);
+        pool.getConnection(function(err, conn){
+            if(err){
+                if(conn){
+                    conn.release(); // 반드시 해제해야 합니다.
+                }
+
+                callback(err, null);
+                return;
+            }
+            console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+
+            var queryString = 'select Device.*,  Product.Name as ProductName, Product.Period from Device, Product where Device.PositionID in (\
+                select Position.id as PositionID\
+                from Building, Position\
+                where  Building.id in ('+buildingId+') and Building.id = Position.BuildingID) and Device.ProductID = Product.id';
+      
+            // SQL문을 실행합니다.
+            var exec = conn.query(queryString, function(err, result){
+                conn.release(); // 반드시 해제해야 합니다.
+                console.log('실행 대상 SQL : ' + exec.sql);
+
+                if(err) {
+                    console.log('SQL 실행 시 오류 발생함');
+                    console.dir(err);
+
+                    callback(err, null);
+                    return;
+                }
+                var string=JSON.stringify(result);
+                var json =  JSON.parse(string);
+                var deviceByBuildingId = json;
+
+                callback(null, deviceByBuildingId);
+            });
+        });
+    },
     addDevice:function(name, serialNumber, phone, positionID, productID, callback){
         console.log('addDevice 호출됨');
 
