@@ -169,16 +169,8 @@ var Building = {
             console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
 
             // 데이터를 객체로 만듭니다.
-            var ids = buildingId.split(",");
-            console.log(ids);
-            var queryString = 'delete from Building where ';
-            for (i in ids){
-                let str = 'id='+ids[i];
-                queryString = queryString + str;
-                if( i < (ids.length-1))
-                    queryString = queryString + ' or ';
-            }
-      
+            var queryString = 'delete from Building where id='+buildingId;
+
             // SQL문을 실행합니다.
             var exec = conn.query(queryString, function(err, result){
                 conn.release(); // 반드시 해제해야 합니다.
