@@ -133,7 +133,7 @@ var Position = {
             console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
 
             // SQL문을 실행합니다.
-            var exec = conn.query('select * from Position where BuildingID=?;', buildingId, function(err, result){
+            var exec = conn.query('select count(*) from Position where BuildingID=1;', buildingId, function(err, result){
                 conn.release(); // 반드시 해제해야 합니다.
                 console.log('실행 대상 SQL : ' + exec.sql);
 
