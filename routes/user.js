@@ -88,7 +88,7 @@ router.post('/addUser', function(req, res, next) {
     var paramName = req.body.name || req.query.name;
     var paramEmail = req.body.email || req.query.email || null;
     var paramDepartment = req.body.department || req.query.department || null;
-    var paramAaproval= false;
+    var paramAaproval= true;
     var paramManager = req.body.manager || req.query.manager || false;
     var paramPhone = req.body.phone || req.query.phone || null;
     var paramBuildingList = req.body.buildinglist || req.query.buildinglist;
@@ -359,7 +359,7 @@ router.put('/updateUser', function(req, res, next) {
     var paramName = req.body.name || req.query.name;
     var paramEmail = req.body.email || req.query.email || null;
     var paramDepartment = req.body.department || req.query.department || null;
-    var paramAaproval= false;
+    var paramAaproval= true;
     var paramManager = req.body.manager || req.query.manager || false;
     var paramPhone = req.body.phone || req.query.phone || null;
     var paramBuildingList = req.body.buildinglist || req.query.buildinglist || null;
