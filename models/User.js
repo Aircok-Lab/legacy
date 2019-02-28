@@ -100,7 +100,8 @@ var User = {
       console.log(ids);
       var queryString = "select * from User where ";
       for (i in ids) {
-        let str = "instr(BuildingList,'" + ids[i] + "') > 0";
+        let idStr = "/" + ids[i] + ",/";
+        let str = "instr(BuildingList,'" + idStr + "') > 0";
         queryString = queryString + str;
         if (i < ids.length - 1) queryString = queryString + " or ";
       }
@@ -125,6 +126,7 @@ var User = {
       });
     });
   },
+
   getUserByPositionId: function(positionId, callback) {
     console.log("getUserByPositionId 호출됨 positionId : " + positionId);
     pool.getConnection(function(err, conn) {
@@ -143,7 +145,8 @@ var User = {
       console.log(ids);
       var queryString = "select * from User where ";
       for (i in ids) {
-        let str = "instr(PositionList,'" + ids[i] + "') > 0";
+        let idStr = "/" + ids[i] + ",/";
+        let str = "instr(PositionList,'" + idStr + "') > 0";
         queryString = queryString + str;
         if (i < ids.length - 1) queryString = queryString + " or ";
       }
@@ -168,6 +171,7 @@ var User = {
       });
     });
   },
+
   getUserPassword: function(id, email, callback) {
     console.log("getUserPassword 호출됨");
 
@@ -209,6 +213,7 @@ var User = {
       );
     });
   },
+
   getUserId: function(name, email, callback) {
     console.log("getUserId 호출됨");
 
@@ -255,6 +260,7 @@ var User = {
       );
     });
   },
+
   approvalUser: function(state, callback) {
     console.log("approvalUser 호출됨");
 
@@ -300,12 +306,14 @@ var User = {
       );
     });
   },
+
   addUser: function(
     id,
     password,
     name,
     email,
     department,
+    approval,
     manager,
     phone,
     buildinglist,
@@ -332,7 +340,7 @@ var User = {
         Password: password,
         Email: email,
         Department: department,
-        Approval: false,
+        Approval: approval,
         Manager: manager,
         Phone: phone,
         BuildingList: buildinglist,
@@ -358,12 +366,14 @@ var User = {
       });
     });
   },
+
   updateUser: function(
     userId,
     password,
     name,
     email,
     department,
+    approval,
     manager,
     phone,
     buildinglist,
@@ -390,7 +400,7 @@ var User = {
         password,
         email,
         department,
-        true,
+        approval,
         manager,
         phone,
         buildinglist,
@@ -420,6 +430,89 @@ var User = {
       );
     });
   },
+
+  updateUserBuildingList: function(userId, buildinglist) {
+    console.log("updateUser 호출됨");
+
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        //callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      // 데이터를 객체로 만듭니다.
+      // TODO: Approval을 임시로 true 로 설정했습니다.
+      var data = [buildinglist, userId];
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "update User set BuildingList=? where UserID=?",
+        data,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
+
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
+
+            //callback(err, null);
+            return;
+          }
+          var success = "true";
+
+          //callback(null, success);
+        }
+      );
+    });
+  },
+
+  updateUserPositionList: function(userId, positionlist) {
+    console.log("updateUser 호출됨");
+
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        //callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      // 데이터를 객체로 만듭니다.
+      // TODO: Approval을 임시로 true 로 설정했습니다.
+      var data = [positionlist, userId];
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "update User set PositionList=? where UserID=?",
+        data,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
+
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
+
+            //callback(err, null);
+            return;
+          }
+          var success = "true";
+
+          //callback(null, success);
+        }
+      );
+    });
+  },
+
   loginUser: function(id, password, callback) {
     console.log("loginUser 호출됨");
 
@@ -455,12 +548,12 @@ var User = {
           }
           console.dir(result);
           loginUser = result[0];
-          delete loginUser.Password;
           callback(null, loginUser);
         }
       );
     });
   },
+
   setApprovalUser: function(userId, callback) {
     console.log("setApprovalUser 호출됨 userId : " + userId);
     pool.getConnection(function(err, conn) {
@@ -502,6 +595,7 @@ var User = {
       });
     });
   },
+
   deleteUser: function(userId, callback) {
     console.log("deleteUser 호출됨 userId : " + userId);
     pool.getConnection(function(err, conn) {
@@ -543,6 +637,7 @@ var User = {
       });
     });
   },
+
   getUserInfo: function(userId, callback) {
     console.log("getUserInfo 호출됨 userId : " + userId);
     pool.getConnection(function(err, conn) {

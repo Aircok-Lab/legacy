@@ -12,6 +12,42 @@ const privateKey = ursa.createPrivateKey(
   fs.readFileSync(path.resolve("ssl/private.pem"))
 );
 
+function setBuildingListPattern(buildingList) {
+  var insertStr = "," + "/";
+  buildingList = buildingList.replace(/(\s*)/gi, "");
+  if (!buildingList.endsWith(",")) buildingList = buildingList + ",";
+  buildingList = buildingList.replace(/\,/g, insertStr);
+  buildingList = "/" + buildingList;
+  return buildingList;
+}
+
+function setPositionListPattern(positionList) {
+  var insertStr = "," + "/";
+  positionList = positionList.replace(/(\s*)/gi, "");
+  if (!positionList.endsWith(",")) positionList = positionList + ",";
+  positionList = positionList.replace(/\,/g, insertStr);
+  positionList = "/" + positionList;
+  return positionList;
+}
+
+function deleteUserInfoPattern(userInfo) {
+  delete userInfo.Password;
+  var insertStr = ",";
+  var user = userInfo;
+  userInfo.BuildingList = userInfo.BuildingList.replace(/\,\//g, insertStr);
+  if (userInfo.BuildingList.endsWith(","))
+    user.BuildingList = userInfo.BuildingList.slice(0, -1);
+  if (userInfo.BuildingList.startsWith("/"))
+    user.BuildingList = user.BuildingList.substring(1);
+
+  userInfo.PositionList = userInfo.PositionList.replace(/\,\//g, insertStr);
+  if (userInfo.PositionList.endsWith(","))
+    user.PositionList = userInfo.PositionList.slice(0, -1);
+  if (userInfo.PositionList.startsWith("/"))
+    user.PositionList = user.PositionList.substring(1);
+  return user;
+}
+
 router.get("/pkey", function(req, res) {
   return res.send(publicKey);
 });
@@ -43,9 +79,12 @@ router.post("/login", function(req, res, next) {
           name: loginUser.Name,
           authorized: true
         });
+        var user = deleteUserInfoPattern(loginUser);
+
         result.statusCode = OK;
         result.message = "성공";
-        result.data = loginUser;
+        result.data = user;
+
         res.send(result);
       } else {
         result.statusCode = APPROVE;
@@ -92,6 +131,9 @@ router.post("/addUser", function(req, res, next) {
   var paramPositionList = req.body.positionlist || req.query.positionlist;
   var result = { statusCode: null, message: null, data: null };
 
+  paramBuildingList = setBuildingListPattern(paramBuildingList);
+  paramPositionList = setPositionListPattern(paramPositionList);
+
   console.log(
     "요청 파라미터 : " +
       paramId +
@@ -114,13 +156,13 @@ router.post("/addUser", function(req, res, next) {
       "," +
       paramPositionList
   );
-
   User.addUser(
     paramId,
     paramPassword,
     paramName,
     paramEmail,
     paramDepartment,
+    paramAaproval,
     paramManager,
     paramPhone,
     paramBuildingList,
@@ -239,9 +281,14 @@ router.get("/allUser", function(req, res, next) {
     //결과 객체 있으면 성공 응답 전송
     if (allUsers) {
       console.dir(allUsers);
+      var users = [];
+      allUsers.map(user => {
+        users.push(deleteUserInfoPattern(user));
+      });
+
       result.statusCode = OK;
       result.message = "성공";
-      result.data = allUsers;
+      result.data = users;
       res.send(result);
     } else {
       result.statusCode = FAIL;
@@ -272,9 +319,11 @@ router.get("/getUserById", function(req, res, next) {
     //결과 객체 있으면 성공 응답 전송
     if (users) {
       console.dir(users);
+      var user = deleteUserInfoPattern(users);
+
       result.statusCode = OK;
       result.message = "성공";
-      result.data = users;
+      result.data = user;
       res.send(result);
     } else {
       result.statusCode = FAIL;
@@ -291,6 +340,7 @@ router.post("/getUserByBuildingId", function(req, res, next) {
   var paramBuildingID = req.body.id || req.query.id;
   var result = { statusCode: null, message: null, data: null };
 
+  paramBuildingID = paramBuildingID.replace(/(\s*)/gi, "");
   console.log("요청 파라미터 : " + paramBuildingID);
 
   User.getUserByBuildingId(paramBuildingID, function(err, users) {
@@ -305,9 +355,13 @@ router.post("/getUserByBuildingId", function(req, res, next) {
     //결과 객체 있으면 성공 응답 전송
     if (users) {
       console.dir(users);
+      var retUsers = [];
+      users.map(user => {
+        retUsers.push(deleteUserInfoPattern(user));
+      });
       result.statusCode = OK;
       result.message = "성공";
-      result.data = users;
+      result.data = retUsers;
       res.send(result);
     } else {
       result.statusCode = FAIL;
@@ -323,6 +377,7 @@ router.post("/getUserByPositionId", function(req, res, next) {
   var paramPositionID = req.body.id || req.query.id;
   var result = { statusCode: null, message: null, data: null };
 
+  paramPositionID = paramPositionID.replace(/(\s*)/gi, "");
   console.log("요청 파라미터 : " + paramPositionID);
 
   User.getUserByPositionId(paramPositionID, function(err, users) {
@@ -337,9 +392,13 @@ router.post("/getUserByPositionId", function(req, res, next) {
     //결과 객체 있으면 성공 응답 전송
     if (users) {
       console.dir(users);
+      var retUsers = [];
+      users.map(user => {
+        retUsers.push(deleteUserInfoPattern(user));
+      });
       result.statusCode = OK;
       result.message = "성공";
-      result.data = users;
+      result.data = retUsers;
       res.send(result);
     } else {
       result.statusCode = FAIL;
@@ -399,9 +458,13 @@ router.get("/approvalUser", function(req, res, next) {
     //결과 객체 있으면 성공 응답 전송
     if (success) {
       console.dir(users);
+      var retUsers = [];
+      users.map(user => {
+        retUsers.push(deleteUserInfoPattern(user));
+      });
       result.statusCode = OK;
       result.message = "성공";
-      result.data = users;
+      result.data = retUsers;
       res.send(result);
     } else {
       result.statusCode = FAIL;
@@ -427,6 +490,9 @@ router.put("/updateUser", function(req, res, next) {
   var paramPositionList =
     req.body.positionlist || req.query.positionlist || null;
   var result = { statusCode: null, message: null, data: null };
+
+  paramBuildingList = setBuildingListPattern(paramBuildingList);
+  paramPositionList = setPositionListPattern(paramPositionList);
 
   console.log(
     "요청 파라미터 : " +
@@ -457,6 +523,7 @@ router.put("/updateUser", function(req, res, next) {
     paramName,
     paramEmail,
     paramDepartment,
+    paramAaproval,
     paramManager,
     paramPhone,
     paramBuildingList,
