@@ -61,30 +61,8 @@ router.post("/addBuilding", function(req, res, next) {
 
           if (userInfo) {
             userInfo.BuildingList =
-              userInfo.BuildingList + "," + addedBuilding.insertId;
-            User.updateUser(
-              userInfo.UserID,
-              userInfo.Password,
-              userInfo.Name,
-              userInfo.Email,
-              userInfo.Department,
-              userInfo.Manager,
-              userInfo.Phone,
-              userInfo.BuildingList,
-              userInfo.PositionList,
-              function(err, success) {
-                if (err) {
-                  console.error("사용자 정보 수정중 오류 발생 :" + err.stack);
-                  return;
-                }
-
-                if (success) {
-                  console.log("사용자 정보 수정 완료");
-                } else {
-                  console.log("사용자 정보 없음");
-                }
-              }
-            );
+              userInfo.BuildingList + addedBuilding.insertId + ",/";
+            User.updateUserBuildingList(userInfo.UserID, userInfo.BuildingList);
           }
         });
       } else {
@@ -245,10 +223,18 @@ router.delete("/deleteBuilding", function(req, res, next) {
           result.statusCode = OK;
           result.message = "성공";
           res.send(result);
-        } else {
-          result.statusCode = FAIL;
-          result.message = "실패";
-          res.send(result);
+
+          User.getUserByBuildingId(paramBuildingID, function(err, users) {
+            if (users) {
+              users.map(user => {
+                let delStr = "/" + paramBuildingID + ",/";
+                let inStr = "/";
+                let buildingList = user.BuildingList.replace(delStr, inStr);
+
+                User.updateUserBuildingList(user.UserID, buildingList);
+              });
+            }
+          });
         }
       });
     } else {
