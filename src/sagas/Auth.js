@@ -1,11 +1,18 @@
-import {all, call, fork, put, takeEvery} from "redux-saga/effects";
+import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import {
   SIGNIN_USER,
   SIGNOUT_USER,
   SIGNUP_USER,
   PUBLICKEY_REQUEST
 } from "constants/ActionTypes";
-import {showAuthMessage, userSignInSuccess, userSignOutSuccess, userSignUpSuccess, setInitUrl, publicKeySuccess} from "actions/Auth";
+import {
+  showAuthMessage,
+  userSignInSuccess,
+  userSignOutSuccess,
+  userSignUpSuccess,
+  setInitUrl,
+  publicKeySuccess
+} from "actions/Auth";
 import api from "api/index";
 import forge from "node-forge";
 
@@ -18,19 +25,23 @@ const signInUserWithEmailPasswordRequest = async (email, password) =>
   // await api.post("users/login?id="+email+"&password="+password)
   //   .then(authUser => authUser)
   //   .catch(error => error);
-  await api.post("users/login",{
-    id: email,
-    password : password})
-  .then(authUser => authUser)
-  .catch(error => error);
+  await api
+    .post("users/login", {
+      loginId: email,
+      password: password
+    })
+    .then(authUser => authUser)
+    .catch(error => error);
 
 const signOutRequest = async () =>
-  await api.get("users/logout")
+  await api
+    .get("users/logout")
     .then(authUser => authUser)
     .catch(error => error);
 
 const publicKeyRequest = async () =>
-  await api.get("users/pkey")
+  await api
+    .get("users/pkey")
     .then(pkey => pkey)
     .catch(error => error);
 
@@ -49,18 +60,24 @@ const publicKeyRequest = async () =>
 //   }
 // }
 
-function* signInUserWithEmailPassword({payload}) {
-  const {email, password, pkey} = payload;
+function* signInUserWithEmailPassword({ payload }) {
+  const { email, password, pkey } = payload;
   try {
     let publicKey = forge.pki.publicKeyFromPem(forge.util.encodeUtf8(pkey));
-    let newpw = forge.util.encode64(publicKey.encrypt(forge.util.encodeUtf8(password),'RSA-OAEP'));
-    const signInUser = yield call(signInUserWithEmailPasswordRequest, email, newpw);
+    let newpw = forge.util.encode64(
+      publicKey.encrypt(forge.util.encodeUtf8(password), "RSA-OAEP")
+    );
+    const signInUser = yield call(
+      signInUserWithEmailPasswordRequest,
+      email,
+      newpw
+    );
     if (signInUser.message) {
       yield put(showAuthMessage(signInUser.message));
     } else {
       yield put(userSignInSuccess(signInUser.data.data));
-      yield put(setInitUrl('/app/monitoring'));
-      localStorage.setItem('user_id', JSON.stringify(signInUser.data.data));
+      yield put(setInitUrl("/app/monitoring"));
+      localStorage.setItem("user_id", JSON.stringify(signInUser.data.data));
     }
   } catch (error) {
     yield put(showAuthMessage(error));
@@ -71,7 +88,7 @@ function* signOut() {
   try {
     const signOutUser = yield call(signOutRequest);
     if (signOutUser.data && signOutUser.data.statusCode === "OK") {
-      localStorage.removeItem('user_id');
+      localStorage.removeItem("user_id");
       yield put(userSignOutSuccess(signOutUser));
     } else {
       yield put(showAuthMessage(signOutUser.message));
@@ -111,8 +128,10 @@ export function* getPublicKey() {
 }
 
 export default function* rootSaga() {
-  yield all([fork(signInUser),
+  yield all([
+    fork(signInUser),
     fork(createUserAccount),
     fork(signOutUser),
-    fork(getPublicKey)]);
+    fork(getPublicKey)
+  ]);
 }
