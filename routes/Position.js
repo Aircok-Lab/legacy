@@ -53,7 +53,7 @@ router.post("/addPosition", function(req, res, next) {
         if (userInfo) {
           userInfo.PositionList =
             userInfo.PositionList + addedPosition.insertId + ",/";
-          User.updateUserPositionList(userInfo.UserID, userInfo.PositionList);
+          User.updateUserPositionList(paramUserID, userInfo.PositionList);
           let userData = userPattern.deletePattern(userInfo);
           console.log("추가된 레코드의 아이디 : " + addedPosition.insertId);
           result.statusCode = OK;
@@ -253,8 +253,8 @@ router.delete("/deletePosition", function(req, res, next) {
                 let inStr = "/";
                 let positionList = user.PositionList.replace(delStr, inStr);
 
-                User.updateUserPositionList(user.UserID, positionList);
-                if (user.UserID == paramUserID) {
+                User.updateUserPositionList(user.id, positionList);
+                if (user.id == paramUserID) {
                   user.PositionList = positionList;
                   let userData = userPattern.deletePattern(user);
                   result.statusCode = OK;

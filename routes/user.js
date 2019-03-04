@@ -1,7 +1,6 @@
 import { OK, FAIL, APPROVE } from "../public/javascripts/defined";
 var express = require("express");
 var router = express.Router();
-const passport = require("passport");
 var User = require("../models/User");
 var ursa = require("ursa");
 var fs = require("fs");
@@ -20,13 +19,13 @@ router.get("/pkey", function(req, res) {
 /* LOGIN user */
 router.post("/login", function(req, res, next) {
   console.log("/login 호출됨.");
-  var paramId = req.body.id || req.query.id;
+  var paramLoginId = req.body.id || req.query.id;
   var paramPassword = req.body.password || req.query.password;
   let password = privateKey.decrypt(paramPassword, "base64", "utf8");
   var result = { statusCode: null, message: null, data: null };
 
-  console.log("요청 파라미터 : " + paramId + "," + password);
-  User.loginUser(paramId, password, function(err, loginUser) {
+  console.log("요청 파라미터 : " + paramLoginId + "," + password);
+  User.loginUser(paramLoginId, password, function(err, loginUser) {
     if (err) {
       console.error("사용자 추가 중 오류 발생 :" + err.stack);
       result.statusCode = FAIL;
@@ -40,7 +39,7 @@ router.post("/login", function(req, res, next) {
       console.dir(loginUser);
       if (loginUser.Approval) {
         res.cookie("user", {
-          id: loginUser.UserID,
+          loginId: loginUser.LoginID,
           name: loginUser.Name,
           authorized: true
         });
@@ -68,11 +67,10 @@ router.post("/login", function(req, res, next) {
 router.get("/logout", function(req, res, next) {
   console.log("/logout 호출됨.");
 
-  var paramId = req.body.id || req.query.id;
-  var paramName = req.body.name || req.query.name;
+  var paramLoginId = req.body.id || req.query.id;
   var result = { statusCode: null, message: null, data: null };
 
-  console.log("요청 파라미터 : " + paramId);
+  console.log("요청 파라미터 : " + paramLoginId);
 
   res.clearCookie("user");
   result.statusCode = OK;
@@ -84,7 +82,7 @@ router.get("/logout", function(req, res, next) {
 router.post("/addUser", function(req, res, next) {
   console.log("/addUser 호출됨.");
 
-  var paramId = req.body.id || req.query.id;
+  var paramLoginId = req.body.id || req.query.id;
   var paramPassword = req.body.password || req.query.password;
   var paramName = req.body.name || req.query.name;
   var paramEmail = req.body.email || req.query.email || null;
@@ -101,7 +99,7 @@ router.post("/addUser", function(req, res, next) {
 
   console.log(
     "요청 파라미터 : " +
-      paramId +
+      paramLoginId +
       "," +
       paramPassword +
       "," +
@@ -122,7 +120,7 @@ router.post("/addUser", function(req, res, next) {
       paramPositionList
   );
   User.addUser(
-    paramId,
+    paramLoginId,
     paramPassword,
     paramName,
     paramEmail,
@@ -169,7 +167,7 @@ router.post("/findUser", function(req, res, next) {
 
   console.log("요청 파라미터 : " + paramName + "," + paramEmail);
 
-  User.getUserId(paramName, paramEmail, function(err, findUserID) {
+  User.getLoginId(paramName, paramEmail, function(err, findLoginID) {
     if (err) {
       console.error("사용자 찾기 중 오류 발생 :" + err.stack);
 
@@ -180,11 +178,11 @@ router.post("/findUser", function(req, res, next) {
     }
 
     //결과 객체 있으면 성공 응답 전송
-    if (findUserID) {
-      console.dir(findUserID);
+    if (findLoginID) {
+      console.dir(findLoginID);
       result.statusCode = OK;
       result.message = "성공";
-      result.data = findUserID;
+      result.data = findLoginID;
       res.send(result);
     } else {
       result.statusCode = FAIL;
@@ -198,13 +196,13 @@ router.post("/findUser", function(req, res, next) {
 router.post("/findPassword", function(req, res, next) {
   console.log("/findPassword 호출됨.");
 
-  var paramUserID = req.body.id || req.query.id;
+  var paramLoginID = req.body.id || req.query.id;
   var paramEmail = req.body.email || req.query.email;
   var result = { statusCode: null, message: null, data: null };
 
-  console.log("요청 파라미터 : " + paramUserID + "," + paramEmail);
+  console.log("요청 파라미터 : " + paramLoginID + "," + paramEmail);
 
-  User.getUserPassword(paramUserID, paramEmail, function(err, findPassword) {
+  User.getUserPassword(paramLoginID, paramEmail, function(err, findPassword) {
     if (err) {
       console.error("패스워드 찾기 중 오류 발생 :" + err.stack);
 
@@ -267,7 +265,7 @@ router.get("/allUser", function(req, res, next) {
 router.get("/getUserById", function(req, res, next) {
   console.log("/getUserById 호출됨.");
 
-  var paramUserID = req.body.id || req.query.id;
+  var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
 
   console.log("요청 파라미터 : " + paramUserID);
@@ -302,7 +300,7 @@ router.get("/getUserById", function(req, res, next) {
 router.post("/getUserByBuildingId", function(req, res, next) {
   console.log("/getUserByBuildingId 호출됨.");
 
-  var paramBuildingID = req.body.id || req.query.id;
+  var paramBuildingID = req.body.buildingID || req.query.buildingID;
   var result = { statusCode: null, message: null, data: null };
 
   paramBuildingID = paramBuildingID.replace(/(\s*)/gi, "");
@@ -339,7 +337,7 @@ router.post("/getUserByBuildingId", function(req, res, next) {
 router.post("/getUserByPositionId", function(req, res, next) {
   console.log("/getUserByPositionId 호출됨.");
 
-  var paramPositionID = req.body.id || req.query.id;
+  var paramPositionID = req.body.positionID || req.query.positionID;
   var result = { statusCode: null, message: null, data: null };
 
   paramPositionID = paramPositionID.replace(/(\s*)/gi, "");
@@ -376,7 +374,7 @@ router.post("/getUserByPositionId", function(req, res, next) {
 router.put("/setApprovalUser", function(req, res, next) {
   console.log("/setApprovalUser 호출됨.");
 
-  var paramUserID = req.body.id || req.query.id;
+  var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
 
   console.log("요청 파라미터 : " + paramUserID);
@@ -442,7 +440,7 @@ router.get("/approvalUser", function(req, res, next) {
 router.put("/updateUser", function(req, res, next) {
   console.log("/updateUser 호출됨.");
 
-  var paramId = req.body.userId || req.query.userId;
+  var paramUserID = req.body.userID || req.query.userID;
   var paramPassword = req.body.password || req.query.password;
   var paramName = req.body.name || req.query.name;
   var paramEmail = req.body.email || req.query.email || null;
@@ -461,7 +459,7 @@ router.put("/updateUser", function(req, res, next) {
 
   console.log(
     "요청 파라미터 : " +
-      paramId +
+      paramUserID +
       "," +
       paramPassword +
       "," +
@@ -483,7 +481,7 @@ router.put("/updateUser", function(req, res, next) {
   );
 
   User.updateUser(
-    paramId,
+    paramUserID,
     paramPassword,
     paramName,
     paramEmail,
@@ -521,7 +519,7 @@ router.put("/updateUser", function(req, res, next) {
 router.delete("/deleteUser", function(req, res, next) {
   console.log("/deleteUser 호출됨.");
 
-  var paramUserID = req.body.id || req.query.id;
+  var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
 
   console.log("요청 파라미터 : " + paramUserID);

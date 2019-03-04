@@ -70,9 +70,7 @@ var User = {
           return;
         }
 
-        // console.log('>> result: ', result );
         var string = JSON.stringify(result[0]);
-        // console.log('>> string: ', string );
         var json = JSON.parse(string);
         console.log(">> json: ", json);
         var allUsers = json;
@@ -172,7 +170,7 @@ var User = {
     });
   },
 
-  getUserPassword: function(id, email, callback) {
+  getUserPassword: function(loginId, email, callback) {
     console.log("getUserPassword 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -187,12 +185,12 @@ var User = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var data = [id, email];
+      var data = [loginId, email];
       var findPassword = null;
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select Password from User where UserID =? and email = ?",
+        "select Password from User where LoginID =? and email = ?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -214,8 +212,8 @@ var User = {
     });
   },
 
-  getUserId: function(name, email, callback) {
-    console.log("getUserId 호출됨");
+  getLoginId: function(name, email, callback) {
+    console.log("getLoginId 호출됨");
 
     pool.getConnection(function(err, conn) {
       if (err) {
@@ -230,11 +228,11 @@ var User = {
 
       // 데이터를 객체로 만듭니다.
       var data = [name, email];
-      var findUserID = [];
+      var findLoginID = [];
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select UserID from User where name =? and email = ?",
+        "select LoginID from User where name =? and email = ?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -248,14 +246,12 @@ var User = {
             return;
           }
 
-          console.log(">> result: ", result);
           var string = JSON.stringify(result);
-          console.log(">> string: ", string);
           var json = JSON.parse(string);
           console.log(">> json: ", json);
-          findUserID = json;
+          findLoginID = json;
 
-          callback(null, findUserID);
+          callback(null, findLoginID);
         }
       );
     });
@@ -308,7 +304,7 @@ var User = {
   },
 
   addUser: function(
-    id,
+    loginId,
     password,
     name,
     email,
@@ -335,7 +331,7 @@ var User = {
 
       // 데이터를 객체로 만듭니다.
       var data = {
-        UserID: id,
+        LoginID: loginId,
         Name: name,
         Password: password,
         Email: email,
@@ -410,7 +406,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set Name=?, Password=?, Email=?, Department=?, Approval=?, Manager=?, Phone=?, BuildingList=?, PositionList=? where UserID=?",
+        "update User set Name=?, Password=?, Email=?, Department=?, Approval=?, Manager=?, Phone=?, BuildingList=?, PositionList=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -432,7 +428,7 @@ var User = {
   },
 
   updateUserBuildingList: function(userId, buildinglist) {
-    console.log("updateUser 호출됨");
+    console.log("updateUserBuildingList 호출됨");
 
     pool.getConnection(function(err, conn) {
       if (err) {
@@ -451,7 +447,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set BuildingList=? where UserID=?",
+        "update User set BuildingList=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -473,7 +469,7 @@ var User = {
   },
 
   updateUserPositionList: function(userId, positionlist) {
-    console.log("updateUser 호출됨");
+    console.log("updateUserPositionList 호출됨");
 
     pool.getConnection(function(err, conn) {
       if (err) {
@@ -492,7 +488,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set PositionList=? where UserID=?",
+        "update User set PositionList=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -513,7 +509,7 @@ var User = {
     });
   },
 
-  loginUser: function(id, password, callback) {
+  loginUser: function(loginId, password, callback) {
     console.log("loginUser 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -528,12 +524,12 @@ var User = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var data = [id, password];
+      var data = [loginId, password];
       var loginUser = null;
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select * from User where UserID=? and Password=?",
+        "select * from User where LoginID=? and Password=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -652,27 +648,26 @@ var User = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "select * from User where UserID=?",
-        userId,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("select * from User where id=?", userId, function(
+        err,
+        result
+      ) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-          var string = JSON.stringify(result);
-          var json = JSON.parse(string);
-          var user = json[0];
-
-          callback(null, user);
+          callback(err, null);
+          return;
         }
-      );
+        var string = JSON.stringify(result);
+        var json = JSON.parse(string);
+        var user = json[0];
+
+        callback(null, user);
+      });
     });
   }
 };
