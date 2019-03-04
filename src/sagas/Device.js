@@ -1,5 +1,6 @@
 import { push } from "react-router-redux";
-import { all, call, fork, put, takeEvery, delay } from "redux-saga/effects";
+import { delay } from "redux-saga";
+import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import {
   DEVICE_LIST_BY_BUILDING_ID_REQUEST,
   DEVICE_LIST_BY_BUILDING_ID_SUCCESS,
@@ -11,6 +12,8 @@ import api from "api";
 function* deviceListByBuildingIdWorker(action) {
   try {
     const res = yield api.post(`device/getDeviceByBuildingId`, action.payload);
+    console.log("TODO: delay for test");
+    yield delay(10);
     yield put({
       type: DEVICE_LIST_BY_BUILDING_ID_SUCCESS,
       payload: res.data.data
@@ -29,6 +32,8 @@ export function* deviceListByBuildingIdWatcher() {
 function* deviceListByPositionIdWorker(action) {
   try {
     const res = yield api.post(`device/getDeviceByPositionId`, action.payload);
+    console.log("TODO: 1000ms delay for test");
+    yield delay(1000);
     yield put({
       type: DEVICE_LIST_BY_POSITION_ID_SUCCESS,
       payload: res.data.data

@@ -1,6 +1,27 @@
 import React, { cloneElement, Component } from "react";
 import { connect } from "react-redux";
 import Modal from "react-modal";
+import ContainerHeader from "components/ContainerHeader/index";
+import CardBox from "components/CardBox/index";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import FolderIcon from "@material-ui/icons/Folder";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Accordion from "components/Accordion/index";
 import {
   buildingListRequest,
   buildingSaveRequest,
@@ -11,14 +32,11 @@ import {
   deviceListByBuildingIdRequest,
   deviceListByPositionIdRequest
 } from "actions/Device";
-import AddBuilding from "app/appcomponents/AddBuilding";
-import UpdateBuilding from "app/appcomponents/UpdateBuilding";
-import AddPosition from "app/appcomponents/AddPosition";
-import UpdatePosition from "app/appcomponents/UpdatePosition";
-import AddDevice from "app/appcomponents/AddDevice";
-import UpdateDevice from "app/appcomponents/UpdateDevice";
-import DeleteConfirmDevice from "app/appcomponents/DeleteConfirmDevice";
-import DeleteNoticeDevice from "app/appcomponents/DeleteNoticeDevice";
+import SaveBuildingPosition from "app/SaveBuildingPosition";
+
+const Hello = ({ name }) => {
+  return <div>Hello {name}</div>;
+};
 
 const customStyles = {
   content: {
@@ -52,6 +70,7 @@ class DevicePage extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log("*** constructor ");
   }
 
   openModal = param => e => {
@@ -64,13 +83,65 @@ class DevicePage extends React.Component {
   };
 
   componentDidMount() {
+    console.log("*** componentDidMount");
     this.props.buildingListRequest({ id: this.props.authUser.BuildingList });
     this.props.positionListRequest({ id: this.props.authUser.PositionList });
   }
 
+  componentWillReceiveProps() {
+    // console.log("componentWillReceiveProps() 호출");
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // if (!this.props.buildingList.length) {
+  //   //   return false;
+  //   // }
+  //   console.log("000000");
+
+  //   // 건물 추가 또는 삭제시 노드데이터 요청
+  //   if (this.props.authUser.BuildingList != nextProps.authUser.BuildingList) {
+  //     console.log("111111");
+  //     this.props.buildingListRequest({
+  //       id: nextProps.authUser.BuildingList
+  //     });
+  //   }
+
+  //   // 층 추가 또는 삭제시 노드데이터 요청
+  //   if (this.props.authUser.PositionList != nextProps.authUser.PositionList) {
+  //     console.log("22222");
+  //     this.props.positionListRequest({
+  //       id: nextProps.authUser.PositionList
+  //     });
+  //   }
+
+  //   buildingPositionList = [...this.props.buildingList];
+  //   buildingPositionList.map(item => {
+  //     const items = nextProps.positionList.filter(
+  //       position => position.BuildingID == item.id
+  //     );
+  //     if (items.length) {
+  //       item.positions = items;
+  //     }
+  //   });
+  //   console.log("buildingPositionList : ", buildingPositionList);
+
+  //   return true;
+  // }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
+    // if (!this.state.selectedNodeId && this.props.buildingList.length > 0) {
+    //   this.nodeClick(this.props.buildingList[0]);
+    // }
+    // console.log("*** componentDidUpdate");
+    // console.log(
+    //   "*** componentDidUpdate buildingList :",
+    //   this.props.authUser.BuildingList,
+    //   prevProps.authUser.BuildingList
+    // );
+
     // 건물 추가 또는 삭제시 노드데이터 요청
     if (this.props.authUser.BuildingList != prevProps.authUser.BuildingList) {
+      // console.log("*** componentDidUpdate buildingListRequest ********");
       this.props.buildingListRequest({
         id: this.props.authUser.BuildingList
       });
@@ -85,6 +156,10 @@ class DevicePage extends React.Component {
   }
 
   nodeClick = item => {
+    // bound arrow function handler
+    // this.setState({ item: item });
+    console.log("nodeClick ", item);
+
     let nodeId = "";
     if (item.BuildingID) {
       // 층
@@ -102,6 +177,8 @@ class DevicePage extends React.Component {
   };
 
   render() {
+    console.log("*** render");
+
     buildingPositionList = [...this.props.buildingList];
     buildingPositionList.map(item => {
       const items = this.props.positionList.filter(
@@ -111,6 +188,14 @@ class DevicePage extends React.Component {
         item.positions = items;
       }
     });
+    console.log(
+      "*** this.props.authUser.BuildingList : ",
+      this.props.authUser.BuildingList
+    );
+    console.log("*** this.props.buildingList : ", this.props.buildingList);
+    console.log("*** buildingPositionList : ", buildingPositionList);
+    console.log("*** buildingPositionList : ", buildingPositionList);
+
     return (
       <div className="app-wrapper">
         <div className="w3-panel w3-white w3-card w3-padding">
@@ -125,38 +210,36 @@ class DevicePage extends React.Component {
             >
               <div>
                 <button
+                  className="w3-small w3-padding-small"
                   style={{ marginLeft: "2px" }}
                   onClick={this.openModal("addBuilding")}
                 >
                   건물등록
                 </button>
                 <button
+                  className="w3-small w3-padding-small"
                   style={{ marginLeft: "2px" }}
                   onClick={this.openModal("addPosition")}
-                  disabled={
-                    this.state.selectedNode.BuildingID ||
-                    !this.state.selectedNode.id
-                  }
                 >
                   층등록
                 </button>
-                {this.state.selectedNode.BuildingID && (
+                {!this.state.selectedNode.BuildingID ? (
                   <button
+                    className="w3-small w3-padding-small"
+                    style={{ marginLeft: "2px" }}
+                    onClick={this.openModal("updateBuilding")}
+                  >
+                    건물수정
+                  </button>
+                ) : (
+                  <button
+                    className="w3-small w3-padding-small"
                     style={{ marginLeft: "2px" }}
                     onClick={this.openModal("updatePosition")}
                   >
-                    수정
+                    층수정
                   </button>
                 )}
-                {this.state.selectedNode.id &&
-                  !this.state.selectedNode.BuildingID && (
-                    <button
-                      style={{ marginLeft: "2px" }}
-                      onClick={this.openModal("updateBuilding")}
-                    >
-                      수정
-                    </button>
-                  )}
               </div>
             </div>
             {buildingPositionList.map(item => (
@@ -172,6 +255,10 @@ class DevicePage extends React.Component {
                   onClick={e => this.nodeClick(item)}
                 >
                   <i className="fa fa-plus-square-o" aria-hidden="true" />
+                  {/* <i
+                    className="fa fa-minus-square-o w3-large"
+                    aria-hidden="true"
+                  /> */}
                   <span>
                     {" "}
                     {item.Name} {item.id}
@@ -184,6 +271,7 @@ class DevicePage extends React.Component {
                       item.positions.map(position => (
                         <li
                           key={position.id}
+                          // className="w3-border-0 w3-padding-left"
                           style={{ cursor: "pointer" }}
                           className={
                             "w3-border-0 w3-padding-left " +
@@ -204,30 +292,34 @@ class DevicePage extends React.Component {
                       ))}
                   </ul>
                 </div>
+
+                {/* {item.positions &&
+                  item.positions.map(position => (
+                    <div key={position.id} className="w3-border">
+                      <ul className="w3-ul">
+                        {item.positions &&
+                          item.positions.map(position => (
+                            <li key={position.id}>
+                              <i
+                                className="fa fa-caret-right w3-large"
+                                aria-hidden="true"
+                              />{" "}
+                              {position.Name}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  ))} */}
               </div>
             ))}
+            {/* {JSON.stringify(this.state.selectedNode)} */}
           </div>
           <div className="col-md-9">
             <div className="animated slideInUpTiny animation-duration-3">
               <div className="text-right w3-margin-bottom">
-                <button
-                  onClick={this.openModal("addDevice")}
-                  style={{ marginLeft: "2px" }}
-                  disabled={!this.state.selectedNode.BuildingID}
-                >
-                  등록
-                </button>
-
-                <button
-                  onClick={this.openModal("updateDevice")}
-                  style={{ marginLeft: "2px" }}
-                >
-                  수정
-                </button>
-                <button
-                  onClick={this.openModal("deleteConfirmDevice")}
-                  style={{ marginLeft: "2px" }}
-                >
+                <button onClick={this.openModal("addDevice")}>등록</button>
+                <button onClick={this.openModal("updateDevice")}>수정</button>
+                <button onClick={this.openModal("deleteConfirmDevice")}>
                   삭제
                 </button>
               </div>
@@ -260,7 +352,6 @@ class DevicePage extends React.Component {
                             className="w3-check"
                             type="checkbox"
                             onChange={() => {}}
-                            checked={false}
                           />
                         </td>
                         <td>{index + 1}</td>
@@ -273,6 +364,9 @@ class DevicePage extends React.Component {
                     ))}
                 </tbody>
               </table>
+
+              {/* {JSON.stringify(this.props.deviceList)} */}
+              <Hello name="FOX" />
             </div>
           </div>
         </div>
@@ -290,45 +384,76 @@ class DevicePage extends React.Component {
           <div className="" style={{ minWidth: "400px" }} />
           {
             {
-              addBuilding: <AddBuilding node={this.state.selectedNode} />,
-              updateBuilding: <UpdateBuilding node={this.state.selectedNode} />,
-              addPosition: <AddPosition node={this.state.selectedNode} />,
-              updatePosition: <UpdatePosition node={this.state.selectedNode} />,
-              addDevice: <AddDevice node={this.state.selectedNode} />,
-              updateDevice: <UpdateDevice node={this.state.selectedNode} />,
-              deleteConfirmDevice1: (
-                <DeleteConfirmDevice node={this.state.selectedNode} />
+              addBuilding: (
+                <SaveBuildingPosition
+                  node={this.state.selectedNode}
+                  isAdd={true}
+                />
               ),
+              addPosition: (
+                <form className="w3-text-blue w3-margin">
+                  <h2 className="w3-center">층등록</h2>
+                  <div className="w3-row w3-section">
+                    <div
+                      className="w3-col w3-padding-right"
+                      style={{ width: "80px" }}
+                    >
+                      건물명
+                    </div>
+                    <div className="w3-rest">
+                      <input
+                        className="w3-input w3-border"
+                        name="first"
+                        type="text"
+                        placeholder=""
+                      />
+                    </div>
+                  </div>
+
+                  <div className="w3-row w3-section">
+                    <div
+                      className="w3-col w3-padding-right"
+                      style={{ width: "80px" }}
+                    >
+                      층
+                    </div>
+                    <div className="w3-rest">
+                      <input
+                        className="w3-input w3-border"
+                        name="first"
+                        type="text"
+                        placeholder=""
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="w3-button w3-right w3-blue w3-padding"
+                    onClick={e => this.addBuilding()}
+                  >
+                    OK
+                  </button>
+                </form>
+              ),
+              updateBuilding: (
+                <SaveBuildingPosition
+                  node={this.state.selectedNode}
+                  mode="update"
+                />
+              ),
+              updatePosition: <div>updatePosition</div>,
+              addDevice: <div>addDevice</div>,
+              updateDevice: <div>updateDevice</div>,
               deleteConfirmDevice: (
                 <div>
-                  선택항목을 삭제하시겠습니까?
-                  <br />
-                  <div className="w3-right">
-                    <button
-                      type="button"
-                      className="w3-button w3-blue w3-padding"
-                      onClick={this.openModal("deleteNoticeDevice")}
-                    >
-                      OK
-                    </button>
-                  </div>
+                  deleteConfirmDevice
+                  <button onClick={this.openModal("deleteNoticeDevice")}>
+                    삭제
+                  </button>
                 </div>
               ),
-              deleteNoticeDevice: (
-                <div>
-                  선택항목이 삭제되었습니다.
-                  <br />
-                  <div className="w3-right">
-                    <button
-                      type="button"
-                      className="w3-button w3-blue w3-padding"
-                      onClick={this.closeModal}
-                    >
-                      OK
-                    </button>
-                  </div>
-                </div>
-              )
+              deleteNoticeDevice: <div>deleteNoticeDevice</div>
             }[this.state.modalMode]
           }
 

@@ -13,13 +13,12 @@ import {
 
 const INIT_STATE = {
   loader: false,
-  alertMessage: '',
+  alertMessage: "",
   showMessage: false,
-  initURL: '',
-  authUser: localStorage.getItem('user_id'),
-  pkey:''
+  initURL: "",
+  authUser: localStorage.getItem("user_id"),
+  pkey: ""
 };
-
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
@@ -28,41 +27,42 @@ export default (state = INIT_STATE, action) => {
         ...state,
         loader: false,
         authUser: action.payload
-      }
+      };
     }
     case SIGNIN_USER_SUCCESS: {
-      return { 
+      console.log("SIGNIN_USER_SUCCESS ****** ");
+      return {
         ...state,
         loader: false,
         authUser: action.payload
-      }
+      };
     }
     case INIT_URL: {
       return {
         ...state,
         initURL: action.payload
-      }
+      };
     }
     case INIT_USER: {
       return {
         ...state,
         authUser: action.payload
-      }
+      };
     }
     case SIGNOUT_USER_SUCCESS: {
       return {
         ...state,
         authUser: null,
-        initURL: '/app/monitoring',
+        initURL: "/app/monitoring",
         loader: false,
-        pkey: ''
-      }
+        pkey: ""
+      };
     }
     case PUBLICKEY_REQUEST_SUCCESS: {
       return {
         ...state,
         pkey: action.payload
-      }
+      };
     }
     case SHOW_MESSAGE: {
       return {
@@ -70,29 +70,29 @@ export default (state = INIT_STATE, action) => {
         alertMessage: action.payload,
         showMessage: true,
         loader: false
-      }
+      };
     }
     case HIDE_MESSAGE: {
       return {
         ...state,
-        alertMessage: '',
+        alertMessage: "",
         showMessage: false,
         loader: false
-      }
+      };
     }
     case ON_SHOW_LOADER: {
       return {
         ...state,
         loader: true
-      }
+      };
     }
     case ON_HIDE_LOADER: {
       return {
         ...state,
         loader: false
-      }
+      };
     }
     default:
       return state;
   }
-}
+};
