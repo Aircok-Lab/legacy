@@ -1,233 +1,660 @@
-import React, {cloneElement, Component} from 'react';
-import ContainerHeader from 'components/ContainerHeader/index';
-import CardBox from 'components/CardBox/index';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import FolderIcon from '@material-ui/icons/Folder';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import React, { cloneElement, Component } from "react";
+import { connect } from "react-redux";
+import Modal from "react-modal";
+import ContainerHeader from "components/ContainerHeader/index";
+import CardBox from "components/CardBox/index";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import FolderIcon from "@material-ui/icons/Folder";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Accordion from "components/Accordion/index";
+import { buildingListRequest } from "actions/Building";
+import { positionListRequest } from "actions/Position";
+import {
+  deviceListByBuildingIdRequest,
+  deviceListByPositionIdRequest
+} from "actions/Device";
 
-const data = [
-    [1, '', '', '', '', ''],
-    [2, '', '', '', '', ''],
-    [3, '', '', '', '', ''],
-    [4, '', '', '', '', ''],
-    [5, '', '', '', '', '']
-];
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: "9999"
+  },
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    zIndex: "9999"
+  }
+};
+
+Modal.setAppElement("#body");
 
 class DevicePage extends React.Component {
-    state = {
-        open: false,
-    };
+  state = {
+    showModal: false,
+    modalMode: "",
+    selectedNode: ""
+    // selectedNode: "31-25"
+  };
 
-    handleClickOpen = () => {
-        this.setState({open: true});
-    };
+  constructor(props) {
+    super(props);
+    this.nodeClick = this.nodeClick.bind(this);
+  }
 
-    handleRequestClose = () => {
-        this.setState({open: false});
-    };
+  openModal = param => e => {
+    let modalMode = param;
+    this.setState({ showModal: true, modalMode });
+  };
 
-    render() {
-        return (
-            <div className="app-wrapper">
-                <ContainerHeader match={this.props.match} title='측정기 관리'/>
-                
-                <div className="row">
-                    <div className="col-md-3">
-                    
-                        <List dense={false}>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <FolderIcon/>
-                                </ListItemIcon>
-                                <ListItemText>대전오류사옥</ListItemText>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <FolderIcon/>
-                                </ListItemIcon>
-                                <ListItemText>광천사옥</ListItemText>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <FolderIcon/>
-                                </ListItemIcon>
-                                <ListItemText>강서사옥</ListItemText>
-                            </ListItem>
-                        </List>
+  closeModal = () => {
+    this.setState({ showModal: false });
+  };
 
-                        <div style={{marginTop: '500px'}}>
-                            <Button variant="raised" color="primary" className="jr-btn text-white" onClick={this.handleClickOpen}>건물 등록</Button>
-                            <Button variant="raised" color="primary" className="jr-btn text-white">층 등록</Button>
-                            <Button variant="raised" className="jr-btn bg-info text-white">수정</Button>
-                        </div>
+  componentDidMount() {
+    // console.log("componentDidMount() 호출");
+    this.props.buildingListRequest({ id: this.props.authUser.BuildingList });
+    this.props.positionListRequest({ id: this.props.authUser.PositionList });
+    // this.props.deviceListByBuildingIdRequest({ id: 1 });
+  }
 
-                    </div>
-                    <div className="col-md-9">
-                    
-                        <div className="animated slideInUpTiny animation-duration-3">
-                            <div className="row mb-md-4">
-                                <CardBox styleName="col-12" cardStyle="p-0" heading="" headerOutside>
+  componentWillReceiveProps() {
+    // console.log("componentWillReceiveProps() 호출");
+  }
 
-                                    <div className="row">
-                                        <div className="col-md-4 offset-md-4">
-                                            <h2 className="text-center">측정기 목록</h2>
-                                        </div>
-                                        <div className="col-md-4 text-right">
-                                            <Button variant="raised" color="primary" className="jr-btn text-white">등록</Button>
-                                            <Button variant="raised" className="jr-btn bg-info text-white">수정</Button>
-                                            <Button variant="raised" className="jr-btn bg-danger text-white">삭제</Button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="table-responsive-material">
-                                        <Table>
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell style={{paddingRight: '24px', width: '30px'}}>
-                                                        <Checkbox color="primary"
-                                                            checked=""
-                                                            // onChange=""
-                                                            value=""
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell>번호</TableCell>
-                                                    <TableCell>측정기명</TableCell>
-                                                    <TableCell>측정주기</TableCell>
-                                                    <TableCell>S/N</TableCell>
-                                                    <TableCell>제품군</TableCell>
-                                                    <TableCell>Phone번호</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {data.map(n => {
-                                                    return (
-                                                        <TableRow key={n[0]}>
-                                                            <TableCell style={{paddingRight: '24px', width: '30px'}}>
-                                                                <Checkbox color="primary"
-                                                                    checked=""
-                                                                    // onChange=""
-                                                                    value=""
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell>{n[0]}</TableCell>
-                                                            <TableCell>{n[1]}</TableCell>
-                                                            <TableCell>{n[2]}</TableCell>
-                                                            <TableCell>{n[3]}</TableCell>
-                                                            <TableCell>{n[4]}</TableCell>
-                                                            <TableCell>{n[5]}</TableCell>
-                                                        </TableRow>
-                                                    );
-                                                })}
-                                            </TableBody>
-                                        </Table>
-                                    </div>
+  shouldComponentUpdate(nextProps, nextState) {
+    // console.log("shouldComponentUpdate() 호출");
+    // console.log("this.props, nextProps", this.props, nextProps);
+    // console.log("this.state, nextState", this.state, nextState);
+    return true;
+  }
 
-                                </CardBox>
-                            </div>
-                        </div>
+  nodeClick = item => {
+    // bound arrow function handler
+    // this.setState({ item: item });
+    console.log("nodeClick ", item);
 
-                    </div>
+    let nodeId = "";
+    if (item.BuildingID) {
+      // 층의 경우
+      nodeId = "" + item.BuildingID + "-" + item.id;
+      this.props.deviceListByPositionIdRequest({ id: "" + item.id });
+    } else {
+      // 건물의 경우
+      nodeId = "" + item.id;
+      this.props.deviceListByBuildingIdRequest({ id: item.id });
+    }
+    this.setState({
+      selectedNode: nodeId
+    });
+  };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // console.log("componentDidUpdate() 호출", prevProps, prevState, snapshot);
+    // console.log(
+    //   "this.props.buildingList .... ",
+    //   this.state.selectedNode,
+    //   prevProps.buildingList,
+    //   this.props.buildingList
+    // );
+
+    // if (
+    //   prevProps.buildingList.length == 0 &&
+    //   this.props.buildingList.length > 0
+    // ) {
+    //   this.setState({
+    //     selectedNode: "" + this.props.buildingList[0].id
+    //   });
+    // }
+
+    if (!this.state.selectedNode && this.props.buildingList.length > 0) {
+      // this.setState({
+      //   selectedNode: "" + this.props.buildingList[0].id
+      // });
+      // console.log(
+      //   "this.state.selectedNode.... call nodeChage >>>> ",
+      //   this.state.selectedNode,
+      //   this.props.buildingList[0].id
+      // );
+      // this.nodeClick("" + this.props.buildingList[0].id, null);
+      // this.nodeClick(1, null);
+      // this.testChange(55, 77);
+      this.nodeClick(this.props.buildingList[0]);
+    }
+  }
+
+  render() {
+    let buildingPositionList = [...this.props.buildingList];
+    buildingPositionList.map(item => {
+      const items = this.props.positionList.filter(
+        position => position.BuildingID == item.id
+      );
+      if (items.length) {
+        item.positions = items;
+      }
+    });
+    // console.log("buildingPositionList : ", buildingPositionList);
+    if (!buildingPositionList) return null;
+
+    return (
+      <div className="app-wrapper">
+        <div className="w3-panel w3-white w3-card w3-padding">
+          <h2>측정기 관리</h2>
+        </div>
+
+        <div className="row">
+          <div className="col-md-3">
+            <div
+              className="w3-margin-bottom"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              <div>
+                <button
+                  className="w3-small w3-padding-small"
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("addBuilding")}
+                >
+                  건물등록
+                </button>
+                <button
+                  className="w3-small w3-padding-small"
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("addPosition")}
+                >
+                  층등록
+                </button>
+                <button
+                  className="w3-small w3-padding-small"
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("updateBuilding")}
+                >
+                  건물수정
+                </button>
+                <button
+                  className="w3-small w3-padding-small"
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("updatePosition")}
+                >
+                  층수정
+                </button>
+              </div>
+            </div>
+
+            {buildingPositionList.map(item => (
+              <div key={item.id}>
+                <div
+                  style={{ cursor: "pointer" }}
+                  className={
+                    "w3-block w3-padding w3-border " +
+                    (this.state.selectedNode === "" + item.id ? "w3-blue" : "")
+                  }
+                  // onClick={this.nodeClick(item.id, null)}
+                  // onClick={this.nodeClick}
+                  onClick={e => this.nodeClick(item)}
+                >
+                  <i className="fa fa-plus-square-o" aria-hidden="true" />
+                  {/* <i
+                    className="fa fa-minus-square-o w3-large"
+                    aria-hidden="true"
+                  /> */}
+                  <span>
+                    {" "}
+                    {item.Name} {item.id}{" "}
+                  </span>
                 </div>
 
-                <Dialog open={this.state.open} onClose={this.handleRequestClose}>
-                    <DialogTitle>건물 등록</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            
-                        </DialogContentText>
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-md-3" style={{lineHeight: '40px'}}>
-                                    <label>건물명</label>
-                                </div>
-                                <div className="col-md-9">
-                                    <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label=""
-                                    type="email"
-                                    fullWidth
-                                    />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-3" style={{lineHeight: '40px'}}>
-                                    <label>주소</label>
-                                </div>
-                                <div className="col-md-9">
-                                    <div className="row">
-                                        <div className="col-md-8">
-                                            <TextField
-                                            autoFocus
-                                            margin="dense"
-                                            id="name"
-                                            label=""
-                                            type="email"
-                                            fullWidth
-                                            />
-                                        </div>
-                                        <div className="col-md-4" style={{lineHeight: '40px'}}>
-                                            <Button variant="raised" className="jr-btn jr-btn-xs bg-white text-black">좌표검색</Button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-3" style={{lineHeight: '40px'}}>
-                                    <label>위도</label>
-                                </div>
-                                <div className="col-md-9">
-                                    <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label=""
-                                    type="email"
-                                    fullWidth
-                                    />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-3" style={{lineHeight: '40px'}}>
-                                    <label>경도</label>
-                                </div>
-                                <div className="col-md-9">
-                                    <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label=""
-                                    type="email"
-                                    fullWidth
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button variant="raised" color="primary" className="jr-btn text-white">OK</Button>
-                    </DialogActions>
-                </Dialog>
+                <div className="">
+                  <ul className="w3-ul">
+                    {item.positions &&
+                      item.positions.map(position => (
+                        <li
+                          key={position.id}
+                          // className="w3-border-0 w3-padding-left"
+                          style={{ cursor: "pointer" }}
+                          className={
+                            "w3-border-0 w3-padding-left " +
+                            (this.state.selectedNode ===
+                            "" + position.BuildingID + "-" + position.id
+                              ? "w3-blue"
+                              : "")
+                          }
+                          // onClick={this.nodeClick(
+                          //   position.BuildingID,
+                          //   position.id
+                          // )}
+                          onClick={this.nodeClick}
+                          onClick={e => this.nodeClick(position)}
+                        >
+                          <i
+                            className="fa fa-caret-right w3-large"
+                            aria-hidden="true"
+                          />{" "}
+                          {position.Name} {position.id} |{" "}
+                          {"" + position.BuildingID + "-" + position.id}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
 
+                {/* {item.positions &&
+                  item.positions.map(position => (
+                    <div key={position.id} className="w3-border">
+                      <ul className="w3-ul">
+                        {item.positions &&
+                          item.positions.map(position => (
+                            <li key={position.id}>
+                              <i
+                                className="fa fa-caret-right w3-large"
+                                aria-hidden="true"
+                              />{" "}
+                              {position.Name}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  ))} */}
+              </div>
+            ))}
+            {/* 
+            <div>
+              <p>
+                <button onClick={() => this.setState({ selectedIndex: 0 })}>
+                  Open #0
+                </button>
+                <button onClick={() => this.setState({ selectedIndex: 1 })}>
+                  Open #1
+                </button>
+                <button onClick={() => this.setState({ selectedIndex: 2 })}>
+                  Open #2
+                </button>
+                <button onClick={() => this.setState({ selectedIndex: -1 })}>
+                  Close
+                </button>
+              </p>
+
+              <Accordion
+                className="accordion"
+                selectedIndex={this.state.selectedIndex}
+                onChange={(index, expanded, selectedIndex) => {}}
+              >
+                <div data-header="Super simple" className="accordion-item">
+                  <p>One</p>
+                </div>
+                <div data-header="Fully responsive" className="accordion-item">
+                  <p>two</p>
+                </div>
+                <div data-header="accordion" className="accordion-item">
+                  <p>three</p>
+                </div>
+              </Accordion>
             </div>
-        );
-    }
-}
+            <List dense={false}>
+              <ListItem button>
+                <ListItemIcon>
+                  <FolderIcon />
+                </ListItemIcon>
+                <ListItemText>대전오류사옥</ListItemText>
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <FolderIcon />
+                </ListItemIcon>
+                <ListItemText>광천사옥</ListItemText>
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <FolderIcon />
+                </ListItemIcon>
+                <ListItemText>강서사옥</ListItemText>
+              </ListItem>
+            </List>
+            <div style={{ marginTop: "0px" }}>
+              <Button
+                variant="raised"
+                color="primary"
+                className="jr-btn text-white"
+                onClick={this.handleClickOpen}
+              >
+                건물 등록
+              </Button>
+              <Button
+                variant="raised"
+                color="primary"
+                className="jr-btn text-white"
+              >
+                층 등록
+              </Button>
+              <Button variant="raised" className="jr-btn bg-info text-white">
+                수정
+              </Button>
+            </div> */}
+          </div>
+          <div className="col-md-9">
+            <div className="animated slideInUpTiny animation-duration-3">
+              <div className="text-right w3-margin-bottom">
+                <button onClick={this.openModal("addDevice")}>등록</button>
+                <button onClick={this.openModal("updateDevice")}>수정</button>
+                <button onClick={this.openModal("deleteConfirmDevice")}>
+                  삭제
+                </button>
+              </div>
 
-export default DevicePage;
+              <table className="w3-table-all w3-centered">
+                <thead>
+                  <tr>
+                    <th style={{ paddingRight: "24px", width: "30px" }}>
+                      <input
+                        className="w3-check"
+                        type="checkbox"
+                        checked="checked"
+                        onChange={() => {}}
+                      />
+                    </th>
+                    <th>번호</th>
+                    <th>측정기명</th>
+                    <th>측정주기</th>
+                    <th>S/N</th>
+                    <th>제품군</th>
+                    <th>Phone번호</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.props.deviceList &&
+                    this.props.deviceList.map((row, index) => (
+                      <tr key={row.SerialNumber}>
+                        <td>
+                          <input
+                            className="w3-check"
+                            type="checkbox"
+                            onChange={() => {}}
+                          />
+                        </td>
+                        <td>{index + 1}</td>
+                        <td>{row.Name}</td>
+                        <td>{row.Interbal}</td>
+                        <td>{row.SerialNumber}</td>
+                        <td>{row.Product}</td>
+                        <td>{row.Phone}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+
+              {/* {JSON.stringify(this.props.deviceList)} */}
+            </div>
+          </div>
+        </div>
+
+        <Modal
+          isOpen={this.state.showModal}
+          // onRequestClose={this.closeModal}
+          contentLabel="측정기 관리 Modal"
+          style={customStyles}
+          // className="w3-display-container"
+        >
+          <button className="w3-display-topright" onClick={this.closeModal}>
+            X
+          </button>
+
+          {
+            {
+              addBuilding: (
+                <div className="">
+                  addBuilding
+                  <form className="w3-text-blue w3-margin">
+                    <h2 className="w3-center">건물등록</h2>
+
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        NAME
+                      </div>
+                      <div className="w3-rest">
+                        <input type="text" />
+                        <input
+                          className="w3-input w3-border"
+                          name="first"
+                          type="text"
+                          placeholder="First Name"
+                        />
+                      </div>
+                    </div>
+                    {/* 
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        <i className="w3-xxlarge fa fa-user" />
+                      </div>
+                      <div className="w3-rest">
+                        <input
+                          className="w3-input w3-border"
+                          name="last"
+                          type="text"
+                          placeholder="Last Name"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        <i className="w3-xxlarge fa fa-envelope-o" />
+                      </div>
+                      <div className="w3-rest">
+                        <input
+                          className="w3-input w3-border"
+                          name="email"
+                          type="text"
+                          placeholder="Email"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        <i className="w3-xxlarge fa fa-phone" />
+                      </div>
+                      <div className="w3-rest">
+                        <input
+                          className="w3-input w3-border"
+                          name="phone"
+                          type="text"
+                          placeholder="Phone"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w3-row w3-section">
+                      <div className="w3-col" style={{ width: "50px" }}>
+                        <i className="w3-xxlarge fa fa-pencil" />
+                      </div>
+                      <div className="w3-rest">
+                        <input
+                          className="w3-input w3-border"
+                          name="message"
+                          type="text"
+                          placeholder="Message"
+                        />
+                      </div>
+                    </div> */}
+
+                    <button className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">
+                      Send
+                    </button>
+                  </form>
+                  {/* <form className="w3-container">
+                    <p>
+                      <label>First Name</label>
+                      <input className="w3-input w3-border" type="text" />
+                    </p>
+                    <p>
+                      <label>Last Name</label>
+                      <input className="w3-input" type="text" />
+                    </p>
+                    <p>
+                      <label>Email</label>
+                      <input className="w3-input" type="text" />
+                    </p>
+                  </form> */}
+                  {/* <DialogTitle>건물 등록</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText />
+                    <div className="container">
+                      <div className="row">
+                        <div
+                          className="col-md-3"
+                          style={{ lineHeight: "40px" }}
+                        >
+                          <label>건물명</label>
+                        </div>
+                        <div className="col-md-9">
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label=""
+                            type="email"
+                            fullWidth
+                          />
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div
+                          className="col-md-3"
+                          style={{ lineHeight: "40px" }}
+                        >
+                          <label>주소</label>
+                        </div>
+                        <div className="col-md-9">
+                          <div className="row">
+                            <div className="col-md-8">
+                              <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label=""
+                                type="email"
+                                fullWidth
+                              />
+                            </div>
+                            <div
+                              className="col-md-4"
+                              style={{ lineHeight: "40px" }}
+                            >
+                              <Button
+                                variant="raised"
+                                className="jr-btn jr-btn-xs bg-white text-black"
+                              >
+                                좌표검색
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div
+                          className="col-md-3"
+                          style={{ lineHeight: "40px" }}
+                        >
+                          <label>위도</label>
+                        </div>
+                        <div className="col-md-9">
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label=""
+                            type="email"
+                            fullWidth
+                          />
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div
+                          className="col-md-3"
+                          style={{ lineHeight: "40px" }}
+                        >
+                          <label>경도</label>
+                        </div>
+                        <div className="col-md-9">
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label=""
+                            type="email"
+                            fullWidth
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      variant="raised"
+                      color="primary"
+                      className="jr-btn text-white"
+                    >
+                      OK
+                    </Button>
+                  </DialogActions> */}
+                </div>
+              ),
+              addPosition: <div>addPosition</div>,
+              updateBuilding: <div>updateBuilding</div>,
+              updatePosition: <div>updatePosition</div>,
+              addDevice: <div>addDevice</div>,
+              updateDevice: <div>updateDevice</div>,
+              deleteConfirmDevice: (
+                <div>
+                  deleteConfirmDevice
+                  <button onClick={this.openModal("deleteNoticeDevice")}>
+                    삭제
+                  </button>
+                </div>
+              ),
+              deleteNoticeDevice: <div>deleteNoticeDevice</div>
+            }[this.state.modalMode]
+          }
+
+          {/*
+           */}
+        </Modal>
+      </div>
+    );
+  }
+}
+const mapStateToProps = state => ({
+  authUser: state.auth.authUser,
+  buildingList: state.building.list,
+  positionList: state.position.list,
+  deviceList: state.device.list
+});
+
+const mapDispatchToProps = {
+  buildingListRequest: buildingListRequest,
+  positionListRequest: positionListRequest,
+  deviceListByBuildingIdRequest: deviceListByBuildingIdRequest,
+  deviceListByPositionIdRequest: deviceListByPositionIdRequest
+  //deviceListByBuildingIdRequest, deviceListByPositionIdRequest
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DevicePage);
