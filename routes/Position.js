@@ -4,6 +4,7 @@ var router = express.Router();
 var Position = require("../models/Position");
 var User = require("../models/User");
 var Device = require("../models/Device");
+var userPattern = require("../utils/UserPattern");
 
 /* INSERT user */
 router.post("/addPosition", function(req, res, next) {
@@ -42,11 +43,6 @@ router.post("/addPosition", function(req, res, next) {
     //결과 객체 있으면 성공 응답 전송
     if (addedPosition) {
       console.dir(addedPosition);
-      console.log("추가된 레코드의 아이디 : " + addedPosition.insertId);
-      result.statusCode = OK;
-      result.message = "성공";
-      result.data = addedPosition.insertId;
-      res.send(result);
 
       User.getUserInfo(paramUserID, function(err, userInfo) {
         if (err) {
@@ -58,6 +54,12 @@ router.post("/addPosition", function(req, res, next) {
           userInfo.PositionList =
             userInfo.PositionList + addedPosition.insertId + ",/";
           User.updateUserPositionList(userInfo.UserID, userInfo.PositionList);
+          let userData = userPattern.deletePattern(userInfo);
+          console.log("추가된 레코드의 아이디 : " + addedPosition.insertId);
+          result.statusCode = OK;
+          result.message = "성공";
+          result.data = userData;
+          res.send(result);
         }
       });
     } else {
@@ -216,9 +218,10 @@ router.delete("/deletePosition", function(req, res, next) {
   console.log("/deletePosition 호출됨.");
 
   var paramPositionID = req.body.id || req.query.id;
+  var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
 
-  console.log("요청 파라미터 : " + paramPositionID);
+  console.log("요청 파라미터 : " + paramPositionID + paramUserID);
 
   Device.getDeviceCountByPositionId(paramPositionID, function(
     err,
@@ -242,9 +245,6 @@ router.delete("/deletePosition", function(req, res, next) {
         //결과 객체 있으면 성공 응답 전송
         if (success) {
           console.dir(success);
-          result.statusCode = OK;
-          result.message = "성공";
-          res.send(result);
 
           User.getUserByPositionId(paramPositionID, function(err, users) {
             if (users) {
@@ -254,6 +254,14 @@ router.delete("/deletePosition", function(req, res, next) {
                 let positionList = user.PositionList.replace(delStr, inStr);
 
                 User.updateUserPositionList(user.UserID, positionList);
+                if (user.UserID == paramUserID) {
+                  user.PositionList = positionList;
+                  let userData = userPattern.deletePattern(user);
+                  result.statusCode = OK;
+                  result.message = "성공";
+                  result.data = [userData];
+                  res.send(result);
+                }
               });
             }
           });

@@ -4,6 +4,7 @@ var router = express.Router();
 var Building = require("../models/Building");
 var User = require("../models/User");
 var Position = require("../models/Position");
+var userPattern = require("../utils/UserPattern");
 
 /* INSERT user */
 router.post("/addBuilding", function(req, res, next) {
@@ -47,11 +48,6 @@ router.post("/addBuilding", function(req, res, next) {
       //결과 객체 있으면 성공 응답 전송
       if (addedBuilding) {
         console.dir(addedBuilding);
-        console.log("추가된 레코드의 아이디 : " + addedBuilding.insertId);
-        result.statusCode = OK;
-        result.message = "성공";
-        result.data = addedBuilding.insertId;
-        res.send(result);
 
         User.getUserInfo(paramUserID, function(err, userInfo) {
           if (err) {
@@ -63,6 +59,12 @@ router.post("/addBuilding", function(req, res, next) {
             userInfo.BuildingList =
               userInfo.BuildingList + addedBuilding.insertId + ",/";
             User.updateUserBuildingList(userInfo.UserID, userInfo.BuildingList);
+            let userData = userPattern.deletePattern(userInfo);
+            console.log("추가된 레코드의 아이디 : " + addedBuilding.insertId);
+            result.statusCode = OK;
+            result.message = "성공";
+            result.data = userData;
+            res.send(result);
           }
         });
       } else {
@@ -195,9 +197,10 @@ router.delete("/deleteBuilding", function(req, res, next) {
   console.log("/deleteBuilding 호출됨.");
 
   var paramBuildingID = req.body.id || req.query.id;
+  var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
 
-  console.log("요청 파라미터 : " + paramBuildingID);
+  console.log("요청 파라미터 : " + paramBuildingID + paramUserID);
   Position.getPositionCountByBuildingId(paramBuildingID, function(
     err,
     positionCount
@@ -220,9 +223,6 @@ router.delete("/deleteBuilding", function(req, res, next) {
         //결과 객체 있으면 성공 응답 전송
         if (success) {
           console.dir(success);
-          result.statusCode = OK;
-          result.message = "성공";
-          res.send(result);
 
           User.getUserByBuildingId(paramBuildingID, function(err, users) {
             if (users) {
@@ -232,6 +232,14 @@ router.delete("/deleteBuilding", function(req, res, next) {
                 let buildingList = user.BuildingList.replace(delStr, inStr);
 
                 User.updateUserBuildingList(user.UserID, buildingList);
+                if (user.UserID == paramUserID) {
+                  user.BuildingList = buildingList;
+                  let userData = userPattern.deletePattern(user);
+                  result.statusCode = OK;
+                  result.message = "성공";
+                  result.data = [userData];
+                  res.send(result);
+                }
               });
             }
           });
