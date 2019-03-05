@@ -61,6 +61,8 @@ function addProducts(quantity) {
 }
 
 addProducts(50);
+var data = [];
+var i = 0;
 
 function headerColumnClassNameFormat(row) {
   return row === 0 ? "table-header-row0-class" : "table-header-row1-class";
@@ -69,6 +71,52 @@ function headerColumnClassNameFormat(row) {
 class SamplePage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      contactData: [
+        { name: "Abet", phone: "010-0000-0001" },
+        { name: "Betty", phone: "010-0000-0002" },
+        { name: "Charlie", phone: "010-0000-0003" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" },
+        { name: "David", phone: "010-0000-0004" }
+      ]
+    };
     this.pageScroll = this.pageScroll.bind(this);
   }
 
@@ -205,88 +253,92 @@ class SamplePage extends React.Component {
             </tr>
           </thead>
           <tbody id="contain" ref="contain">
-            <tr>
-              <td style={{ width: "170px" }}>에코나래</td>
-              <td style={{ width: "170px" }}>테스트용</td>
-              <td style={{ width: "120px" }}>
-                <span className="text-sensitive1">약간나쁨</span>
-              </td>
-              <td style={{ width: "60px" }}>26</td>
-              <td style={{ width: "60px" }}>
-                <span
-                  className="text-sensitive1"
-                  style={{ fontWweight: "bold", fontSize: "18px" }}
-                >
-                  26.9
-                </span>
-              </td>
-              <td style={{ width: "60px" }} />
-              <td style={{ width: "60px" }}>40</td>
-              <td style={{ width: "60px" }}>
-                <span
-                  className="text-good"
-                  style={{ fontWweight: "bold", fontSize: "18px" }}
-                >
-                  33.2
-                </span>
-              </td>
-              <td style={{ width: "60px" }} />
-              <td style={{ width: "60px" }}>150</td>
-              <td style={{ width: "60px" }}>
-                <span
-                  className="text-good"
-                  style={{ fontWweight: "bold", fontSize: "18px" }}
-                >
-                  9
-                </span>
-              </td>
-              <td style={{ width: "60px" }} />
-              <td style={{ width: "60px" }}>70</td>
-              <td style={{ width: "60px" }}>
-                <span
-                  className="text-good"
-                  style={{ fontWweight: "bold", fontSize: "18px" }}
-                >
-                  7
-                </span>
-              </td>
-              <td style={{ width: "60px" }} />
-              <td style={{ width: "60px" }}>1000</td>
-              <td style={{ width: "60px" }}>
-                <span
-                  className="text-bad"
-                  style={{ fontWweight: "bold", fontSize: "18px" }}
-                >
-                  1523
-                </span>
-              </td>
-              <td style={{ width: "60px" }}>
-                <div
-                  className="bg-red rounded-circle mt-1 ml-2 mx-auto"
-                  style={{ width: "12px", height: "12px" }}
-                />
-              </td>
-              <td style={{ width: "60px" }}>100</td>
-              <td style={{ width: "60px" }}>
-                <span
-                  className="text-good"
-                  style={{ fontWweight: "bold", fontSize: "18px" }}
-                >
-                  0
-                </span>
-              </td>
-              <td style={{ width: "60px" }} />
-              <td style={{ width: "60px" }}>500</td>
-              <td style={{ width: "60px" }}>
-                <span
-                  className="text-normal"
-                  style={{ fontWweight: "bold", fontSize: "18px" }}
-                >
-                  284
-                </span>
-              </td>
-              <td style={{ width: "60px" }} />
-            </tr>
+            {this.state.contactData.map((contact, i) => {
+              return (
+                <tr key={i}>
+                  <td style={{ width: "170px" }}>에코나래</td>
+                  <td style={{ width: "170px" }}>테스트용</td>
+                  <td style={{ width: "120px" }}>
+                    <span className="text-sensitive1">약간나쁨</span>
+                  </td>
+                  <td style={{ width: "60px" }}>26</td>
+                  <td style={{ width: "60px" }}>
+                    <span
+                      className="text-sensitive1"
+                      style={{ fontWweight: "bold", fontSize: "18px" }}
+                    >
+                      26.9
+                    </span>
+                  </td>
+                  <td style={{ width: "60px" }} />
+                  <td style={{ width: "60px" }}>40</td>
+                  <td style={{ width: "60px" }}>
+                    <span
+                      className="text-good"
+                      style={{ fontWweight: "bold", fontSize: "18px" }}
+                    >
+                      33.2
+                    </span>
+                  </td>
+                  <td style={{ width: "60px" }} />
+                  <td style={{ width: "60px" }}>150</td>
+                  <td style={{ width: "60px" }}>
+                    <span
+                      className="text-good"
+                      style={{ fontWweight: "bold", fontSize: "18px" }}
+                    >
+                      9
+                    </span>
+                  </td>
+                  <td style={{ width: "60px" }} />
+                  <td style={{ width: "60px" }}>70</td>
+                  <td style={{ width: "60px" }}>
+                    <span
+                      className="text-good"
+                      style={{ fontWweight: "bold", fontSize: "18px" }}
+                    >
+                      7
+                    </span>
+                  </td>
+                  <td style={{ width: "60px" }} />
+                  <td style={{ width: "60px" }}>1000</td>
+                  <td style={{ width: "60px" }}>
+                    <span
+                      className="text-bad"
+                      style={{ fontWweight: "bold", fontSize: "18px" }}
+                    >
+                      1523
+                    </span>
+                  </td>
+                  <td style={{ width: "60px" }}>
+                    <div
+                      className="bg-red rounded-circle mt-1 ml-2 mx-auto"
+                      style={{ width: "12px", height: "12px" }}
+                    />
+                  </td>
+                  <td style={{ width: "60px" }}>100</td>
+                  <td style={{ width: "60px" }}>
+                    <span
+                      className="text-good"
+                      style={{ fontWweight: "bold", fontSize: "18px" }}
+                    >
+                      0
+                    </span>
+                  </td>
+                  <td style={{ width: "60px" }} />
+                  <td style={{ width: "60px" }}>500</td>
+                  <td style={{ width: "60px" }}>
+                    <span
+                      className="text-normal"
+                      style={{ fontWweight: "bold", fontSize: "18px" }}
+                    >
+                      284
+                    </span>
+                  </td>
+                  <td style={{ width: "60px" }} />
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
