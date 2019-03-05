@@ -1,10 +1,7 @@
-import {
-    OK,
-    FAIL
-} from "../public/javascripts/defined";
-var express = require('express');
+import { OK, FAIL } from "../public/javascripts/defined";
+var express = require("express");
 var router = express.Router();
-var RecentData=require('../models/RecentData');
+var RecentData = require("../models/RecentData");
 
 /* INSERT user */
 // router.post('/addRecentData', function(req, res, next) {
@@ -53,36 +50,68 @@ var RecentData=require('../models/RecentData');
 // });
 
 /* RecentData information of RecentDataId*/
-router.post('/getRecentDataById', function(req, res, next) {
-    console.log('/getRecentDataById 호출됨.');
+router.post("/getRecentDataById", function(req, res, next) {
+  console.log("/getRecentDataById 호출됨.");
 
-    var paramRecentDataID = req.body.id || req.query.id;
-    var result = {statusCode : null, message : null, data : null};
+  var paramRecentDataID = req.body.id || req.query.id;
+  var result = { statusCode: null, message: null, data: null };
 
-    console.log('요청 파라미터 : ' + paramRecentDataID);
+  console.log("요청 파라미터 : " + paramRecentDataID);
 
-    RecentData.getRecentDataById(paramRecentDataID, function(err, datas){
-        if(err){
-            console.error('오류 발생 :' + err.stack);
-            result.statusCode = FAIL;
-            result.message = '오류 발생';
-            res.send(result);
-            return;
-        }
+  RecentData.getRecentDataById(paramRecentDataID, function(err, datas) {
+    if (err) {
+      console.error("오류 발생 :" + err.stack);
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
+    }
 
-        //결과 객체 있으면 성공 응답 전송
-        if(datas){
-            console.dir(datas);
-            result.statusCode = OK;
-            result.message = '성공';
-            result.data = datas;
-            res.send(result);
-        } else {
-            result.statusCode = FAIL;
-            result.message = '실패';
-            res.send(result);
-        }
-    });
+    //결과 객체 있으면 성공 응답 전송
+    if (datas) {
+      console.dir(datas);
+      result.statusCode = OK;
+      result.message = "성공";
+      result.data = datas;
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "실패";
+      res.send(result);
+    }
+  });
+});
+
+router.post("/getRecentDataByPositionId", function(req, res, next) {
+  console.log("/getRecentDataByPositionId 호출됨.");
+
+  var paramPositionID = req.body.positionID || req.query.positionID;
+  var result = { statusCode: null, message: null, data: null };
+
+  console.log("요청 파라미터 : " + paramPositionID);
+
+  RecentData.getRecentDataByPositionId(paramPositionID, function(err, datas) {
+    if (err) {
+      console.error("오류 발생 :" + err.stack);
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
+    }
+
+    //결과 객체 있으면 성공 응답 전송
+    if (datas) {
+      console.dir(datas);
+      result.statusCode = OK;
+      result.message = "성공";
+      result.data = datas;
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "실패";
+      res.send(result);
+    }
+  });
 });
 
 // router.put('/updateRecentData', function(req, res, next) {
@@ -129,36 +158,35 @@ router.post('/getRecentDataById', function(req, res, next) {
 //     });
 // });
 
-router.delete('/deleteRecentDataByID', function(req, res, next) {
-    console.log('/deleteRecentDataByID 호출됨.');
+router.delete("/deleteRecentDataByID", function(req, res, next) {
+  console.log("/deleteRecentDataByID 호출됨.");
 
-    var paramRecentDataID = req.body.id || req.query.id;
-    var result = {statusCode : null, message : null, data : null};
-    
-    console.log('요청 파라미터 : ' + paramRecentDataID);
+  var paramRecentDataID = req.body.id || req.query.id;
+  var result = { statusCode: null, message: null, data: null };
 
-    RecentData.deleteRecentDataByID(paramRecentDataID, function(err, success){
-        if(err){
-            console.error('오류 발생 :' + err.stack);
-            result.statusCode = FAIL;
-            result.message = '오류 발생';
-            res.send(result);
-            return;
-        }
+  console.log("요청 파라미터 : " + paramRecentDataID);
 
-        //결과 객체 있으면 성공 응답 전송
-        if(success){
-            console.dir(success);
-            result.statusCode = OK;
-            result.message = '성공';
-            res.send(result);
-        } else {
-            result.statusCode = FAIL;
-            result.message = '실패';
-            res.send(result);
-        }
-    });
+  RecentData.deleteRecentDataByID(paramRecentDataID, function(err, success) {
+    if (err) {
+      console.error("오류 발생 :" + err.stack);
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
+    }
+
+    //결과 객체 있으면 성공 응답 전송
+    if (success) {
+      console.dir(success);
+      result.statusCode = OK;
+      result.message = "성공";
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "실패";
+      res.send(result);
+    }
+  });
 });
-
 
 module.exports = router;
