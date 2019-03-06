@@ -142,6 +142,16 @@ export const SET_CURRENT_TODO_NULL = "set_current_todo_null";
 export const REMOVE_LABEL = "remove_label";
 export const UPDATE_SEARCH = "update_search";
 
+//// Alarm Reference Value
+export const ALARM_REFERENCE_VALUE_REQUEST = "ALARM_REFERENCE_VALUE_REQUEST";
+export const ALARM_REFERENCE_VALUE_SUCCESS = "ALARM_REFERENCE_VALUE_SUCCESS";
+export const ALARM_REFERENCE_VALUE_FAIL = "ALARM_REFERENCE_VALUE_FAIL";
+
+//// Recent Data
+export const RECENT_DATA_REQUEST = "RECENT_DATA_REQUEST";
+export const RECENT_DATA_SUCCESS = "RECENT_DATA_SUCCESS";
+export const RECENT_DATA_FAIL = "RECENT_DATA_FAIL";
+
 //// Building
 export const BUILDING_LIST_REQUEST = "BUILDING_LIST_REQUEST";
 export const BUILDING_LIST_SUCCESS = "BUILDING_LIST_SUCCESS";

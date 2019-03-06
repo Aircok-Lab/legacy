@@ -1,7 +1,4 @@
 import React from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import ContainerHeader from "components/ContainerHeader/index";
-import IntlMessages from "util/IntlMessages";
 
 const products = [];
 var index = 0;
@@ -17,45 +14,38 @@ function addProducts(quantity) {
   for (let i = 0; i < quantity; i++) {
     const id = startId + i;
     products.push({
-      id: id,
-      buildingName: "ethree", //add
-      positionName: "3층", //add
-      DeviceSN: "356170062277836",
-      Date: "2019-02-18T06:44:00.000Z",
-      PM10: 21,
-      PM25: 15,
-      CO2: 819,
+      BuildingName: "에어콕",
+      PositionName: "1층",
+      id: 34,
+      DeviceSN: "356170062145371",
+      Date: "2019-03-05T07:21:00.000Z",
+      PM10: 150,
+      PM25: 116,
+      CO2: 0,
       HCHO: 0,
-      VOC: 8,
-      Temperature: 25.7,
-      Humidity: 11.2,
+      VOC: 4,
+      Temperature: 28.6,
+      Humidity: 26,
       Noise: null,
-      E3Score: 41,
-      E3Index: 3,
-      PM10Index: 1,
-      PM25Index: 1,
-      CO2Index: 3,
+      E3Score: 66,
+      E3Index: 5,
+      PM10Index: 5,
+      PM25Index: 5,
+      CO2Index: 1,
       HCHOIndex: 1,
       VOCIndex: 1,
       TemperatureIndex: 6,
       HumidityIndex: 6,
       NoiseIndex: null,
       PM10Alarm: 0,
-      PM25Alarm: 0,
+      PM25Alarm: 1,
       CO2Alarm: 0,
       HCHOAlarm: 0,
       VOCAlarm: 0,
-      TemperatureAlarm: 0,
+      TemperatureAlarm: 1,
       HumidityAlarm: 1,
       NoiseAlarm: 0,
-      InsertDate: "2019-02-18T06:44:44.000Z",
-      pm10: "150",
-      pm25: "70",
-      co2: "1000",
-      hcho: "100",
-      voc: "500",
-      temperature: "26",
-      humidity: "40"
+      InsertDate: "2019-03-05T07:21:17.000Z"
     });
   }
 }
@@ -72,49 +62,84 @@ class SamplePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      alarmReference: {
+        pm10: 150,
+        pm25: 70,
+        co2: 1000,
+        hcho: 100,
+        voc: 500,
+        temperature: 26,
+        humidity: 40
+      },
       contactData: [
-        { name: "Abet", phone: "010-0000-0001" },
-        { name: "Betty", phone: "010-0000-0002" },
-        { name: "Charlie", phone: "010-0000-0003" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" },
-        { name: "David", phone: "010-0000-0004" }
+        {
+          BuildingName: "에어콕",
+          PositionName: "1층",
+          id: 34,
+          DeviceSN: "356170062145371",
+          Date: "2019-03-05T07:21:00.000Z",
+          PM10: 150,
+          PM25: 116,
+          CO2: 0,
+          HCHO: 0,
+          VOC: 4,
+          Temperature: 28.6,
+          Humidity: 26,
+          Noise: null,
+          E3Score: 66,
+          E3Index: 5,
+          PM10Index: 5,
+          PM25Index: 5,
+          CO2Index: 1,
+          HCHOIndex: 1,
+          VOCIndex: 1,
+          TemperatureIndex: 6,
+          HumidityIndex: 6,
+          NoiseIndex: null,
+          PM10Alarm: 0,
+          PM25Alarm: 1,
+          CO2Alarm: 0,
+          HCHOAlarm: 0,
+          VOCAlarm: 0,
+          TemperatureAlarm: 1,
+          HumidityAlarm: 1,
+          NoiseAlarm: 0,
+          InsertDate: "2019-03-05T07:21:17.000Z"
+        },
+        {
+          BuildingName: "에어콕",
+          PositionName: "1층",
+          id: 34,
+          DeviceSN: "356170062145371",
+          Date: "2019-03-05T07:21:00.000Z",
+          PM10: 150,
+          PM25: 116,
+          CO2: 0,
+          HCHO: 0,
+          VOC: 4,
+          Temperature: 28.6,
+          Humidity: 26,
+          Noise: null,
+          E3Score: 66,
+          E3Index: 5,
+          PM10Index: 5,
+          PM25Index: 5,
+          CO2Index: 1,
+          HCHOIndex: 1,
+          VOCIndex: 1,
+          TemperatureIndex: 6,
+          HumidityIndex: 6,
+          NoiseIndex: null,
+          PM10Alarm: 0,
+          PM25Alarm: 1,
+          CO2Alarm: 0,
+          HCHOAlarm: 0,
+          VOCAlarm: 0,
+          TemperatureAlarm: 1,
+          HumidityAlarm: 1,
+          NoiseAlarm: 0,
+          InsertDate: "2019-03-05T07:21:17.000Z"
+        }
       ]
     };
     this.pageScroll = this.pageScroll.bind(this);
@@ -256,86 +281,90 @@ class SamplePage extends React.Component {
             {this.state.contactData.map((contact, i) => {
               return (
                 <tr key={i}>
-                  <td style={{ width: "170px" }}>에코나래</td>
-                  <td style={{ width: "170px" }}>테스트용</td>
+                  <td style={{ width: "170px" }}>{contact.BuildingName}</td>
+                  <td style={{ width: "170px" }}>{contact.PositionName}</td>
                   <td style={{ width: "120px" }}>
                     <span className="text-sensitive1">약간나쁨</span>
                   </td>
-                  <td style={{ width: "60px" }}>26</td>
+                  <td style={{ width: "60px" }}>
+                    {alarmReference.temperature}
+                  </td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-sensitive1"
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
-                      26.9
+                      {contact.Temperature}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }} />
-                  <td style={{ width: "60px" }}>40</td>
+                  <td style={{ width: "60px" }}>{contact.TemperatureAlarm}</td>
+                  <td style={{ width: "60px" }}>{alarmReference.humidity}</td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-good"
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
-                      33.2
+                      {contact.Humidity}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }} />
-                  <td style={{ width: "60px" }}>150</td>
+                  <td style={{ width: "60px" }}>{contact.HumidityAlarm}</td>
+                  <td style={{ width: "60px" }}>{alarmReference.pm10}</td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-good"
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
-                      9
+                      {contact.PM10}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }} />
-                  <td style={{ width: "60px" }}>70</td>
+                  <td style={{ width: "60px" }}>{contact.PM10Alarm}</td>
+                  <td style={{ width: "60px" }}>{alarmReference.pm25}</td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-good"
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
-                      7
+                      {contact.PM25}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }} />
-                  <td style={{ width: "60px" }}>1000</td>
+                  <td style={{ width: "60px" }}>{contact.PM25Alarm}</td>
+                  <td style={{ width: "60px" }}>{alarmReference.co2}</td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-bad"
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
-                      1523
+                      {contact.CO2}
                     </span>
                   </td>
                   <td style={{ width: "60px" }}>
                     <div
                       className="bg-red rounded-circle mt-1 ml-2 mx-auto"
                       style={{ width: "12px", height: "12px" }}
-                    />
+                    >
+                      {contact.CO2Alarm}
+                    </div>
                   </td>
-                  <td style={{ width: "60px" }}>100</td>
+                  <td style={{ width: "60px" }}>{alarmReference.hcho}</td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-good"
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
-                      0
+                      {contact.HCHO}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }} />
-                  <td style={{ width: "60px" }}>500</td>
+                  <td style={{ width: "60px" }}>{contact.HCHOAlarm}</td>
+                  <td style={{ width: "60px" }}>{alarmReference.voc}</td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-normal"
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
-                      284
+                      {contact.VOC}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }} />
+                  <td style={{ width: "60px" }}>{contact.VOCAlarm}</td>
                 </tr>
               );
             })}
