@@ -1,6 +1,6 @@
 import {
   BUILDING_LIST_SUCCESS,
-  BUILDING_SAVE_SUCCESS,
+  BUILDING_ADD_SUCCESS,
   BUILDING_DELETE_SUCCESS
 } from "constants/ActionTypes";
 
@@ -23,7 +23,7 @@ export default (state = INIT_STATE, action) => {
         list: action.payload
       };
     }
-    case BUILDING_SAVE_SUCCESS: {
+    case BUILDING_ADD_SUCCESS: {
       return {
         ...state,
         loader: false

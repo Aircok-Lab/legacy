@@ -5,15 +5,17 @@ import {
   DEVICE_LIST_BY_BUILDING_ID_REQUEST,
   DEVICE_LIST_BY_BUILDING_ID_SUCCESS,
   DEVICE_LIST_BY_POSITION_ID_REQUEST,
-  DEVICE_LIST_BY_POSITION_ID_SUCCESS
+  DEVICE_LIST_BY_POSITION_ID_SUCCESS,
+  DEVICE_ADD_REQUEST,
+  DEVICE_ADD_SUCCESS,
+  DEVICE_UPDATE_REQUEST,
+  DEVICE_DELETE_REQUEST
 } from "constants/ActionTypes";
 import api from "api";
 
 function* deviceListByBuildingIdWorker(action) {
   try {
     const res = yield api.post(`device/getDeviceByBuildingId`, action.payload);
-    console.log("TODO: delay for test");
-    yield delay(10);
     yield put({
       type: DEVICE_LIST_BY_BUILDING_ID_SUCCESS,
       payload: res.data.data
@@ -32,8 +34,6 @@ export function* deviceListByBuildingIdWatcher() {
 function* deviceListByPositionIdWorker(action) {
   try {
     const res = yield api.post(`device/getDeviceByPositionId`, action.payload);
-    console.log("TODO: 1000ms delay for test");
-    yield delay(1000);
     yield put({
       type: DEVICE_LIST_BY_POSITION_ID_SUCCESS,
       payload: res.data.data
@@ -49,7 +49,41 @@ export function* deviceListByPositionIdWatcher() {
   );
 }
 
+function* deviceAddWorker(action) {
+  try {
+    const res = yield api.post(`device/addDevice`, action.payload);
+    yield put({
+      type: DEVICE_LIST_BY_POSITION_ID_REQUEST,
+      payload: { id: action.payload.positionID }
+    });
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* deviceAddWatcher() {
+  yield takeEvery(DEVICE_ADD_REQUEST, deviceAddWorker);
+}
+
+function* deviceDeleteWorker(action) {
+  try {
+    const res = yield api.delete(
+      `device/deleteDevice?serialNumber=${action.payload.ids}`
+    );
+    yield put({
+      type: DEVICE_LIST_BY_POSITION_ID_REQUEST,
+      payload: { id: action.payload.positionID }
+    });
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* deviceDeleteWatcher() {
+  yield takeEvery(DEVICE_DELETE_REQUEST, deviceDeleteWorker);
+}
+
 export default function* rootSaga() {
   yield all([fork(deviceListByBuildingIdWatcher)]);
   yield all([fork(deviceListByPositionIdWatcher)]);
+  yield all([fork(deviceAddWatcher)]);
+  yield all([fork(deviceDeleteWatcher)]);
 }

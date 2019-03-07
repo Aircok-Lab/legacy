@@ -5,12 +5,11 @@ import { buildingAddRequest } from "actions/Building";
 class AddBuilding extends Component {
   addBuilding = () => {
     this.props.buildingAddRequest({
-      name: "",
-      address: "",
+      name: "빌딩",
+      address: "여의도",
       latitude: 22,
       longitude: 2222,
-      userID: this.props.authUser.UserID,
-      user_id: this.props.authUser.id
+      userID: this.props.authUser.id
     });
   };
 
@@ -113,7 +112,10 @@ class AddBuilding extends Component {
           <button
             type="button"
             className="w3-button w3-blue w3-padding"
-            onClick={e => this.addBuilding()}
+            onClick={e => {
+              this.addBuilding();
+              this.props.closeModal();
+            }}
           >
             OK
           </button>

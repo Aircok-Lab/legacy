@@ -1,20 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { deviceAddRequest } from "actions/Device";
-
+const uuidv4 = require("uuid/v4");
+// uuidv4(); // ⇨ '10ba038e-48da-487b-96e8-8d3b99b6d18a'
 class AddDevice extends Component {
   addDevice = () => {
     this.props.deviceAddRequest({
-      name: "",
-      address: "",
-      latitude: 22,
-      longitude: 2222,
-      userID: this.props.authUser.UserID,
-      user_id: this.props.authUser.id
+      name: "test1",
+      serialNumber: new Date().getTime(),
+      phone: "1",
+      positionID: this.props.node.id,
+      productID: 1
     });
   };
 
   render() {
+    console.log("this.props.node", this.props.node);
     return (
       <form className="w3-text-blue w3-margin">
         <h2 className="w3-center">측정기 등록</h2>
@@ -100,7 +101,10 @@ class AddDevice extends Component {
           <button
             type="button"
             className="w3-button w3-blue w3-padding"
-            onClick={e => this.addDevice()}
+            onClick={e => {
+              this.addDevice();
+              this.props.closeModal();
+            }}
           >
             OK
           </button>

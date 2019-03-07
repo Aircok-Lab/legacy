@@ -12,6 +12,8 @@ import {
   BUILDING_DELETE_SUCCESS,
   USER_GET_BY_ID_REQUEST
 } from "constants/ActionTypes";
+import { userSignInSuccess } from "actions/Auth";
+
 import api from "api";
 
 function* buildingListWorker(action) {
@@ -27,22 +29,20 @@ export function* buildingListWatcher() {
 }
 
 function* buildingAddWorker(action) {
-  //     const signInUser = yield call(signInUserWithEmailPasswordRequest, email, newpw);
-
   try {
     let res = yield api.post(`building/addBuilding`, action.payload);
-    yield delay(1000);
+    localStorage.setItem("user_id", JSON.stringify(res.data.data));
+    yield put(userSignInSuccess(res.data.data));
     yield put({
-      type: USER_GET_BY_ID_REQUEST,
-      payload: { id: action.payload.user_id }
+      type: "BUILDING_LIST_REQUEST",
+      payload: { id: res.data.data.BuildingList }
     });
-    yield put({ type: BUILDING_ADD_SUCCESS, payload: res.data.data });
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
 }
 export function* buildingAddWatcher() {
-  yield takeEvery(BUILDING_UPDATE_REQUEST, buildingAddWorker);
+  yield takeEvery(BUILDING_ADD_REQUEST, buildingAddWorker);
 }
 
 function* buildingUpdateWorker(action) {
@@ -61,14 +61,24 @@ function* buildingDeleteWorker(action) {
   let res = null;
   try {
     if (action.payload.id) {
-      res = yield api.delete(`building/deleteBuilding?id=${action.payload.id}`);
-      yield delay(1000);
+      res = yield api.delete(
+        `building/deleteBuilding?id=${action.payload.id}&userID=${
+          action.payload.userID
+        }`
+      );
+      // yield delay(1000);
+      // yield put({
+      //   type: USER_GET_BY_ID_REQUEST,
+      //   payload: { id: action.payload.user_id }
+      // });
+      localStorage.setItem("user_id", JSON.stringify(res.data.data));
+      yield put(userSignInSuccess(res.data.data));
       yield put({
-        type: USER_GET_BY_ID_REQUEST,
-        payload: { id: action.payload.user_id }
+        type: "BUILDING_LIST_REQUEST",
+        payload: { id: res.data.data.BuildingList }
       });
     }
-    yield put({ type: BUILDING_DELETE_SUCCESS, payload: res.data.data });
+    // yield put({ type: BUILDING_DELETE_SUCCESS, payload: res.data.data });
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -80,5 +90,6 @@ export function* buildingDeleteWatcher() {
 export default function* rootSaga() {
   yield all([fork(buildingListWatcher)]);
   yield all([fork(buildingAddWatcher)]);
+  yield all([fork(buildingUpdateWatcher)]);
   yield all([fork(buildingDeleteWatcher)]);
 }

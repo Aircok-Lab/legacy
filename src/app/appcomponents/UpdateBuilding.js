@@ -5,19 +5,19 @@ import { buildingAddRequest, buildingDeleteRequest } from "actions/Building";
 class UpdateBuilding extends Component {
   addBuilding = () => {
     this.props.buildingAddRequest({
-      name: "",
-      address: "",
+      name: "AAA",
+      address: "BBB",
       latitude: 22,
       longitude: 2222,
-      userID: this.props.authUser.UserID,
-      user_id: this.props.authUser.id
+      userID: this.props.authUser.id
     });
   };
 
   deleteBuilding = () => {
+    // console.log("deleteBuilding", this.props.node.id);
     this.props.buildingDeleteRequest({
       id: this.props.node.id,
-      user_id: this.props.authUser.id
+      userID: this.props.authUser.id
     });
   };
 

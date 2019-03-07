@@ -9,8 +9,7 @@ import {
 import { positionListRequest } from "actions/Position";
 import {
   deviceListByBuildingIdRequest,
-  deviceListByPositionIdRequest,
-  deviceDeleteRequest
+  deviceListByPositionIdRequest
 } from "actions/Device";
 import AddBuilding from "app/appcomponents/AddBuilding";
 import UpdateBuilding from "app/appcomponents/UpdateBuilding";
@@ -18,9 +17,8 @@ import AddPosition from "app/appcomponents/AddPosition";
 import UpdatePosition from "app/appcomponents/UpdatePosition";
 import AddDevice from "app/appcomponents/AddDevice";
 import UpdateDevice from "app/appcomponents/UpdateDevice";
-// import DeleteConfirmDevice from "app/appcomponents/DeleteConfirmDevice";
-// import DeleteNoticeDevice from "app/appcomponents/DeleteNoticeDevice";
-// import DeviceList from "app/appcomponents/DeviceList";
+import DeleteConfirmDevice from "app/appcomponents/DeleteConfirmDevice";
+import DeleteNoticeDevice from "app/appcomponents/DeleteNoticeDevice";
 
 const customStyles = {
   content: {
@@ -42,6 +40,21 @@ Modal.setAppElement("#body");
 
 let buildingPositionList = [];
 
+const CheckBox = props => {
+  return (
+    <li>
+      <input
+        key={props.id}
+        onChange={props.handleCheckChieldElement}
+        type="checkbox"
+        checked={props.isChecked}
+        value={props.value}
+      />{" "}
+      {props.value}
+    </li>
+  );
+};
+
 class DevicePage extends React.Component {
   state = {
     showModal: false,
@@ -50,7 +63,28 @@ class DevicePage extends React.Component {
     selectedNodeId: "",
     // selectedNodeId: "31-25"
     selectedNode: {},
-    deviceList: []
+    deviceList: [],
+    fruites: [
+      { id: 1, value: "banana", isChecked: false },
+      { id: 2, value: "apple", isChecked: false },
+      { id: 3, value: "mango", isChecked: false },
+      { id: 4, value: "grap", isChecked: false }
+    ]
+  };
+
+  handleAllChecked = event => {
+    let fruites = this.state.fruites;
+    fruites.forEach(fruite => (fruite.isChecked = event.target.checked));
+    this.setState({ fruites: fruites });
+  };
+
+  handleCheckChieldElement = event => {
+    let fruites = this.state.fruites;
+    fruites.forEach(fruite => {
+      if (fruite.value === event.target.value)
+        fruite.isChecked = event.target.checked;
+    });
+    this.setState({ fruites: fruites });
   };
 
   constructor(props) {
@@ -67,38 +101,59 @@ class DevicePage extends React.Component {
   };
 
   componentDidMount() {
-    // console.log("cdm this.props.authUser", this.props.authUser);
     this.props.buildingListRequest({ id: this.props.authUser.BuildingList });
     this.props.positionListRequest({ id: this.props.authUser.PositionList });
   }
 
-  componentDidUpdate111(prevProps, prevState, snapshot) {
-    // // 건물 추가 또는 삭제시 노드데이터 요청
-    // if (this.props.authUser.BuildingList != prevProps.authUser.BuildingList) {
-    //   this.props.buildingListRequest({
-    //     id: this.props.authUser.BuildingList
-    //   });
-    // }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // 건물 추가 또는 삭제시 노드데이터 요청
+    if (this.props.authUser.BuildingList != prevProps.authUser.BuildingList) {
+      this.props.buildingListRequest({
+        id: this.props.authUser.BuildingList
+      });
+    }
 
-    // // 층 추가 또는 삭제시 노드데이터 요청
-    // if (this.props.authUser.PositionList != prevProps.authUser.PositionList) {
-    //   this.props.positionListRequest({
-    //     id: this.props.authUser.PositionList
-    //   });
-    // }
+    // 층 추가 또는 삭제시 노드데이터 요청
+    if (this.props.authUser.PositionList != prevProps.authUser.PositionList) {
+      this.props.positionListRequest({
+        id: this.props.authUser.PositionList
+      });
+    }
 
-    if (
-      JSON.stringify(prevProps.deviceList) !=
-      JSON.stringify(this.props.deviceList)
-    ) {
+    // deviceList props가 변경되면, deviceList state로 복제
+    console.log(
+      "deviceList : ",
+      this.props.deviceList,
+      prevProps.deviceList,
+      prevState.deviceList,
+      this.state.deviceList
+    );
+
+    if (this.props.deviceList != prevState.deviceList) {
       console.log(
-        "DevicePage componentDidUpdate 호출됨",
-        prevProps,
-        this.props
+        "deviceList changed.",
+        this.props.deviceList,
+        prevState.deviceList
       );
       this.setState({ deviceList: this.props.deviceList });
     }
   }
+
+  // shouldComponentUpdate = (nextProps, nextState) => {
+  //   console.log("shouldComponentUpdate", nextProps, nextState);
+
+  //   if (nextProps.deviceList.length > 0) {
+  //     const deviceCopy = nextProps.deviceList.map(device => {
+  //       return {
+  //         ...device,
+  //         isChecked: false
+  //       };
+  //     });
+  //     this.setState({ deviceList: deviceCopy });
+  //   }
+
+  //   return true;
+  // };
 
   nodeClick = item => {
     let nodeId = "";
@@ -117,6 +172,10 @@ class DevicePage extends React.Component {
     });
   };
 
+  toggleChecked = () => {
+    console.log("toggleChecked.....");
+  };
+
   render() {
     buildingPositionList = [...this.props.buildingList];
     buildingPositionList.map(item => {
@@ -127,14 +186,11 @@ class DevicePage extends React.Component {
         item.positions = items;
       }
     });
-
     return (
       <div className="app-wrapper">
         <div className="w3-panel w3-white w3-card w3-padding">
           <h2>측정기 관리</h2>
         </div>
-
-        {JSON.stringify(buildingPositionList)}
 
         <div className="row">
           <div className="col-md-3">
@@ -228,7 +284,39 @@ class DevicePage extends React.Component {
           </div>
           <div className="col-md-9">
             <div className="animated slideInUpTiny animation-duration-3">
-              {/* <div>{JSON.stringify(this.state.deviceList)}</div> */}
+              <div className="App">
+                <h1> Check and Uncheck All Example </h1>
+                <input
+                  type="checkbox"
+                  onChange={this.handleAllChecked}
+                  value="checkedall"
+                />{" "}
+                Check / Uncheck All
+                <ul>
+                  {this.state.fruites.map((fruite, index) => {
+                    return (
+                      <li>
+                        {/* <CheckBox
+                        key={index}
+                        handleCheckChieldElement={this.handleCheckChieldElement}
+                        {...fruite}
+                      /> */}
+
+                        <input
+                          key={index}
+                          onChange={this.handleCheckChieldElement}
+                          type="checkbox"
+                          checked={fruite.isChecked}
+                          value={fruite.value}
+                        />
+                        {fruite.value}
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div>{JSON.stringify(this.state.fruites)}</div>
+              </div>
+
               <div className="text-right w3-margin-bottom">
                 <button
                   onClick={this.openModal("addDevice")}
@@ -241,20 +329,12 @@ class DevicePage extends React.Component {
                 <button
                   onClick={this.openModal("updateDevice")}
                   style={{ marginLeft: "2px" }}
-                  disabled={
-                    this.state.deviceList.filter(device => device.isChecked)
-                      .length != 1
-                  }
                 >
                   수정
                 </button>
                 <button
                   onClick={this.openModal("deleteConfirmDevice")}
                   style={{ marginLeft: "2px" }}
-                  disabled={
-                    this.state.deviceList.filter(device => device.isChecked)
-                      .length == 0
-                  }
                 >
                   삭제
                 </button>
@@ -267,13 +347,8 @@ class DevicePage extends React.Component {
                       <input
                         className="w3-check"
                         type="checkbox"
-                        onChange={event => {
-                          let deviceList = this.state.deviceList;
-                          deviceList.forEach(device => {
-                            device.isChecked = event.target.checked;
-                          });
-                          this.setState({ deviceList: deviceList });
-                        }}
+                        checked="checked"
+                        onChange={() => {}}
                       />
                     </th>
                     <th>번호</th>
@@ -292,22 +367,43 @@ class DevicePage extends React.Component {
                           <input
                             className="w3-check"
                             type="checkbox"
-                            checked={row.isChecked}
-                            value={row.SerialNumber}
-                            onChange={event => {
-                              let deviceList = this.state.deviceList;
-                              deviceList.forEach(device => {
-                                if (
-                                  device.SerialNumber === event.target.value
-                                ) {
-                                  device.isChecked = event.target.checked;
+                            // onChange={() => { this.setState({row.isChecked != row.isChecked}}
+                            // onChange={this.toggleChecked}
+                            onChange={() => {
+                              const deviceCopy = this.state.deviceList.map(
+                                device => {
+                                  if (
+                                    device.SerialNumber === row.SerialNumber
+                                  ) {
+                                    return {
+                                      ...device,
+                                      isChecked: !device.isChecked
+                                    };
+                                  } else {
+                                    return device;
+                                  }
                                 }
+                              );
+                              console.log("deviceCopy....", deviceCopy);
+                              this.setState({
+                                deviceList: deviceCopy
                               });
-                              this.setState({ deviceList: deviceList });
                             }}
+                            // onClick={e => {
+                            //   console.log(
+                            //     "e.target.checked : ",
+                            //     e.target.checked
+                            //   );
+                            //   this.state.deviceList.map(device => {
+                            //     console.log("onChange", device);
+                            //   });
+                            // }}
+                            checked={row.isChecked}
                           />
                         </td>
-                        <td>{index + 1}</td>
+                        <td>
+                          {index + 1} . {row.isChecked}
+                        </td>
                         <td>{row.Name}</td>
                         <td>{row.Period}</td>
                         <td>{row.SerialNumber}</td>
@@ -334,22 +430,15 @@ class DevicePage extends React.Component {
           <div className="" style={{ minWidth: "400px" }} />
           {
             {
-              addBuilding: (
-                <AddBuilding
-                  node={this.state.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              ),
+              addBuilding: <AddBuilding node={this.state.selectedNode} />,
               updateBuilding: <UpdateBuilding node={this.state.selectedNode} />,
               addPosition: <AddPosition node={this.state.selectedNode} />,
               updatePosition: <UpdatePosition node={this.state.selectedNode} />,
-              addDevice: (
-                <AddDevice
-                  node={this.state.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              ),
+              addDevice: <AddDevice node={this.state.selectedNode} />,
               updateDevice: <UpdateDevice node={this.state.selectedNode} />,
+              deleteConfirmDevice1: (
+                <DeleteConfirmDevice node={this.state.selectedNode} />
+              ),
               deleteConfirmDevice: (
                 <div>
                   선택항목을 삭제하시겠습니까?
@@ -358,27 +447,7 @@ class DevicePage extends React.Component {
                     <button
                       type="button"
                       className="w3-button w3-blue w3-padding"
-                      onClick={() => {
-                        const selectedDevices = this.state.deviceList.filter(
-                          device => device.isChecked
-                        );
-
-                        const ids = selectedDevices.map(
-                          ({ SerialNumber }) => SerialNumber
-                        );
-                        console.log(
-                          "deleteDevices:",
-                          selectedDevices,
-                          ids.join()
-                        );
-                        // this.openModal("deleteNoticeDevice");
-                        this.props.deviceDeleteRequest({
-                          positionID: this.state.selectedNode.id,
-                          ids: ids.join()
-                        });
-
-                        this.closeModal();
-                      }}
+                      onClick={this.openModal("deleteNoticeDevice")}
                     >
                       OK
                     </button>
@@ -423,9 +492,8 @@ const mapDispatchToProps = {
   // buildingDeleteRequest: buildingDeleteRequest,
   positionListRequest: positionListRequest,
   deviceListByBuildingIdRequest: deviceListByBuildingIdRequest,
-  deviceListByPositionIdRequest: deviceListByPositionIdRequest,
-  deviceDeleteRequest,
-  deviceDeleteRequest
+  deviceListByPositionIdRequest: deviceListByPositionIdRequest
+  //deviceListByBuildingIdRequest, deviceListByPositionIdRequest
 };
 
 export default connect(

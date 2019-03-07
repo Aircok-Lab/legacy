@@ -49,7 +49,7 @@ class AddPosition extends Component {
         <button
           type="button"
           className="w3-button w3-right w3-blue w3-padding"
-          onClick={e => this.addBuilding()}
+          onClick={e => this.addPosition()}
         >
           OK
         </button>
