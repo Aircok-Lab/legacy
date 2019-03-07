@@ -62,15 +62,6 @@ class SamplePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alarmReference: {
-        pm10: 150,
-        pm25: 70,
-        co2: 1000,
-        hcho: 100,
-        voc: 500,
-        temperature: 26,
-        humidity: 40
-      },
       contactData: [
         {
           BuildingName: "에어콕",
@@ -287,7 +278,7 @@ class SamplePage extends React.Component {
                     <span className="text-sensitive1">약간나쁨</span>
                   </td>
                   <td style={{ width: "60px" }}>
-                    {this.state.alarmReference.temperature}
+                    {this.props.alarmReferenceValue.temperature}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
@@ -299,7 +290,7 @@ class SamplePage extends React.Component {
                   </td>
                   <td style={{ width: "60px" }}>{contact.TemperatureAlarm}</td>
                   <td style={{ width: "60px" }}>
-                    {this.state.alarmReference.humidity}
+                    {this.props.alarmReferenceValue.humidity}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
@@ -311,7 +302,7 @@ class SamplePage extends React.Component {
                   </td>
                   <td style={{ width: "60px" }}>{contact.HumidityAlarm}</td>
                   <td style={{ width: "60px" }}>
-                    {this.state.alarmReference.pm10}
+                    {this.props.alarmReferenceValue.pm10}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
@@ -323,7 +314,7 @@ class SamplePage extends React.Component {
                   </td>
                   <td style={{ width: "60px" }}>{contact.PM10Alarm}</td>
                   <td style={{ width: "60px" }}>
-                    {this.state.alarmReference.pm25}
+                    {this.props.alarmReferenceValue.pm25}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
@@ -335,7 +326,7 @@ class SamplePage extends React.Component {
                   </td>
                   <td style={{ width: "60px" }}>{contact.PM25Alarm}</td>
                   <td style={{ width: "60px" }}>
-                    {this.state.alarmReference.co2}
+                    {this.props.alarmReferenceValue.co2}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
@@ -354,7 +345,7 @@ class SamplePage extends React.Component {
                     </div>
                   </td>
                   <td style={{ width: "60px" }}>
-                    {this.state.alarmReference.hcho}
+                    {this.props.alarmReferenceValue.hcho}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
@@ -366,7 +357,7 @@ class SamplePage extends React.Component {
                   </td>
                   <td style={{ width: "60px" }}>{contact.HCHOAlarm}</td>
                   <td style={{ width: "60px" }}>
-                    {this.state.alarmReference.voc}
+                    {this.props.alarmReferenceValue.voc}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
@@ -387,4 +378,7 @@ class SamplePage extends React.Component {
   }
 }
 
-export default SamplePage;
+const mapStateToProps = ({alarmReference}) => {
+  const {alarmReferenceValue} = alarmReference;
+};
+export default connect(mapStateToProps)(SamplePage);

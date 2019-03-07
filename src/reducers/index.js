@@ -5,6 +5,7 @@ import Auth from "./Auth";
 import Building from "./Building";
 import Position from "./Position";
 import Device from "./Device";
+import AlarmReference from "./AlarmReference";
 
 const reducers = combineReducers({
   routing: routerReducer,
@@ -12,7 +13,8 @@ const reducers = combineReducers({
   auth: Auth,
   building: Building,
   position: Position,
-  device: Device
+  device: Device,
+  alarmReference: AlarmReference
 });
 
 export default reducers;

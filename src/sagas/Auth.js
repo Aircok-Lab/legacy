@@ -13,6 +13,9 @@ import {
   setInitUrl,
   publicKeySuccess
 } from "actions/Auth";
+import {
+  alarmReferenceValueRequest
+} from "actions/AlarmReference";
 import api from "api/index";
 import forge from "node-forge";
 
@@ -78,6 +81,7 @@ function* signInUserWithEmailPassword({ payload }) {
       yield put(userSignInSuccess(signInUser.data.data));
       yield put(setInitUrl("/app/monitoring"));
       localStorage.setItem("user_id", JSON.stringify(signInUser.data.data));
+      yield put(alarmReferenceValueRequest());
     }
   } catch (error) {
     yield put(showAuthMessage(error));
