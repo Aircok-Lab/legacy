@@ -287,7 +287,7 @@ class SamplePage extends React.Component {
                     <span className="text-sensitive1">약간나쁨</span>
                   </td>
                   <td style={{ width: "60px" }}>
-                    {alarmReference.temperature}
+                    {this.state.alarmReference.temperature}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
@@ -298,7 +298,9 @@ class SamplePage extends React.Component {
                     </span>
                   </td>
                   <td style={{ width: "60px" }}>{contact.TemperatureAlarm}</td>
-                  <td style={{ width: "60px" }}>{alarmReference.humidity}</td>
+                  <td style={{ width: "60px" }}>
+                    {this.state.alarmReference.humidity}
+                  </td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-good"
@@ -308,7 +310,9 @@ class SamplePage extends React.Component {
                     </span>
                   </td>
                   <td style={{ width: "60px" }}>{contact.HumidityAlarm}</td>
-                  <td style={{ width: "60px" }}>{alarmReference.pm10}</td>
+                  <td style={{ width: "60px" }}>
+                    {this.state.alarmReference.pm10}
+                  </td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-good"
@@ -318,7 +322,9 @@ class SamplePage extends React.Component {
                     </span>
                   </td>
                   <td style={{ width: "60px" }}>{contact.PM10Alarm}</td>
-                  <td style={{ width: "60px" }}>{alarmReference.pm25}</td>
+                  <td style={{ width: "60px" }}>
+                    {this.state.alarmReference.pm25}
+                  </td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-good"
@@ -328,7 +334,9 @@ class SamplePage extends React.Component {
                     </span>
                   </td>
                   <td style={{ width: "60px" }}>{contact.PM25Alarm}</td>
-                  <td style={{ width: "60px" }}>{alarmReference.co2}</td>
+                  <td style={{ width: "60px" }}>
+                    {this.state.alarmReference.co2}
+                  </td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-bad"
@@ -345,7 +353,9 @@ class SamplePage extends React.Component {
                       {contact.CO2Alarm}
                     </div>
                   </td>
-                  <td style={{ width: "60px" }}>{alarmReference.hcho}</td>
+                  <td style={{ width: "60px" }}>
+                    {this.state.alarmReference.hcho}
+                  </td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-good"
@@ -355,7 +365,9 @@ class SamplePage extends React.Component {
                     </span>
                   </td>
                   <td style={{ width: "60px" }}>{contact.HCHOAlarm}</td>
-                  <td style={{ width: "60px" }}>{alarmReference.voc}</td>
+                  <td style={{ width: "60px" }}>
+                    {this.state.alarmReference.voc}
+                  </td>
                   <td style={{ width: "60px" }}>
                     <span
                       className="text-normal"
