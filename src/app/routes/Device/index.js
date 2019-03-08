@@ -12,6 +12,8 @@ import {
   deviceListByPositionIdRequest,
   deviceDeleteRequest
 } from "actions/Device";
+import BuildingPositionTree from "app/appcomponents/BuildingPositionTree";
+import DeviceTable from "app/appcomponents/DeviceTable";
 import AddBuilding from "app/appcomponents/AddBuilding";
 import UpdateBuilding from "app/appcomponents/UpdateBuilding";
 import AddPosition from "app/appcomponents/AddPosition";
@@ -100,33 +102,16 @@ class DevicePage extends React.Component {
     }
   }
 
-  nodeClick = item => {
-    let nodeId = "";
-    if (item.BuildingID) {
-      // 층
-      nodeId = "" + item.BuildingID + "-" + item.id;
-      this.props.deviceListByPositionIdRequest({ id: "" + item.id });
-    } else {
-      // 건물
-      nodeId = "" + item.id;
-      this.props.deviceListByBuildingIdRequest({ id: item.id });
-    }
-    this.setState({
-      selectedNodeId: nodeId,
-      selectedNode: item
-    });
-  };
-
   render() {
-    buildingPositionList = [...this.props.buildingList];
-    buildingPositionList.map(item => {
-      const items = this.props.positionList.filter(
-        position => position.BuildingID == item.id
-      );
-      if (items.length) {
-        item.positions = items;
-      }
-    });
+    // buildingPositionList = [...this.props.buildingList];
+    // buildingPositionList.map(item => {
+    //   const items = this.props.positionList.filter(
+    //     position => position.BuildingID == item.id
+    //   );
+    //   if (items.length) {
+    //     item.positions = items;
+    //   }
+    // });
 
     return (
       <div className="app-wrapper">
@@ -134,102 +119,17 @@ class DevicePage extends React.Component {
           <h2>측정기 관리</h2>
         </div>
 
-        {JSON.stringify(buildingPositionList)}
-
         <div className="row">
           <div className="col-md-3">
-            <div
-              className="w3-margin-bottom"
-              style={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <div>
-                <button
-                  style={{ marginLeft: "2px" }}
-                  onClick={this.openModal("addBuilding")}
-                >
-                  건물등록
-                </button>
-                <button
-                  style={{ marginLeft: "2px" }}
-                  onClick={this.openModal("addPosition")}
-                  disabled={
-                    this.state.selectedNode.BuildingID ||
-                    !this.state.selectedNode.id
-                  }
-                >
-                  층등록
-                </button>
-                {this.state.selectedNode.BuildingID && (
-                  <button
-                    style={{ marginLeft: "2px" }}
-                    onClick={this.openModal("updatePosition")}
-                  >
-                    수정
-                  </button>
-                )}
-                {this.state.selectedNode.id &&
-                  !this.state.selectedNode.BuildingID && (
-                    <button
-                      style={{ marginLeft: "2px" }}
-                      onClick={this.openModal("updateBuilding")}
-                    >
-                      수정
-                    </button>
-                  )}
-              </div>
-            </div>
-            {buildingPositionList.map(item => (
-              <div key={item.id}>
-                <div
-                  style={{ cursor: "pointer" }}
-                  className={
-                    "w3-block w3-padding w3-border " +
-                    (this.state.selectedNodeId === "" + item.id
-                      ? "w3-blue"
-                      : "")
-                  }
-                  onClick={e => this.nodeClick(item)}
-                >
-                  <i className="fa fa-plus-square-o" aria-hidden="true" />
-                  <span>
-                    {" "}
-                    {item.Name} {item.id}
-                  </span>
-                </div>
-
-                <div className="">
-                  <ul className="w3-ul">
-                    {item.positions &&
-                      item.positions.map(position => (
-                        <li
-                          key={position.id}
-                          style={{ cursor: "pointer" }}
-                          className={
-                            "w3-border-0 w3-padding-left " +
-                            (this.state.selectedNodeId ===
-                            "" + position.BuildingID + "-" + position.id
-                              ? "w3-blue"
-                              : "")
-                          }
-                          onClick={e => this.nodeClick(position)}
-                        >
-                          <i
-                            className="fa fa-caret-right w3-large"
-                            aria-hidden="true"
-                          />{" "}
-                          {position.Name}{" "}
-                          {position.BuildingID + "-" + position.id}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
+            <BuildingPositionTree openModal={this.openModal} />
           </div>
           <div className="col-md-9">
             <div className="animated slideInUpTiny animation-duration-3">
               {/* <div>{JSON.stringify(this.state.deviceList)}</div> */}
-              <div className="text-right w3-margin-bottom">
+
+              <DeviceTable />
+
+              {/* <div className="text-right w3-margin-bottom">
                 <button
                   onClick={this.openModal("addDevice")}
                   style={{ marginLeft: "2px" }}
@@ -317,6 +217,7 @@ class DevicePage extends React.Component {
                     ))}
                 </tbody>
               </table>
+             */}
             </div>
           </div>
         </div>

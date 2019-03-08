@@ -69,10 +69,18 @@ function* deviceDeleteWorker(action) {
     const res = yield api.delete(
       `device/deleteDevice?serialNumber=${action.payload.ids}`
     );
-    yield put({
-      type: DEVICE_LIST_BY_POSITION_ID_REQUEST,
-      payload: { id: action.payload.positionID }
-    });
+    console.log("device delete - action.payload :", action.payload);
+    if (action.payload.node.BuildingID) {
+      yield put({
+        type: "DEVICE_LIST_BY_POSITION_ID_REQUEST",
+        payload: { id: action.payload.node.id }
+      });
+    } else {
+      yield put({
+        type: "DEVICE_LIST_BY_BUILDING_ID_REQUEST",
+        payload: { id: action.payload.node.id }
+      });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }

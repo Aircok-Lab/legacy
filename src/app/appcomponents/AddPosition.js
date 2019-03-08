@@ -5,12 +5,15 @@ import { positionAddRequest, positionDeleteRequest } from "actions/Position";
 class AddPosition extends Component {
   addPosition = () => {
     this.props.positionAddRequest({
-      name: "",
-      address: "",
-      latitude: 22,
-      longitude: 2222,
-      userID: this.props.authUser.UserID,
-      user_id: this.props.authUser.id
+      // name: "",
+      // address: "",
+      // latitude: 22,
+      // longitude: 2222,
+      // userID: this.props.authUser.id,
+      name: "63층",
+      position: "63층",
+      buildingID: this.props.selectedNode.id,
+      userID: this.props.authUser.id
     });
   };
 
@@ -49,7 +52,10 @@ class AddPosition extends Component {
         <button
           type="button"
           className="w3-button w3-right w3-blue w3-padding"
-          onClick={e => this.addPosition()}
+          onClick={e => {
+            this.addPosition();
+            this.props.closeModal();
+          }}
         >
           OK
         </button>
@@ -59,7 +65,8 @@ class AddPosition extends Component {
 }
 
 const mapStateToProps = state => ({
-  authUser: state.auth.authUser
+  authUser: state.auth.authUser,
+  selectedNode: state.tree.selectedNode
 });
 
 const mapDispatchToProps = {

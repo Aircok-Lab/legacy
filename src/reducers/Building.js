@@ -17,10 +17,17 @@ const INIT_STATE = {
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
     case BUILDING_LIST_SUCCESS: {
+      const list = action.payload.map(item => {
+        return {
+          ...item,
+          nodeId: "" + item.id
+        };
+      });
+
       return {
         ...state,
         loader: false,
-        list: action.payload
+        list: list
       };
     }
     case BUILDING_ADD_SUCCESS: {

@@ -29,19 +29,26 @@ function* positionAddWorker(action) {
   //     const signInUser = yield call(signInUserWithEmailPasswordRequest, email, newpw);
 
   try {
-    let res = yield api.post(`position/addBuilding`, action.payload);
-    yield delay(1000);
+    let res = yield api.post(`position/addPosition`, action.payload);
+    localStorage.setItem("user_id", JSON.stringify(res.data.data));
+    yield put(userSignInSuccess(res.data.data));
     yield put({
-      type: USER_GET_BY_ID_REQUEST,
-      payload: { id: action.payload.user_id }
+      type: "POSITION_LIST_REQUEST",
+      payload: { id: res.data.data.PositionList }
     });
-    yield put({ type: POSITION_ADD_SUCCESS, payload: res.data.data });
+
+    // yield delay(1000);
+    // yield put({
+    //   type: USER_GET_BY_ID_REQUEST,
+    //   payload: { id: action.payload.user_id }
+    // });
+    // yield put({ type: POSITION_ADD_SUCCESS, payload: res.data.data });
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
 }
 export function* positionAddWatcher() {
-  yield takeEvery(POSITION_UPDATE_REQUEST, positionAddWorker);
+  yield takeEvery(POSITION_ADD_REQUEST, positionAddWorker);
 }
 
 function* positionUpdateWorker(action) {

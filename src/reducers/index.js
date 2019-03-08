@@ -6,6 +6,7 @@ import Building from "./Building";
 import Position from "./Position";
 import Device from "./Device";
 import User from "./User";
+import Tree from "./Tree";
 
 const reducers = combineReducers({
   routing: routerReducer,
@@ -14,7 +15,8 @@ const reducers = combineReducers({
   building: Building,
   position: Position,
   device: Device,
-  user: User
+  user: User,
+  tree: Tree
 });
 
 export default reducers;

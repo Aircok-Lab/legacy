@@ -25,12 +25,16 @@ export default (state = INIT_STATE, action) => {
       };
     }
     case POSITION_LIST_SUCCESS: {
-      // alert("SUCCESS");
-      // console.log("SUCCESS", action.payload);
+      const list = action.payload.map(item => {
+        return {
+          ...item,
+          nodeId: "" + item.BuildingID + "-" + item.id
+        };
+      });
       return {
         ...state,
         loader: false,
-        list: action.payload
+        list: list
       };
     }
     case POSITION_LIST_FAIL: {

@@ -12,10 +12,9 @@ export default (state = INIT_STATE, action) => {
   switch (action.type) {
     case DEVICE_LIST_BY_BUILDING_ID_SUCCESS:
     case DEVICE_LIST_BY_POSITION_ID_SUCCESS: {
-      console.log("get device list......");
-      const list = action.payload.map(device => {
+      const list = action.payload.map(item => {
         return {
-          ...device,
+          ...item,
           isChecked: false
         };
       });
