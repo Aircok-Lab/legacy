@@ -237,7 +237,7 @@ router.delete("/deleteBuilding", function(req, res, next) {
                   let userData = userPattern.deletePattern(user);
                   result.statusCode = OK;
                   result.message = "성공";
-                  result.data = [userData];
+                  result.data = userData;
                   res.send(result);
                 }
               });
