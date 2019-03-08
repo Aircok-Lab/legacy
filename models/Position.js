@@ -192,7 +192,7 @@ var Position = {
     });
   },
   updatePosition: function(id, name, position, buildingId, callback) {
-    console.log("updateBuilding 호출됨");
+    console.log("updatePosition 호출됨");
 
     pool.getConnection(function(err, conn) {
       if (err) {
@@ -223,12 +223,11 @@ var Position = {
             callback(err, null);
             return;
           }
-          var string = JSON.stringify(result);
-          var json = JSON.parse(string);
-          console.log(">> json: ", json);
-          var positionInfo = json;
+          var success = false;
+          if(result.changedRows > 0)
+            success = true;
 
-          callback(null, positionInfo);
+          callback(null, success);
         }
       );
     });

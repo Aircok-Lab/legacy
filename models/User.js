@@ -379,9 +379,9 @@ var User = {
             callback(err, null);
             return;
           }
-          var success = 'false';
+          var success = false;
           if(result.changedRows > 0)
-            success = "true";
+            success = true;
 
           callback(null, success);
         }

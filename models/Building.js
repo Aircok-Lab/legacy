@@ -158,14 +158,11 @@ var Building = {
             callback(err, null);
             return;
           }
-          // console.log('>> result: ', result );
-          var string = JSON.stringify(result);
-          // console.log('>> string: ', string );
-          var json = JSON.parse(string);
-          console.log(">> json: ", json);
-          var builingInfo = json;
+          var success = false;
+          if(result.changedRows > 0)
+            success = true;
 
-          callback(null, builingInfo);
+          callback(null, success);
         }
       );
     });

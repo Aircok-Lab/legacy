@@ -221,76 +221,76 @@ var Alarm = {
       );
     });
   },
-  updateAlarm: function(
-    id,
-    pm25,
-    pm10,
-    co2,
-    hcho,
-    voc,
-    temperature,
-    humidity,
-    noise,
-    date,
-    deviceSN,
-    callback
-  ) {
-    console.log("updateAlarm 호출됨");
+  // updateAlarm: function(
+  //   id,
+  //   pm25,
+  //   pm10,
+  //   co2,
+  //   hcho,
+  //   voc,
+  //   temperature,
+  //   humidity,
+  //   noise,
+  //   date,
+  //   deviceSN,
+  //   callback
+  // ) {
+  //   console.log("updateAlarm 호출됨");
 
-    pool.getConnection(function(err, conn) {
-      if (err) {
-        if (conn) {
-          conn.release(); // 반드시 해제해야 합니다.
-        }
+  //   pool.getConnection(function(err, conn) {
+  //     if (err) {
+  //       if (conn) {
+  //         conn.release(); // 반드시 해제해야 합니다.
+  //       }
 
-        callback(err, null);
-        return;
-      }
-      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+  //       callback(err, null);
+  //       return;
+  //     }
+  //     console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-      // 데이터를 객체로 만듭니다.
-      var tableName = "Alarm_" + deviceSN;
-      var data = [
-        pm25,
-        pm10,
-        co2,
-        hcho,
-        voc,
-        temperature,
-        humidity,
-        noise,
-        date,
-        deviceSN,
-        id
-      ];
+  //     // 데이터를 객체로 만듭니다.
+  //     var tableName = "Alarm_" + deviceSN;
+  //     var data = [
+  //       pm25,
+  //       pm10,
+  //       co2,
+  //       hcho,
+  //       voc,
+  //       temperature,
+  //       humidity,
+  //       noise,
+  //       date,
+  //       deviceSN,
+  //       id
+  //     ];
 
-      // SQL문을 실행합니다.
-      var exec = conn.query(
-        "update " +
-          tableName +
-          " set PM25=?, PM10=?, CO2=?, HCHO=?, VOC=?, Temperature=?, Humidity=?, Noise=?, Date=?, DeviceSN=? where id=?",
-        data,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+  //     // SQL문을 실행합니다.
+  //     var exec = conn.query(
+  //       "update " +
+  //         tableName +
+  //         " set PM25=?, PM10=?, CO2=?, HCHO=?, VOC=?, Temperature=?, Humidity=?, Noise=?, Date=?, DeviceSN=? where id=?",
+  //       data,
+  //       function(err, result) {
+  //         conn.release(); // 반드시 해제해야 합니다.
+  //         console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+  //         if (err) {
+  //           console.log("SQL 실행 시 오류 발생함");
+  //           console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-          var string = JSON.stringify(result);
-          var json = JSON.parse(string);
-          console.log(">> json: ", json);
-          var dataInfo = json;
+  //           callback(err, null);
+  //           return;
+  //         }
+  //         var string = JSON.stringify(result);
+  //         var json = JSON.parse(string);
+  //         console.log(">> json: ", json);
+  //         var dataInfo = json;
 
-          callback(null, dataInfo);
-        }
-      );
-    });
-  },
+  //         callback(null, dataInfo);
+  //       }
+  //     );
+  //   });
+  // },
   deleteAlarm: function(deviceSN, dataId, callback) {
     console.log("deleteAlarm 호출됨 dataId : " + dataId);
     pool.getConnection(function(err, conn) {

@@ -203,12 +203,11 @@ var Product = {
             callback(err, null);
             return;
           }
-          var string = JSON.stringify(result);
-          var json = JSON.parse(string);
-          console.log(">> json: ", json);
-          var productInfo = json;
+          var success = false;
+          if(result.changedRows > 0)
+            success = true;
 
-          callback(null, productInfo);
+          callback(null, success);
         }
       );
     });

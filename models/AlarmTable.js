@@ -142,7 +142,10 @@ var AlarmTable = {
             callback(err, null);
             return;
           }
-          var success = "true";
+          var success = false;
+          if(result.changedRows > 0)
+            success = true;
+            
           callback(null, success);
         }
       );

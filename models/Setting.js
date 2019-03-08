@@ -112,12 +112,11 @@ var Setting = {
             callback(err, null);
             return;
           }
-          var string = JSON.stringify(result);
-          var json = JSON.parse(string);
-          console.log(">> json: ", json);
-          var settingInfo = json;
+          var success = false;
+          if(result.changedRows > 0)
+            success = true;
 
-          callback(null, settingInfo);
+          callback(null, success);
         }
       );
     });

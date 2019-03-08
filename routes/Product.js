@@ -157,7 +157,7 @@ router.post('/getProductById', function(req, res, next) {
              res.send(result);
          } else {
              result.statusCode = FAIL;
-             result.message = '실패';
+             result.message = '수정된 내용이 없습니다.';
              res.send(result);
          }
      });

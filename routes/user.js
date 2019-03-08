@@ -502,14 +502,14 @@ router.put("/updateUser", function(req, res, next) {
       }
 
       //결과 객체 있으면 성공 응답 전송
-      if (success == 'true') {
+      if (success) {
         console.dir(success);
         result.statusCode = OK;
         result.message = "성공";
         res.send(result);
       } else {
         result.statusCode = FAIL;
-        result.message = "실패";
+        result.message = "수정된 내용이 없습니다.";
         res.send(result);
       }
     }
