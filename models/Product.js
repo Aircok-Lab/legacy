@@ -77,6 +77,7 @@ var Product = {
   addProduct: function(
     name,
     version,
+    ip,
     period,
     indoor,
     pm25,
@@ -106,6 +107,7 @@ var Product = {
       var data = {
         Name: name,
         Version: version,
+        IP: ip,
         Period: period,
         Indoor: indoor,
         PM25: pm25,
@@ -142,6 +144,7 @@ var Product = {
     id,
     name,
     version,
+    ip,
     period,
     indoor,
     pm25,
@@ -171,6 +174,7 @@ var Product = {
       var data = [
         name,
         version,
+        ip,
         period,
         indoor,
         pm25,
@@ -186,7 +190,7 @@ var Product = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Product set Name=?, Version=?, Period=?, Indoor=?, PM25=?, PM10=?, CO2=?, HCHO=?, VOC=?, Temperature=?, Humidity=?, Noise=? where id=?",
+        "update Product set Name=?, Version=?, IP=?, Period=?, Indoor=?, PM25=?, PM10=?, CO2=?, HCHO=?, VOC=?, Temperature=?, Humidity=?, Noise=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.

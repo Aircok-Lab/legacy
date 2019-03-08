@@ -88,7 +88,7 @@ var AlarmTable = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var data = { SensorType: sensorType, AlarmTable: alarmValue };
+      var data = { SensorType: sensorType, AlarmValue: alarmValue };
 
       // SQL문을 실행합니다.
       var exec = conn.query("insert into AlarmTable set ?", data, function(

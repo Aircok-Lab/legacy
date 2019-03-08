@@ -86,7 +86,7 @@ router.put("/updateAlarmValue", function(req, res, next) {
 
   console.log("요청 파라미터 : " + paramSensorType + "," + paramAlarmValue);
 
-  alarmTable.updateAlarmValueTable(paramSensorType, paramAlarmValue, function(
+  alarmTable.updateAlarmValue(paramSensorType, paramAlarmValue, function(
     err,
     success
   ) {

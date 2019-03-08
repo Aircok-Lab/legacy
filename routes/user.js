@@ -502,7 +502,7 @@ router.put("/updateUser", function(req, res, next) {
       }
 
       //결과 객체 있으면 성공 응답 전송
-      if (success) {
+      if (success == 'true') {
         console.dir(success);
         result.statusCode = OK;
         result.message = "성공";

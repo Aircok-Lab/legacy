@@ -14,6 +14,7 @@ router.post("/addDevice", function(req, res, next) {
   var paramName = req.body.name || req.query.name;
   var paramSerialNumber = req.body.serialNumber || req.query.serialNumber;
   var paramPhone = req.body.phone || req.query.phone;
+  var paramIP = req.body.ip || req.query.ip;
   var paramPositionID = req.body.positionID || req.query.positionID;
   var paramProductID = req.body.productID || req.query.productID;
   var result = { statusCode: null, message: null, data: null };
@@ -26,6 +27,8 @@ router.post("/addDevice", function(req, res, next) {
       "," +
       paramPhone +
       "," +
+      paramIP +
+      "," +
       paramPositionID +
       "," +
       paramProductID
@@ -35,6 +38,7 @@ router.post("/addDevice", function(req, res, next) {
     paramName,
     paramSerialNumber,
     paramPhone,
+    paramIP,
     paramPositionID,
     paramProductID,
     function(err, addedDevice) {
@@ -236,6 +240,7 @@ router.put("/updateDevice", function(req, res, next) {
   var paramName = req.body.name || req.query.name;
   var paramSerialNumber = req.body.serialNumber || req.query.serialNumber;
   var paramPhone = req.body.phone || req.query.phone;
+  var paramIP = req.body.ip || req.query.ip;
   var paramPositionID = req.body.positionID || req.query.positionID;
   var paramProductID = req.body.productID || req.query.productID;
   var result = { statusCode: null, message: null, data: null };
@@ -249,6 +254,8 @@ router.put("/updateDevice", function(req, res, next) {
       "," +
       paramPhone +
       "," +
+      paramIP + 
+      "," +
       paramPositionID +
       "," +
       paramProductID
@@ -258,6 +265,7 @@ router.put("/updateDevice", function(req, res, next) {
     paramName,
     paramSerialNumber,
     paramPhone,
+    paramIP,
     paramPositionID,
     paramProductID,
     function(err, success) {
