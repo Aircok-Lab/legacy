@@ -16,7 +16,7 @@ class UpdateBuilding extends Component {
   deleteBuilding = () => {
     // console.log("deleteBuilding", this.props.node.id);
     this.props.buildingDeleteRequest({
-      id: this.props.node.id,
+      id: this.props.selectedNode.id,
       userID: this.props.authUser.id
     });
   };
@@ -120,14 +120,20 @@ class UpdateBuilding extends Component {
           <button
             type="button"
             className="w3-button w3-blue w3-padding w3-margin-right"
-            onClick={e => this.deleteBuilding()}
+            onClick={e => {
+              this.deleteBuilding();
+              this.props.closeModal();
+            }}
           >
             삭제
           </button>
           <button
             type="button"
             className="w3-button w3-blue w3-padding"
-            onClick={e => this.addBuilding()}
+            onClick={e => {
+              this.addBuilding();
+              this.props.closeModal();
+            }}
           >
             OK
           </button>
@@ -138,7 +144,8 @@ class UpdateBuilding extends Component {
 }
 
 const mapStateToProps = state => ({
-  authUser: state.auth.authUser
+  authUser: state.auth.authUser,
+  selectedNode: state.tree.selectedNode
 });
 
 const mapDispatchToProps = {

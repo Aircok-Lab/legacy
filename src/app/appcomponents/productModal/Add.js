@@ -1,23 +1,39 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { deviceAddRequest } from "actions/Device";
+import { productAddRequest } from "actions/Product";
 const uuidv4 = require("uuid/v4");
 // uuidv4(); // ⇨ '10ba038e-48da-487b-96e8-8d3b99b6d18a'
-class AddDevice extends Component {
-  addDevice = () => {
-    this.props.deviceAddRequest({
-      name: "test1",
-      serialNumber: new Date().getTime(),
-      phone: "1",
-      positionID: this.props.node.id,
-      productID: 1
+class AddProduct extends Component {
+  add = () => {
+    // console.log(this.props.selectedNode);
+    this.props.productAddRequest({
+      // loginId: "" + new Date().getTime(),
+      // name: "" + new Date().getTime(),
+      // password: "" + new Date().getTime(),
+      // email: "test@test.com",
+      // department: "Sales Department",
+      // phone: "010-555-5555",
+      // buildinglist: "" + this.props.selectedNode.BuildingID,
+      // positionlist: "" + this.props.selectedNode.id
+      name: "테스트",
+      version: "v3.0.0",
+      period: "1",
+      indoor: "1",
+      pm25: "1",
+      pm10: "1",
+      co2: "1",
+      hcho: "1",
+      voc: "1",
+      temperature: "1",
+      humidity: "1",
+      noise: "1"
     });
   };
 
   render() {
     return (
       <form className="w3-text-blue w3-margin">
-        <h2 className="w3-center">측정기 등록</h2>
+        <h2 className="w3-center">제품군 등록</h2>
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
             건물명
@@ -101,7 +117,7 @@ class AddDevice extends Component {
             type="button"
             className="w3-button w3-blue w3-padding"
             onClick={e => {
-              this.addDevice();
+              this.add();
               this.props.closeModal();
             }}
           >
@@ -114,14 +130,15 @@ class AddDevice extends Component {
 }
 
 const mapStateToProps = state => ({
-  authUser: state.auth.authUser
+  authProduct: state.auth.authProduct,
+  selectedNode: state.tree.selectedNode
 });
 
 const mapDispatchToProps = {
-  deviceAddRequest: deviceAddRequest
+  productAddRequest: productAddRequest
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddDevice);
+)(AddProduct);

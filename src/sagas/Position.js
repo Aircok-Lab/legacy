@@ -11,6 +11,9 @@ import {
   POSITION_DELETE_SUCCESS,
   USER_GET_BY_ID_REQUEST
 } from "constants/ActionTypes";
+import { userSignInSuccess } from "actions/Auth";
+import responseDataProcess from "util/responseDataProcess";
+
 import api from "api";
 
 function* positionListWorker(action) {
@@ -26,8 +29,6 @@ export function* positionListWatcher() {
 }
 
 function* positionAddWorker(action) {
-  //     const signInUser = yield call(signInUserWithEmailPasswordRequest, email, newpw);
-
   try {
     let res = yield api.post(`position/addPosition`, action.payload);
     localStorage.setItem("user_id", JSON.stringify(res.data.data));
@@ -36,13 +37,6 @@ function* positionAddWorker(action) {
       type: "POSITION_LIST_REQUEST",
       payload: { id: res.data.data.PositionList }
     });
-
-    // yield delay(1000);
-    // yield put({
-    //   type: USER_GET_BY_ID_REQUEST,
-    //   payload: { id: action.payload.user_id }
-    // });
-    // yield put({ type: POSITION_ADD_SUCCESS, payload: res.data.data });
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -66,15 +60,20 @@ export function* positionUpdateWatcher() {
 function* positionDeleteWorker(action) {
   let res = null;
   try {
-    if (action.payload.id) {
-      res = yield api.delete(`position/deleteBuilding?id=${action.payload.id}`);
-      yield delay(1000);
+    res = yield api.delete(
+      `position/deletePosition?id=${action.payload.id}&userID=${
+        action.payload.userID
+      }`
+    );
+
+    if (responseDataProcess(res.data)) {
+      localStorage.setItem("user_id", JSON.stringify(res.data.data));
+      yield put(userSignInSuccess(res.data.data));
       yield put({
-        type: USER_GET_BY_ID_REQUEST,
-        payload: { id: action.payload.user_id }
+        type: "POSITION_LIST_REQUEST",
+        payload: { id: res.data.data.PositionList }
       });
     }
-    yield put({ type: POSITION_DELETE_SUCCESS, payload: res.data.data });
   } catch (error) {
     console.log("[ERROR#####]", error);
   }

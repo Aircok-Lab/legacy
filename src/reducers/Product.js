@@ -1,7 +1,6 @@
 import {
-  USER_LIST_BY_BUILDING_ID_SUCCESS,
-  USER_LIST_BY_POSITION_ID_SUCCESS,
-  USER_ADD_SUCCESS
+  PRODUCT_LIST_SUCCESS,
+  PRODUCT_ADD_SUCCESS
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -10,8 +9,7 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case USER_LIST_BY_BUILDING_ID_SUCCESS:
-    case USER_LIST_BY_POSITION_ID_SUCCESS: {
+    case PRODUCT_LIST_SUCCESS: {
       const list = action.payload.map(item => {
         return {
           ...item,
@@ -24,7 +22,7 @@ export default (state = INIT_STATE, action) => {
         list
       };
     }
-    case USER_ADD_SUCCESS: {
+    case PRODUCT_ADD_SUCCESS: {
       return {
         ...state,
         loader: false

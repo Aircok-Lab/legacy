@@ -13,6 +13,7 @@ import {
   USER_GET_BY_ID_REQUEST
 } from "constants/ActionTypes";
 import { userSignInSuccess } from "actions/Auth";
+import responseDataProcess from "util/responseDataProcess";
 
 import api from "api";
 
@@ -60,17 +61,12 @@ export function* buildingUpdateWatcher() {
 function* buildingDeleteWorker(action) {
   let res = null;
   try {
-    if (action.payload.id) {
-      res = yield api.delete(
-        `building/deleteBuilding?id=${action.payload.id}&userID=${
-          action.payload.userID
-        }`
-      );
-      // yield delay(1000);
-      // yield put({
-      //   type: USER_GET_BY_ID_REQUEST,
-      //   payload: { id: action.payload.user_id }
-      // });
+    res = yield api.delete(
+      `building/deleteBuilding?id=${action.payload.id}&userID=${
+        action.payload.userID
+      }`
+    );
+    if (responseDataProcess(res.data)) {
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({
@@ -78,7 +74,6 @@ function* buildingDeleteWorker(action) {
         payload: { id: res.data.data.BuildingList }
       });
     }
-    // yield put({ type: BUILDING_DELETE_SUCCESS, payload: res.data.data });
   } catch (error) {
     console.log("[ERROR#####]", error);
   }

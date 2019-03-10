@@ -4,6 +4,7 @@ import buildingSagas from "./Building";
 import positionSagas from "./Position";
 import deviceSagas from "./Device";
 import userSagas from "./User";
+import productSagas from "./Product";
 
 export default function* rootSaga(getState) {
   yield all([
@@ -11,6 +12,7 @@ export default function* rootSaga(getState) {
     buildingSagas(),
     positionSagas(),
     deviceSagas(),
-    userSagas()
+    userSagas(),
+    productSagas()
   ]);
 }

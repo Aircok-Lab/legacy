@@ -10,7 +10,6 @@ import UpdateDevice from "app/appcomponents/UpdateDevice";
 import { selectTreeNode } from "actions/Tree";
 import { buildingListRequest, buildingAddRequest } from "actions/Building";
 import { positionListRequest, positionAddRequest } from "actions/Position";
-
 const customStyles = {
   content: {
     top: "50%",
@@ -40,11 +39,34 @@ class BuildingPositionTree extends Component {
     deviceList: []
   };
   componentDidMount() {
-    // console.log("cdm this.props.authUser", this.props.authUser);
+    console.log("auth", JSON.stringify(this.props.authUser));
     this.props.buildingListRequest({ id: this.props.authUser.BuildingList });
     this.props.positionListRequest({ id: this.props.authUser.PositionList });
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // 건물 추가/삭제시 건물데이터 요청
+    if (this.props.authUser.BuildingList != prevProps.authUser.BuildingList) {
+      this.props.buildingListRequest({
+        id: this.props.authUser.BuildingList
+      });
+    }
+
+    // 층 추가/삭제시 층데이터 요청
+    if (this.props.authUser.PositionList != this.props.authUser.PositionList) {
+      this.props.positionListRequest({
+        id: this.props.authUser.PositionList
+      });
+    }
+  }
+  openModal = param => e => {
+    let modalMode = param;
+    this.setState({ showModal: true, modalMode });
+  };
+
+  closeModal = () => {
+    this.setState({ showModal: false });
+  };
   addBuilding = () => {
     this.props.buildingAddRequest({
       name: "빌딩",
@@ -55,27 +77,10 @@ class BuildingPositionTree extends Component {
     });
   };
   nodeClick = item => {
-    console.log("node click");
     this.props.selectTreeNode(item);
-
-    let nodeId = "";
-    if (item.BuildingID) {
-      // 층
-      nodeId = "" + item.BuildingID + "-" + item.id;
-      // this.props.deviceListByPositionIdRequest({ id: "" + item.id });
-    } else {
-      // 건물
-      nodeId = "" + item.id;
-      // this.props.deviceListByBuildingIdRequest({ id: item.id });
-    }
-    this.setState({
-      selectedNodeId: nodeId
-    });
   };
 
   render() {
-    console.log("this.props.buildingList", this.props.buildingList);
-
     let buildingPositionList = [...this.props.buildingList];
     buildingPositionList.map(item => {
       const items = this.props.positionList.filter(
@@ -96,13 +101,13 @@ class BuildingPositionTree extends Component {
           <div>
             <button
               style={{ marginLeft: "2px" }}
-              onClick={this.props.openModal("addBuilding")}
+              onClick={this.openModal("addBuilding")}
             >
               건물등록
             </button>
             <button
               style={{ marginLeft: "2px" }}
-              onClick={this.props.openModal("addPosition")}
+              onClick={this.openModal("addPosition")}
               disabled={
                 this.props.selectedNode.BuildingID ||
                 !this.props.selectedNode.id
@@ -113,7 +118,7 @@ class BuildingPositionTree extends Component {
             {this.props.selectedNode.BuildingID && (
               <button
                 style={{ marginLeft: "2px" }}
-                onClick={this.props.openModal("updatePosition")}
+                onClick={this.openModal("updatePosition")}
               >
                 수정
               </button>
@@ -121,7 +126,7 @@ class BuildingPositionTree extends Component {
             {this.props.selectedNode.id && !this.props.selectedNode.BuildingID && (
               <button
                 style={{ marginLeft: "2px" }}
-                onClick={this.props.openModal("updateBuilding")}
+                onClick={this.openModal("updateBuilding")}
               >
                 수정
               </button>
@@ -132,18 +137,19 @@ class BuildingPositionTree extends Component {
         {buildingPositionList.map(item => (
           <div key={item.id}>
             <div
-              style={{ cursor: "pointer" }}
+              style={{
+                cursor: "pointer",
+                padding: "2px 10px",
+                marginBottom: "2px"
+              }}
               className={
-                "w3-block w3-padding w3-border " +
-                (this.state.selectedNodeId === "" + item.id ? "w3-blue" : "")
+                "w3-block w3-border " +
+                (this.props.selectedNode.id === item.id ? "w3-blue" : "")
               }
               onClick={e => this.nodeClick(item)}
             >
               <i className="fa fa-plus-square-o" aria-hidden="true" />
-              <span>
-                {" "}
-                {item.Name} {item.id}
-              </span>
+              <span> {item.Name}</span>
             </div>
 
             <div className="">
@@ -152,10 +158,17 @@ class BuildingPositionTree extends Component {
                   item.positions.map(position => (
                     <li
                       key={position.id}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: "pointer",
+                        padding: "2px 10px 2px 25px",
+                        marginBottom: "2px"
+                      }}
                       className={
                         "w3-border-0 w3-padding-left " +
-                        (this.state.selectedNodeId ===
+                        ("" +
+                          this.props.selectedNode.BuildingID +
+                          "-" +
+                          this.props.selectedNode.id ===
                         "" + position.BuildingID + "-" + position.id
                           ? "w3-blue"
                           : "")
@@ -166,7 +179,7 @@ class BuildingPositionTree extends Component {
                         className="fa fa-caret-right w3-large"
                         aria-hidden="true"
                       />{" "}
-                      {position.Name} {position.BuildingID + "-" + position.id}
+                      {position.Name}
                     </li>
                   ))}
               </ul>
@@ -193,19 +206,26 @@ class BuildingPositionTree extends Component {
                   closeModal={this.closeModal}
                 />
               ),
-              updateBuilding: <UpdateBuilding node={this.state.selectedNode} />,
+              updateBuilding: (
+                <UpdateBuilding
+                  node={this.state.selectedNode}
+                  closeModal={this.closeModal}
+                />
+              ),
               addPosition: (
                 <AddPosition
                   node={this.state.selectedNode}
                   closeModal={this.closeModal}
                 />
               ),
-              updatePosition: <UpdatePosition node={this.state.selectedNode} />
+              updatePosition: (
+                <UpdatePosition
+                  node={this.state.selectedNode}
+                  closeModal={this.closeModal}
+                />
+              )
             }[this.state.modalMode]
           }
-
-          {/*
-           */}
         </Modal>
       </div>
     );
@@ -219,13 +239,13 @@ const mapStateToProps = state => ({
   selectedNode: state.tree.selectedNode
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = {
   buildingAddRequest: buildingAddRequest,
   buildingListRequest: buildingListRequest,
   positionAddRequest: positionAddRequest,
   positionListRequest: positionListRequest,
-  selectTreeNode: node => dispatch({ type: "SELECT_TREE_NODE", payload: node })
-});
+  selectTreeNode: selectTreeNode
+};
 
 export default connect(
   mapStateToProps,

@@ -41,8 +41,6 @@ const customStyles = {
 
 Modal.setAppElement("#body");
 
-let buildingPositionList = [];
-
 class DeviceTable extends React.Component {
   state = {
     showModal: false,
@@ -68,39 +66,14 @@ class DeviceTable extends React.Component {
   };
 
   componentDidMount() {
-    console.log("DeviceTabe CDM");
-    // // console.log("cdm this.props.authUser", this.props.authUser);
-    // this.props.buildingListRequest({ id: this.props.authUser.BuildingList });
-    // this.props.positionListRequest({ id: this.props.authUser.PositionList });
-
     this.setState({ deviceList: this.props.deviceList });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("DeviceTabe CDU");
-    // // 건물 추가 또는 삭제시 노드데이터 요청
-    // if (this.props.authUser.BuildingList != prevProps.authUser.BuildingList) {
-    //   this.props.buildingListRequest({
-    //     id: this.props.authUser.BuildingList
-    //   });
-    // }
-
-    // // 층 추가 또는 삭제시 노드데이터 요청
-    // if (this.props.authUser.PositionList != prevProps.authUser.PositionList) {
-    //   this.props.positionListRequest({
-    //     id: this.props.authUser.PositionList
-    //   });
-    // }
-
     if (
       JSON.stringify(prevProps.deviceList) !=
       JSON.stringify(this.props.deviceList)
     ) {
-      // console.log(
-      //   "DeviceTable componentDidUpdate 호출됨",
-      //   prevProps,
-      //   this.props
-      // );
       this.setState({ deviceList: this.props.deviceList });
     }
 
@@ -108,8 +81,6 @@ class DeviceTable extends React.Component {
       JSON.stringify(prevProps.selectedNode) !=
       JSON.stringify(this.props.selectedNode)
     ) {
-      console.log("DeviceTable componentDidUpdate 호출됨 11111");
-      // this.setState({ deviceList: this.props.deviceList });
       if (this.props.selectedNode.BuildingID) {
         // 층
         this.props.deviceListByPositionIdRequest({
@@ -121,25 +92,13 @@ class DeviceTable extends React.Component {
           id: this.props.selectedNode.id
         });
       }
-      // deviceListByBuildingIdRequest
     }
   }
 
   render() {
-    // buildingPositionList = [...this.props.buildingList];
-    // buildingPositionList.map(item => {
-    //   const items = this.props.positionList.filter(
-    //     position => position.BuildingID == item.id
-    //   );
-    //   if (items.length) {
-    //     item.positions = items;
-    //   }
-    // });
-
     return (
       <div className="">
         <div className="animated slideInUpTiny animation-duration-3">
-          {/* <div>{JSON.stringify(this.state.deviceList)}</div> */}
           <div className="text-right w3-margin-bottom">
             <button
               onClick={this.openModal("addDevice")}
@@ -170,11 +129,6 @@ class DeviceTable extends React.Component {
               삭제
             </button>
           </div>
-          {/* Select: {JSON.stringify(this.props.selectedNode)}
-          <hr />
-          this.props.deviceList: {JSON.stringify(this.props.deviceList)}
-          <hr />
-          this.state.deviceList: {JSON.stringify(this.state.deviceList)} */}
           <table className="w3-table-all w3-centered">
             <thead>
               <tr>
@@ -196,7 +150,7 @@ class DeviceTable extends React.Component {
                 <th>측정주기</th>
                 <th>S/N</th>
                 <th>제품군</th>
-                <th>Phone번호</th>
+                <th>전화번호</th>
               </tr>
             </thead>
             <tbody>
@@ -238,9 +192,13 @@ class DeviceTable extends React.Component {
           style={customStyles}
           // className="w3-display-container"
         >
-          <button className="w3-display-topright" onClick={this.closeModal}>
+          <button
+            className="w3-display-topright w3-button w3-white w3-hover-text-white"
+            onClick={this.closeModal}
+          >
             X
           </button>
+
           <div className="" style={{ minWidth: "400px" }} />
           {
             {
@@ -313,20 +271,13 @@ class DeviceTable extends React.Component {
 }
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
-  buildingList: state.building.list,
-  positionList: state.position.list,
   deviceList: state.device.list,
   selectedNode: state.tree.selectedNode
 });
 
 const mapDispatchToProps = {
-  buildingListRequest: buildingListRequest,
-  // buildingSaveRequest: buildingSaveRequest,
-  // buildingDeleteRequest: buildingDeleteRequest,
-  positionListRequest: positionListRequest,
   deviceListByBuildingIdRequest: deviceListByBuildingIdRequest,
   deviceListByPositionIdRequest: deviceListByPositionIdRequest,
-  deviceDeleteRequest,
   deviceDeleteRequest
 };
 
