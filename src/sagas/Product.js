@@ -32,7 +32,7 @@ function* productAddWorker(action) {
     yield put({
       type: PRODUCT_LIST_REQUEST,
       // payload: { positionID: action.payload.positionID }
-      payload: { positionID: action.payload.positionlist }
+      payload: { positionID: action.payload.positionList }
     });
   } catch (error) {
     console.log("[ERROR#####]", error);

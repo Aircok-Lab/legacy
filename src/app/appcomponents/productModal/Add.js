@@ -13,8 +13,8 @@ class AddProduct extends Component {
       // email: "test@test.com",
       // department: "Sales Department",
       // phone: "010-555-5555",
-      // buildinglist: "" + this.props.selectedNode.BuildingID,
-      // positionlist: "" + this.props.selectedNode.id
+      // buildingList: "" + this.props.selectedNode.BuildingID,
+      // positionList: "" + this.props.selectedNode.id
       name: "테스트",
       version: "v3.0.0",
       period: "1",

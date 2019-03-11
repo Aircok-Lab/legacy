@@ -148,6 +148,21 @@ class BuildingPositionTree extends Component {
               }
               onClick={e => this.nodeClick(item)}
             >
+              <input
+                className="w3-check"
+                type="checkbox"
+                checked={item.isChecked}
+                value={item.id}
+                onChange={event => {
+                  let userList = [...this.state.userList];
+                  userList.forEach(user => {
+                    if (user.id === Number(event.target.value)) {
+                      user.isChecked = event.target.checked;
+                    }
+                  });
+                  this.setState({ userList: userList });
+                }}
+              />
               <i className="fa fa-plus-square-o" aria-hidden="true" />
               <span> {item.Name}</span>
             </div>

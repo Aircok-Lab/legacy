@@ -15,7 +15,7 @@ import api from "api";
 
 function* userListByBuildingIdWorker(action) {
   try {
-    const res = yield api.post(`users/getUserByBuildingId`, action.payload);
+    const res = yield api.post(`user/getUserByBuildingId`, action.payload);
     yield put({
       type: USER_LIST_BY_BUILDING_ID_SUCCESS,
       payload: res.data.data
@@ -30,7 +30,7 @@ export function* userListByBuildingIdWatcher() {
 
 function* userListByPositionIdWorker(action) {
   try {
-    const res = yield api.post(`users/getUserByPositionId`, action.payload);
+    const res = yield api.post(`user/getUserByPositionId`, action.payload);
     yield put({
       type: USER_LIST_BY_POSITION_ID_SUCCESS,
       payload: res.data.data
@@ -45,11 +45,11 @@ export function* userListByPositionIdWatcher() {
 
 function* userAddWorker(action) {
   try {
-    const res = yield api.post(`users/addUser`, action.payload);
+    const res = yield api.post(`user/addUser`, action.payload);
     yield put({
       type: USER_LIST_BY_POSITION_ID_REQUEST,
       // payload: { positionID: action.payload.positionID }
-      payload: { positionID: action.payload.positionlist }
+      payload: { positionID: action.payload.positionList }
     });
   } catch (error) {
     console.log("[ERROR#####]", error);
@@ -61,7 +61,7 @@ export function* userAddWatcher() {
 
 function* userDeleteWorker(action) {
   try {
-    const res = yield api.delete(`users/deleteUser?id=${action.payload.ids}`);
+    const res = yield api.delete(`user/deleteUser?id=${action.payload.ids}`);
     console.log("user delete - action.payload :", action.payload);
     if (action.payload.node.BuildingID) {
       yield put({

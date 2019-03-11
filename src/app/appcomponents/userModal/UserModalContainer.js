@@ -44,6 +44,7 @@ class UserModalContainer extends Component {
           >
             X
           </button>
+          {/* <i className="fas fa-times-circle" /> */}
           <div className="" style={{ minWidth: "400px" }} />
           {
             {

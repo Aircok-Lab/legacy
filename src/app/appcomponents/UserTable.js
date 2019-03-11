@@ -108,7 +108,6 @@ class UserTable extends React.Component {
                   <th>이메일</th>
                   <th>소속(부서)</th>
                   <th>전화번호</th>
-                  <th>상태</th>
                 </tr>
               </thead>
               <tbody>
@@ -133,13 +132,16 @@ class UserTable extends React.Component {
                         />
                       </td>
                       <td>{index + 1}</td>
-                      <td>{row.Manager}</td>
+                      <td>
+                        <span style={{ textTransform: "capitalize" }}>
+                          {row.UserType}
+                        </span>
+                      </td>
                       <td>{row.LoginID}</td>
                       <td>{row.Name}</td>
                       <td>{row.Email}</td>
                       <td>{row.Department}</td>
                       <td>{row.Phone}</td>
-                      <td>{row.Approval}</td>
                     </tr>
                   ))}
               </tbody>
