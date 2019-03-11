@@ -4,9 +4,16 @@ import {
   RECENT_DATA_FAIL
 } from "constants/ActionTypes";
 
-export const recentDataRequest = payload => {
+export const recentDataRequest = positionList => {
   return {
     type: RECENT_DATA_REQUEST,
-    payload
+    positionList: positionList
+  };
+};
+
+export const recentDataSuccess = recentData => {
+  return {
+    type: RECENT_DATA_SUCCESS,
+    payload: recentData
   };
 };

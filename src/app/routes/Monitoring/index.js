@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { alarmReferenceValueRequest } from "actions/AlarmReference";
-
-const products = [];
-var index = 0;
+import { showAuthLoader } from "actions/Auth";
+import { recentDataRequest } from "actions/RecentData";
 
 const qualityType = {
   0: "good",
@@ -11,131 +10,84 @@ const qualityType = {
   2: "unknown"
 };
 
-function addProducts(quantity) {
-  const startId = products.length;
-  for (let i = 0; i < quantity; i++) {
-    const id = startId + i;
-    products.push({
-      BuildingName: "에어콕",
-      PositionName: "1층",
-      id: 34,
-      DeviceSN: "356170062145371",
-      Date: "2019-03-05T07:21:00.000Z",
-      PM10: 150,
-      PM25: 116,
-      CO2: 0,
-      HCHO: 0,
-      VOC: 4,
-      Temperature: 28.6,
-      Humidity: 26,
-      Noise: null,
-      E3Score: 66,
-      E3Index: 5,
-      PM10Index: 5,
-      PM25Index: 5,
-      CO2Index: 1,
-      HCHOIndex: 1,
-      VOCIndex: 1,
-      TemperatureIndex: 6,
-      HumidityIndex: 6,
-      NoiseIndex: null,
-      PM10Alarm: 0,
-      PM25Alarm: 1,
-      CO2Alarm: 0,
-      HCHOAlarm: 0,
-      VOCAlarm: 0,
-      TemperatureAlarm: 1,
-      HumidityAlarm: 1,
-      NoiseAlarm: 0,
-      InsertDate: "2019-03-05T07:21:17.000Z"
-    });
-  }
-}
-
-addProducts(50);
-var data = [];
-var i = 0;
-
-function headerColumnClassNameFormat(row) {
-  return row === 0 ? "table-header-row0-class" : "table-header-row1-class";
-}
-
 class SamplePage extends React.Component {
   constructor(props) {
     super(props);
+    this.props.showAuthLoader();
     this.props.alarmReferenceValueRequest();
-    this.state = {
-      contactData: [
-        {
-          BuildingName: "에어콕",
-          PositionName: "1층",
-          id: 34,
-          DeviceSN: "356170062145371",
-          Date: "2019-03-05T07:21:00.000Z",
-          PM10: 150,
-          PM25: 116,
-          CO2: 0,
-          HCHO: 0,
-          VOC: 4,
-          Temperature: 28.6,
-          Humidity: 26,
-          Noise: null,
-          E3Score: 66,
-          E3Index: 5,
-          PM10Index: 5,
-          PM25Index: 5,
-          CO2Index: 1,
-          HCHOIndex: 1,
-          VOCIndex: 1,
-          TemperatureIndex: 6,
-          HumidityIndex: 6,
-          NoiseIndex: null,
-          PM10Alarm: 0,
-          PM25Alarm: 1,
-          CO2Alarm: 0,
-          HCHOAlarm: 0,
-          VOCAlarm: 0,
-          TemperatureAlarm: 1,
-          HumidityAlarm: 1,
-          NoiseAlarm: 0,
-          InsertDate: "2019-03-05T07:21:17.000Z"
-        },
-        {
-          BuildingName: "에어콕",
-          PositionName: "1층",
-          id: 34,
-          DeviceSN: "356170062145371",
-          Date: "2019-03-05T07:21:00.000Z",
-          PM10: 150,
-          PM25: 116,
-          CO2: 0,
-          HCHO: 0,
-          VOC: 4,
-          Temperature: 28.6,
-          Humidity: 26,
-          Noise: null,
-          E3Score: 66,
-          E3Index: 5,
-          PM10Index: 5,
-          PM25Index: 5,
-          CO2Index: 1,
-          HCHOIndex: 1,
-          VOCIndex: 1,
-          TemperatureIndex: 6,
-          HumidityIndex: 6,
-          NoiseIndex: null,
-          PM10Alarm: 0,
-          PM25Alarm: 1,
-          CO2Alarm: 0,
-          HCHOAlarm: 0,
-          VOCAlarm: 0,
-          TemperatureAlarm: 1,
-          HumidityAlarm: 1,
-          NoiseAlarm: 0,
-          InsertDate: "2019-03-05T07:21:17.000Z"
-        }
-      ]
-    };
+    this.props.recentDataRequest(this.props.authUser.PositionList);
+    // this.state = {
+    // contactData: [
+    //   {
+    //     BuildingName: "에어콕",
+    //     PositionName: "1층",
+    //     id: 34,
+    //     DeviceSN: "356170062145371",
+    //     Date: "2019-03-05T07:21:00.000Z",
+    //     PM10: 150,
+    //     PM25: 116,
+    //     CO2: 0,
+    //     HCHO: 0,
+    //     VOC: 4,
+    //     Temperature: 28.6,
+    //     Humidity: 26,
+    //     Noise: null,
+    //     E3Score: 66,
+    //     E3Index: 5,
+    //     PM10Index: 5,
+    //     PM25Index: 5,
+    //     CO2Index: 1,
+    //     HCHOIndex: 1,
+    //     VOCIndex: 1,
+    //     TemperatureIndex: 6,
+    //     HumidityIndex: 6,
+    //     NoiseIndex: null,
+    //     PM10Alarm: 0,
+    //     PM25Alarm: 1,
+    //     CO2Alarm: 0,
+    //     HCHOAlarm: 0,
+    //     VOCAlarm: 0,
+    //     TemperatureAlarm: 1,
+    //     HumidityAlarm: 1,
+    //     NoiseAlarm: 0,
+    //     InsertDate: "2019-03-05T07:21:17.000Z"
+    //   },
+    //   {
+    //     BuildingName: "에어콕",
+    //     PositionName: "1층",
+    //     id: 34,
+    //     DeviceSN: "356170062145371",
+    //     Date: "2019-03-05T07:21:00.000Z",
+    //     PM10: 150,
+    //     PM25: 116,
+    //     CO2: 0,
+    //     HCHO: 0,
+    //     VOC: 4,
+    //     Temperature: 28.6,
+    //     Humidity: 26,
+    //     Noise: null,
+    //     E3Score: 66,
+    //     E3Index: 5,
+    //     PM10Index: 5,
+    //     PM25Index: 5,
+    //     CO2Index: 1,
+    //     HCHOIndex: 1,
+    //     VOCIndex: 1,
+    //     TemperatureIndex: 6,
+    //     HumidityIndex: 6,
+    //     NoiseIndex: null,
+    //     PM10Alarm: 0,
+    //     PM25Alarm: 1,
+    //     CO2Alarm: 0,
+    //     HCHOAlarm: 0,
+    //     VOCAlarm: 0,
+    //     TemperatureAlarm: 1,
+    //     HumidityAlarm: 1,
+    //     NoiseAlarm: 0,
+    //     InsertDate: "2019-03-05T07:21:17.000Z"
+    //   }
+    // ]
+    // };
     this.pageScroll = this.pageScroll.bind(this);
   }
 
@@ -272,7 +224,7 @@ class SamplePage extends React.Component {
             </tr>
           </thead>
           <tbody id="contain" ref="contain">
-            {this.state.contactData.map((contact, i) => {
+            {this.props.contactData.map((contact, i) => {
               return (
                 <tr key={i}>
                   <td style={{ width: "170px" }}>{contact.BuildingName}</td>
@@ -381,11 +333,13 @@ class SamplePage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ alarmReference }) => {
+const mapStateToProps = ({ alarmReference, auth, recentData }) => {
   const { alarmReferenceValue } = alarmReference;
-  return { alarmReferenceValue };
+  const { authUser } = auth;
+  const { contactData } = recentData;
+  return { alarmReferenceValue, authUser, contactData };
 };
 export default connect(
   mapStateToProps,
-  { alarmReferenceValueRequest }
+  { alarmReferenceValueRequest, showAuthLoader, recentDataRequest }
 )(SamplePage);
