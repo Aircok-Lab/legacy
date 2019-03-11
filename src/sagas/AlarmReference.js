@@ -1,4 +1,3 @@
-import { push } from "react-router-redux";
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import {
   ALARM_REFERENCE_VALUE_REQUEST,
@@ -8,18 +7,16 @@ import {
 import { alarmReferenceValueSuccess } from "actions/AlarmReference";
 import api from "api";
 
-const getAlarmReferenceValueRequest = async () => {
+const getAlarmReferenceValueRequest = async () =>
   await api
     .post("AlarmTable/getAlarmValue")
     .then(alarmValue => alarmValue)
     .catch(error => error);
-};
 
 function* getAlarmReferenceValueWorker() {
   try {
     const res = yield call(getAlarmReferenceValueRequest);
-    console.dir(res);
-    yield put(alarmReferenceValueSuccess(res.data));
+    yield put(alarmReferenceValueSuccess(res.data.data));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
