@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { alarmReferenceValueRequest } from "actions/AlarmReference";
 
 const products = [];
 var index = 0;
@@ -61,6 +63,7 @@ function headerColumnClassNameFormat(row) {
 class SamplePage extends React.Component {
   constructor(props) {
     super(props);
+    this.props.alarmReferenceValueRequest();
     this.state = {
       contactData: [
         {
@@ -378,7 +381,11 @@ class SamplePage extends React.Component {
   }
 }
 
-const mapStateToProps = ({alarmReference}) => {
-  const {alarmReferenceValue} = alarmReference;
+const mapStateToProps = ({ alarmReference }) => {
+  const { alarmReferenceValue } = alarmReference;
+  return { alarmReferenceValue };
 };
-export default connect(mapStateToProps)(SamplePage);
+export default connect(
+  mapStateToProps,
+  { alarmReferenceValueRequest }
+)(SamplePage);

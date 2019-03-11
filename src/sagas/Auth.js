@@ -13,9 +13,7 @@ import {
   setInitUrl,
   publicKeySuccess
 } from "actions/Auth";
-import {
-  alarmReferenceValueRequest
-} from "actions/AlarmReference";
+import { alarmReferenceValueRequest } from "actions/AlarmReference";
 import api from "api/index";
 import forge from "node-forge";
 

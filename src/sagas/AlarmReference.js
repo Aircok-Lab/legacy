@@ -5,6 +5,7 @@ import {
   ALARM_REFERENCE_VALUE_SUCCESS,
   ALARM_REFERENCE_VALUE_FAIL
 } from "constants/ActionTypes";
+import { alarmReferenceValueSuccess } from "actions/AlarmReference";
 import api from "api";
 
 const getAlarmReferenceValueRequest = async () => {
@@ -17,7 +18,8 @@ const getAlarmReferenceValueRequest = async () => {
 function* getAlarmReferenceValueWorker() {
   try {
     const res = yield call(getAlarmReferenceValueRequest);
-    yield put(alarmReferenceValueSuccess(res.data.data));
+    console.dir(res);
+    yield put(alarmReferenceValueSuccess(res.data));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
