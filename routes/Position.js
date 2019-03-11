@@ -44,22 +44,26 @@ router.post("/addPosition", function(req, res, next) {
     if (addedPosition) {
       console.dir(addedPosition);
 
-      User.getUserInfo(paramUserID, function(err, userInfo) {
+      User.getUserByBuildingId(paramBuildingID, function(err, users) {
         if (err) {
           console.error("층 추가 중 오류 발생 :" + err.stack);
           return;
         }
+        if (users) {
+          users.map(user => {
+            let positionList =
+              user.PositionList + addedPosition.insertId + ",/";
 
-        if (userInfo) {
-          userInfo.PositionList =
-            userInfo.PositionList + addedPosition.insertId + ",/";
-          User.updateUserPositionList(paramUserID, userInfo.PositionList);
-          let userData = userPattern.deletePattern(userInfo);
-          console.log("추가된 레코드의 아이디 : " + addedPosition.insertId);
-          result.statusCode = OK;
-          result.message = "성공";
-          result.data = userData;
-          res.send(result);
+            User.updateUserPositionList(user.id, positionList);
+            if (user.id == paramUserID) {
+              user.PositionList = positionList;
+              let userData = userPattern.deletePattern(user);
+              result.statusCode = OK;
+              result.message = "성공";
+              result.data = userData;
+              res.send(result);
+            }
+          });
         }
       });
     } else {
