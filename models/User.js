@@ -270,10 +270,11 @@ var User = {
     email,
     department,
     approval,
-    manager,
+    userType,
     phone,
-    buildinglist,
-    positionlist,
+    buildingList,
+    positionList,
+    deviceList,
     callback
   ) {
     console.log("addUser 호출됨");
@@ -297,10 +298,11 @@ var User = {
         Email: email,
         Department: department,
         Approval: approval,
-        Manager: manager,
+        UserType: userType,
         Phone: phone,
-        BuildingList: buildinglist,
-        PositionList: positionlist
+        BuildingList: buildingList,
+        PositionList: positionList,
+        DeviceList: deviceList
       };
 
       // SQL문을 실행합니다.
@@ -330,10 +332,11 @@ var User = {
     email,
     department,
     approval,
-    manager,
+    userType,
     phone,
-    buildinglist,
-    positionlist,
+    buildingList,
+    positionList,
+    deviceList,
     callback
   ) {
     console.log("updateUser 호출됨");
@@ -357,16 +360,17 @@ var User = {
         email,
         department,
         approval,
-        manager,
+        userType,
         phone,
-        buildinglist,
-        positionlist,
+        buildingList,
+        positionList,
+        deviceList,
         userId
       ];
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set Name=?, Password=?, Email=?, Department=?, Approval=?, Manager=?, Phone=?, BuildingList=?, PositionList=? where id=?",
+        "update User set Name=?, Password=?, Email=?, Department=?, Approval=?, UserType=?, Phone=?, BuildingList=?, PositionList=?, DeviceList=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -380,8 +384,7 @@ var User = {
             return;
           }
           var success = false;
-          if(result.changedRows > 0)
-            success = true;
+          if (result.changedRows > 0) success = true;
 
           callback(null, success);
         }
@@ -389,7 +392,7 @@ var User = {
     });
   },
 
-  updateUserBuildingList: function(userId, buildinglist) {
+  updateUserBuildingList: function(userId, buildingList) {
     console.log("updateUserBuildingList 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -405,7 +408,7 @@ var User = {
 
       // 데이터를 객체로 만듭니다.
       // TODO: Approval을 임시로 true 로 설정했습니다.
-      var data = [buildinglist, userId];
+      var data = [buildingList, userId];
 
       // SQL문을 실행합니다.
       var exec = conn.query(
@@ -430,7 +433,7 @@ var User = {
     });
   },
 
-  updateUserPositionList: function(userId, positionlist) {
+  updateUserPositionList: function(userId, positionList) {
     console.log("updateUserPositionList 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -446,7 +449,7 @@ var User = {
 
       // 데이터를 객체로 만듭니다.
       // TODO: Approval을 임시로 true 로 설정했습니다.
-      var data = [positionlist, userId];
+      var data = [positionList, userId];
 
       // SQL문을 실행합니다.
       var exec = conn.query(

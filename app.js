@@ -7,7 +7,7 @@ var logger = require("morgan");
 //var mailer = require('express-mailer');
 
 var indexRouter = require("./routes/index");
-var userRouter = require("./routes/user");
+var userRouter = require("./routes/User");
 var buildingRouter = require("./routes/Building");
 var positionRouter = require("./routes/Position");
 var deviceRouter = require("./routes/Device");
@@ -41,7 +41,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", userRouter);
+app.use("/user", userRouter);
 app.use("/building", buildingRouter);
 app.use("/position", positionRouter);
 app.use("/device", deviceRouter);

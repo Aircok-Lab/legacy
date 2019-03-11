@@ -88,10 +88,11 @@ router.post("/addUser", function(req, res, next) {
   var paramEmail = req.body.email || req.query.email || null;
   var paramDepartment = req.body.department || req.query.department || null;
   var paramAaproval = true;
-  var paramManager = req.body.manager || req.query.manager || false;
+  var paramUserType = req.body.userType || req.query.userType || false;
   var paramPhone = req.body.phone || req.query.phone || null;
-  var paramBuildingList = req.body.buildinglist || req.query.buildinglist;
-  var paramPositionList = req.body.positionlist || req.query.positionlist;
+  var paramBuildingList = req.body.buildingList || req.query.buildingList;
+  var paramPositionList = req.body.positionList || req.query.positionList;
+  var paramDeviceList = req.body.deviceList || req.query.deviceList;
   var result = { statusCode: null, message: null, data: null };
 
   paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
@@ -111,13 +112,15 @@ router.post("/addUser", function(req, res, next) {
       "," +
       paramAaproval +
       "," +
-      paramManager +
+      paramUserType +
       "," +
       paramPhone +
       "," +
       paramBuildingList +
       "," +
-      paramPositionList
+      paramPositionList +
+      "," +
+      paramDeviceList
   );
   User.addUser(
     paramLoginId,
@@ -126,10 +129,11 @@ router.post("/addUser", function(req, res, next) {
     paramEmail,
     paramDepartment,
     paramAaproval,
-    paramManager,
+    paramUserType,
     paramPhone,
     paramBuildingList,
     paramPositionList,
+    paramDeviceList,
     function(err, addedUser) {
       // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
       if (err) {
@@ -446,12 +450,13 @@ router.put("/updateUser", function(req, res, next) {
   var paramEmail = req.body.email || req.query.email || null;
   var paramDepartment = req.body.department || req.query.department || null;
   var paramAaproval = true;
-  var paramManager = req.body.manager || req.query.manager || false;
+  var paramUserType = req.body.userType || req.query.userType || false;
   var paramPhone = req.body.phone || req.query.phone || null;
   var paramBuildingList =
-    req.body.buildinglist || req.query.buildinglist || null;
+    req.body.buildingList || req.query.buildingList || null;
   var paramPositionList =
-    req.body.positionlist || req.query.positionlist || null;
+    req.body.positionList || req.query.positionList || null;
+  var paramDeviceList = req.body.deviceList || req.query.deviceList || null;
   var result = { statusCode: null, message: null, data: null };
 
   paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
@@ -471,13 +476,15 @@ router.put("/updateUser", function(req, res, next) {
       "," +
       paramAaproval +
       "," +
-      paramManager +
+      paramUserType +
       "," +
       paramPhone +
       "," +
       paramBuildingList +
       "," +
-      paramPositionList
+      paramPositionList +
+      "," +
+      paramDeviceList
   );
 
   User.updateUser(
@@ -487,10 +494,11 @@ router.put("/updateUser", function(req, res, next) {
     paramEmail,
     paramDepartment,
     paramAaproval,
-    paramManager,
+    paramUserType,
     paramPhone,
     paramBuildingList,
     paramPositionList,
+    paramDeviceList,
     function(err, success) {
       // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
       if (err) {
