@@ -94,45 +94,48 @@ class BuildingPositionTree extends Component {
     return (
       <div>
         {/* {JSON.stringify(this.props.selectedNode)} */}
-        <div
-          className="w3-margin-bottom"
-          style={{ display: "flex", justifyContent: "flex-end" }}
-        >
-          <div>
-            <button
-              style={{ marginLeft: "2px" }}
-              onClick={this.openModal("addBuilding")}
-            >
-              건물등록
-            </button>
-            <button
-              style={{ marginLeft: "2px" }}
-              onClick={this.openModal("addPosition")}
-              disabled={
-                this.props.selectedNode.BuildingID ||
-                !this.props.selectedNode.id
-              }
-            >
-              층등록
-            </button>
-            {this.props.selectedNode.BuildingID && (
+        {!this.props.hideButton && (
+          <div
+            className="w3-margin-bottom"
+            style={{ display: "flex", justifyContent: "flex-end" }}
+          >
+            <div>
               <button
                 style={{ marginLeft: "2px" }}
-                onClick={this.openModal("updatePosition")}
+                onClick={this.openModal("addBuilding")}
               >
-                수정
+                건물등록
               </button>
-            )}
-            {this.props.selectedNode.id && !this.props.selectedNode.BuildingID && (
               <button
                 style={{ marginLeft: "2px" }}
-                onClick={this.openModal("updateBuilding")}
+                onClick={this.openModal("addPosition")}
+                disabled={
+                  this.props.selectedNode.BuildingID ||
+                  !this.props.selectedNode.id
+                }
               >
-                수정
+                층등록
               </button>
-            )}
+              {this.props.selectedNode.BuildingID && (
+                <button
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("updatePosition")}
+                >
+                  수정
+                </button>
+              )}
+              {this.props.selectedNode.id &&
+                !this.props.selectedNode.BuildingID && (
+                  <button
+                    style={{ marginLeft: "2px" }}
+                    onClick={this.openModal("updateBuilding")}
+                  >
+                    수정
+                  </button>
+                )}
+            </div>
           </div>
-        </div>
+        )}
 
         {buildingPositionList.map(item => (
           <div key={item.id}>
@@ -148,57 +151,78 @@ class BuildingPositionTree extends Component {
               }
               onClick={e => this.nodeClick(item)}
             >
-              <input
-                className="w3-check"
-                type="checkbox"
-                checked={item.isChecked}
-                value={item.id}
-                onChange={event => {
-                  let userList = [...this.state.userList];
-                  userList.forEach(user => {
-                    if (user.id === Number(event.target.value)) {
-                      user.isChecked = event.target.checked;
-                    }
-                  });
-                  this.setState({ userList: userList });
-                }}
-              />
+              {this.props.checkable && (
+                <input
+                  className="w3-check"
+                  type="checkbox"
+                  checked={item.isChecked}
+                  value={item.id}
+                  // onChange={event => {
+                  //   let userList = [...this.state.userList];
+                  //   userList.forEach(user => {
+                  //     if (user.id === Number(event.target.value)) {
+                  //       user.isChecked = event.target.checked;
+                  //     }
+                  //   });
+                  //   this.setState({ userList: userList });
+                  // }}
+                />
+              )}
               <i className="fa fa-plus-square-o" aria-hidden="true" />
               <span> {item.Name}</span>
             </div>
 
-            <div className="">
-              <ul className="w3-ul">
-                {item.positions &&
-                  item.positions.map(position => (
-                    <li
-                      key={position.id}
-                      style={{
-                        cursor: "pointer",
-                        padding: "2px 10px 2px 25px",
-                        marginBottom: "2px"
-                      }}
-                      className={
-                        "w3-border-0 w3-padding-left " +
-                        ("" +
-                          this.props.selectedNode.BuildingID +
-                          "-" +
-                          this.props.selectedNode.id ===
-                        "" + position.BuildingID + "-" + position.id
-                          ? "w3-blue"
-                          : "")
-                      }
-                      onClick={e => this.nodeClick(position)}
-                    >
-                      <i
-                        className="fa fa-caret-right w3-large"
-                        aria-hidden="true"
-                      />{" "}
-                      {position.Name}
-                    </li>
-                  ))}
-              </ul>
-            </div>
+            {!this.props.hidePosition && (
+              <div className="">
+                <ul className="w3-ul">
+                  {item.positions &&
+                    item.positions.map(position => (
+                      <li
+                        key={position.id}
+                        style={{
+                          cursor: "pointer",
+                          padding: "2px 10px 2px 25px",
+                          marginBottom: "2px"
+                        }}
+                        className={
+                          "w3-border-0 w3-padding-left " +
+                          ("" +
+                            this.props.selectedNode.BuildingID +
+                            "-" +
+                            this.props.selectedNode.id ===
+                          "" + position.BuildingID + "-" + position.id
+                            ? "w3-blue"
+                            : "")
+                        }
+                        onClick={e => this.nodeClick(position)}
+                      >
+                        {this.props.checkable && (
+                          <input
+                            className="w3-check"
+                            type="checkbox"
+                            checked={item.isChecked}
+                            value={item.id}
+                            // onChange={event => {
+                            //   let userList = [...this.state.userList];
+                            //   userList.forEach(user => {
+                            //     if (user.id === Number(event.target.value)) {
+                            //       user.isChecked = event.target.checked;
+                            //     }
+                            //   });
+                            //   this.setState({ userList: userList });
+                            // }}
+                          />
+                        )}
+                        <i
+                          className="fa fa-caret-right w3-large"
+                          aria-hidden="true"
+                        />{" "}
+                        {position.Name}
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
           </div>
         ))}
 
