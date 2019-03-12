@@ -1,6 +1,6 @@
 import React from "react";
-import BuildingPositionTree from "app/appcomponents/BuildingPositionTree";
-import UserTable from "app/appcomponents/UserTable";
+import BuildingPositionTree from "components/tree/BuildingPositionTree";
+import UserTable from "components/user/UserTable";
 
 const UserPage = () => {
   return (

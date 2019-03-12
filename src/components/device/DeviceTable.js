@@ -12,16 +12,16 @@ import {
   deviceListByPositionIdRequest,
   deviceDeleteRequest
 } from "actions/Device";
-import BuildingPositionTree from "app/appcomponents/BuildingPositionTree";
-import AddBuilding from "app/appcomponents/AddBuilding";
-import UpdateBuilding from "app/appcomponents/UpdateBuilding";
-import AddPosition from "app/appcomponents/AddPosition";
-import UpdatePosition from "app/appcomponents/UpdatePosition";
-import AddDevice from "app/appcomponents/AddDevice";
-import UpdateDevice from "app/appcomponents/UpdateDevice";
-// import DeleteConfirmDevice from "app/appcomponents/DeleteConfirmDevice";
-// import DeleteNoticeDevice from "app/appcomponents/DeleteNoticeDevice";
-// import DeviceList from "app/appcomponents/DeviceList";
+// import BuildingPositionTree from "components/BuildingPositionTree";
+// import AddBuilding from "components/AddBuilding";
+// import UpdateBuilding from "components/UpdateBuilding";
+// import AddPosition from "components/AddPosition";
+// import UpdatePosition from "components/UpdatePosition";
+import AddDevice from "components/device/Add";
+import UpdateDevice from "components/device/Update";
+// import DeleteConfirmDevice from "components/DeleteConfirmDevice";
+// import DeleteNoticeDevice from "components/DeleteNoticeDevice";
+// import DeviceList from "components/DeviceList";
 
 const customStyles = {
   content: {
@@ -99,36 +99,47 @@ class DeviceTable extends React.Component {
     return (
       <div className="">
         <div className="animated slideInUpTiny animation-duration-3">
-          <div className="text-right w3-margin-bottom">
-            <button
-              onClick={this.openModal("addDevice")}
-              style={{ marginLeft: "2px" }}
-              disabled={!this.props.selectedNode.BuildingID}
-            >
-              등록
-            </button>
+          <div className="clearfix pb-1">
+            <span className="float-left">Float left</span>
+            <span className="float-right">
+              {this.props.authUser.UserType === "monitoring" && (
+                <button>모니터링단말선택</button>
+              )}
+              {this.props.authUser.UserType === "user" && (
+                <React.Fragment>
+                  <button
+                    onClick={this.openModal("addDevice")}
+                    style={{ marginLeft: "2px" }}
+                    disabled={!this.props.selectedNode.BuildingID}
+                  >
+                    등록
+                  </button>
 
-            <button
-              onClick={this.openModal("updateDevice")}
-              style={{ marginLeft: "2px" }}
-              disabled={
-                this.state.deviceList.filter(device => device.isChecked)
-                  .length != 1
-              }
-            >
-              수정
-            </button>
-            <button
-              onClick={this.openModal("deleteConfirmDevice")}
-              style={{ marginLeft: "2px" }}
-              disabled={
-                this.state.deviceList.filter(device => device.isChecked)
-                  .length == 0
-              }
-            >
-              삭제
-            </button>
+                  <button
+                    onClick={this.openModal("updateDevice")}
+                    style={{ marginLeft: "2px" }}
+                    disabled={
+                      this.state.deviceList.filter(device => device.isChecked)
+                        .length != 1
+                    }
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={this.openModal("deleteConfirmDevice")}
+                    style={{ marginLeft: "2px" }}
+                    disabled={
+                      this.state.deviceList.filter(device => device.isChecked)
+                        .length == 0
+                    }
+                  >
+                    삭제
+                  </button>
+                </React.Fragment>
+              )}
+            </span>
           </div>
+
           <table className="w3-table-all w3-centered">
             <thead>
               <tr>

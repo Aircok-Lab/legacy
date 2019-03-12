@@ -1,6 +1,6 @@
 import React from "react";
-import BuildingPositionTree from "app/appcomponents/BuildingPositionTree";
-import DeviceTable from "app/appcomponents/DeviceTable";
+import BuildingPositionTree from "components/tree/BuildingPositionTree";
+import DeviceTable from "components/device/DeviceTable";
 
 const DevicePage = () => {
   return (
@@ -10,7 +10,12 @@ const DevicePage = () => {
       </div>
       <div className="row">
         <div className="col-md-3">
-          <BuildingPositionTree />
+          <BuildingPositionTree
+            hideButton={false}
+            hidePosition={false}
+            checkable={true}
+            selectable={false}
+          />
         </div>
         <div className="col-md-9">
           <div className="animated slideInUpTiny animation-duration-3">

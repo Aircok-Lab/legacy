@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { userAddRequest } from "actions/User";
-import BuildingPositionTree from "app/appcomponents/BuildingPositionTree";
+// import BuildingPositionTree from "components/BuildingPositionTree";
 
 const uuidv4 = require("uuid/v4");
 // uuidv4(); // ⇨ '10ba038e-48da-487b-96e8-8d3b99b6d18a'
@@ -26,8 +26,8 @@ class DeleteUser extends Component {
     return (
       <form className="w3-text-blue w3-margin">
         <h2 className="w3-center">사용자 등록</h2>
-        <div className="row" style={{ maxWidth: "1200px" }}>
-          <div className="col-sm-3 col-md-6">
+        <div className="row" style={{ maxWidth: "500px" }}>
+          <div className="col-md-12">
             <div className="w3-row w3-section">
               <div
                 className="w3-col w3-padding-right"
@@ -149,50 +149,6 @@ class DeleteUser extends Component {
                   type="text"
                   placeholder=""
                 />
-              </div>
-            </div>
-          </div>
-          <div className="col-sm-9 col-md-6">
-            {/* <div className="w3-row w3-section">
-              <div
-                className="w3-col w3-padding-right"
-                style={{ width: "80px" }}
-              >
-                건물
-              </div>
-              <div className="w3-rest">
-                <div
-                  className="w3-border w3-padding"
-                  style={{ height: "300px", overflowY: "auto" }}
-                >
-                  <BuildingPositionTree
-                    hideButton={true}
-                    hidePosition={true}
-                    checkable={true}
-                    selectable={false}
-                  />
-                </div>
-              </div>
-            </div> */}
-            <div className="w3-row w3-section">
-              <div
-                className="w3-col w3-padding-right"
-                style={{ width: "40px" }}
-              >
-                위치
-              </div>
-              <div className="w3-rest">
-                <div
-                  className=""
-                  style={{ height: "300px", overflowY: "auto" }}
-                >
-                  <BuildingPositionTree
-                    hideButton={true}
-                    hidePosition={false}
-                    checkable={true}
-                    selectable={false}
-                  />
-                </div>
               </div>
             </div>
           </div>

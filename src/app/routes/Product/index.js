@@ -1,6 +1,6 @@
 import React from "react";
-import BuildingPositionTree from "app/appcomponents/BuildingPositionTree";
-import ProductTable from "app/appcomponents/ProductTable";
+import BuildingPositionTree from "components/tree/BuildingPositionTree";
+import ProductTable from "components/product/ProductTable";
 
 const ProductPage = () => {
   return (

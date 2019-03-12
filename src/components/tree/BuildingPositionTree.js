@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Modal from "react-modal";
-import AddBuilding from "app/appcomponents/AddBuilding";
-import UpdateBuilding from "app/appcomponents/UpdateBuilding";
-import AddPosition from "app/appcomponents/AddPosition";
-import UpdatePosition from "app/appcomponents/UpdatePosition";
-import AddDevice from "app/appcomponents/AddDevice";
-import UpdateDevice from "app/appcomponents/UpdateDevice";
+import AddBuilding from "components/tree/AddBuilding";
+import UpdateBuilding from "components/tree/UpdateBuilding";
+import AddPosition from "components/tree/AddPosition";
+import UpdatePosition from "components/tree/UpdatePosition";
+// import AddDevice from "components/AddDevice";
+// import UpdateDevice from "components/UpdateDevice";
 import { selectTreeNode } from "actions/Tree";
 import { buildingListRequest, buildingAddRequest } from "actions/Building";
 import { positionListRequest, positionAddRequest } from "actions/Position";
@@ -94,48 +94,72 @@ class BuildingPositionTree extends Component {
     return (
       <div>
         {/* {JSON.stringify(this.props.selectedNode)} */}
-        {!this.props.hideButton && (
-          <div
-            className="w3-margin-bottom"
-            style={{ display: "flex", justifyContent: "flex-end" }}
-          >
-            <div>
-              <button
-                style={{ marginLeft: "2px" }}
-                onClick={this.openModal("addBuilding")}
-              >
-                건물등록
-              </button>
-              <button
-                style={{ marginLeft: "2px" }}
-                onClick={this.openModal("addPosition")}
-                disabled={
-                  this.props.selectedNode.BuildingID ||
-                  !this.props.selectedNode.id
-                }
-              >
-                층등록
-              </button>
-              {this.props.selectedNode.BuildingID && (
+        <div className="pb-1">
+          <div className="clearfix">
+            {/* {!this.props.hideSelectAll && (
+              <div className="float-left">
                 <button
                   style={{ marginLeft: "2px" }}
-                  onClick={this.openModal("updatePosition")}
+                  // onClick={this.openModal("addBuilding")}
                 >
-                  수정
+                  Select All
                 </button>
-              )}
-              {this.props.selectedNode.id &&
-                !this.props.selectedNode.BuildingID && (
+              </div>
+            )} */}
+            {!this.props.hideButton && (
+              <div className="float-right">
+                <button
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("addBuilding")}
+                >
+                  건물등록
+                </button>
+                <button
+                  style={{ marginLeft: "2px" }}
+                  onClick={this.openModal("addPosition")}
+                  disabled={
+                    this.props.selectedNode.BuildingID ||
+                    !this.props.selectedNode.id
+                  }
+                >
+                  층등록
+                </button>
+                {this.props.selectedNode.BuildingID && (
                   <button
                     style={{ marginLeft: "2px" }}
-                    onClick={this.openModal("updateBuilding")}
+                    onClick={this.openModal("updatePosition")}
                   >
                     수정
                   </button>
                 )}
-            </div>
+                {this.props.selectedNode.id &&
+                  !this.props.selectedNode.BuildingID && (
+                    <button
+                      style={{ marginLeft: "2px" }}
+                      onClick={this.openModal("updateBuilding")}
+                    >
+                      수정
+                    </button>
+                  )}
+              </div>
+            )}
           </div>
-        )}
+        </div>
+
+        {/* <div
+          style={{
+            cursor: "pointer",
+            padding: "2px 10px",
+            marginBottom: "2px"
+          }}
+          className={
+            "w3-block w3-border " + ""
+            // (this.props.selectedNode.id === item.id ? "w3-blue" : "")
+          }
+          onClick={e => this.nodeClick(item)}
+        >
+          모든 포지션
+        </div> */}
 
         {buildingPositionList.map(item => (
           <div key={item.id}>
@@ -151,12 +175,19 @@ class BuildingPositionTree extends Component {
               }
               onClick={e => this.nodeClick(item)}
             >
+              <i className="fa fa-caret-right pr-1" aria-hidden="true" />
               {this.props.checkable && (
                 <input
                   className="w3-check"
                   type="checkbox"
                   checked={item.isChecked}
                   value={item.id}
+                  onClick={e => {
+                    e.stopPropagation();
+                  }}
+                  onChange={e => {
+                    console.log("checkbox onChange ...", e.target.checked);
+                  }}
                   // onChange={event => {
                   //   let userList = [...this.state.userList];
                   //   userList.forEach(user => {
@@ -166,9 +197,12 @@ class BuildingPositionTree extends Component {
                   //   });
                   //   this.setState({ userList: userList });
                   // }}
+                  // onClick={event => {
+                  //   event.preventDefault();
+                  //   console.log("onClick... event.target", event.target);
+                  // }}
                 />
               )}
-              <i className="fa fa-plus-square-o" aria-hidden="true" />
               <span> {item.Name}</span>
             </div>
 
@@ -196,6 +230,7 @@ class BuildingPositionTree extends Component {
                         }
                         onClick={e => this.nodeClick(position)}
                       >
+                        {/* <i className="fa fa-file-o" aria-hidden="true" />{" "} */}
                         {this.props.checkable && (
                           <input
                             className="w3-check"
@@ -213,10 +248,6 @@ class BuildingPositionTree extends Component {
                             // }}
                           />
                         )}
-                        <i
-                          className="fa fa-caret-right w3-large"
-                          aria-hidden="true"
-                        />{" "}
                         {position.Name}
                       </li>
                     ))}
@@ -225,7 +256,6 @@ class BuildingPositionTree extends Component {
             )}
           </div>
         ))}
-
         <Modal
           isOpen={this.state.showModal}
           // onRequestClose={this.closeModal}

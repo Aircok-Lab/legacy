@@ -1,17 +1,13 @@
 import React, { cloneElement, Component } from "react";
 import { connect } from "react-redux";
-import {
-  userListByBuildingIdRequest,
-  userListByPositionIdRequest,
-  userDeleteRequest
-} from "actions/User";
-import UserModalContainer from "app/appcomponents/userModal/UserModalContainer";
+import { productListRequest, productDeleteRequest } from "actions/Product";
+import ProductModalContainer from "components/product/ProductContainer";
 
-class UserTable extends React.Component {
+class ProductTable extends React.Component {
   state = {
     showModal: false,
-    modalMode: "addUser",
-    userList: []
+    modalMode: "addProduct",
+    productList: []
   };
 
   openModal = param => e => {
@@ -24,14 +20,16 @@ class UserTable extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({ userList: this.props.userList });
+    // this.setState({ productList: this.props.productList });
+    this.props.productListRequest();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
-      JSON.stringify(prevProps.userList) != JSON.stringify(this.props.userList)
+      JSON.stringify(prevProps.productList) !=
+      JSON.stringify(this.props.productList)
     ) {
-      this.setState({ userList: this.props.userList });
+      this.setState({ productList: this.props.productList });
     }
 
     if (
@@ -40,12 +38,12 @@ class UserTable extends React.Component {
     ) {
       if (this.props.selectedNode.BuildingID) {
         // 층
-        this.props.userListByPositionIdRequest({
+        this.props.productListByPositionIdRequest({
           positionID: "" + this.props.selectedNode.id
         });
       } else {
         // 건물
-        this.props.userListByBuildingIdRequest({
+        this.props.productListRequest({
           buildingID: "" + this.props.selectedNode.id
         });
       }
@@ -58,27 +56,28 @@ class UserTable extends React.Component {
         <div className="animated slideInUpTiny animation-duration-3">
           <div className="text-right w3-margin-bottom">
             <button
-              onClick={this.openModal("addUser")}
+              onClick={this.openModal("addProduct")}
               style={{ marginLeft: "2px" }}
-              disabled={!this.props.selectedNode.BuildingID}
             >
               등록
             </button>
 
             <button
-              onClick={this.openModal("updateUser")}
+              onClick={this.openModal("updateProduct")}
               style={{ marginLeft: "2px" }}
               disabled={
-                this.state.userList.filter(user => user.isChecked).length != 1
+                this.state.productList.filter(product => product.isChecked)
+                  .length != 1
               }
             >
               수정
             </button>
             <button
-              onClick={this.openModal("deleteConfirmUser")}
+              onClick={this.openModal("deleteConfirmProduct")}
               style={{ marginLeft: "2px" }}
               disabled={
-                this.state.userList.filter(user => user.isChecked).length == 0
+                this.state.productList.filter(product => product.isChecked)
+                  .length == 0
               }
             >
               삭제
@@ -93,26 +92,23 @@ class UserTable extends React.Component {
                       className="w3-check"
                       type="checkbox"
                       onChange={event => {
-                        let userList = [...this.state.userList];
-                        userList.forEach(user => {
-                          user.isChecked = event.target.checked;
+                        let productList = [...this.state.productList];
+                        productList.forEach(product => {
+                          product.isChecked = event.target.checked;
                         });
-                        this.setState({ userList: userList });
+                        this.setState({ productList: productList });
                       }}
                     />
                   </th>
                   <th>번호</th>
-                  <th>구분</th>
-                  <th>아이디</th>
-                  <th>이름</th>
-                  <th>이메일</th>
-                  <th>소속(부서)</th>
-                  <th>전화번호</th>
+                  <th>제품군명</th>
+                  <th>펌웨어버전</th>
+                  <th>측정주기</th>
                 </tr>
               </thead>
               <tbody>
-                {this.state.userList &&
-                  this.state.userList.map((row, index) => (
+                {this.state.productList &&
+                  this.state.productList.map((row, index) => (
                     <tr key={row.id}>
                       <td>
                         <input
@@ -121,56 +117,48 @@ class UserTable extends React.Component {
                           checked={row.isChecked}
                           value={row.id}
                           onChange={event => {
-                            let userList = [...this.state.userList];
-                            userList.forEach(user => {
-                              if (user.id === Number(event.target.value)) {
-                                user.isChecked = event.target.checked;
+                            let productList = [...this.state.productList];
+                            productList.forEach(product => {
+                              if (product.id === Number(event.target.value)) {
+                                product.isChecked = event.target.checked;
                               }
                             });
-                            this.setState({ userList: userList });
+                            this.setState({ productList: productList });
                           }}
                         />
                       </td>
                       <td>{index + 1}</td>
-                      <td>
-                        <span style={{ textTransform: "capitalize" }}>
-                          {row.UserType}
-                        </span>
-                      </td>
-                      <td>{row.LoginID}</td>
                       <td>{row.Name}</td>
-                      <td>{row.Email}</td>
-                      <td>{row.Department}</td>
-                      <td>{row.Phone}</td>
+                      <td>{row.Version}</td>
+                      <td>{row.Period}</td>
                     </tr>
                   ))}
               </tbody>
             </table>
           </div>
         </div>
-        <UserModalContainer
+        <ProductModalContainer
           showModal={this.state.showModal}
           modalMode={this.state.modalMode}
           closeModal={this.closeModal}
-          userList={this.state.userList}
+          productList={this.state.productList}
         />
       </div>
     );
   }
 }
 const mapStateToProps = state => ({
-  authUser: state.auth.authUser,
-  userList: state.user.list,
+  authProduct: state.auth.authProduct,
+  productList: state.product.list,
   selectedNode: state.tree.selectedNode
 });
 
 const mapDispatchToProps = {
-  userListByBuildingIdRequest: userListByBuildingIdRequest,
-  userListByPositionIdRequest: userListByPositionIdRequest,
-  userDeleteRequest
+  productListRequest: productListRequest,
+  productDeleteRequest
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserTable);
+)(ProductTable);
