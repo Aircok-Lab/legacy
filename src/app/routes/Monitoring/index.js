@@ -3,11 +3,16 @@ import { connect } from "react-redux";
 import { alarmReferenceValueRequest } from "actions/AlarmReference";
 import { showAuthLoader } from "actions/Auth";
 import { recentDataRequest } from "actions/RecentData";
+import MainTableHead from "../Monitoring/mainTableHead";
+import SensorData from "../Monitoring/sensorData";
 
 const qualityType = {
-  0: "good",
-  1: "Bad",
-  2: "unknown"
+  1: "좋음",
+  2: "보통",
+  3: "약간나쁨",
+  4: "나쁨",
+  5: "매우나쁨",
+  6: "최악"
 };
 
 class SamplePage extends React.Component {
@@ -16,83 +21,11 @@ class SamplePage extends React.Component {
     this.props.showAuthLoader();
     this.props.alarmReferenceValueRequest();
     this.props.recentDataRequest(this.props.authUser.PositionList);
-    // this.state = {
-    // contactData: [
-    //   {
-    //     BuildingName: "에어콕",
-    //     PositionName: "1층",
-    //     id: 34,
-    //     DeviceSN: "356170062145371",
-    //     Date: "2019-03-05T07:21:00.000Z",
-    //     PM10: 150,
-    //     PM25: 116,
-    //     CO2: 0,
-    //     HCHO: 0,
-    //     VOC: 4,
-    //     Temperature: 28.6,
-    //     Humidity: 26,
-    //     Noise: null,
-    //     E3Score: 66,
-    //     E3Index: 5,
-    //     PM10Index: 5,
-    //     PM25Index: 5,
-    //     CO2Index: 1,
-    //     HCHOIndex: 1,
-    //     VOCIndex: 1,
-    //     TemperatureIndex: 6,
-    //     HumidityIndex: 6,
-    //     NoiseIndex: null,
-    //     PM10Alarm: 0,
-    //     PM25Alarm: 1,
-    //     CO2Alarm: 0,
-    //     HCHOAlarm: 0,
-    //     VOCAlarm: 0,
-    //     TemperatureAlarm: 1,
-    //     HumidityAlarm: 1,
-    //     NoiseAlarm: 0,
-    //     InsertDate: "2019-03-05T07:21:17.000Z"
-    //   },
-    //   {
-    //     BuildingName: "에어콕",
-    //     PositionName: "1층",
-    //     id: 34,
-    //     DeviceSN: "356170062145371",
-    //     Date: "2019-03-05T07:21:00.000Z",
-    //     PM10: 150,
-    //     PM25: 116,
-    //     CO2: 0,
-    //     HCHO: 0,
-    //     VOC: 4,
-    //     Temperature: 28.6,
-    //     Humidity: 26,
-    //     Noise: null,
-    //     E3Score: 66,
-    //     E3Index: 5,
-    //     PM10Index: 5,
-    //     PM25Index: 5,
-    //     CO2Index: 1,
-    //     HCHOIndex: 1,
-    //     VOCIndex: 1,
-    //     TemperatureIndex: 6,
-    //     HumidityIndex: 6,
-    //     NoiseIndex: null,
-    //     PM10Alarm: 0,
-    //     PM25Alarm: 1,
-    //     CO2Alarm: 0,
-    //     HCHOAlarm: 0,
-    //     VOCAlarm: 0,
-    //     TemperatureAlarm: 1,
-    //     HumidityAlarm: 1,
-    //     NoiseAlarm: 0,
-    //     InsertDate: "2019-03-05T07:21:17.000Z"
-    //   }
-    // ]
-    // };
     this.pageScroll = this.pageScroll.bind(this);
   }
 
   componentDidMount() {
-    this.intervalHandle = setInterval(this.pageScroll, 1000);
+    this.intervalHandle = setInterval(this.pageScroll, 60000);
   }
 
   componentWillUnmount() {
@@ -101,128 +34,39 @@ class SamplePage extends React.Component {
 
   pageScroll() {
     var objDiv = document.getElementById("contain");
-
-    objDiv.scrollTop = objDiv.scrollTop + 100;
-    if (objDiv.scrollTop == objDiv.scrollHeight - 600) {
+    if (objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight > 100)
+      objDiv.scrollTop = objDiv.scrollTop + 100;
+    else if (objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight > 0)
+      objDiv.scrollTop =
+        objDiv.scrollTop + (objDiv.scrollHeight - objDiv.clientHeight);
+    else if (objDiv.scrollTop == objDiv.scrollHeight - objDiv.clientHeight) {
       objDiv.scrollTop = 0;
     }
   }
 
   render() {
+    const getClassAlarmIcon = alarm => {
+      let classText = "";
+      if (alarm == 1) classText = "bg-red rounded-circle mt-1 ml-2 mx-auto";
+      console.log(classText);
+      return classText;
+    };
+
+    const getClassText = grade => {
+      let classText = "text-good";
+      if (grade == 1) classText = "text-good";
+      else if (grade == 2) classText = "text-normal";
+      else if (grade == 3) classText = "text-sensitive1";
+      else if (grade == 4) classText = "text-sensitive2";
+      else if (grade == 5) classText = "text-bad";
+      else if (grade == 6) classText = "text-very-bad";
+      // console.log(classText);
+      return classText;
+    };
     return (
       <div className="app-wrapper">
         <table className="table table-fixed">
-          <thead>
-            <tr>
-              <th
-                className="table-header-row0-class"
-                rowSpan={2}
-                style={{ width: "170px" }}
-              >
-                구분
-              </th>
-              <th
-                className="table-header-row0-class"
-                rowSpan={2}
-                style={{ width: "170px" }}
-              >
-                측정기명
-              </th>
-              <th
-                className="table-header-row0-class"
-                rowSpan={2}
-                style={{ width: "120px" }}
-              >
-                공기질관리지수
-              </th>
-              <th
-                className="table-header-row0-class"
-                colSpan={3}
-                style={{ width: "180px" }}
-              >
-                온도
-                <br />
-                (℃)
-              </th>
-              <th
-                className="table-header-row0-class"
-                colSpan={3}
-                style={{ width: "180px" }}
-              >
-                습도
-                <br />
-                (%)
-              </th>
-              <th
-                className="table-header-row0-class"
-                colSpan={3}
-                style={{ width: "180px" }}
-              >
-                미세먼지(PM10)
-                <br />
-                (㎍/㎥)
-              </th>
-              <th
-                className="table-header-row0-class"
-                colSpan={3}
-                style={{ width: "180px" }}
-              >
-                초미세먼지(PM2.5)
-                <br />
-                (㎍/㎥)
-              </th>
-              <th
-                className="table-header-row0-class"
-                colSpan={3}
-                style={{ width: "180px" }}
-              >
-                이산화탄소(CO2)
-                <br />
-                (ppm)
-              </th>
-              <th
-                className="table-header-row0-class"
-                colSpan={3}
-                style={{ width: "180px" }}
-              >
-                포름알데히드(HCHO)
-                <br />
-                (ppm)
-              </th>
-              <th
-                className="table-header-row0-class"
-                colSpan={3}
-                style={{ width: "180px" }}
-              >
-                휘발성유기화합물(VOCs)
-                <br />
-                (㎍/㎥)
-              </th>
-            </tr>
-            <tr className="table-header-row1-class">
-              <th>기준</th>
-              <th>현재</th>
-              <th>알람</th>
-              <th>기준</th>
-              <th>현재</th>
-              <th>알람</th>
-              <th>기준</th>
-              <th>현재</th>
-              <th>알람</th>
-              <th>기준</th>
-              <th>현재</th>
-              <th>알람</th>
-              <th>기준</th>
-              <th>현재</th>
-              <th>알람</th>
-              <th>기준</th>
-              <th>현재</th>
-              <th>알람</th>
-              <th>기준</th>
-              <th>현재</th>
-              <th>알람</th>
-            </tr>
-          </thead>
+          <MainTableHead />
           <tbody id="contain" ref="contain">
             {this.props.contactData.map((contact, i) => {
               return (
@@ -230,62 +74,120 @@ class SamplePage extends React.Component {
                   <td style={{ width: "170px" }}>{contact.BuildingName}</td>
                   <td style={{ width: "170px" }}>{contact.PositionName}</td>
                   <td style={{ width: "120px" }}>
-                    <span className="text-sensitive1">약간나쁨</span>
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    {this.props.alarmReferenceValue.temperature}
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <span
-                      className="text-sensitive1"
-                      style={{ fontWweight: "bold", fontSize: "18px" }}
-                    >
-                      {contact.Temperature}
+                    <span className={getClassText(contact.E3Index)}>
+                      {qualityType[`${contact.E3Index}`]}({contact.E3Score})
                     </span>
                   </td>
-                  <td style={{ width: "60px" }}>{contact.TemperatureAlarm}</td>
-                  <td style={{ width: "60px" }}>
+                  <SensorData
+                    alarmReferenceValue={
+                      this.props.alarmReferenceValue.temperature
+                    }
+                    sensorData={contact.Temperature}
+                    sensorIndex={contact.TemperatureIndex}
+                    sensorAlarm={contact.TemperatureAlarm}
+                  />
+                  <SensorData
+                    alarmReferenceValue={
+                      this.props.alarmReferenceValue.humidity
+                    }
+                    sensorData={contact.Humidity}
+                    sensorIndex={contact.HumidityIndex}
+                    sensorAlarm={contact.HumidityAlarm}
+                  />
+                  {/* <SensorData
+                    alarmReferenceValue={this.props.alarmReferenceValue.pm10}
+                    sensorData={contact.PM10}
+                    sensorIndex={contact.PM10Index}
+                    sensorAlarm={contact.PM10Alarm}
+                  />
+                  <SensorData
+                    alarmReferenceValue={this.props.alarmReferenceValue.pm25}
+                    sensorData={contact.PM25}
+                    sensorIndex={contact.PM25Index}
+                    sensorAlarm={contact.PM25Alarm}
+                  />
+                  <SensorData
+                    alarmReferenceValue={this.props.alarmReferenceValue.co2}
+                    sensorData={contact.CO2}
+                    sensorIndex={contact.CO2Index}
+                    sensorAlarm={contact.CO2Alarm}
+                  />
+                  <SensorData
+                    alarmReferenceValue={this.props.alarmReferenceValue.hcho}
+                    sensorData={contact.HCHO}
+                    sensorIndex={contact.HCHOIndex}
+                    sensorAlarm={contact.HCHOAlarm}
+                  />
+                  <SensorData
+                    alarmReferenceValue={this.props.alarmReferenceValue.voc}
+                    sensorData={contact.VOC}
+                    sensorIndex={contact.VOCIndex}
+                    sensorAlarm={contact.VOCAlarm}
+                  />
+                  <SensorData
+                    alarmReferenceValue={this.props.alarmReferenceValue.voc}
+                    sensorData={contact.Noise}
+                    sensorIndex={contact.NoiseIndex}
+                    sensorAlarm={contact.NoiseAlarm}
+                  /> */}
+
+                  {/* <td style={{ width: "60px" }}>
                     {this.props.alarmReferenceValue.humidity}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
-                      className="text-good"
+                      className={getClassText(contact.HumidityIndex)}
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
                       {contact.Humidity}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }}>{contact.HumidityAlarm}</td>
+                  <td style={{ width: "60px" }}>
+                    <div
+                      className={getClassAlarmIcon(contact.HumidityAlarm)}
+                      style={{ width: "12px", height: "12px" }}
+                    />
+                  </td> */}
                   <td style={{ width: "60px" }}>
                     {this.props.alarmReferenceValue.pm10}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
-                      className="text-good"
+                      className={getClassText(contact.PM10Index)}
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
                       {contact.PM10}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }}>{contact.PM10Alarm}</td>
+                  <td style={{ width: "60px" }}>
+                    <div
+                      className={getClassAlarmIcon(contact.PM10Alarm)}
+                      style={{ width: "12px", height: "12px" }}
+                    />
+                  </td>
                   <td style={{ width: "60px" }}>
                     {this.props.alarmReferenceValue.pm25}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
-                      className="text-good"
+                      className={getClassText(contact.PM25Index)}
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
                       {contact.PM25}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }}>{contact.PM25Alarm}</td>
+                  <td style={{ width: "60px" }}>
+                    <div
+                      className={getClassAlarmIcon(contact.PM25Alarm)}
+                      style={{ width: "12px", height: "12px" }}
+                    />
+                  </td>
                   <td style={{ width: "60px" }}>
                     {this.props.alarmReferenceValue.co2}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
-                      className="text-bad"
+                      className={getClassText(contact.CO2Index)}
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
                       {contact.CO2}
@@ -293,36 +195,61 @@ class SamplePage extends React.Component {
                   </td>
                   <td style={{ width: "60px" }}>
                     <div
-                      className="bg-red rounded-circle mt-1 ml-2 mx-auto"
+                      className={getClassAlarmIcon(contact.CO2Alarm)}
                       style={{ width: "12px", height: "12px" }}
-                    >
-                      {contact.CO2Alarm}
-                    </div>
+                    />
                   </td>
                   <td style={{ width: "60px" }}>
                     {this.props.alarmReferenceValue.hcho}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
-                      className="text-good"
+                      className={getClassText(contact.HCHOIndex)}
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
                       {contact.HCHO}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }}>{contact.HCHOAlarm}</td>
+                  <td style={{ width: "60px" }}>
+                    <div
+                      className={getClassAlarmIcon(contact.HCHOAlarm)}
+                      style={{ width: "12px", height: "12px" }}
+                    />
+                  </td>
                   <td style={{ width: "60px" }}>
                     {this.props.alarmReferenceValue.voc}
                   </td>
                   <td style={{ width: "60px" }}>
                     <span
-                      className="text-normal"
+                      className={getClassText(contact.VOCIndex)}
                       style={{ fontWweight: "bold", fontSize: "18px" }}
                     >
                       {contact.VOC}
                     </span>
                   </td>
-                  <td style={{ width: "60px" }}>{contact.VOCAlarm}</td>
+                  <td style={{ width: "60px" }}>
+                    <div
+                      className={getClassAlarmIcon(contact.VOCAlarm)}
+                      style={{ width: "12px", height: "12px" }}
+                    />
+                  </td>
+                  <td style={{ width: "60px" }}>
+                    {this.props.alarmReferenceValue.voc}
+                  </td>
+                  <td style={{ width: "60px" }}>
+                    <span
+                      className={getClassText(contact.NoiseIndex)}
+                      style={{ fontWweight: "bold", fontSize: "18px" }}
+                    >
+                      {contact.Noise}
+                    </span>
+                  </td>
+                  <td style={{ width: "60px" }}>
+                    <div
+                      className={getClassAlarmIcon(contact.NoiseAlarm)}
+                      style={{ width: "12px", height: "12px" }}
+                    />
+                  </td>
                 </tr>
               );
             })}
