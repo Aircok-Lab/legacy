@@ -16,7 +16,7 @@ export const getSCOREScore = () => {
 
         //결과 객체 있으면 성공 응답 전송
         if(sensorIndexInfo){
-            console.dir(sensorIndexInfo);
+            //console.dir(sensorIndexInfo);
 
             global.sensorTable.score = sensorIndexInfo;
         } else {
@@ -27,7 +27,7 @@ export const getSCOREScore = () => {
 
 export const setSCOREScore = (grade, min, max) => {
     console.log('setScore 호출됨 : ' + grade + ',' + min + ',' + max);
-    IndexTable.updateIndexTable(SCORE, grade, min, max, function(err, sensorIndexInfo){
+    AlarmTable.updateAlarmValue(SCORE, grade, min, max, function(err, sensorIndexInfo){
         if(err){
             console.error('updateIndexTable 처리 중 오류 발생 :' + err.stack);
             return;

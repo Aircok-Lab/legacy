@@ -17,6 +17,7 @@ export const HCHO = 'hcho';
 export const VOC = 'voc';
 export const TEMP = 'temperature';
 export const HUMI = 'humidity';
+export const NOISE = 'noise';
 
 export const NEW_KINDERGARTEN = 'NewKindergarten';
 export const KINDERGARTEN = 'Kindergarten';
@@ -30,4 +31,4 @@ export const OUTDOOR = 'OutDoor';
 
 export const OK = 'OK';
 export const FAIL = 'Fail';
-export const APPROVE = "Aprove";
+export const APPROVE = "Approve";

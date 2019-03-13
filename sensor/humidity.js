@@ -17,7 +17,7 @@ export const getHUMIScore = () => {
 
         //결과 객체 있으면 성공 응답 전송
         if(sensorIndexInfo){
-            console.dir(sensorIndexInfo);
+            //console.dir(sensorIndexInfo);
 
             global.sensorTable.humidity = sensorIndexInfo;
         } else {
@@ -41,7 +41,7 @@ export const setHUMIScore = (grade, min, max) => {
         }
 
         if(sensorIndexInfo){
-            console.dir(sensorIndexInfo);
+            //console.dir(sensorIndexInfo);
             global.sensorTable.humidity[grade-1].Min = min;
             global.sensorTable.humidity[grade-1].Max = max;
             console.error('global.sensorTable.humidity[grade-1].Min: ' + global.sensorTable.humidity[grade-1].Min);
@@ -62,7 +62,7 @@ export const getHUMIAlarm = () => {
 
         //결과 객체 있으면 성공 응답 전송
         if(sensorAlarmInfo){
-            console.log(sensorAlarmInfo);
+            //console.log(sensorAlarmInfo);
 
             global.alarm.humidity = sensorAlarmInfo;
             console.dir(global);
@@ -74,7 +74,7 @@ export const getHUMIAlarm = () => {
 
 export const setHUMIAlarm = (value) => {
     console.log('setScore 호출됨 : ' + value);
-    IndexTable.updateAlarmTable(HUMI, value, function(err, sensorAlarmInfo){
+    AlarmTable.updateAlarmValue(HUMI, value, function(err, sensorAlarmInfo){
         if(err){
             console.error('updateAlarmTable 처리 중 오류 발생 :' + err.stack);
             return;

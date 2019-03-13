@@ -17,7 +17,7 @@ export const getPM10Score = () => {
 
         //결과 객체 있으면 성공 응답 전송
         if(sensorIndexInfo){
-            console.dir(sensorIndexInfo);
+            //console.dir(sensorIndexInfo);
 
             global.sensorTable.pm10 = sensorIndexInfo;
         } else {
@@ -35,7 +35,7 @@ export const setPM10Score = (grade, min, max) => {
         }
 
         if(sensorIndexInfo){
-            console.dir(sensorIndexInfo);
+            //console.dir(sensorIndexInfo);
             global.sensorTable.pm10[grade-1].Min = min;
             global.sensorTable.pm10[grade-1].Max = max;
             console.error('global.sensorTable.pm10[grade-1].Min: ' + global.sensorTable.pm10[grade-1].Min);
@@ -57,7 +57,7 @@ export const getPM10Alarm = () => {
 
         //결과 객체 있으면 성공 응답 전송
         if(sensorAlarmInfo){
-            console.log(sensorAlarmInfo);
+            //console.log(sensorAlarmInfo);
 
             global.alarm.pm10 = sensorAlarmInfo;
         } else {
@@ -68,7 +68,7 @@ export const getPM10Alarm = () => {
 
 export const setPM10Alarm = (value) => {
     console.log('setScore 호출됨 : ' + value);
-    IndexTable.updateAlarmTable(PM10, value, function(err, sensorAlarmInfo){
+    AlarmTable.updateAlarmValue(PM10, value, function(err, sensorAlarmInfo){
         if(err){
             console.error('updateAlarmTable 처리 중 오류 발생 :' + err.stack);
             return;

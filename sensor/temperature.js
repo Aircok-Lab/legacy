@@ -17,7 +17,7 @@ export const getTEMPScore = () => {
 
         //결과 객체 있으면 성공 응답 전송
         if(sensorIndexInfo){
-            console.dir(sensorIndexInfo);
+            //console.dir(sensorIndexInfo);
 
             global.sensorTable.temperature = sensorIndexInfo;
         } else {
@@ -41,7 +41,7 @@ export const setTEMPScore = (grade, min, max) => {
         }
 
         if(sensorIndexInfo){
-            console.dir(sensorIndexInfo);
+            //console.dir(sensorIndexInfo);
             global.sensorTable.temperature[grade-1].Min = min;
             global.sensorTable.temperature[grade-1].Max = max;
             console.error('global.sensorTable.temperature[grade-1].Min: ' + global.sensorTable.temperature[grade-1].Min);
@@ -62,7 +62,7 @@ export const getTEMPAlarm = () => {
 
         //결과 객체 있으면 성공 응답 전송
         if(sensorAlarmInfo){
-            console.log(sensorAlarmInfo);
+            //console.log(sensorAlarmInfo);
 
             global.alarm.temperature = sensorAlarmInfo;
         } else {
@@ -73,7 +73,7 @@ export const getTEMPAlarm = () => {
 
 export const setTEMPAlarm = (value) => {
     console.log('setScore 호출됨 : ' + value);
-    IndexTable.updateAlarmTable(TEMP, value, function(err, sensorAlarmInfo){
+    AlarmTable.updateAlarmValue(TEMP, value, function(err, sensorAlarmInfo){
         if(err){
             console.error('updateAlarmTable 처리 중 오류 발생 :' + err.stack);
             return;

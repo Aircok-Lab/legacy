@@ -1,15 +1,15 @@
 import {
-    PM25
+    NOISE
 } from "../public/javascripts/defined";
 
 var IndexTable = require('../models/IndexTable');
 var AlarmTable = require('../models/AlarmTable');
 var global = require('../global');
 
-export const getPM25Score = () => {
-    console.log('getPM25Score 호출됨.');
+export const getNOISEScore = () => {
+    console.log('getNOISEScore 호출됨.');
 
-    IndexTable.getIndexTableBySensorType(PM25, function(err, sensorIndexInfo){
+    IndexTable.getIndexTableBySensorType(NOISE, function(err, sensorIndexInfo){
         if(err){
             console.error('getIndexTableBySensorType 처리 중 오류 발생 :' + err.stack);
             return;
@@ -19,16 +19,16 @@ export const getPM25Score = () => {
         if(sensorIndexInfo){
             //console.dir(sensorIndexInfo);
 
-            global.sensorTable.pm25 = sensorIndexInfo;
+            global.sensorTable.noise = sensorIndexInfo;
         } else {
-            console.error('PM25 : sensorIndexInfo 정보없음');
+            console.error('NOISE : sensorIndexInfo 정보없음');
         }
-    })
+    });
 }
 
-export const setPM25Score = (grade, min, max) => {
+export const setNOISEScore = (grade, min, max) => {
     console.log('setScore 호출됨 : ' + grade + ',' + min + ',' + max);
-    IndexTable.updateIndexTable(PM25, grade, min, max, function(err, sensorIndexInfo){
+    IndexTable.updateIndexTable(NOISE, grade, min, max, function(err, sensorIndexInfo){
         if(err){
             console.error('updateIndexTable 처리 중 오류 발생 :' + err.stack);
             return;
@@ -36,20 +36,19 @@ export const setPM25Score = (grade, min, max) => {
 
         if(sensorIndexInfo){
             //console.dir(sensorIndexInfo);
-            global.sensorTable.pm25[grade-1].Min = min;
-            global.sensorTable.pm25[grade-1].Max = max;
-            console.error('global.sensorTable.pm25[grade-1].Min: ' + global.sensorTable.pm25[grade-1].Min);
+            global.sensorTable.noise[grade-1].Min = min;
+            global.sensorTable.noise[grade-1].Max = max;
+            console.error('global.sensorTable.noise[grade-1].Min: ' + global.sensorTable.noise[grade-1].Min);
         } else {
-            console.error('PM25 : sensorIndexInfo 정보없음');
+            console.error('NOISE : sensorIndexInfo 정보없음');
         }
     });
-    
 }
 
-export const getPM25Alarm = () => {
-    console.log('getPM25Alarm 호출됨.');
+export const getNOISEAlarm = () => {
+    console.log('getNOISEAlarm 호출됨.');
 
-    AlarmTable.getAlarmBySensorType(PM25, function(err, sensorAlarmInfo){
+    AlarmTable.getAlarmBySensorType(NOISE, function(err, sensorAlarmInfo){
         if(err){
             console.error('getAlarmBySensorType 처리 중 오류 발생 :' + err.stack);
             return;
@@ -59,26 +58,26 @@ export const getPM25Alarm = () => {
         if(sensorAlarmInfo){
             //console.log(sensorAlarmInfo);
 
-            global.alarm.pm25 = sensorAlarmInfo;
+            global.alarm.noise = sensorAlarmInfo;
         } else {
-            console.error('PM25 : sensorAlarmInfo 정보없음');
+            console.error('NOISE : sensorAlarmInfo 정보없음');
         }
     });
 }
 
-export const setPM25Alarm = (value) => {
+export const setNOISEAlarm = (value) => {
     console.log('setScore 호출됨 : ' + value);
-    AlarmTable.updateAlarmValue(PM25, value, function(err, sensorAlarmInfo){
+    AlarmTable.updateAlarmValue(NOISE, value, function(err, sensorAlarmInfo){
         if(err){
             console.error('updateAlarmTable 처리 중 오류 발생 :' + err.stack);
             return;
         }
 
         if(sensorAlarmInfo){
-            global.alarm.pm25 = value;
-            console.log('global.alarm.pm25: ' + global.alarm.pm25);
+            global.alarm.noise = value;
+            console.log('global.alarm.noise: ' + global.alarm.noise);
         } else {
-            console.error('PM25 : sensorAlarmInfo 정보없음');
+            console.error('noise : sensorAlarmInfo 정보없음');
         }
     });
 }

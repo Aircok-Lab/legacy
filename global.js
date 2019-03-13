@@ -7,7 +7,8 @@ var Global = {
         hcho : [],
         voc : [],
         temperature : [],
-        humidity : []
+        humidity : [],
+        noise : []
     },
     alarm : {
         pm10 : 0,
@@ -16,7 +17,8 @@ var Global = {
         hcho : 0,
         voc : 0,
         temperature : 0,
-        humidity : 0
+        humidity : 0,
+        noise : 0
     },
     setting : {
 
