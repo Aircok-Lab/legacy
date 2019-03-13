@@ -441,6 +441,49 @@ router.get("/approvalUser", function(req, res, next) {
   });
 });
 
+router.get("/getUserByUserType", function(req, res, next) {
+  console.log("/getUserByUserType 호출됨.");
+
+  var type = req.body.type || req.query.type;
+  var result = { statusCode: null, message: null, data: null };
+
+  //입력값이 master, manager, monitoring, user가 맞는지 판단
+  if (type == 'master' || type =='manager' || type =='monitoring' || type =='user') {
+  User.getUserByUserType(type, function(err, users) {
+    if (err) {
+      console.error("오류 발생 :" + err.stack);
+
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
+    }
+
+    //결과 객체 있으면 성공 응답 전송
+    if (users) {
+      console.dir(users);
+      var retUsers = [];
+      users.map(user => {
+        retUsers.push(userPattern.deletePattern(user));
+      });
+      result.statusCode = OK;
+      result.message = "성공";
+      result.data = retUsers;
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "실패";
+      res.send(result);
+    }
+  });
+} else {
+  console.log("입력값 오류");
+  result.statusCode = FAIL;
+      result.message = "입력값 오류";
+      res.send(result);
+}
+});
+
 router.put("/updateUser", function(req, res, next) {
   console.log("/updateUser 호출됨.");
 
