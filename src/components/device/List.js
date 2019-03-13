@@ -1,64 +1,20 @@
 import React, { cloneElement, Component } from "react";
 import { connect } from "react-redux";
-import Modal from "react-modal";
-import {
-  buildingListRequest,
-  buildingSaveRequest,
-  buildingDeleteRequest
-} from "actions/Building";
-import { positionListRequest } from "actions/Position";
 import {
   deviceListByBuildingIdRequest,
   deviceListByPositionIdRequest,
   deviceDeleteRequest
 } from "actions/Device";
-import DeviceModalContainer from "components/device/DeviceContainer";
-import AddDevice from "components/device/Add";
-import UpdateDevice from "components/device/Update";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    zIndex: "9999"
-  },
-  overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.75)",
-    zIndex: "9999"
-  }
-};
-
-Modal.setAppElement("#body");
 
 class List extends React.Component {
   state = {
-    // mode: "list",
-    isEditing: false,
     showModal: false,
-    // modalMode: "addBuilding",
-    modalMode: "updateBuilding",
-    selectedNodeId: "",
-    // selectedNodeId: "31-25"
     selectedNode: {},
     deviceList: []
   };
 
-  openModal = param => e => {
-    // let modalMode = param;
-    this.setState({ showModal: true });
-  };
-
-  closeModal = () => {
-    this.setState({ showModal: false });
-  };
-
   delete = () => {
     if (confirm("선택항목을 삭제하시겠습니까?")) {
-      // this.props.setMode("list");
       const selectedDevices = this.props.deviceList.filter(
         device => device.isChecked
       );
@@ -108,6 +64,7 @@ class List extends React.Component {
             <div className="float-left" />
             <div className="float-right">
               <button
+                className="btn btn-primary"
                 onClick={e => this.props.setMode("add")}
                 style={{ marginLeft: "2px" }}
                 disabled={!this.props.selectedNode.BuildingID}
@@ -116,6 +73,7 @@ class List extends React.Component {
               </button>
 
               <button
+                className="btn btn-primary"
                 onClick={e => this.props.setMode("update")}
                 style={{ marginLeft: "2px" }}
                 disabled={
@@ -126,9 +84,8 @@ class List extends React.Component {
                 수정
               </button>
               <button
+                className="btn btn-primary"
                 onClick={e => {
-                  // this.props.setMode("deleteConfirm");
-                  // this.setState({ showModal: true });
                   this.delete();
                 }}
                 style={{ marginLeft: "2px" }}
@@ -198,51 +155,6 @@ class List extends React.Component {
             </tbody>
           </table>
         </div>
-
-        <Modal
-          isOpen={this.state.showModal}
-          // onRequestClose={this.closeModal}
-          contentLabel="측정기 관리 Modal"
-          style={customStyles}
-          // className="w3-display-container"
-        >
-          <div>
-            <button
-              className="w3-display-topright w3-button w3-white w3-hover-text-white"
-              onClick={() => {
-                this.state.closeModal();
-                console.log(this);
-              }}
-            >
-              X
-            </button>
-            {/* <i className="fas fa-times-circle" /> */}
-            <div className="" style={{ minWidth: "400px" }} />
-            선택항목을 삭제하시겠습니까?
-            <br />
-            <div className="w3-right">
-              <button
-                type="button"
-                className="w3-button w3-blue w3-padding"
-                onClick={() => {
-                  const selectedDevices = this.props.deviceList.filter(
-                    device => device.isChecked
-                  );
-                  const ids = selectedDevices.map(
-                    ({ SerialNumber }) => SerialNumber
-                  );
-                  this.props.deviceDeleteRequest({
-                    node: this.props.selectedNode,
-                    ids: ids.join()
-                  });
-                  this.props.closeModal();
-                }}
-              >
-                OK
-              </button>
-            </div>
-          </div>
-        </Modal>
       </div>
     );
   }

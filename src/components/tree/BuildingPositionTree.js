@@ -114,12 +114,14 @@ class BuildingPositionTree extends Component {
             {!this.props.hideButton && (
               <div className="float-right">
                 <button
+                  className="btn btn-primary"
                   style={{ marginLeft: "2px" }}
                   onClick={this.openModal("addBuilding")}
                 >
                   건물등록
                 </button>
                 <button
+                  className="btn btn-primary"
                   style={{ marginLeft: "2px" }}
                   onClick={this.openModal("addPosition")}
                   disabled={
@@ -131,6 +133,7 @@ class BuildingPositionTree extends Component {
                 </button>
                 {this.props.selectedNode.BuildingID && (
                   <button
+                    className="btn btn-primary"
                     style={{ marginLeft: "2px" }}
                     onClick={this.openModal("updatePosition")}
                   >
@@ -140,6 +143,7 @@ class BuildingPositionTree extends Component {
                 {this.props.selectedNode.id &&
                   !this.props.selectedNode.BuildingID && (
                     <button
+                      className="btn btn-primary"
                       style={{ marginLeft: "2px" }}
                       onClick={this.openModal("updateBuilding")}
                     >
