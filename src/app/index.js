@@ -5,6 +5,7 @@ import Header from "components/Header/index";
 import Sidebar from "containers/SideNav/index";
 import Footer from "components/Footer";
 import Monitoring from "./routes/Monitoring";
+import MonitoringSelection from "./routes/MonitoringSelection";
 import Device from "./routes/Device";
 import Product from "./routes/Product";
 import User from "./routes/User";
@@ -67,6 +68,10 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/monitoring`}
                   component={Monitoring}
+                />
+                <Route
+                  path={`${match.url}/monitoringSelection`}
+                  component={MonitoringSelection}
                 />
                 <Route path={`${match.url}/device`} component={Device} />
                 <Route path={`${match.url}/product`} component={Product} />

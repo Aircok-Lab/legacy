@@ -82,12 +82,17 @@ class BuildingPositionTree extends Component {
 
   render() {
     let buildingPositionList = [...this.props.buildingList];
-    buildingPositionList.map(item => {
-      const items = this.props.positionList.filter(
-        position => position.BuildingID == item.id
+    buildingPositionList.map(building => {
+      let positions = this.props.positionList.filter(
+        position => position.BuildingID == building.id
       );
-      if (items.length) {
-        item.positions = items;
+      if (positions.length) {
+        positions = positions.map(position => {
+          position.BuildingName = building.Name;
+          return position;
+        });
+
+        building.positions = positions;
       }
     });
 
@@ -175,85 +180,76 @@ class BuildingPositionTree extends Component {
               }
               onClick={e => this.nodeClick(item)}
             >
-              <i className="fa fa-caret-right pr-1" aria-hidden="true" />
-              {this.props.checkable && (
-                <input
-                  className="w3-check"
-                  type="checkbox"
-                  checked={item.isChecked}
-                  value={item.id}
-                  onClick={e => {
-                    e.stopPropagation();
-                  }}
-                  onChange={e => {
-                    console.log("checkbox onChange ...", e.target.checked);
-                  }}
-                  // onChange={event => {
-                  //   let userList = [...this.state.userList];
-                  //   userList.forEach(user => {
-                  //     if (user.id === Number(event.target.value)) {
-                  //       user.isChecked = event.target.checked;
-                  //     }
-                  //   });
-                  //   this.setState({ userList: userList });
-                  // }}
-                  // onClick={event => {
-                  //   event.preventDefault();
-                  //   console.log("onClick... event.target", event.target);
-                  // }}
-                />
-              )}
+              <i
+                className="fa fa-caret-right p-1"
+                aria-hidden="true"
+                style={{
+                  cursor: "pointer"
+                }}
+                onClick={e => {
+                  e.stopPropagation();
+                  console.log("TODO: toggle show/hide");
+                }}
+              />
               <span> {item.Name}</span>
             </div>
 
-            {!this.props.hidePosition && (
-              <div className="">
-                <ul className="w3-ul">
-                  {item.positions &&
-                    item.positions.map(position => (
-                      <li
-                        key={position.id}
-                        style={{
-                          cursor: "pointer",
-                          padding: "2px 10px 2px 25px",
-                          marginBottom: "2px"
-                        }}
-                        className={
-                          "w3-border-0 w3-padding-left " +
-                          ("" +
-                            this.props.selectedNode.BuildingID +
-                            "-" +
-                            this.props.selectedNode.id ===
-                          "" + position.BuildingID + "-" + position.id
-                            ? "w3-blue"
-                            : "")
-                        }
-                        onClick={e => this.nodeClick(position)}
-                      >
-                        {/* <i className="fa fa-file-o" aria-hidden="true" />{" "} */}
-                        {this.props.checkable && (
-                          <input
-                            className="w3-check"
-                            type="checkbox"
-                            checked={item.isChecked}
-                            value={item.id}
-                            // onChange={event => {
-                            //   let userList = [...this.state.userList];
-                            //   userList.forEach(user => {
-                            //     if (user.id === Number(event.target.value)) {
-                            //       user.isChecked = event.target.checked;
-                            //     }
-                            //   });
-                            //   this.setState({ userList: userList });
-                            // }}
-                          />
-                        )}
-                        {position.Name}
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            )}
+            <div className="">
+              <ul className="w3-ul">
+                {item.positions &&
+                  item.positions.map(position => (
+                    <li
+                      key={position.id}
+                      style={{
+                        cursor: "pointer",
+                        padding: "2px 10px 2px 25px",
+                        marginBottom: "2px"
+                      }}
+                      className={
+                        "w3-border-0 w3-padding-left " +
+                        ("" +
+                          this.props.selectedNode.BuildingID +
+                          "-" +
+                          this.props.selectedNode.id ===
+                        "" + position.BuildingID + "-" + position.id
+                          ? "w3-blue"
+                          : "")
+                      }
+                      onClick={e => this.nodeClick(position)}
+                    >
+                      {/* <i className="fa fa-file-o" aria-hidden="true" />{" "} */}
+                      {this.props.checkable && (
+                        <input
+                          className="w3-check"
+                          type="checkbox"
+                          checked={item.isChecked}
+                          value={item.id}
+                          onClick={e => {
+                            e.stopPropagation();
+                          }}
+                          onChange={e => {
+                            console.log(
+                              "checkbox onChange ...",
+                              e.target.checked
+                            );
+                          }}
+
+                          // onChange={event => {
+                          //   let userList = [...this.state.userList];
+                          //   userList.forEach(user => {
+                          //     if (user.id === Number(event.target.value)) {
+                          //       user.isChecked = event.target.checked;
+                          //     }
+                          //   });
+                          //   this.setState({ userList: userList });
+                          // }}
+                        />
+                      )}
+                      {position.Name}
+                    </li>
+                  ))}
+              </ul>
+            </div>
           </div>
         ))}
         <Modal
@@ -263,7 +259,10 @@ class BuildingPositionTree extends Component {
           style={customStyles}
           // className="w3-display-container"
         >
-          <button className="w3-display-topright" onClick={this.closeModal}>
+          <button
+            className="w3-display-topright w3-button w3-white w3-hover-text-white"
+            onClick={this.closeModal}
+          >
             X
           </button>
           <div className="" style={{ minWidth: "400px" }} />

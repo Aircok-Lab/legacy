@@ -4,13 +4,14 @@ import createHistory from "history/createHashHistory";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "../sagas/index";
 import { routerMiddleware } from "react-router-redux";
-import { logger } from "redux-logger";
+// import { logger } from "redux-logger";
 
 const history = createHistory();
 const routeMiddleware = routerMiddleware(history);
 const sagaMiddleware = createSagaMiddleware();
 
-const middlewares = [sagaMiddleware, routeMiddleware, logger];
+// const middlewares = [sagaMiddleware, routeMiddleware, logger];
+const middlewares = [sagaMiddleware, routeMiddleware];
 
 export default function configureStore(initialState) {
   const store = createStore(

@@ -6,115 +6,161 @@ const uuidv4 = require("uuid/v4");
 class AddDevice extends Component {
   addDevice = () => {
     this.props.deviceAddRequest({
-      name: "test1",
-      serialNumber: new Date().getTime(),
-      phone: "1",
-      positionID: this.props.node.id,
+      name: "" + new Date().getTime(),
+      serialNumber: "" + new Date().getTime(),
+      phone: "010-555-5555",
+      positionID: this.props.selectedNode.id,
       productID: 1
     });
   };
 
   render() {
     return (
-      <form className="w3-text-blue w3-margin">
-        <h2 className="w3-center">측정기 등록</h2>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            건물명
-          </div>
-          <div className="w3-rest">
-            <input
-              className="w3-input w3-border"
-              name="first"
-              type="text"
-              placeholder=""
-            />
-          </div>
+      <div className="text-center">
+        <div style={{ margin: "0% 20%" }}>
+          <form className="w3-text-blue w3-margin">
+            <h2 className="w3-center">측정기 등록</h2>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                건물명
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="w3-input w3-border"
+                  style={{ background: "#eee" }}
+                  name="first"
+                  type="text"
+                  placeholder=""
+                  disabled
+                  value={
+                    this.props.selectedNode.BuildingID
+                      ? this.props.selectedNode.BuildingName
+                      : this.props.selectedNode.Name
+                  }
+                />
+              </div>
+            </div>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                층
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="w3-input w3-border"
+                  style={{ background: "#eee" }}
+                  name="first"
+                  type="text"
+                  placeholder=""
+                  disabled
+                  value={
+                    this.props.selectedNode.BuildingID
+                      ? this.props.selectedNode.Name
+                      : ""
+                  }
+                />
+              </div>
+            </div>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                측정기명
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="w3-input w3-border"
+                  name="first"
+                  type="text"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                제품군
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="w3-input w3-border"
+                  name="first"
+                  type="text"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                S/N
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="w3-input w3-border"
+                  name="first"
+                  type="text"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                Phone번호
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="w3-input w3-border"
+                  name="first"
+                  type="text"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div className="w3-right">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={e => {
+                  this.props.setMode("list");
+                }}
+              >
+                List
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={e => {
+                  this.addDevice();
+                  this.props.setMode("list");
+                }}
+              >
+                OK
+              </button>
+            </div>
+          </form>{" "}
         </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            층
-          </div>
-          <div className="w3-rest">
-            <input
-              className="w3-input w3-border"
-              name="first"
-              type="text"
-              placeholder=""
-            />
-          </div>
-        </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            측정기명
-          </div>
-          <div className="w3-rest">
-            <input
-              className="w3-input w3-border"
-              name="first"
-              type="text"
-              placeholder=""
-            />
-          </div>
-        </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            제품군
-          </div>
-          <div className="w3-rest">
-            <input
-              className="w3-input w3-border"
-              name="first"
-              type="text"
-              placeholder=""
-            />
-          </div>
-        </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            S/N
-          </div>
-          <div className="w3-rest">
-            <input
-              className="w3-input w3-border"
-              name="first"
-              type="text"
-              placeholder=""
-            />
-          </div>
-        </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            Phone번호
-          </div>
-          <div className="w3-rest">
-            <input
-              className="w3-input w3-border"
-              name="first"
-              type="text"
-              placeholder=""
-            />
-          </div>
-        </div>
-        <div className="w3-right">
-          <button
-            type="button"
-            className="w3-button w3-blue w3-padding"
-            onClick={e => {
-              this.addDevice();
-              this.props.closeModal();
-            }}
-          >
-            OK
-          </button>
-        </div>
-      </form>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  authUser: state.auth.authUser
+  authUser: state.auth.authUser,
+  selectedNode: state.tree.selectedNode
 });
 
 const mapDispatchToProps = {

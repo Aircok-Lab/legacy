@@ -80,70 +80,6 @@ const UserPage = () => {
                 className="w3-col w3-padding-right"
                 style={{ width: "80px" }}
               >
-                건물명
-              </div>
-              <div className="w3-rest">
-                <input
-                  className="w3-input w3-border"
-                  name="first"
-                  type="text"
-                  placeholder=""
-                />
-              </div>
-            </div>
-            <div className="w3-row w3-section">
-              <div
-                className="w3-col w3-padding-right"
-                style={{ width: "80px" }}
-              >
-                층
-              </div>
-              <div className="w3-rest">
-                <input
-                  className="w3-input w3-border"
-                  name="first"
-                  type="text"
-                  placeholder=""
-                />
-              </div>
-            </div>
-            <div className="w3-row w3-section">
-              <div
-                className="w3-col w3-padding-right"
-                style={{ width: "80px" }}
-              >
-                &nbsp;
-              </div>
-              <div className="w3-rest">
-                <p>
-                  <label>
-                    <input
-                      className="w3-radio"
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      checked
-                    />
-                    관리자
-                  </label>
-
-                  <label>
-                    <input
-                      className="w3-radio w3-margin-left"
-                      type="radio"
-                      name="gender"
-                      value="female"
-                    />
-                    시용자
-                  </label>
-                </p>
-              </div>
-            </div>
-            <div className="w3-row w3-section">
-              <div
-                className="w3-col w3-padding-right"
-                style={{ width: "80px" }}
-              >
                 전화번호
               </div>
               <div className="w3-rest">
@@ -155,7 +91,7 @@ const UserPage = () => {
                 />
               </div>
             </div>
-            <div className="w3-right">
+            <div className="w3-right mb-3">
               <button
                 type="button"
                 className="w3-button w3-blue w3-padding"
@@ -166,6 +102,8 @@ const UserPage = () => {
               >
                 OK
               </button>
+              {/* <br />
+              <br /> */}
             </div>
           </form>
         </div>

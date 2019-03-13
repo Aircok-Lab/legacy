@@ -94,6 +94,10 @@ class SidenavContent extends Component {
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">측정기 관리 </span>
             </NavLink>
+            <NavLink to="/app/monitoringSelection">
+              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+              <span className="nav-text">모니터링 측정기 관리 </span>
+            </NavLink>
             <NavLink to="/app/product">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">제품군 관리 </span>
