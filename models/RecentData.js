@@ -115,6 +115,7 @@ var RecentData = {
         VOC: voc.value,
         Temperature: temperature.value,
         Humidity: humidity.value,
+        Noise: noise.value,
         Date: date,
         DeviceSN: deviceSN,
         E3Index: totalScore,
@@ -125,13 +126,15 @@ var RecentData = {
         VOCIndex: voc.index,
         TemperatureIndex: temperature.index,
         HumidityIndex: humidity.index,
+        NoiseIndex: noise.index,
         PM10Alarm: pm10.alarm,
         PM25Alarm: pm25.alarm,
         CO2Alarm: co2.alarm,
         HCHOAlarm: hcho.alarm,
         VOCAlarm: voc.alarm,
         TemperatureAlarm: temperature.alarm,
-        HumidityAlarm: humidity.alarm
+        HumidityAlarm: humidity.alarm,
+        NoiseAlarm: noise.alarm
       };
 
       // SQL문을 실행합니다.
@@ -190,6 +193,7 @@ var RecentData = {
         VOC: voc.value,
         Temperature: temperature.value,
         Humidity: humidity.value,
+        Noise: noise.value,
         Date: date,
         InsertDate: new Date(),
         E3Index: total.index,
@@ -201,13 +205,15 @@ var RecentData = {
         VOCIndex: voc.index,
         TemperatureIndex: temperature.index,
         HumidityIndex: humidity.index,
+        NoiseIndex: noise.index,
         PM10Alarm: pm10.alarm,
         PM25Alarm: pm25.alarm,
         CO2Alarm: co2.alarm,
         HCHOAlarm: hcho.alarm,
         VOCAlarm: voc.alarm,
         TemperatureAlarm: temperature.alarm,
-        HumidityAlarm: humidity.alarm
+        HumidityAlarm: humidity.alarm,
+        NoiseAlarm: noise.alarm
       };
 
       var data = [value, deviceSN];
@@ -226,7 +232,7 @@ var RecentData = {
             callback(err, null);
             return;
           }
-          var success = "true";
+          var success = true;
 
           callback(null, success);
         }

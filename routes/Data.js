@@ -74,10 +74,11 @@ router.post('/addData', function(req, res, next) {
             status.co2 = E3Core.getSensorIndex(CO2,paramCO2);
             status.hcho = E3Core.getSensorIndex(HCHO,paramHCHO);
             status.voc = E3Core.getSensorIndex(VOC,paramVOC);
+            status.noise = E3Core.getSensorIndex(NOISE,paramNOISE);
             status.temperature = E3Core.getTempIndex(paramTemperature);
             status.humidity = E3Core.getHumidityIndex(paramHumidity);
-            totalScore = E3Core.calTotalIndex(buildingType, status.pm10.score, status.pm25.score, status.co2.score, status.hcho.score, status.voc.score, status.temperature.score, status.humidity.score);
-            RecentData.updateRecentData(status.pm10, status.pm25, status.co2, status.hcho, status.voc, status.temperature, status.humidity, paramNoise, totalScore, paramDate, paramDeviceSN, function(err, success){
+            totalScore = E3Core.calTotalIndex(buildingType, status.pm10.score, status.pm25.score, status.co2.score, status.hcho.score, status.voc.score, status.temperature.score, status.humidity.score, status.noise.score);
+            RecentData.updateRecentData(status.pm10, status.pm25, status.co2, status.hcho, status.voc, status.temperature, status.humidity, status.noise, totalScore, paramDate, paramDeviceSN, function(err, success){
                 if(err){
                     console.error('최신 데이터 수정 중 오류 발생 :' + err.stack);
                     return;
@@ -86,7 +87,7 @@ router.post('/addData', function(req, res, next) {
                     console.log('최신 데이터 수정 완료 ');
                 }
             });
-            Alarm.addAlarm(status.pm10, status.pm25, status.co2, status.hcho, status.voc, status.temperature, status.humidity, paramNoise, totalScore, paramDate, paramDeviceSN, function(err, success){
+            Alarm.addAlarm(status.pm10, status.pm25, status.co2, status.hcho, status.voc, status.temperature, status.humidity, status.noise, totalScore, paramDate, paramDeviceSN, function(err, success){
                 if(err){
                     console.error('데이터 추가 중 오류 발생 :' + err.stack);
                     return;

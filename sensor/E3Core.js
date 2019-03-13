@@ -51,6 +51,9 @@ var E3Core = {
         }else if(sensorType === VOC){
             data = global.sensorTable.voc;
             alarm = global.alarm.voc;
+        }else if(sensorType === NOISE){
+            data = global.sensorTable.noise;
+            alarm = global.alarm.noise;
         }else{
             console.log("error sensor type");
         }
@@ -208,7 +211,7 @@ var E3Core = {
     
         return result;
     },
-    calTotalIndex: function(buildingType, pm10, pm25, co2, hcho, voc, temp, humi){
+    calTotalIndex: function(buildingType, pm10, pm25, co2, hcho, voc, temp, humi, noise){
         var d = new Date();
         var month = d.getMonth() + 1;
         var score = global.sensorTable.score;

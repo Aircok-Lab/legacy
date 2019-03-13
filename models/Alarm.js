@@ -198,6 +198,10 @@ var Alarm = {
         data.HumidityIndex = humidity.index;
         data.HumidityAlarm = humidity.alarm;
       }
+      if (noise.value) {
+        data.NOISEIndex = noise.index;
+        data.NOISEAlarm = noise.alarm;
+      }
 
       // SQL문을 실행합니다.
       var exec = conn.query(
@@ -214,7 +218,7 @@ var Alarm = {
             callback(err, null);
             return;
           }
-          var success = "true";
+          var success = true;
 
           callback(null, success);
         }
