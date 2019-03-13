@@ -15,8 +15,12 @@ var Device = {
       }
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
+      var queryString =
+        "select Building.Name as BuildingName , Position.Name as PositionName, Device.*from  Position, Building, Device\
+        where Device.PositionID = Position.id and Position.BuildingID = Building.id order by BuildingName, PositionName desc";
+
       // SQL문을 실행합니다.
-      var exec = conn.query("Select * from Device", function(err, result) {
+      var exec = conn.query(queryString, function(err, result) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
 
@@ -320,8 +324,7 @@ var Device = {
             return;
           }
           var success = false;
-          if(result.changedRows > 0)
-            success = true;
+          if (result.changedRows > 0) success = true;
 
           callback(null, success);
         }
