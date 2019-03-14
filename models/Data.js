@@ -268,7 +268,10 @@ var Data = {
       var oldTableName = "Data_" + deviceSN;
       var newTableName = "Data_" + deviceSN + "_backup_" + date;
       var queryString =
-        "ALTER TABLE " + oldTableName + " RENAME TO  " + newTableName;
+        "ALTER TABLE monitoring." +
+        oldTableName +
+        " RENAME TO  monitoring." +
+        newTableName;
 
       // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {
