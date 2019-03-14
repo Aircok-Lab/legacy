@@ -26,7 +26,7 @@ const sensorData = ({
   };
 
   return (
-    <span>
+    <React.Fragment>
       <td style={{ width: "60px" }}>{alarmReferenceValue}</td>
       <td style={{ width: "60px" }}>
         <span
@@ -42,7 +42,7 @@ const sensorData = ({
           style={{ width: "12px", height: "12px" }}
         />
       </td>
-    </span>
+    </React.Fragment>
   );
 };
 

@@ -94,7 +94,7 @@ class SamplePage extends React.Component {
                     sensorIndex={contact.HumidityIndex}
                     sensorAlarm={contact.HumidityAlarm}
                   />
-                  {/* <SensorData
+                  <SensorData
                     alarmReferenceValue={this.props.alarmReferenceValue.pm10}
                     sensorData={contact.PM10}
                     sensorIndex={contact.PM10Index}
@@ -129,7 +129,7 @@ class SamplePage extends React.Component {
                     sensorData={contact.Noise}
                     sensorIndex={contact.NoiseIndex}
                     sensorAlarm={contact.NoiseAlarm}
-                  /> */}
+                  />
 
                   {/* <td style={{ width: "60px" }}>
                     {this.props.alarmReferenceValue.humidity}
@@ -147,7 +147,7 @@ class SamplePage extends React.Component {
                       className={getClassAlarmIcon(contact.HumidityAlarm)}
                       style={{ width: "12px", height: "12px" }}
                     />
-                  </td> */}
+                  </td>
                   <td style={{ width: "60px" }}>
                     {this.props.alarmReferenceValue.pm10}
                   </td>
@@ -249,7 +249,7 @@ class SamplePage extends React.Component {
                       className={getClassAlarmIcon(contact.NoiseAlarm)}
                       style={{ width: "12px", height: "12px" }}
                     />
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}
