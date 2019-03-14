@@ -397,41 +397,40 @@ var User = {
 
       // 데이터를 객체로 만듭니다.
       // TODO: Approval을 임시로 true 로 설정했습니다.
-      var data = [
-        name,
-        password,
-        email,
-        department,
-        approval,
-        userType,
-        phone,
-        buildingList,
-        positionList,
-        deviceList,
-        userId
-      ];
+      var updateContents = {};
+      var data = [updateContents, userId];
+
+      if (name) updateContents.name = name;
+      if (password) updateContents.password = password;
+      if (email) updateContents.email = email;
+      if (department) updateContents.department = department;
+      if (approval) updateContents.approval = approval;
+      if (userType) updateContents.userType = userType;
+      if (phone) updateContents.phone = phone;
+      if (buildingList) updateContents.buildingList = buildingList;
+      if (positionList) updateContents.positionList = positionList;
+      if (deviceList) updateContents.deviceList = deviceList;
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "update User set Name=?, Password=?, Email=?, Department=?, Approval=?, UserType=?, Phone=?, BuildingList=?, PositionList=?, DeviceList=? where id=?",
-        data,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("update User set ? where id=?", data, function(
+        err,
+        result
+      ) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-          var success = false;
-          if (result.changedRows > 0) success = true;
-
-          callback(null, success);
+          callback(err, null);
+          return;
         }
-      );
+        var success = false;
+        if (result.changedRows > 0) success = true;
+
+        callback(null, success);
+      });
     });
   },
 

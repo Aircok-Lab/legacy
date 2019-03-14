@@ -24,6 +24,13 @@ router.post("/login", function(req, res, next) {
   let password = privateKey.decrypt(paramPassword, "base64", "utf8");
   var result = { statusCode: null, message: null, data: null };
 
+  if (!paramLoginId || !paramPassword) {
+    result.statusCode = FAIL;
+    result.message = "입력 값을 확인하세요";
+    res.send(result);
+    return;
+  }
+
   console.log("요청 파라미터 : " + paramLoginId + "," + password);
   User.loginUser(paramLoginId, password, function(err, loginUser) {
     if (err) {
@@ -88,15 +95,30 @@ router.post("/addUser", function(req, res, next) {
   var paramEmail = req.body.email || req.query.email || null;
   var paramDepartment = req.body.department || req.query.department || null;
   var paramAaproval = true;
-  var paramUserType = req.body.userType || req.query.userType || false;
+  var paramUserType = req.body.userType || req.query.userType || "user";
   var paramPhone = req.body.phone || req.query.phone || null;
   var paramBuildingList = req.body.buildingList || req.query.buildingList;
   var paramPositionList = req.body.positionList || req.query.positionList;
-  var paramDeviceList = req.body.deviceList || req.query.deviceList;
+  var paramDeviceList = req.body.deviceList || req.query.deviceList || null;
   var result = { statusCode: null, message: null, data: null };
+
+  if (
+    !paramLoginId ||
+    !paramPassword ||
+    !paramName ||
+    !paramEmail ||
+    !paramBuildingList ||
+    !paramPositionList
+  ) {
+    result.statusCode = FAIL;
+    result.message = "입력 값을 확인하세요";
+    res.send(result);
+    return;
+  }
 
   paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
   paramPositionList = userPattern.setPositionListPattern(paramPositionList);
+  paramDeviceList = userPattern.setPositionListPattern(paramDeviceList);
 
   console.log(
     "요청 파라미터 : " +
@@ -169,6 +191,13 @@ router.post("/findUser", function(req, res, next) {
   var paramEmail = req.body.email || req.query.email;
   var result = { statusCode: null, message: null, data: null };
 
+  if (!paramName || !paramEmail) {
+    result.statusCode = FAIL;
+    result.message = "입력 값을 확인하세요";
+    res.send(result);
+    return;
+  }
+
   console.log("요청 파라미터 : " + paramName + "," + paramEmail);
 
   User.getLoginId(paramName, paramEmail, function(err, findLoginID) {
@@ -203,6 +232,13 @@ router.post("/findPassword", function(req, res, next) {
   var paramLoginID = req.body.loginId || req.query.loginId;
   var paramEmail = req.body.email || req.query.email;
   var result = { statusCode: null, message: null, data: null };
+
+  if (!paramLoginID || !paramEmail) {
+    result.statusCode = FAIL;
+    result.message = "입력 값을 확인하세요";
+    res.send(result);
+    return;
+  }
 
   console.log("요청 파라미터 : " + paramLoginID + "," + paramEmail);
 
@@ -448,40 +484,45 @@ router.get("/getUserByUserType", function(req, res, next) {
   var result = { statusCode: null, message: null, data: null };
 
   //입력값이 master, manager, monitoring, user가 맞는지 판단
-  if (type == 'master' || type =='manager' || type =='monitoring' || type =='user') {
-  User.getUserByUserType(type, function(err, users) {
-    if (err) {
-      console.error("오류 발생 :" + err.stack);
+  if (
+    type == "master" ||
+    type == "manager" ||
+    type == "monitoring" ||
+    type == "user"
+  ) {
+    User.getUserByUserType(type, function(err, users) {
+      if (err) {
+        console.error("오류 발생 :" + err.stack);
 
-      result.statusCode = FAIL;
-      result.message = "오류 발생";
-      res.send(result);
-      return;
-    }
+        result.statusCode = FAIL;
+        result.message = "오류 발생";
+        res.send(result);
+        return;
+      }
 
-    //결과 객체 있으면 성공 응답 전송
-    if (users) {
-      console.dir(users);
-      var retUsers = [];
-      users.map(user => {
-        retUsers.push(userPattern.deletePattern(user));
-      });
-      result.statusCode = OK;
-      result.message = "성공";
-      result.data = retUsers;
-      res.send(result);
-    } else {
-      result.statusCode = FAIL;
-      result.message = "실패";
-      res.send(result);
-    }
-  });
-} else {
-  console.log("입력값 오류");
-  result.statusCode = FAIL;
-      result.message = "입력값 오류";
-      res.send(result);
-}
+      //결과 객체 있으면 성공 응답 전송
+      if (users) {
+        console.dir(users);
+        var retUsers = [];
+        users.map(user => {
+          retUsers.push(userPattern.deletePattern(user));
+        });
+        result.statusCode = OK;
+        result.message = "성공";
+        result.data = retUsers;
+        res.send(result);
+      } else {
+        result.statusCode = FAIL;
+        result.message = "실패";
+        res.send(result);
+      }
+    });
+  } else {
+    console.log("입력값 오류");
+    result.statusCode = FAIL;
+    result.message = "입력값 오류";
+    res.send(result);
+  }
 });
 
 router.put("/updateUser", function(req, res, next) {
@@ -490,21 +531,19 @@ router.put("/updateUser", function(req, res, next) {
   var paramUserID = req.body.id || req.query.id;
   var paramPassword = req.body.password || req.query.password;
   var paramName = req.body.name || req.query.name;
-  var paramEmail = req.body.email || req.query.email || null;
-  var paramDepartment = req.body.department || req.query.department || null;
+  var paramEmail = req.body.email || req.query.email;
+  var paramDepartment = req.body.department || req.query.department;
   var paramAaproval = true;
-  var paramUserType = req.body.userType || req.query.userType || false;
-  var paramPhone = req.body.phone || req.query.phone || null;
-  var paramBuildingList =
-    req.body.buildingList || req.query.buildingList || null;
-  var paramPositionList =
-    req.body.positionList || req.query.positionList || null;
-  var paramDeviceList = req.body.deviceList || req.query.deviceList || null;
+  var paramUserType = req.body.userType || req.query.userType;
+  var paramPhone = req.body.phone || req.query.phone;
+  var paramBuildingList = req.body.buildingList || req.query.buildingList;
+  var paramPositionList = req.body.positionList || req.query.positionList;
+  var paramDeviceList = req.body.deviceList || req.query.deviceList;
   var result = { statusCode: null, message: null, data: null };
 
   paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
   paramPositionList = userPattern.setPositionListPattern(paramPositionList);
-
+  paramDeviceList = userPattern.setPositionListPattern(paramDeviceList);
   console.log(
     "요청 파라미터 : " +
       paramUserID +
