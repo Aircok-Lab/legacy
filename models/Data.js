@@ -244,6 +244,44 @@ var Data = {
         callback(null, success);
       });
     });
+  },
+
+  changeTableName: function(deviceSN) {
+    console.log("changeTableName 호출됨 deviceSN : " + deviceSN);
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      // 데이터를 객체로 만듭니다.
+      var rightNow = new Date();
+      var date = rightNow
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, "");
+      var oldTableName = "Data_" + deviceSN;
+      var newTableName = "Data_" + deviceSN + "_backup_" + date;
+      var queryString =
+        "ALTER TABLE " + oldTableName + " RENAME TO  " + newTableName;
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(queryString, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
+
+        if (err) {
+          console.log("table 이름 변경 실패");
+          console.dir(err);
+          return;
+        }
+      });
+    });
   }
 };
 module.exports = Data;

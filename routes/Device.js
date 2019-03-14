@@ -6,6 +6,7 @@ var Data = require("../models/Data");
 var Alarm = require("../models/Alarm");
 var Product = require("../models/Product");
 var RecentData = require("../models/RecentData");
+var User = require("../models/User");
 
 /* INSERT user */
 router.post("/addDevice", function(req, res, next) {
@@ -254,7 +255,7 @@ router.put("/updateDevice", function(req, res, next) {
       "," +
       paramPhone +
       "," +
-      paramIP + 
+      paramIP +
       "," +
       paramPositionID +
       "," +
@@ -296,6 +297,7 @@ router.delete("/deleteDevice", function(req, res, next) {
   console.log("/deleteDevice 호출됨.");
 
   var paramDeviceSerialNumber = req.body.serialNumber || req.query.serialNumber;
+  var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
 
   console.log("요청 파라미터 : " + paramDeviceSerialNumber);
@@ -331,6 +333,27 @@ router.delete("/deleteDevice", function(req, res, next) {
           console.log("실패");
         }
       });
+      User.getUserByDeviceSN(paramDeviceSerialNumber, function(err, users) {
+        if (users) {
+          users.map(user => {
+            let delStr = "/" + paramDeviceSerialNumber + ",/";
+            let inStr = "/";
+            let deviceList = user.DeviceList.replace(delStr, inStr);
+
+            User.updateUserBuildingList(user.id, deviceList);
+            if (user.id == paramUserID) {
+              user.DeviceList = deviceList;
+              let userData = userPattern.deletePattern(user);
+              result.statusCode = OK;
+              result.message = "성공";
+              result.data = userData;
+              res.send(result);
+            }
+          });
+        }
+      });
+      Alarm.changeTableName(paramDeviceSerialNumber);
+      Data.changeTableName(paramDeviceSerialNumber);
     } else {
       result.statusCode = FAIL;
       result.message = "실패";
