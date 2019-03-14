@@ -258,32 +258,26 @@ var Data = {
         return;
       }
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+      var serials = deviceSN.split(",");
+      console.log(serials);
 
-      // 데이터를 객체로 만듭니다.
-      var rightNow = new Date();
-      var date = rightNow
-        .toISOString()
-        .slice(0, 10)
-        .replace(/-/g, "");
-      var oldTableName = "Data_" + deviceSN;
-      var newTableName = "Data_" + deviceSN + "_backup_" + date;
-      var queryString =
-        "ALTER TABLE monitoring." +
-        oldTableName +
-        " RENAME TO  monitoring." +
-        newTableName;
+      for (i in serials) {
+        var rightNow = new Date();
+        var date = rightNow
+          .toISOString()
+          .slice(0, 10)
+          .replace(/-/g, "");
+        var oldTableName = "Data_" + serials[i];
+        var newTableName = "Data_" + serials[i] + "_backup_" + date;
+        var queryString =
+          "ALTER TABLE monitoring." +
+          oldTableName +
+          " RENAME TO  monitoring." +
+          newTableName;
 
-      // SQL문을 실행합니다.
-      var exec = conn.query(queryString, function(err, result) {
-        conn.release(); // 반드시 해제해야 합니다.
-        console.log("실행 대상 SQL : " + exec.sql);
-
-        if (err) {
-          console.log("table 이름 변경 실패");
-          console.dir(err);
-          return;
-        }
-      });
+        conn.query(queryString);
+      }
+      conn.release();
     });
   }
 };
