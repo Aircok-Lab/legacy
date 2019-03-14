@@ -25,23 +25,29 @@ userPattern.deletePattern = function(userInfo) {
   delete userInfo.Password;
   var insertStr = ",";
   var user = userInfo;
-  userInfo.BuildingList = userInfo.BuildingList.replace(/\,\//g, insertStr);
-  if (userInfo.BuildingList.endsWith(","))
-    user.BuildingList = userInfo.BuildingList.slice(0, -1);
-  if (userInfo.BuildingList.startsWith("/"))
-    user.BuildingList = user.BuildingList.substring(1);
+  if (userInfo.BuildingList) {
+    userInfo.BuildingList = userInfo.BuildingList.replace(/\,\//g, insertStr);
+    if (userInfo.BuildingList.endsWith(","))
+      user.BuildingList = userInfo.BuildingList.slice(0, -1);
+    if (userInfo.BuildingList.startsWith("/"))
+      user.BuildingList = user.BuildingList.substring(1);
+  }
 
-  userInfo.PositionList = userInfo.PositionList.replace(/\,\//g, insertStr);
-  if (userInfo.PositionList.endsWith(","))
-    user.PositionList = userInfo.PositionList.slice(0, -1);
-  if (userInfo.PositionList.startsWith("/"))
-    user.PositionList = user.PositionList.substring(1);
+  if (userInfo.PositionList) {
+    userInfo.PositionList = userInfo.PositionList.replace(/\,\//g, insertStr);
+    if (userInfo.PositionList.endsWith(","))
+      user.PositionList = userInfo.PositionList.slice(0, -1);
+    if (userInfo.PositionList.startsWith("/"))
+      user.PositionList = user.PositionList.substring(1);
+  }
 
-  userInfo.DeviceList = userInfo.DeviceList.replace(/\,\//g, insertStr);
-  if (userInfo.DeviceList.endsWith(","))
-    user.DeviceList = userInfo.DeviceList.slice(0, -1);
-  if (userInfo.DeviceList.startsWith("/"))
-    user.DeviceList = user.DeviceList.substring(1);
+  if (userInfo.DeviceList) {
+    userInfo.DeviceList = userInfo.DeviceList.replace(/\,\//g, insertStr);
+    if (userInfo.DeviceList.endsWith(","))
+      user.DeviceList = userInfo.DeviceList.slice(0, -1);
+    if (userInfo.DeviceList.startsWith("/"))
+      user.DeviceList = user.DeviceList.substring(1);
+  }
   return user;
 };
 
