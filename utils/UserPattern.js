@@ -36,6 +36,12 @@ userPattern.deletePattern = function(userInfo) {
     user.PositionList = userInfo.PositionList.slice(0, -1);
   if (userInfo.PositionList.startsWith("/"))
     user.PositionList = user.PositionList.substring(1);
+
+  userInfo.DeviceList = userInfo.DeviceList.replace(/\,\//g, insertStr);
+  if (userInfo.DeviceList.endsWith(","))
+    user.DeviceList = userInfo.DeviceList.slice(0, -1);
+  if (userInfo.DeviceList.startsWith("/"))
+    user.DeviceList = user.DeviceList.substring(1);
   return user;
 };
 
