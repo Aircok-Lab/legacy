@@ -16,8 +16,6 @@ export const getSCOREScore = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-
       global.sensorTable.score = sensorIndexInfo;
     } else {
       console.error("SCORE : sensorIndexInfo 정보없음");
@@ -37,13 +35,8 @@ export const setSCOREScore = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      console.dir(sensorIndexInfo);
       global.sensorTable.score[grade - 1].Min = min;
       global.sensorTable.score[grade - 1].Max = max;
-      console.error(
-        "global.sensorTable.score[grade-1].Min: " +
-          global.sensorTable.score[grade - 1].Min
-      );
     } else {
       console.error("SCORE : sensorIndexInfo 정보없음");
     }
