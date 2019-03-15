@@ -1,52 +1,47 @@
-import {
-  PM10,
-  PM25,
-  CO2,
-  HCHO,
-  VOC,
-} from "../public/javascripts/defined";
+import { PM10, PM25, CO2, HCHO, VOC } from "../public/javascripts/defined";
 
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var Data=require('../models/Data');
-var Alarm=require('../models/Alarm');
-var Device=require('../models/Device');
-var RecentData=require('../models/RecentData');
-var E3Core=require('../sensor/E3Core');
+var Data = require("../models/Data");
+var Alarm = require("../models/Alarm");
+var Device = require("../models/Device");
+var RecentData = require("../models/RecentData");
+var E3Core = require("../sensor/E3Core");
 
-function dateFormat(dateStr)
-{
-  var year = dateStr.substr(0,4);
-  var mon = dateStr.substr(4,2);
-  var day = dateStr.substr(6,2);
-  var hh = dateStr.substr(8,2);
-  var mm =dateStr.substr(10,2);
-  var result = year+'-'+mon+'-'+day+' '+hh+':'+mm+':00';
+function dateFormat(dateStr) {
+  var year = dateStr.substr(0, 4);
+  var mon = dateStr.substr(4, 2);
+  var day = dateStr.substr(6, 2);
+  var hh = dateStr.substr(8, 2);
+  var mm = dateStr.substr(10, 2);
+  var result = year + "-" + mon + "-" + day + " " + hh + ":" + mm + ":00";
   return result;
 }
 
-router.post('/', function(req, res, next) {
-  console.log('/ 호출됨.');
+router.post("/", function(req, res, next) {
+  console.log("/ 호출됨.");
   console.dir(req.body);
   if (req.body) {
-    var result = '';
-    var arr = req.body.split('|');
+    var result = "";
+    var arr = req.body.split("|");
     console.log(arr[1]);
     var paramDeviceSN = arr[1].substring(6);
     console.log(paramDeviceSN);
     var paramDate = dateFormat(arr[0]);
     console.log(paramDate);
-    Device.getDeviceInfo(paramDeviceSN, function(err, info){ // indoor, BuildingType, version 정보 얻어옴
-      if(err){
-        console.error('데이터 추가 중 오류 발생 :' + err.stack);
+    Device.getDeviceInfo(paramDeviceSN, function(err, info) {
+      // indoor, BuildingType, version 정보 얻어옴
+      if (err) {
+        console.error("데이터 추가 중 오류 발생 :" + err.stack);
         res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/plain');
+        res.setHeader("Content-Type", "text/plain");
         res.end(result);
         return;
       }
-      if(info){
+      if (info) {
         console.log(info.Indoor);
-        if(info.Indoor){  //  스마트 에어콕 실내형
+        if (info.Indoor) {
+          //  스마트 에어콕 실내형
           var paramPM10 = arr[3];
           var paramPM25 = arr[4];
           var paramCO2 = arr[5];
@@ -55,8 +50,8 @@ router.post('/', function(req, res, next) {
           var paramTemperature = arr[9];
           var paramHumidity = arr[10];
           var paramNoise = arr[7];
-        }
-        else{ // 스마트 에어콕 실외형
+        } else {
+          // 스마트 에어콕 실외형
           var paramCO2 = null;
           var paramHCHO = null;
           var paramVOC = null;
@@ -67,61 +62,112 @@ router.post('/', function(req, res, next) {
           var paramHumidity = arr[10];
         }
 
-        Data.addData(paramPM25, paramPM10, paramCO2, paramHCHO, paramVOC, paramTemperature, paramHumidity, paramNoise, paramDate, paramDeviceSN, function(err, addedData){
-          if(err){
-            console.error('데이터 추가 중 오류 발생 :' + err.stack);
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'text/plain');
-            res.end(result);
-            return;
-          }
-    
-          //결과 객체 있으면 성공 응답 전송
-          if(addedData){
-            // 펌웨어 확인
-            if (info.Version !== arr[12]) { // 버젼 체크
-              result = '0|00060'+'|'+info.Version +'|'+'700000|!=';
+        Data.addData(
+          paramPM25,
+          paramPM10,
+          paramCO2,
+          paramHCHO,
+          paramVOC,
+          paramTemperature,
+          paramHumidity,
+          paramNoise,
+          paramDate,
+          paramDeviceSN,
+          function(err, addedData) {
+            if (err) {
+              console.error("데이터 추가 중 오류 발생 :" + err.stack);
+              res.statusCode = 200;
+              res.setHeader("Content-Type", "text/plain");
+              res.end(result);
+              return;
             }
-          }
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'text/plain');
-          res.end(result);
-        });
 
-        if(info.BuildingType){ // 빌딩의 타입에 따른 지수 계산
+            //결과 객체 있으면 성공 응답 전송
+            if (addedData) {
+              // 펌웨어 확인
+              if (info.Version !== arr[12]) {
+                // 버젼 체크
+                result = "0|00060" + "|" + info.Version + "|" + "700000|!=";
+              }
+            }
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "text/plain");
+            res.end(result);
+          }
+        );
+
+        if (info.BuildingType) {
+          // 빌딩의 타입에 따른 지수 계산
           var status = {};
           var totalScore = {};
-          status.pm10 = E3Core.getSensorIndex(PM10,Number(paramPM10));
-          status.pm25 = E3Core.getSensorIndex(PM25,Number(paramPM25));
-          status.co2 = E3Core.getSensorIndex(CO2,Number(paramCO2));
-          status.hcho = E3Core.getSensorIndex(HCHO,Number(paramHCHO));
-          status.voc = E3Core.getSensorIndex(VOC,Number(paramVOC));
-          status.temperature = E3Core.getTempIndex((Number(paramTemperature) - 1000)/10);
-          status.humidity = E3Core.getHumidityIndex(Number(paramHumidity)/10);
-          totalScore = E3Core.calTotalIndex(info.BuildingType, status.pm10.score, status.pm25.score, status.co2.score, status.hcho.score, status.voc.score, status.temperature.score, status.humidity.score);
-          RecentData.updateRecentData(status.pm10, status.pm25, status.co2, status.hcho, status.voc, status.temperature, status.humidity, paramNoise, totalScore, paramDate, paramDeviceSN, function(err, success){
-              if(err){
-                  console.error('최신 데이터 수정 중 오류 발생 :' + err.stack);
-                  return;
+          status.pm10 = E3Core.getSensorIndex(PM10, Number(paramPM10));
+          status.pm25 = E3Core.getSensorIndex(PM25, Number(paramPM25));
+          status.co2 = E3Core.getSensorIndex(CO2, Number(paramCO2));
+          status.hcho = E3Core.getSensorIndex(HCHO, Number(paramHCHO));
+          status.voc = E3Core.getSensorIndex(VOC, Number(paramVOC));
+          status.temperature = E3Core.getTempIndex(
+            (Number(paramTemperature) - 1000) / 10
+          );
+          status.humidity = E3Core.getHumidityIndex(Number(paramHumidity) / 10);
+          totalScore = E3Core.calTotalIndex(
+            info.BuildingType,
+            status.pm10.score,
+            status.pm25.score,
+            status.co2.score,
+            status.hcho.score,
+            status.voc.score,
+            status.temperature.score,
+            status.humidity.score
+          );
+          RecentData.updateRecentData(
+            status.pm10,
+            status.pm25,
+            status.co2,
+            status.hcho,
+            status.voc,
+            status.temperature,
+            status.humidity,
+            paramNoise,
+            totalScore,
+            paramDate,
+            paramDeviceSN,
+            function(err, success) {
+              if (err) {
+                console.error("최신 데이터 수정 중 오류 발생 :" + err.stack);
+                return;
               }
-              if(success){
-                  console.log('최신 데이터 수정 완료 ');
+              if (success) {
+                console.log("최신 데이터 수정 완료 ");
               }
-          });
-          Alarm.addAlarm(status.pm10, status.pm25, status.co2, status.hcho, status.voc, status.temperature, status.humidity, paramNoise, totalScore, paramDate, paramDeviceSN, function(err, success){
-              if(err){
-                  console.error('데이터 추가 중 오류 발생 :' + err.stack);
-                  return;
+            }
+          );
+          Alarm.addAlarm(
+            status.pm10,
+            status.pm25,
+            status.co2,
+            status.hcho,
+            status.voc,
+            status.temperature,
+            status.humidity,
+            paramNoise,
+            totalScore,
+            paramDate,
+            paramDeviceSN,
+            function(err, success) {
+              if (err) {
+                console.error("데이터 추가 중 오류 발생 :" + err.stack);
+                return;
               }
-              if(success){
-                  console.log('알람 데이터 추가 완료 ');
+              if (success) {
+                console.log("알람 데이터 추가 완료 ");
               }
-          });
+            }
+          );
         }
-      }
-      else{ // indoor, BuildingType, version 정보를 못 가지고 오는 경우
+      } else {
+        // indoor, BuildingType, version 정보를 못 가지고 오는 경우
         res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/plain');
+        res.setHeader("Content-Type", "text/plain");
         res.end(result);
       }
     });

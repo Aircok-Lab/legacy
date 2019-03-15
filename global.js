@@ -1,25 +1,25 @@
 var Global = {
-    sensorTable : {
-        score : [],
-        pm10 : [],
-        pm25 : [],
-        co2 : [],
-        hcho : [],
-        voc : [],
-        temperature : [],
-        humidity : []
-    },
-    alarm : {
-        pm10 : 0,
-        pm25 : 0,
-        co2 : 0,
-        hcho : 0,
-        voc : 0,
-        temperature : 0,
-        humidity : 0
-    },
-    setting : {
-
-    }
+  sensorTable: {
+    score: [],
+    pm10: [],
+    pm25: [],
+    co2: [],
+    hcho: [],
+    voc: [],
+    temperature: [],
+    humidity: [],
+    noise: []
+  },
+  alarm: {
+    pm10: 0,
+    pm25: 0,
+    co2: 0,
+    hcho: 0,
+    voc: 0,
+    temperature: 0,
+    humidity: 0,
+    noise: 0
+  },
+  setting: {}
 };
 module.exports = Global;
