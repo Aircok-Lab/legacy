@@ -372,6 +372,41 @@ var Device = {
         callback(null, success);
       });
     });
+  },
+  getDeviceInfo: function(deviceSerialNumber, callback) {
+    console.log(
+      "getDeviceInfo 호출됨 deviceSerialNumber : " + deviceSerialNumber
+    );
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+      var exec = conn.query(
+        "select BuildingType, Version, Period, Indoor from Device, Product where Device.ProductID = Product.id and Device.SerialNumber=?",
+        deviceSerialNumber,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
+
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
+
+            callback(err, null);
+            return;
+          }
+          console.log(result);
+          var info = result[0];
+          callback(null, info);
+        }
+      );
+    });
   }
 };
 module.exports = Device;

@@ -159,8 +159,7 @@ var Building = {
             return;
           }
           var success = false;
-          if(result.changedRows > 0)
-            success = true;
+          if (result.changedRows > 0) success = true;
 
           callback(null, success);
         }
