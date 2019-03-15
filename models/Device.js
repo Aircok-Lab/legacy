@@ -239,6 +239,9 @@ var Device = {
     ip,
     positionID,
     productID,
+    imei,
+    gateway,
+    subnet,
     callback
   ) {
     console.log("addDevice 호출됨");
@@ -261,7 +264,10 @@ var Device = {
         Phone: phone,
         IP: ip,
         PositionID: positionID,
-        ProductID: productID
+        ProductID: productID,
+        IMEI: imei,
+        Gateway: gateway,
+        Subnet: subnet
       };
 
       // SQL문을 실행합니다.
@@ -290,6 +296,9 @@ var Device = {
     ip,
     positionID,
     productID,
+    IMEI,
+    Gateway,
+    Subnet,
     callback
   ) {
     console.log("updateDevice 호출됨");
@@ -306,11 +315,11 @@ var Device = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var data = [name, phone, ip, positionID, productID, serialNumber];
+      var data = [name, phone, ip, positionID, productID, IMEI, Gateway, Subnet, serialNumber];
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Device set Name=?, Phone=?, IP=?, PositionID=? ,ProductID=? where SerialNumber=?",
+        "update Device set Name=?, Phone=?, IP=?, PositionID=?, ProductID=?, IMEI=?, Gateway=?, Subnet=? where SerialNumber=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.

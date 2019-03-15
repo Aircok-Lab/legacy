@@ -14,11 +14,27 @@ router.post("/addDevice", function(req, res, next) {
 
   var paramName = req.body.name || req.query.name;
   var paramSerialNumber = req.body.serialNumber || req.query.serialNumber;
-  var paramPhone = req.body.phone || req.query.phone;
-  var paramIP = req.body.ip || req.query.ip;
+  var paramPhone = req.body.phone || req.query.phone || null;
+  var paramIP = req.body.ip || req.query.ip || null;
   var paramPositionID = req.body.positionID || req.query.positionID;
   var paramProductID = req.body.productID || req.query.productID;
+  var paramIMEI = req.body.imei || req.query.imei;
+  var paramGateway = req.body.gateway || req.query.gateway || null;
+  var paramSubnet = req.body.subnet || req.query.subnet || null;
   var result = { statusCode: null, message: null, data: null };
+
+  if (
+    !paramName ||
+    !paramSerialNumber ||
+    !paramIMEI ||
+    !paramPositionID ||
+    !paramProductID
+  ) {
+    result.statusCode = FAIL;
+    result.message = "입력 값을 확인하세요";
+    res.send(result);
+    return;
+  }
 
   console.log(
     "요청 파라미터 : " +
@@ -32,7 +48,13 @@ router.post("/addDevice", function(req, res, next) {
       "," +
       paramPositionID +
       "," +
-      paramProductID
+      paramProductID +
+      "," +
+      paramIMEI +
+      "," +
+      paramGateway +
+      "," +
+      paramSubnet
   );
 
   Device.addDevice(
@@ -42,6 +64,9 @@ router.post("/addDevice", function(req, res, next) {
     paramIP,
     paramPositionID,
     paramProductID,
+    paramIMEI,
+    paramGateway,
+    paramSubnet,
     function(err, addedDevice) {
       // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
       if (err) {
@@ -244,6 +269,9 @@ router.put("/updateDevice", function(req, res, next) {
   var paramIP = req.body.ip || req.query.ip;
   var paramPositionID = req.body.positionID || req.query.positionID;
   var paramProductID = req.body.productID || req.query.productID;
+  var paramIMEI = req.body.imei || req.query.imei;
+  var paramGateway = req.body.gateway || req.query.gateway;
+  var paramSubnet = req.body.subnet || req.query.subnet;
   var result = { statusCode: null, message: null, data: null };
 
   console.log(
@@ -259,7 +287,13 @@ router.put("/updateDevice", function(req, res, next) {
       "," +
       paramPositionID +
       "," +
-      paramProductID
+      paramProductID +
+      "," +
+      paramIMEI +
+      "," +
+      paramGateway +
+      "," +
+      paramSubnet
   );
 
   Device.updateDevice(

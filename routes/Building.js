@@ -11,11 +11,18 @@ router.post("/addBuilding", function(req, res, next) {
   console.log("/addBuilding 호출됨.");
 
   var paramName = req.body.name || req.query.name;
-  var paramAddress = req.body.address || req.query.address;
-  var paramLatitude = req.body.latitude || req.query.latitude;
-  var paramLongitude = req.body.longitude || req.query.longitude;
+  var paramAddress = req.body.address || req.query.address || null;
+  var paramLatitude = req.body.latitude || req.query.latitude || null;
+  var paramLongitude = req.body.longitude || req.query.longitude || null;
   var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
+
+  if (!paramName) {
+    result.statusCode = FAIL;
+    result.message = "입력 값을 확인하세요";
+    res.send(result);
+    return;
+  }
 
   console.log(
     "요청 파라미터 : " +

@@ -11,10 +11,17 @@ router.post("/addPosition", function(req, res, next) {
   console.log("/addPosition 호출됨.");
 
   var paramName = req.body.name || req.query.name;
-  var paramPosition = req.body.position || req.query.position;
+  var paramPosition = req.body.position || req.query.position || null;
   var paramBuildingID = req.body.buildingID || req.query.buildingID;
   var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
+
+  if (!paramName || !paramBuildingID) {
+    result.statusCode = FAIL;
+    result.message = "입력 값을 확인하세요";
+    res.send(result);
+    return;
+  }
 
   console.log(
     "요청 파라미터 : " +

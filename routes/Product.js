@@ -11,8 +11,8 @@ router.post('/addProduct', function(req, res, next) {
     console.log('/addProduct 호출됨.');
 
     var paramName = req.body.name || req.query.name;
-    var paramVersion = req.body.version || req.query.version;
-    var paramIP = req.body.ip || req.query.ip;
+    var paramVersion = req.body.version || req.query.version || null;
+    var paramIP = req.body.ip || req.query.ip || null;
     var paramPeriod = req.body.period || req.query.period;
     var paramIndoor = req.body.indoor || req.query.indoor;
     var paramPM25 = req.body.pm25 || req.query.pm25;
@@ -24,6 +24,16 @@ router.post('/addProduct', function(req, res, next) {
     var paramHumidity = req.body.humidity || req.query.humidity;
     var paramNoise = req.body.noise || req.query.noise;
     var result = {statusCode : null, message : null, data : null};
+
+    if (
+      !paramName ||
+      !paramPeriod
+    ) {
+      result.statusCode = FAIL;
+      result.message = "입력 값을 확인하세요";
+      res.send(result);
+      return;
+    }
 
     console.log('요청 파라미터 : ' + paramName + ',' + paramVersion + ','+ paramIP + ',' + paramPeriod + ',' + paramIndoor + ',' + paramPM25 + ',' + 
                 paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise);
