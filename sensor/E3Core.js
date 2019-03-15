@@ -10,6 +10,7 @@ import {
   CO2,
   HCHO,
   VOC,
+  NOISE,
   NEW_KINDERGARTEN,
   KINDERGARTEN,
   NEW_POSTPARTUM,
@@ -222,7 +223,8 @@ var E3Core = {
     hcho,
     voc,
     temp,
-    humi
+    humi,
+    noise
   ) {
     var d = new Date();
     var month = d.getMonth() + 1;

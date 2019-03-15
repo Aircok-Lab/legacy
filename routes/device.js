@@ -105,6 +105,7 @@ router.post("/", function(req, res, next) {
           status.co2 = E3Core.getSensorIndex(CO2, Number(paramCO2));
           status.hcho = E3Core.getSensorIndex(HCHO, Number(paramHCHO));
           status.voc = E3Core.getSensorIndex(VOC, Number(paramVOC));
+          status.noise = E3Core.getSensorIndex(NOISE, Number(paramNOISE));
           status.temperature = E3Core.getTempIndex(
             (Number(paramTemperature) - 1000) / 10
           );
@@ -117,7 +118,8 @@ router.post("/", function(req, res, next) {
             status.hcho.score,
             status.voc.score,
             status.temperature.score,
-            status.humidity.score
+            status.humidity.score,
+            status.noise.score
           );
           RecentData.updateRecentData(
             status.pm10,
@@ -127,7 +129,7 @@ router.post("/", function(req, res, next) {
             status.voc,
             status.temperature,
             status.humidity,
-            paramNoise,
+            status.noise,
             totalScore,
             paramDate,
             paramDeviceSN,
@@ -149,7 +151,7 @@ router.post("/", function(req, res, next) {
             status.voc,
             status.temperature,
             status.humidity,
-            paramNoise,
+            status.noise,
             totalScore,
             paramDate,
             paramDeviceSN,
