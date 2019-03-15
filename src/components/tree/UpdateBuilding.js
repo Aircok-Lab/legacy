@@ -1,15 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { buildingAddRequest, buildingDeleteRequest } from "actions/Building";
+import { buildingUpdateRequest, buildingDeleteRequest } from "actions/Building";
 
 class UpdateBuilding extends Component {
-  addBuilding = () => {
-    this.props.buildingAddRequest({
-      name: "AAA",
-      address: "BBB",
-      latitude: 22,
-      longitude: 2222,
-      userID: this.props.authUser.id
+  state = {
+    postData: {
+      id: this.props.node.id,
+      name: this.props.node.Name,
+      address: this.props.node.Address,
+      latitude: this.props.node.Latitude,
+      longitude: this.props.node.Longitude,
+      userID: this.props.authUser.id,
+      buildingList: this.props.authUser.BuildingList
+    }
+  };
+  updateBuilding = () => {
+    this.props.buildingUpdateRequest(this.state.postData);
+  };
+
+  handleChange = e => {
+    // console.log("handleChange", e.target.value);
+    this.setState({
+      postData: {
+        ...this.state.postData,
+        [e.target.name]: e.target.value
+      }
     });
   };
 
@@ -25,16 +40,19 @@ class UpdateBuilding extends Component {
     return (
       <form className="w3-text-blue w3-margin">
         <h2 className="w3-center">건물수정</h2>
+        {/* {JSON.stringify(this.props.node)} */}
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
             건물명
           </div>
           <div className="w3-rest">
             <input
-              className="w3-input w3-border"
-              name="first"
+              className="form-control"
+              name="name"
+              value={this.state.postData.name}
               type="text"
               placeholder=""
+              onChange={this.handleChange}
             />
           </div>
         </div>
@@ -55,10 +73,12 @@ class UpdateBuilding extends Component {
               </div>
               <div className="w3-rest">
                 <input
-                  className="w3-input w3-border"
-                  name="first"
+                  className="form-control"
+                  name="address"
+                  value={this.state.postData.address}
                   type="text"
                   placeholder=""
+                  onChange={this.handleChange}
                 />
               </div>
             </div>
@@ -96,10 +116,12 @@ class UpdateBuilding extends Component {
           </div>
           <div className="w3-rest">
             <input
-              className="w3-input w3-border"
-              name="first"
+              className="form-control"
+              name="latitude"
+              value={this.state.postData.latitude}
               type="text"
               placeholder=""
+              onChange={this.handleChange}
             />
           </div>
         </div>
@@ -109,10 +131,12 @@ class UpdateBuilding extends Component {
           </div>
           <div className="w3-rest">
             <input
-              className="w3-input w3-border"
-              name="first"
+              className="form-control"
+              name="longitude"
+              value={this.state.postData.longitude}
               type="text"
               placeholder=""
+              onChange={this.handleChange}
             />
           </div>
         </div>
@@ -131,7 +155,7 @@ class UpdateBuilding extends Component {
             type="button"
             className="w3-button w3-blue w3-padding"
             onClick={e => {
-              this.addBuilding();
+              this.updateBuilding();
               this.props.closeModal();
             }}
           >
@@ -149,7 +173,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  buildingAddRequest: buildingAddRequest,
+  buildingUpdateRequest: buildingUpdateRequest,
   buildingDeleteRequest: buildingDeleteRequest
 };
 

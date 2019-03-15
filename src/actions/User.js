@@ -29,7 +29,7 @@ export const userAddRequest = payload => {
 
 export const userUpdateRequest = payload => {
   return {
-    type: USER_ADD_REQUEST,
+    type: USER_UPDATE_REQUEST,
     payload
   };
 };

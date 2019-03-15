@@ -13,13 +13,14 @@ import {
 } from "constants/ActionTypes";
 import { userSignInSuccess } from "actions/Auth";
 import responseDataProcess from "util/responseDataProcess";
-
 import api from "api";
 
 function* positionListWorker(action) {
   try {
     const res = yield api.post(`position/getPositionById`, action.payload);
-    yield put({ type: POSITION_LIST_SUCCESS, payload: res.data.data });
+    if (responseDataProcess(res.data)) {
+      yield put({ type: POSITION_LIST_SUCCESS, payload: res.data.data });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -31,12 +32,14 @@ export function* positionListWatcher() {
 function* positionAddWorker(action) {
   try {
     let res = yield api.post(`position/addPosition`, action.payload);
-    localStorage.setItem("user_id", JSON.stringify(res.data.data));
-    yield put(userSignInSuccess(res.data.data));
-    yield put({
-      type: "POSITION_LIST_REQUEST",
-      payload: { id: res.data.data.PositionList }
-    });
+    if (responseDataProcess(res.data)) {
+      localStorage.setItem("user_id", JSON.stringify(res.data.data));
+      yield put(userSignInSuccess(res.data.data));
+      yield put({
+        type: "POSITION_LIST_REQUEST",
+        payload: { id: res.data.data.PositionList }
+      });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -47,8 +50,14 @@ export function* positionAddWatcher() {
 
 function* positionUpdateWorker(action) {
   try {
-    let res = yield api.put(`position/updateBuilding`, action.payload);
-    yield put({ type: POSITION_UPDATE_SUCCESS, payload: res.data.data });
+    let res = yield api.put(`position/updatePosition`, action.payload);
+    if (responseDataProcess(res.data)) {
+      yield put({ type: POSITION_UPDATE_SUCCESS, payload: res.data.data });
+      yield put({
+        type: "POSITION_LIST_REQUEST",
+        payload: { id: action.payload.positionList }
+      });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -65,7 +74,6 @@ function* positionDeleteWorker(action) {
         action.payload.userID
       }`
     );
-
     if (responseDataProcess(res.data)) {
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));

@@ -1,61 +1,79 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { productDeleteRequest } from "actions/Product";
-class DeleteProduct extends Component {
-  add = () => {
-    this.props.productDeleteRequest({
-      loginId: "" + new Date().getTime(),
-      name: "" + new Date().getTime(),
-      password: "" + new Date().getTime(),
-      email: "test@test.com",
-      department: "Sales Department",
-      phone: "010-555-5555",
-      buildingList: "" + this.props.selectedNode.BuildingID,
-      positionList: "" + this.props.selectedNode.id
-    });
-  };
+import Modal from "react-modal";
 
+import { deviceDeleteRequest } from "actions/Device";
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: "9999"
+  },
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    zIndex: "9999"
+  }
+};
+
+Modal.setAppElement("#body");
+
+class Delete extends Component {
+  // state={
+  //   showModal: false
+  // }
   render() {
     return (
-      <div>
-        선택항목을 삭제하시겠습니까?
-        <br />
-        <div className="w3-right">
-          <button
-            type="button"
-            className="w3-button w3-blue w3-padding"
-            onClick={() => {
-              const selectedProducts = this.props.productList.filter(
-                product => product.isChecked
-              );
-
-              const ids = selectedProducts.map(({ id }) => id);
-              // console.log("deleteProducts:", selectedProducts, ids.join());
-              this.props.productDeleteRequest({
-                node: this.props.selectedNode,
-                ids: ids.join()
-              });
-              this.props.closeModal();
-            }}
-          >
-            OK
-          </button>
+      <Modal
+        isOpen={this.props.showModal}
+        // onRequestClose={this.closeModal}
+        contentLabel="측정기 관리 Modal"
+        style={customStyles}
+        // className="w3-display-container"
+      >
+        <div>
+          선택항목을 삭제하시겠습니까?
+          <br />
+          <div className="w3-right">
+            <button
+              type="button"
+              className="w3-button w3-blue w3-padding"
+              onClick={() => {
+                const selectedDevices = this.props.deviceList.filter(
+                  device => device.isChecked
+                );
+                const ids = selectedDevices.map(
+                  ({ SerialNumber }) => SerialNumber
+                );
+                this.props.deviceDeleteRequest({
+                  node: this.props.selectedNode,
+                  ids: ids.join()
+                });
+                this.props.closeModal();
+              }}
+            >
+              OK
+            </button>
+          </div>
         </div>
-      </div>
+      </Modal>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  authProduct: state.auth.authProduct,
+  authUser: state.auth.authUser,
   selectedNode: state.tree.selectedNode
 });
 
 const mapDispatchToProps = {
-  productDeleteRequest: productDeleteRequest
+  deviceDeleteRequest: deviceDeleteRequest
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(DeleteProduct);
+)(Delete);

@@ -3,7 +3,8 @@ import {
   DEVICE_LIST_BY_POSITION_ID_REQUEST,
   DEVICE_ADD_REQUEST,
   DEVICE_UPDATE_REQUEST,
-  DEVICE_DELETE_REQUEST
+  DEVICE_DELETE_REQUEST,
+  DEVICE_SET_ITEM
 } from "constants/ActionTypes";
 
 export const deviceListByBuildingIdRequest = payload => {
@@ -29,7 +30,7 @@ export const deviceAddRequest = payload => {
 
 export const deviceUpdateRequest = payload => {
   return {
-    type: DEVICE_ADD_REQUEST,
+    type: DEVICE_UPDATE_REQUEST,
     payload
   };
 };
@@ -37,6 +38,13 @@ export const deviceUpdateRequest = payload => {
 export const deviceDeleteRequest = payload => {
   return {
     type: DEVICE_DELETE_REQUEST,
+    payload
+  };
+};
+
+export const deviceSetItem = payload => {
+  return {
+    type: DEVICE_SET_ITEM,
     payload
   };
 };

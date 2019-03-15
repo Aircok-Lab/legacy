@@ -129,7 +129,7 @@ class BuildingPositionTree extends Component {
                     !this.props.selectedNode.id
                   }
                 >
-                  층등록
+                  위치등록
                 </button>
                 {this.props.selectedNode.BuildingID && (
                   <button
@@ -274,25 +274,25 @@ class BuildingPositionTree extends Component {
             {
               addBuilding: (
                 <AddBuilding
-                  node={this.state.selectedNode}
+                  node={this.props.selectedNode}
                   closeModal={this.closeModal}
                 />
               ),
               updateBuilding: (
                 <UpdateBuilding
-                  node={this.state.selectedNode}
+                  node={this.props.selectedNode}
                   closeModal={this.closeModal}
                 />
               ),
               addPosition: (
                 <AddPosition
-                  node={this.state.selectedNode}
+                  node={this.props.selectedNode}
                   closeModal={this.closeModal}
                 />
               ),
               updatePosition: (
                 <UpdatePosition
-                  node={this.state.selectedNode}
+                  node={this.props.selectedNode}
                   closeModal={this.closeModal}
                 />
               )

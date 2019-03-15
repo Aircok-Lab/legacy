@@ -21,7 +21,7 @@ export const positionAddRequest = payload => {
 
 export const positionUpdateRequest = payload => {
   return {
-    type: POSITION_ADD_REQUEST,
+    type: POSITION_UPDATE_REQUEST,
     payload
   };
 };

@@ -1,7 +1,8 @@
 const responseDataProcess = responseData => {
   // console.log("responseData", responseData);
   if (responseData.statusCode == "OK") {
-    return responseData.data;
+    // return responseData.data;
+    return true;
   } else {
     alert(responseData.message);
   }

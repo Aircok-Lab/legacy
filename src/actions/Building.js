@@ -21,7 +21,7 @@ export const buildingAddRequest = payload => {
 
 export const buildingUpdateRequest = payload => {
   return {
-    type: BUILDING_ADD_REQUEST,
+    type: BUILDING_UPDATE_REQUEST,
     payload
   };
 };

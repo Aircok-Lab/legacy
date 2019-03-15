@@ -1,18 +1,45 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { positionAddRequest, positionDeleteRequest } from "actions/Position";
+import { positionUpdateRequest, positionDeleteRequest } from "actions/Position";
 
 class UpdatePosition extends Component {
-  addPosition = () => {
-    this.props.positionAddRequest({
-      name: "",
-      address: "",
-      latitude: 22,
-      longitude: 2222,
-      userID: this.props.authUser.UserID,
-      user_id: this.props.authUser.id
+  state = {
+    postData: {
+      id: "" + this.props.node.id,
+      name: "" + new Date().getTime(),
+      position: "1",
+      buildingID: "" + this.props.selectedNode.BuildingID,
+      positionList: this.props.authUser.PositionList,
+      userID: this.props.authUser.id
+    }
+  };
+  updatePosition = () => {
+    if (!this.state.postData.name) {
+      alert("위치를 입력하세요");
+    } else {
+      this.props.positionUpdateRequest(this.state.postData);
+      this.props.closeModal();
+    }
+  };
+  handleChange = e => {
+    this.setState({
+      postData: {
+        ...this.state.postData,
+        [e.target.name]: e.target.value
+      }
     });
   };
+
+  // addPosition = () => {
+  //   this.props.positionUpdateRequest({
+  //     name: "",
+  //     address: "",
+  //     latitude: 22,
+  //     longitude: 2222,
+  //     userID: this.props.authUser.UserID,
+  //     user_id: this.props.authUser.id
+  //   });
+  // };
 
   deletePosition = () => {
     this.props.positionDeleteRequest({
@@ -24,28 +51,31 @@ class UpdatePosition extends Component {
   render() {
     return (
       <form className="w3-text-blue w3-margin">
-        <h2 className="w3-center">층수정</h2>
+        <h2 className="w3-center">위치수정</h2>
+        {JSON.stringify(this.props.selectedNode)}
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
             건물명
           </div>
           <div className="w3-rest">
-            <div className="w3-text-gray w3-border w3-padding">
-              {"마곡사이언스 파크"}
+            <div className="form-control" style={{ background: "#eee" }}>
+              {this.props.selectedNode.BuildingName} &nbsp;
             </div>
           </div>
         </div>
 
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            층
+            위치
           </div>
           <div className="w3-rest">
             <input
-              className="w3-input w3-border"
-              name="first"
+              className="form-control"
+              name="name"
+              value={this.state.postData.name}
               type="text"
               placeholder=""
+              onChange={this.handleChange}
             />
           </div>
         </div>
@@ -63,7 +93,7 @@ class UpdatePosition extends Component {
           <button
             type="button"
             className="w3-button w3-blue w3-padding"
-            onClick={e => this.addPosition()}
+            onClick={e => this.updatePosition()}
           >
             OK
           </button>
@@ -79,7 +109,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  positionAddRequest: positionAddRequest,
+  positionUpdateRequest: positionUpdateRequest,
   positionDeleteRequest: positionDeleteRequest
 };
 

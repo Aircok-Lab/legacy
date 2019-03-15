@@ -20,7 +20,9 @@ import api from "api";
 function* buildingListWorker(action) {
   try {
     const res = yield api.post(`building/getBuildingById`, action.payload);
-    yield put({ type: BUILDING_LIST_SUCCESS, payload: res.data.data });
+    if (responseDataProcess(res.data)) {
+      yield put({ type: BUILDING_LIST_SUCCESS, payload: res.data.data });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -32,12 +34,14 @@ export function* buildingListWatcher() {
 function* buildingAddWorker(action) {
   try {
     let res = yield api.post(`building/addBuilding`, action.payload);
-    localStorage.setItem("user_id", JSON.stringify(res.data.data));
-    yield put(userSignInSuccess(res.data.data));
-    yield put({
-      type: "BUILDING_LIST_REQUEST",
-      payload: { id: res.data.data.BuildingList }
-    });
+    if (responseDataProcess(res.data)) {
+      localStorage.setItem("user_id", JSON.stringify(res.data.data));
+      yield put(userSignInSuccess(res.data.data));
+      yield put({
+        type: "BUILDING_LIST_REQUEST",
+        payload: { id: res.data.data.BuildingList }
+      });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -49,7 +53,13 @@ export function* buildingAddWatcher() {
 function* buildingUpdateWorker(action) {
   try {
     let res = yield api.put(`building/updateBuilding`, action.payload);
-    yield put({ type: BUILDING_UPDATE_SUCCESS, payload: res.data.data });
+    if (responseDataProcess(res.data)) {
+      yield put({ type: BUILDING_UPDATE_SUCCESS, payload: res.data.data });
+      yield put({
+        type: "BUILDING_LIST_REQUEST",
+        payload: { id: action.payload.buildingList }
+      });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }

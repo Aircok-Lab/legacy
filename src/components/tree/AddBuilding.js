@@ -3,13 +3,40 @@ import { connect } from "react-redux";
 import { buildingAddRequest } from "actions/Building";
 
 class AddBuilding extends Component {
-  addBuilding = () => {
-    this.props.buildingAddRequest({
-      name: "빌딩",
-      address: "여의도",
-      latitude: 22,
-      longitude: 2222,
+  state = {
+    postData: {
+      name: "" + new Date().getTime(),
+      address: "영등포구 여의도동",
+      latitude: 38,
+      longitude: 127,
       userID: this.props.authUser.id
+    },
+    searchedAddress: "영등포구 여의도동"
+  };
+  addBuilding = () => {
+    // this.props.buildingAddRequest(this.state.postData);
+    const positionId = this.props.selectedNode.BuildingID
+      ? this.props.selectedNode.id
+      : "";
+    if (!this.state.postData.name) {
+      alert("건물명을 입력하세요");
+    } else if (!this.state.postData.address) {
+      alert("주소를 입력하세요");
+    } else if (!this.state.postData.latitude) {
+      alert("위도를 입력하세요");
+    } else if (!this.state.postData.longitude) {
+      alert("경도를 입력하세요");
+    } else {
+      this.props.buildingAddRequest(this.state.postData);
+      this.props.closeModal();
+    }
+  };
+  handleChange = e => {
+    this.setState({
+      postData: {
+        ...this.state.postData,
+        [e.target.name]: e.target.value
+      }
     });
   };
 
@@ -23,10 +50,12 @@ class AddBuilding extends Component {
           </div>
           <div className="w3-rest">
             <input
-              className="w3-input w3-border"
-              name="first"
+              className="form-control"
+              name="name"
+              value={this.state.postData.name}
               type="text"
               placeholder=""
+              onChange={this.handleChange}
             />
           </div>
         </div>
@@ -47,10 +76,12 @@ class AddBuilding extends Component {
               </div>
               <div className="w3-rest">
                 <input
-                  className="w3-input w3-border"
-                  name="first"
+                  className="form-control"
+                  name="address"
+                  value={this.state.postData.address}
                   type="text"
                   placeholder=""
+                  onChange={this.handleChange}
                 />
               </div>
             </div>
@@ -78,7 +109,9 @@ class AddBuilding extends Component {
               </button>
             </div>
             <div className="w3-rest w3-padding-right w3-text-grey">
-              서울시 영등포구 여의도동
+              <div className="form-control" style={{ background: "#eee" }}>
+                {this.state.searchedAddress} &nbsp;
+              </div>
             </div>
           </div>
         </div>
@@ -87,12 +120,9 @@ class AddBuilding extends Component {
             위도
           </div>
           <div className="w3-rest">
-            <input
-              className="w3-input w3-border"
-              name="first"
-              type="text"
-              placeholder=""
-            />
+            <div className="form-control" style={{ background: "#eee" }}>
+              {this.state.postData.latitude} &nbsp;
+            </div>
           </div>
         </div>
         <div className="w3-row w3-section">
@@ -100,12 +130,9 @@ class AddBuilding extends Component {
             경도
           </div>
           <div className="w3-rest">
-            <input
-              className="w3-input w3-border"
-              name="first"
-              type="text"
-              placeholder=""
-            />
+            <div className="form-control" style={{ background: "#eee" }}>
+              {this.state.postData.longitude} &nbsp;
+            </div>
           </div>
         </div>
         <div className="w3-right">
@@ -114,7 +141,6 @@ class AddBuilding extends Component {
             className="w3-button w3-blue w3-padding"
             onClick={e => {
               this.addBuilding();
-              this.props.closeModal();
             }}
           >
             OK
@@ -126,7 +152,8 @@ class AddBuilding extends Component {
 }
 
 const mapStateToProps = state => ({
-  authUser: state.auth.authUser
+  authUser: state.auth.authUser,
+  selectedNode: state.tree.selectedNode
 });
 
 const mapDispatchToProps = {

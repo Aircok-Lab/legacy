@@ -6,6 +6,7 @@ import {
   deviceDeleteRequest,
   deviceSetItem
 } from "actions/Device";
+import { userUpdateRequest } from "actions/User";
 import { setViewMode } from "actions/Setting";
 
 class List extends React.Component {
@@ -15,21 +16,34 @@ class List extends React.Component {
     deviceList: []
   };
 
-  delete = () => {
-    if (confirm("선택항목을 삭제하시겠습니까?")) {
-      const selectedDevices = this.state.deviceList.filter(device => {
-        return device.isChecked;
-      });
-      const ids = selectedDevices.map(({ SerialNumber }) => SerialNumber);
-      this.props.deviceDeleteRequest({
-        node: this.props.selectedNode,
-        ids: ids.join()
-      });
-    }
+  update = () => {
+    const selectedDevices = this.state.deviceList.filter(device => {
+      return device.isChecked;
+    });
+    const ids = selectedDevices.map(({ SerialNumber }) => SerialNumber);
+    this.props.userUpdateRequest({
+      id: this.props.authUser.id,
+      deviceList: ids.join()
+    });
+
+    console.log("모니터링 선택", ids);
+    // if (confirm("선택항목을 삭제하시겠습니까?")) {
+    //   const selectedDevices = this.state.deviceList.filter(device => {
+    //     return device.isChecked;
+    //   });
+    //   const ids = selectedDevices.map(({ SerialNumber }) => SerialNumber);
+    //   this.props.deviceDeleteRequest({
+    //     node: this.props.selectedNode,
+    //     ids: ids.join()
+    //   });
+    // }
   };
 
   componentDidMount() {
     this.setState({ deviceList: this.props.deviceList });
+    this.props.deviceListByPositionIdRequest({
+      id: this.props.authUser.PositionList
+    });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -44,21 +58,11 @@ class List extends React.Component {
       JSON.stringify(prevProps.selectedNode) !=
       JSON.stringify(this.props.selectedNode)
     ) {
-      if (this.props.selectedNode.BuildingID) {
-        // 층
-        this.props.deviceListByPositionIdRequest({
-          id: this.props.selectedNode.id
-        });
-      } else {
-        // 건물
-        this.props.deviceListByBuildingIdRequest({
-          id: this.props.selectedNode.id
-        });
-      }
     }
   }
 
   render() {
+    console.log("render", Date.now());
     return (
       <div className="">
         <div className="animated slideInUpTiny animation-duration-3">
@@ -67,31 +71,8 @@ class List extends React.Component {
             <div className="float-right">
               <button
                 className="btn btn-primary"
-                onClick={e => this.props.setViewMode("add")}
-                style={{ marginLeft: "2px" }}
-                disabled={!this.props.selectedNode.BuildingID}
-              >
-                등록
-              </button>
-              <button
-                className="btn btn-primary"
                 onClick={e => {
-                  this.props.deviceSetItem(this.state.deviceList[0]);
-                  // console.log("test....");
-                  this.props.setViewMode("update");
-                }}
-                style={{ marginLeft: "2px" }}
-                disabled={
-                  this.state.deviceList.filter(device => device.isChecked)
-                    .length != 1
-                }
-              >
-                수정
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={e => {
-                  this.delete();
+                  this.update();
                 }}
                 style={{ marginLeft: "2px" }}
                 disabled={
@@ -99,7 +80,7 @@ class List extends React.Component {
                     .length == 0
                 }
               >
-                삭제
+                모니터링 측정기 적용
               </button>
             </div>
           </div>
@@ -177,7 +158,8 @@ const mapDispatchToProps = {
   deviceListByPositionIdRequest: deviceListByPositionIdRequest,
   deviceDeleteRequest,
   setViewMode,
-  deviceSetItem
+  deviceSetItem,
+  userUpdateRequest
 };
 
 export default connect(
