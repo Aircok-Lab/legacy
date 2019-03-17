@@ -23,11 +23,9 @@ import forge from "node-forge";
 //     .catch(error => error);
 
 const signInUserWithEmailPasswordRequest = async (email, password) =>
-  // await api.post("users/login?id="+email+"&password="+password)
-  //   .then(authUser => authUser)
-  //   .catch(error => error);
+
   await api
-    .post("users/login", {
+    .post("user/login", {
       loginId: email,
       password: password
     })
@@ -36,13 +34,13 @@ const signInUserWithEmailPasswordRequest = async (email, password) =>
 
 const signOutRequest = async () =>
   await api
-    .get("users/logout")
+    .get("user/logout")
     .then(authUser => authUser)
     .catch(error => error);
 
 const publicKeyRequest = async () =>
   await api
-    .get("users/pkey")
+    .get("user/pkey")
     .then(pkey => pkey)
     .catch(error => error);
 

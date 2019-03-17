@@ -1,34 +1,37 @@
 import React from "react";
 
 const mainTableHead = props => {
+  const nameTabWidth = "170px";
+  const indexTabWidth = "120px";
+  const sensorTabWidth = "180px";
   return (
     <thead>
       <tr>
         <th
           className="table-header-row0-class"
           rowSpan={2}
-          style={{ width: "170px" }}
+          style={{ width: `${nameTabWidth}` }}
         >
           구분
         </th>
         <th
           className="table-header-row0-class"
           rowSpan={2}
-          style={{ width: "170px" }}
+          style={{ width: `${nameTabWidth}` }}
         >
           측정기명
         </th>
         <th
           className="table-header-row0-class"
           rowSpan={2}
-          style={{ width: "120px" }}
+          style={{ width: `${indexTabWidth}` }}
         >
           공기질관리지수
         </th>
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: "180px" }}
+          style={{ width: `${sensorTabWidth}` }}
         >
           온도
           <br />
@@ -37,7 +40,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: "180px" }}
+          style={{ width: `${sensorTabWidth}` }}
         >
           습도
           <br />
@@ -46,7 +49,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: "180px" }}
+          style={{ width: `${sensorTabWidth}` }}
         >
           미세먼지(PM10)
           <br />
@@ -55,7 +58,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: "180px" }}
+          style={{ width: `${sensorTabWidth}` }}
         >
           초미세먼지(PM2.5)
           <br />
@@ -64,7 +67,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: "180px" }}
+          style={{ width: `${sensorTabWidth}` }}
         >
           이산화탄소(CO2)
           <br />
@@ -73,7 +76,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: "180px" }}
+          style={{ width: `${sensorTabWidth}` }}
         >
           포름알데히드(HCHO)
           <br />
@@ -82,7 +85,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: "180px" }}
+          style={{ width: `${sensorTabWidth}` }}
         >
           휘발성유기화합물(VOCs)
           <br />
@@ -91,11 +94,18 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: "180px" }}
+          style={{ width: `${sensorTabWidth}` }}
         >
           소음
           <br />
           (㎍/㎥)
+        </th>
+        <th
+          className="table-header-row0-class"
+          rowSpan={2}
+          style={{ width: "100px" }}
+        >
+          SMS
         </th>
       </tr>
       <tr className="table-header-row1-class">

@@ -143,76 +143,25 @@ Version        : 1.0
   vertical-align: middle !important;
 }
 
-.my-custom-header-class {
-  //overflow-y: 'auto'!important;
-  display: block;
-  //height: 500px;
-  width: 100%;
-}
-
-.my-custom-body-class {
-  //overflow-y: 'auto'!important;
-  display: block;
-  height: 600px;
-  width: 100%;
-  overflow-y: scroll;
-}
-
-// .table-fixed{
-//   width: 1720px;
-//   background-color: #f3f3f3;
-//   tbody{
-//     height:600px;
-//     overflow-y:auto;
-//     width: 1720px;
-//     }
-//   thead,tbody,tr,td{
-//     display:block;
-//   }
-//   tbody{
-//     td{
-//       float:left;
-//     }
-//   }
-//   thead {
-//     tr{
-//       th{
-//         //float:left;
-//         //width: 60px;
-//         background-color: #f39c12;
-//         border-color:#e67e22;
-//       }
-//     }
-//   }
-// }
-
 .table-fixed {
-  width: 1900px;
+  width: 2000px;
   background-color: #f3f3f3;
   tbody {
     height: 600px;
     overflow-y: auto;
-    width: 1900px;
+    width: 2000px;
   }
   thead,
   tbody {
     display: block;
   }
-  // tbody{
-  //   td{
-  //     float:left;
-  //   }
-  // }
-  // thead {
-  //   tr{
-  //     th{
-  //       //float:left;
-  //       //width: 60px;
-  //       background-color: #f39c12;
-  //       border-color:#e67e22;
-  //     }
-  //   }
-  // }
+  thead,
+  tbody{
+    td{
+      text-align: center !important;
+      vertical-align: middle !important;
+    }
+  }
 }
 /*** ACCORDION ***/
 

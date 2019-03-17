@@ -6,6 +6,8 @@ const sensorData = ({
   sensorIndex,
   sensorAlarm
 }) => {
+  const sensorTabWidth = "60px";
+
   const getClassAlarmIcon = alarm => {
     let classText = "";
     if (alarm == 1) classText = "bg-red rounded-circle mt-1 ml-2 mx-auto";
@@ -27,19 +29,19 @@ const sensorData = ({
 
   return (
     <React.Fragment>
-      <td style={{ width: "60px" }}>{alarmReferenceValue}</td>
-      <td style={{ width: "60px" }}>
+      <td style={{ width: `${sensorTabWidth}` }}>{alarmReferenceValue}</td>
+      <td style={{ width: `${sensorTabWidth}` }}>
         <span
           className={getClassText(sensorIndex)}
-          style={{ fontWweight: "bold", fontSize: "18px" }}
+          style={{ fontWweight: "bold", fontSize: "20px" }}
         >
           {sensorData}
         </span>
       </td>
-      <td style={{ width: "60px" }}>
+      <td style={{ width: `${sensorTabWidth}` }}>
         <div
           className={getClassAlarmIcon(sensorAlarm)}
-          style={{ width: "12px", height: "12px" }}
+          style={{ width: "15px", height: "15px" }}
         />
       </td>
     </React.Fragment>

@@ -22,14 +22,17 @@ class SamplePage extends React.Component {
     this.props.alarmReferenceValueRequest();
     this.props.recentDataRequest(this.props.authUser.PositionList);
     this.pageScroll = this.pageScroll.bind(this);
+    this.loadData = this.loadData.bind(this);
   }
 
   componentDidMount() {
-    this.intervalHandle = setInterval(this.pageScroll, 60000);
+    this.scrollIntervalHandle = setInterval(this.pageScroll, 30000);
+    this.loadDataIntervalHandle = setInterval(this.loadData, 60000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.intervalHandle);
+    clearInterval(this.scrollIntervalHandle);
+    clearInterval(this.loadDataIntervalHandle);
   }
 
   pageScroll() {
@@ -44,13 +47,13 @@ class SamplePage extends React.Component {
     }
   }
 
+  loadData() {
+    this.props.recentDataRequest(this.props.authUser.PositionList);
+  }
+
   render() {
-    const getClassAlarmIcon = alarm => {
-      let classText = "";
-      if (alarm == 1) classText = "bg-red rounded-circle mt-1 ml-2 mx-auto";
-      console.log(classText);
-      return classText;
-    };
+    const nameTabWidth = "170px";
+    const indexTabWidth = "120px";
 
     const getClassText = grade => {
       let classText = "text-good";
@@ -60,20 +63,19 @@ class SamplePage extends React.Component {
       else if (grade == 4) classText = "text-sensitive2";
       else if (grade == 5) classText = "text-bad";
       else if (grade == 6) classText = "text-very-bad";
-      // console.log(classText);
       return classText;
     };
     return (
-      <div className="app-wrapper">
+      <div className="app-wrapper" style={{ overflowX: "auto" }}>
         <table className="table table-fixed">
           <MainTableHead />
           <tbody id="contain" ref="contain">
             {this.props.contactData.map((contact, i) => {
               return (
                 <tr key={i}>
-                  <td style={{ width: "170px" }}>{contact.BuildingName}</td>
-                  <td style={{ width: "170px" }}>{contact.PositionName}</td>
-                  <td style={{ width: "120px" }}>
+                  <td style={{ width: `${nameTabWidth}` }}>{contact.BuildingName}</td>
+                  <td style={{ width: `${nameTabWidth}` }}>{contact.PositionName}</td>
+                  <td style={{ width: `${indexTabWidth}` }}>
                     <span className={getClassText(contact.E3Index)}>
                       {qualityType[`${contact.E3Index}`]}({contact.E3Score})
                     </span>
@@ -130,126 +132,16 @@ class SamplePage extends React.Component {
                     sensorIndex={contact.NoiseIndex}
                     sensorAlarm={contact.NoiseAlarm}
                   />
-
-                  {/* <td style={{ width: "60px" }}>
-                    {this.props.alarmReferenceValue.humidity}
-                  </td>
                   <td style={{ width: "60px" }}>
-                    <span
-                      className={getClassText(contact.HumidityIndex)}
-                      style={{ fontWweight: "bold", fontSize: "18px" }}
-                    >
-                      {contact.Humidity}
-                    </span>
+                    <div>
+                      <img
+                        src="/assets/images/sms.jpg"
+                        style={{ width: "30px", height: "30px" }}
+                        alt="sms"
+                        title="SMS Icon"
+                      />
+                    </div>
                   </td>
-                  <td style={{ width: "60px" }}>
-                    <div
-                      className={getClassAlarmIcon(contact.HumidityAlarm)}
-                      style={{ width: "12px", height: "12px" }}
-                    />
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    {this.props.alarmReferenceValue.pm10}
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <span
-                      className={getClassText(contact.PM10Index)}
-                      style={{ fontWweight: "bold", fontSize: "18px" }}
-                    >
-                      {contact.PM10}
-                    </span>
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <div
-                      className={getClassAlarmIcon(contact.PM10Alarm)}
-                      style={{ width: "12px", height: "12px" }}
-                    />
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    {this.props.alarmReferenceValue.pm25}
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <span
-                      className={getClassText(contact.PM25Index)}
-                      style={{ fontWweight: "bold", fontSize: "18px" }}
-                    >
-                      {contact.PM25}
-                    </span>
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <div
-                      className={getClassAlarmIcon(contact.PM25Alarm)}
-                      style={{ width: "12px", height: "12px" }}
-                    />
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    {this.props.alarmReferenceValue.co2}
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <span
-                      className={getClassText(contact.CO2Index)}
-                      style={{ fontWweight: "bold", fontSize: "18px" }}
-                    >
-                      {contact.CO2}
-                    </span>
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <div
-                      className={getClassAlarmIcon(contact.CO2Alarm)}
-                      style={{ width: "12px", height: "12px" }}
-                    />
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    {this.props.alarmReferenceValue.hcho}
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <span
-                      className={getClassText(contact.HCHOIndex)}
-                      style={{ fontWweight: "bold", fontSize: "18px" }}
-                    >
-                      {contact.HCHO}
-                    </span>
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <div
-                      className={getClassAlarmIcon(contact.HCHOAlarm)}
-                      style={{ width: "12px", height: "12px" }}
-                    />
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    {this.props.alarmReferenceValue.voc}
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <span
-                      className={getClassText(contact.VOCIndex)}
-                      style={{ fontWweight: "bold", fontSize: "18px" }}
-                    >
-                      {contact.VOC}
-                    </span>
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <div
-                      className={getClassAlarmIcon(contact.VOCAlarm)}
-                      style={{ width: "12px", height: "12px" }}
-                    />
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    {this.props.alarmReferenceValue.voc}
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <span
-                      className={getClassText(contact.NoiseIndex)}
-                      style={{ fontWweight: "bold", fontSize: "18px" }}
-                    >
-                      {contact.Noise}
-                    </span>
-                  </td>
-                  <td style={{ width: "60px" }}>
-                    <div
-                      className={getClassAlarmIcon(contact.NoiseAlarm)}
-                      style={{ width: "12px", height: "12px" }}
-                    />
-                  </td> */}
                 </tr>
               );
             })}
