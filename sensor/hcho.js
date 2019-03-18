@@ -17,8 +17,6 @@ export const getHCHOScore = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-
       global.sensorTable.hcho = sensorIndexInfo;
     } else {
       console.error("HCHO : sensorIndexInfo 정보없음");
@@ -38,13 +36,8 @@ export const setHCHOScore = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-      global.sensorTable.hcho[grade - 1].Min = min;
-      global.sensorTable.hcho[grade - 1].Max = max;
-      console.error(
-        "global.sensorTable.hcho[grade-1].Min: " +
-          global.sensorTable.hcho[grade - 1].Min
-      );
+      global.sensorTable.hcho[grade - 1].min = min;
+      global.sensorTable.hcho[grade - 1].max = max;
     } else {
       console.error("HCHO : sensorIndexInfo 정보없음");
     }
@@ -62,8 +55,6 @@ export const getHCHOAlarm = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorAlarmInfo) {
-      //console.log(sensorAlarmInfo);
-
       global.alarm.hcho = sensorAlarmInfo;
     } else {
       console.error("HCHO : sensorAlarmInfo 정보없음");
@@ -81,7 +72,6 @@ export const setHCHOAlarm = value => {
 
     if (sensorAlarmInfo) {
       global.alarm.hcho = value;
-      console.log("global.alarm.hcho: " + global.alarm.hcho);
     } else {
       console.error("HCHO : sensorAlarmInfo 정보없음");
     }

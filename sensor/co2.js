@@ -17,8 +17,6 @@ export const getCO2Score = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-
       global.sensorTable.co2 = sensorIndexInfo;
     } else {
       console.error("CO2 : sensorIndexInfo 정보없음");
@@ -38,13 +36,8 @@ export const setCO2Score = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-      global.sensorTable.co2[grade - 1].Min = min;
-      global.sensorTable.co2[grade - 1].Max = max;
-      console.error(
-        "global.sensorTable.co2[grade-1].Min: " +
-          global.sensorTable.co2[grade - 1].Min
-      );
+      global.sensorTable.co2[grade - 1].min = min;
+      global.sensorTable.co2[grade - 1].max = max;
     } else {
       console.error("CO2 : sensorIndexInfo 정보없음");
     }
@@ -62,8 +55,6 @@ export const getCO2Alarm = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorAlarmInfo) {
-      //console.log(sensorAlarmInfo);
-
       global.alarm.co2 = sensorAlarmInfo;
     } else {
       console.error("CO2 : sensorAlarmInfo 정보없음");
@@ -81,7 +72,6 @@ export const setCO2Alarm = value => {
 
     if (sensorAlarmInfo) {
       global.alarm.co2 = value;
-      console.log("global.alarm.co2: " + global.alarm.co2);
     } else {
       console.error("CO2 : sensorAlarmInfo 정보없음");
     }

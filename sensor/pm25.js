@@ -17,8 +17,6 @@ export const getPM25Score = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-
       global.sensorTable.pm25 = sensorIndexInfo;
     } else {
       console.error("PM25 : sensorIndexInfo 정보없음");
@@ -38,13 +36,8 @@ export const setPM25Score = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-      global.sensorTable.pm25[grade - 1].Min = min;
-      global.sensorTable.pm25[grade - 1].Max = max;
-      console.error(
-        "global.sensorTable.pm25[grade-1].Min: " +
-          global.sensorTable.pm25[grade - 1].Min
-      );
+      global.sensorTable.pm25[grade - 1].min = min;
+      global.sensorTable.pm25[grade - 1].max = max;
     } else {
       console.error("PM25 : sensorIndexInfo 정보없음");
     }
@@ -62,8 +55,6 @@ export const getPM25Alarm = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorAlarmInfo) {
-      //console.log(sensorAlarmInfo);
-
       global.alarm.pm25 = sensorAlarmInfo;
     } else {
       console.error("PM25 : sensorAlarmInfo 정보없음");
@@ -81,7 +72,6 @@ export const setPM25Alarm = value => {
 
     if (sensorAlarmInfo) {
       global.alarm.pm25 = value;
-      console.log("global.alarm.pm25: " + global.alarm.pm25);
     } else {
       console.error("PM25 : sensorAlarmInfo 정보없음");
     }

@@ -135,11 +135,12 @@ router.post("/addDevice", function(req, res, next) {
 });
 
 /* all building list */
-router.get("/allDevice", function(req, res, next) {
-  console.log("/allDevice 호출됨.");
+router.get("/getAllDeviceByPositionId", function(req, res, next) {
+  console.log("/getAllDeviceByPositionId 호출됨.");
+  var paramPositionID = req.body.positionID || req.query.positionID;
   var result = { statusCode: null, message: null, data: null };
 
-  Device.getAllDevice(function(err, allDevices) {
+  Device.getAllDeviceByPositionId(paramPositionID, function(err, allDevices) {
     if (err) {
       console.error("오류 발생 :" + err.stack);
       result.statusCode = FAIL;

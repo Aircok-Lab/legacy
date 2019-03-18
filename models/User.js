@@ -59,7 +59,7 @@ var User = {
       var queryString = "select * from User where ";
       for (i in ids) {
         let idStr = "/" + ids[i] + ",/";
-        let str = "instr(BuildingList,'" + idStr + "') > 0";
+        let str = "instr(buildingList,'" + idStr + "') > 0";
         queryString = queryString + str;
         if (i < ids.length - 1) queryString = queryString + " or ";
       }
@@ -104,7 +104,7 @@ var User = {
       var queryString = "select * from User where ";
       for (i in ids) {
         let idStr = "/" + ids[i] + ",/";
-        let str = "instr(PositionList,'" + idStr + "') > 0";
+        let str = "instr(positionList,'" + idStr + "') > 0";
         queryString = queryString + str;
         if (i < ids.length - 1) queryString = queryString + " or ";
       }
@@ -149,7 +149,7 @@ var User = {
       var queryString = "select * from User where ";
       for (i in ids) {
         let idStr = "/" + ids[i] + ",/";
-        let str = "instr(DeviceList,'" + idStr + "') > 0";
+        let str = "instr(deviceList,'" + idStr + "') > 0";
         queryString = queryString + str;
         if (i < ids.length - 1) queryString = queryString + " or ";
       }
@@ -195,7 +195,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select Password from User where LoginID =? and email = ?",
+        "select password from User where loginID =? and email = ?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -237,7 +237,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select LoginID from User where name =? and email = ?",
+        "select loginID from User where name =? and email = ?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -281,7 +281,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select * from User where Approval=? ",
+        "select * from User where approval=? ",
         state,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -326,7 +326,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select * from User where UserType=? ",
+        "select * from User where userType=? ",
         type,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -380,17 +380,17 @@ var User = {
 
       // 데이터를 객체로 만듭니다.
       var data = {
-        LoginID: loginId,
-        Name: name,
-        Password: password,
-        Email: email,
-        Department: department,
-        Approval: approval,
-        UserType: userType,
-        Phone: phone,
-        BuildingList: buildingList,
-        PositionList: positionList,
-        DeviceList: deviceList
+        loginID: loginId,
+        name: name,
+        password: password,
+        email: email,
+        department: department,
+        approval: approval,
+        userType: userType,
+        phone: phone,
+        buildingList: buildingList,
+        positionList: positionList,
+        deviceList: deviceList
       };
 
       // SQL문을 실행합니다.
@@ -499,7 +499,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set BuildingList=? where id=?",
+        "update User set buildingList=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -512,7 +512,7 @@ var User = {
             //callback(err, null);
             return;
           }
-          var success = "true";
+          var success = true;
 
           //callback(null, success);
         }
@@ -540,7 +540,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set PositionList=? where id=?",
+        "update User set positionList=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -553,7 +553,7 @@ var User = {
             //callback(err, null);
             return;
           }
-          var success = "true";
+          var success = true;
 
           //callback(null, success);
         }
@@ -581,7 +581,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select * from User where LoginID=? and Password=?",
+        "select * from User where loginID=? and password=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -618,7 +618,7 @@ var User = {
       // 데이터를 객체로 만듭니다.
       var ids = userId.split(",");
       console.log(ids);
-      var queryString = "Update User Set Approval = true where ";
+      var queryString = "Update User Set approval = true where ";
       for (i in ids) {
         let str = "id=" + ids[i];
         queryString = queryString + str;
@@ -637,7 +637,7 @@ var User = {
           callback(err, null);
           return;
         }
-        var success = "true";
+        var success = true;
 
         callback(null, success);
       });
@@ -679,7 +679,7 @@ var User = {
           callback(err, null);
           return;
         }
-        var success = "true";
+        var success = true;
 
         callback(null, success);
       });

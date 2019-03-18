@@ -93,7 +93,7 @@ var Position = {
       console.log(ids);
       var queryString = "select * from Position where ";
       for (i in ids) {
-        let str = "instr(BuildingID,'" + ids[i] + "') > 0";
+        let str = "instr(buildingID,'" + ids[i] + "') > 0";
         queryString = queryString + str;
         if (i < ids.length - 1) queryString = queryString + " or ";
       }
@@ -135,7 +135,7 @@ var Position = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select count(*) as count from Position where BuildingID=?",
+        "select count(*) as count from Position where buildingID=?",
         buildingId,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -170,7 +170,7 @@ var Position = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var data = { Name: name, Position: position, buildingId: buildingId };
+      var data = { name: name, position: position, buildingId: buildingId };
 
       // SQL문을 실행합니다.
       var exec = conn.query("insert into Position set ?", data, function(
@@ -210,7 +210,7 @@ var Position = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Position set Name=?, Position=?, BuildingId=? where id=?",
+        "update Position set name=?, position=?, buildingId=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -224,8 +224,7 @@ var Position = {
             return;
           }
           var success = false;
-          if(result.changedRows > 0)
-            success = true;
+          if (result.changedRows > 0) success = true;
 
           callback(null, success);
         }
@@ -260,7 +259,7 @@ var Position = {
           callback(err, null);
           return;
         }
-        var success = "true";
+        var success = true;
         callback(null, success);
       });
     });

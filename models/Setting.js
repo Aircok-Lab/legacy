@@ -99,7 +99,7 @@ var Setting = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Setting set ScrollRow=?, ScrollTime=?, MonitoringTime=? where id=?",
+        "update Setting set scrollRow=?, scrollTime=?, monitoringTime=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -113,8 +113,7 @@ var Setting = {
             return;
           }
           var success = false;
-          if(result.changedRows > 0)
-            success = true;
+          if (result.changedRows > 0) success = true;
 
           callback(null, success);
         }
@@ -136,15 +135,6 @@ var Setting = {
 
       // 데이터를 객체로 만듭니다.
       var queryString = "delete from Setting where id in(" + settingId + ")";
-      // var ids = settingId.split(",");
-      // console.log(ids);
-      // var queryString = 'delete from Setting where ';
-      // for (i in ids){
-      //     let str = 'id='+ids[i];
-      //     queryString = queryString + str;
-      //     if( i < (ids.length-1))
-      //         queryString = queryString + ' or ';
-      // }
 
       // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {
@@ -158,7 +148,7 @@ var Setting = {
           callback(err, null);
           return;
         }
-        var success = "true";
+        var success = true;
         callback(null, success);
       });
     });

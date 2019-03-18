@@ -17,8 +17,6 @@ export const getVOCScore = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-
       global.sensorTable.voc = sensorIndexInfo;
     } else {
       console.error("VOC : sensorIndexInfo 정보없음");
@@ -38,13 +36,8 @@ export const setVOCScore = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-      global.sensorTable.voc[grade - 1].Min = min;
-      global.sensorTable.voc[grade - 1].Max = max;
-      console.error(
-        "global.sensorTable.voc[grade-1].Min: " +
-          global.sensorTable.voc[grade - 1].Min
-      );
+      global.sensorTable.voc[grade - 1].min = min;
+      global.sensorTable.voc[grade - 1].max = max;
     } else {
       console.error("VOC : sensorIndexInfo 정보없음");
     }
@@ -62,8 +55,6 @@ export const getVOCAlarm = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorAlarmInfo) {
-      //console.log(sensorAlarmInfo);
-
       global.alarm.voc = sensorAlarmInfo;
     } else {
       console.error("VOC : sensorAlarmInfo 정보없음");
@@ -81,7 +72,6 @@ export const setVOCAlarm = value => {
 
     if (sensorAlarmInfo) {
       global.alarm.voc = value;
-      console.log("global.alarm.voc: " + global.alarm.voc);
     } else {
       console.error("VOC : sensorAlarmInfo 정보없음");
     }

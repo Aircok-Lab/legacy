@@ -53,16 +53,6 @@ var Building = {
       var queryString =
         "Select * from Building where id in(" + buildingId + ")";
 
-      // var ids = buildingId.split(",");
-      // console.log(ids);
-      // var queryString = 'Select * from Building where ';
-      // for (i in ids){
-      //     let str = 'id='+ids[i];
-      //     queryString = queryString + str;
-      //     if( i < (ids.length-1))
-      //         queryString = queryString + ' or ';
-      // }
-
       // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {
         conn.release(); // 반드시 해제해야 합니다.
@@ -100,10 +90,10 @@ var Building = {
 
       // 데이터를 객체로 만듭니다.
       var data = {
-        Name: name,
-        Address: address,
-        Latitude: latitude,
-        Longitude: longitude
+        name: name,
+        address: address,
+        latitude: latitude,
+        longitude: longitude
       };
 
       // SQL문을 실행합니다.
@@ -145,7 +135,7 @@ var Building = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Building set Name=?, Address=?, Latitude=?, Longitude=? where id=?",
+        "update Building set name=?, address=?, latitude=?, longitude=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -194,7 +184,7 @@ var Building = {
           callback(err, null);
           return;
         }
-        var success = "true";
+        var success = true;
         callback(null, success);
       });
     });

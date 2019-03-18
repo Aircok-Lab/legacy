@@ -17,8 +17,6 @@ export const getHUMIScore = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-
       global.sensorTable.humidity = sensorIndexInfo;
     } else {
       console.error("HUMI : sensorIndexInfo 정보없음");
@@ -44,13 +42,8 @@ export const setHUMIScore = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-      global.sensorTable.humidity[grade - 1].Min = min;
-      global.sensorTable.humidity[grade - 1].Max = max;
-      console.error(
-        "global.sensorTable.humidity[grade-1].Min: " +
-          global.sensorTable.humidity[grade - 1].Min
-      );
+      global.sensorTable.humidity[grade - 1].min = min;
+      global.sensorTable.humidity[grade - 1].max = max;
     } else {
       console.error("HUMI : sensorIndexInfo 정보없음");
     }
@@ -68,8 +61,6 @@ export const getHUMIAlarm = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorAlarmInfo) {
-      //console.log(sensorAlarmInfo);
-
       global.alarm.humidity = sensorAlarmInfo;
       console.dir(global);
     } else {

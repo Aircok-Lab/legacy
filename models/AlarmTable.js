@@ -17,7 +17,7 @@ var AlarmTable = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "Select AlarmValue from AlarmTable where SensorType=?",
+        "Select alarmValue from AlarmTable where sensorType=?",
         sensorType,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -30,8 +30,8 @@ var AlarmTable = {
             callback(err, null);
             return;
           }
-          console.log(">> result[0].AlarmValue: " + result[0].AlarmValue);
-          var sensorAlarmInfo = result[0].AlarmValue;
+          console.log(">> result[0].alarmValue: " + result[0].alarmValue);
+          var sensorAlarmInfo = result[0].alarmValue;
 
           callback(null, sensorAlarmInfo);
         }
@@ -88,7 +88,7 @@ var AlarmTable = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var data = { SensorType: sensorType, AlarmValue: alarmValue };
+      var data = { sensorType: sensorType, alarmValue: alarmValue };
 
       // SQL문을 실행합니다.
       var exec = conn.query("insert into AlarmTable set ?", data, function(
@@ -129,7 +129,7 @@ var AlarmTable = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update AlarmTable set AlarmValue=? where SensorType=?",
+        "update AlarmTable set alarmValue=? where sensorType=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -165,7 +165,7 @@ var AlarmTable = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "delete from AlarmTable where SensorType = ?",
+        "delete from alarmTable where sensorType = ?",
         sensorType,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -178,7 +178,7 @@ var AlarmTable = {
             callback(err, null);
             return;
           }
-          var success = "true";
+          var success = true;
           callback(null, success);
         }
       );

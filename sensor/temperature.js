@@ -17,8 +17,6 @@ export const getTEMPScore = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-
       global.sensorTable.temperature = sensorIndexInfo;
     } else {
       console.error("TEMP : sensorIndexInfo 정보없음");
@@ -44,13 +42,8 @@ export const setTEMPScore = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-      global.sensorTable.temperature[grade - 1].Min = min;
-      global.sensorTable.temperature[grade - 1].Max = max;
-      console.error(
-        "global.sensorTable.temperature[grade-1].Min: " +
-          global.sensorTable.temperature[grade - 1].Min
-      );
+      global.sensorTable.temperature[grade - 1].min = min;
+      global.sensorTable.temperature[grade - 1].max = max;
     } else {
       console.error("TEMP : sensorIndexInfo 정보없음");
     }
@@ -68,8 +61,6 @@ export const getTEMPAlarm = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorAlarmInfo) {
-      //console.log(sensorAlarmInfo);
-
       global.alarm.temperature = sensorAlarmInfo;
     } else {
       console.error("TEMP : sensorAlarmInfo 정보없음");
@@ -87,7 +78,6 @@ export const setTEMPAlarm = value => {
 
     if (sensorAlarmInfo) {
       global.alarm.temperature = value;
-      console.log("global.alarm.temperature: " + global.alarm.temperature);
     } else {
       console.error("TEMP : sensorAlarmInfo 정보없음");
     }

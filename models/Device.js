@@ -1,8 +1,8 @@
 var pool = require("../config/database");
 
 var Device = {
-  getAllDevice: function(callback) {
-    console.log("getAllDevice 호출됨");
+  getAllDeviceByPositionId: function(positionId, callback) {
+    console.log("getAllDeviceByPositionId 호출됨");
 
     pool.getConnection(function(err, conn) {
       if (err) {
@@ -16,8 +16,9 @@ var Device = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       var queryString =
-        "select Building.Name as BuildingName , Position.Name as PositionName, Device.*from  Position, Building, Device\
-        where Device.PositionID = Position.id and Position.BuildingID = Building.id order by BuildingName, PositionName desc";
+        "select Building.Name as buildingName , Position.Name as positionName, Device.* from  Position, Building, Device, Product where Device.positionID in (" +
+        positionId +
+        ") and Device.productID = Product.id and Device.positionID = Position.id and Position.buildingID = Building.id order by buildingName, positionName desc";
 
       // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {
@@ -56,7 +57,7 @@ var Device = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "Select * from Device where SerialNumber=?",
+        "Select * from Device where serialNumber=?",
         serialNumber,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -96,7 +97,7 @@ var Device = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select BuildingType from Device where SerialNumber = ?",
+        "select buildingType from Device where serialNumber = ?",
         deviceSN,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -132,9 +133,9 @@ var Device = {
 
       // 데이터를 객체로 만듭니다.
       var queryString =
-        "select Device.*,  Product.Name as ProductName, Product.Period from Device, Product where Device.PositionID in (" +
+        "select Device.*,  Product.name as productName, Product.period from Device, Product where Device.positionID in (" +
         positionId +
-        ") and Device.ProductID = Product.id";
+        ") and Device.productID = Product.id";
 
       // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {
@@ -171,7 +172,7 @@ var Device = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select * from Device where PositionID=?",
+        "select * from Device where positionID=?",
         positionId,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -205,12 +206,12 @@ var Device = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       var queryString =
-        "select Device.*,  Product.Name as ProductName, Product.Period from Device, Product where Device.PositionID in (\
-                select Position.id as PositionID\
+        "select Device.*,  Product.name as productName, Product.period from Device, Product where Device.positionID in (\
+                select Position.id as positionID\
                 from Building, Position\
                 where  Building.id in (" +
         buildingId +
-        ") and Building.id = Position.BuildingID) and Device.ProductID = Product.id";
+        ") and Building.id = Position.buildingID) and Device.productID = Product.id";
 
       // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {
@@ -259,15 +260,15 @@ var Device = {
 
       // 데이터를 객체로 만듭니다.
       var data = {
-        Name: name,
-        SerialNumber: serialNumber,
-        Phone: phone,
-        IP: ip,
-        PositionID: positionID,
-        ProductID: productID,
-        IMEI: imei,
-        Gateway: gateway,
-        Subnet: subnet
+        name: name,
+        serialNumber: serialNumber,
+        phone: phone,
+        ip: ip,
+        positionID: positionID,
+        productID: productID,
+        imei: imei,
+        gateway: gateway,
+        subnet: subnet
       };
 
       // SQL문을 실행합니다.
@@ -315,11 +316,21 @@ var Device = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var data = [name, phone, ip, positionID, productID, IMEI, Gateway, Subnet, serialNumber];
+      var data = [
+        name,
+        phone,
+        ip,
+        positionID,
+        productID,
+        IMEI,
+        Gateway,
+        Subnet,
+        serialNumber
+      ];
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Device set Name=?, Phone=?, IP=?, PositionID=?, ProductID=?, IMEI=?, Gateway=?, Subnet=? where SerialNumber=?",
+        "update Device set name=?, phone=?, ip=?, positionID=?, productID=?, imei=?, gateway=?, subnet=? where serialNumber=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -360,7 +371,7 @@ var Device = {
       console.log(serials);
       var queryString = "delete from Device where ";
       for (i in serials) {
-        let str = "SerialNumber='" + serials[i] + "'";
+        let str = "serialNumber='" + serials[i] + "'";
         queryString = queryString + str;
         if (i < serials.length - 1) queryString = queryString + " or ";
       }
@@ -377,7 +388,7 @@ var Device = {
           callback(err, null);
           return;
         }
-        var success = "true";
+        var success = true;
         callback(null, success);
       });
     });
@@ -397,7 +408,7 @@ var Device = {
       }
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
       var exec = conn.query(
-        "select BuildingType, Version, Period, Indoor from Device, Product where Device.ProductID = Product.id and Device.SerialNumber=?",
+        "select buildingType, version, period, indoor from Device, Product where Device.productID = Product.id and Device.serialNumber=?",
         deviceSerialNumber,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.

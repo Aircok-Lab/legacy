@@ -55,8 +55,8 @@ var RecentData = {
 
       // SQL문을 실행합니다.
       var queryString =
-        "Select Building.Name as BuildingName , Position.Name as PositionName, RecentData.* from RecentData, Position, Building, Device\
-        where RecentData.DeviceSN = Device.SerialNumber and  Device.PositionID = Position.id and Position.BuildingID = Building.id and Position.id in(" +
+        "Select Building.name as buildingName , Position.name as positionName, RecentData.* from RecentData, Position, Building, Device\
+        where RecentData.deviceSN = Device.serialNumber and  Device.positionID = Position.id and Position.buildingID = Building.id and Position.id in(" +
         positionID +
         ")";
       var exec = conn.query(queryString, function(err, result) {
@@ -108,33 +108,33 @@ var RecentData = {
 
       // 데이터를 객체로 만듭니다.
       var data = {
-        PM10: pm10.value,
-        PM25: pm25.value,
-        CO2: co2.value,
-        HCHO: hcho.value,
-        VOC: voc.value,
-        Temperature: temperature.value,
-        Humidity: humidity.value,
-        Noise: noise.value,
-        Date: date,
-        DeviceSN: deviceSN,
-        E3Index: totalScore,
-        PM10Index: pm10.index,
-        PM25Index: pm25.index,
-        CO2Index: co2.index,
-        HCHOIndex: hcho.index,
-        VOCIndex: voc.index,
-        TemperatureIndex: temperature.index,
-        HumidityIndex: humidity.index,
-        NoiseIndex: noise.index,
-        PM10Alarm: pm10.alarm,
-        PM25Alarm: pm25.alarm,
-        CO2Alarm: co2.alarm,
-        HCHOAlarm: hcho.alarm,
-        VOCAlarm: voc.alarm,
-        TemperatureAlarm: temperature.alarm,
-        HumidityAlarm: humidity.alarm,
-        NoiseAlarm: noise.alarm
+        pm10: pm10.value,
+        pm25: pm25.value,
+        co2: co2.value,
+        hcho: hcho.value,
+        voc: voc.value,
+        temperature: temperature.value,
+        humidity: humidity.value,
+        noise: noise.value,
+        date: date,
+        deviceSN: deviceSN,
+        e3Index: totalScore,
+        pm10Index: pm10.index,
+        pm25Index: pm25.index,
+        co2Index: co2.index,
+        hchoIndex: hcho.index,
+        vocIndex: voc.index,
+        temperatureIndex: temperature.index,
+        humidityIndex: humidity.index,
+        noiseIndex: noise.index,
+        pm10Alarm: pm10.alarm,
+        pm25Alarm: pm25.alarm,
+        co2Alarm: co2.alarm,
+        hchoAlarm: hcho.alarm,
+        vocAlarm: voc.alarm,
+        temperatureAlarm: temperature.alarm,
+        humidityAlarm: humidity.alarm,
+        noiseAlarm: noise.alarm
       };
 
       // SQL문을 실행합니다.
@@ -186,34 +186,34 @@ var RecentData = {
 
       // 데이터를 객체로 만듭니다.
       var value = {
-        PM10: pm10.value,
-        PM25: pm25.value,
-        CO2: co2.value,
-        HCHO: hcho.value,
-        VOC: voc.value,
-        Temperature: temperature.value,
-        Humidity: humidity.value,
-        Noise: noise.value,
-        Date: date,
-        InsertDate: new Date(),
-        E3Index: total.index,
-        E3Score: total.score,
-        PM10Index: pm10.index,
-        PM25Index: pm25.index,
-        CO2Index: co2.index,
-        HCHOIndex: hcho.index,
-        VOCIndex: voc.index,
-        TemperatureIndex: temperature.index,
-        HumidityIndex: humidity.index,
-        NoiseIndex: noise.index,
-        PM10Alarm: pm10.alarm,
-        PM25Alarm: pm25.alarm,
-        CO2Alarm: co2.alarm,
-        HCHOAlarm: hcho.alarm,
-        VOCAlarm: voc.alarm,
-        TemperatureAlarm: temperature.alarm,
-        HumidityAlarm: humidity.alarm,
-        NoiseAlarm: noise.alarm
+        pm10: pm10.value,
+        pm25: pm25.value,
+        co2: co2.value,
+        hcho: hcho.value,
+        voc: voc.value,
+        temperature: temperature.value,
+        humidity: humidity.value,
+        noise: noise.value,
+        date: date,
+        insertDate: new Date(),
+        e3Index: total.index,
+        e3Score: total.score,
+        pm10Index: pm10.index,
+        pm25Index: pm25.index,
+        co2Index: co2.index,
+        hchoIndex: hcho.index,
+        vocIndex: voc.index,
+        temperatureIndex: temperature.index,
+        humidityIndex: humidity.index,
+        noiseIndex: noise.index,
+        pm10Alarm: pm10.alarm,
+        pm25Alarm: pm25.alarm,
+        co2Alarm: co2.alarm,
+        hchoAlarm: hcho.alarm,
+        vocAlarm: voc.alarm,
+        temperatureAlarm: temperature.alarm,
+        humidityAlarm: humidity.alarm,
+        noiseAlarm: noise.alarm
       };
 
       var data = [value, deviceSN];
@@ -254,15 +254,6 @@ var RecentData = {
 
       // 데이터를 객체로 만듭니다.
       var queryString = "delete from RecentData where id in(" + dataId + ")";
-      // var ids = dataId.split(",");
-      // console.log(ids);
-      // var queryString = 'delete from RecentData where ';
-      // for (i in ids){
-      //     let str = 'id='+ids[i];
-      //     queryString = queryString + str;
-      //     if( i < (ids.length-1))
-      //         queryString = queryString + ' or ';
-      // }
 
       // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {
@@ -276,7 +267,7 @@ var RecentData = {
           callback(err, null);
           return;
         }
-        var success = "true";
+        var success = true;
         callback(null, success);
       });
     });
@@ -316,7 +307,7 @@ var RecentData = {
           callback(err, null);
           return;
         }
-        var success = "true";
+        var success = true;
         callback(null, success);
       });
     });

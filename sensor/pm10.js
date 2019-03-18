@@ -17,8 +17,6 @@ export const getPM10Score = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-
       global.sensorTable.pm10 = sensorIndexInfo;
     } else {
       console.error("PM10 : sensorIndexInfo 정보없음");
@@ -38,13 +36,8 @@ export const setPM10Score = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      //console.dir(sensorIndexInfo);
-      global.sensorTable.pm10[grade - 1].Min = min;
-      global.sensorTable.pm10[grade - 1].Max = max;
-      console.error(
-        "global.sensorTable.pm10[grade-1].Min: " +
-          global.sensorTable.pm10[grade - 1].Min
-      );
+      global.sensorTable.pm10[grade - 1].min = min;
+      global.sensorTable.pm10[grade - 1].max = max;
     } else {
       console.error("PM10 : sensorIndexInfo 정보없음");
     }
@@ -62,8 +55,6 @@ export const getPM10Alarm = () => {
 
     //결과 객체 있으면 성공 응답 전송
     if (sensorAlarmInfo) {
-      //console.log(sensorAlarmInfo);
-
       global.alarm.pm10 = sensorAlarmInfo;
     } else {
       console.error("PM10 : sensorAlarmInfo 정보없음");
@@ -81,7 +72,6 @@ export const setPM10Alarm = value => {
 
     if (sensorAlarmInfo) {
       global.alarm.pm10 = value;
-      console.log("global.alarm.pm10: " + global.alarm.pm10);
     } else {
       console.error("PM10 : sensorAlarmInfo 정보없음");
     }
