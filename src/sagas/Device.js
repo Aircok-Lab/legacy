@@ -129,10 +129,12 @@ function* deviceGetAllByPositionIdWorker(action) {
     const res = yield api.get(
       `device/getAllDeviceByPositionId?positionID=${action.payload.id}`
     );
+    console.log("sagas... action: ", action);
     if (responseDataProcess(res.data)) {
       yield put({
         type: "DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS",
-        payload: { id: action.payload.node.id }
+        payload: res.data.data,
+        devices: action.payload.devices
       });
 
       // if (action.payload.node.buildingID) {

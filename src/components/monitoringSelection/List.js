@@ -29,10 +29,12 @@ class List extends React.Component {
   };
 
   componentDidMount() {
+    console.log("this.props.deviceList ....", this.props.deviceList);
     this.setState({ deviceList: this.props.deviceList });
-    this.props.deviceGetAllByPositionIdRequest({
-      id: this.props.authUser.positionList
-    });
+    // this.props.deviceGetAllByPositionIdRequest({
+    //   id: this.props.authUser.positionList,
+    //   devices: this.props.authUser.deviceList
+    // });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -68,7 +70,7 @@ class List extends React.Component {
                     .length == 0
                 }
               >
-                모니터링 측정기 적용
+                모니터링 측정기 적용...
               </button>
             </div>
           </div>
