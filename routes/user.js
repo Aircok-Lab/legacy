@@ -106,7 +106,6 @@ router.post("/addUser", function(req, res, next) {
     !paramLoginId ||
     !paramPassword ||
     !paramName ||
-    !paramEmail ||
     !paramBuildingList ||
     !paramPositionList
   ) {
