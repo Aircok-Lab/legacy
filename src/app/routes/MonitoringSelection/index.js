@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import BuildingPositionTree from "components/tree/BuildingPositionTree";
+import BuildingPositionTree from "components/Tree/BuildingPositionTree";
 import Container from "components/MonitoringSelection/Container";
 
 class MonitoringSelectionPage extends Component {

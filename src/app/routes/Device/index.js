@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import BuildingPositionTree from "components/tree/BuildingPositionTree";
-import Container from "components/device/Container";
+import BuildingPositionTree from "components/Tree/BuildingPositionTree";
+import Container from "components/Device/Container";
 
 class DevicePage extends Component {
   render() {

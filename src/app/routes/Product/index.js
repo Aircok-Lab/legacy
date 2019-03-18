@@ -1,5 +1,5 @@
 import React from "react";
-import BuildingPositionTree from "components/tree/BuildingPositionTree";
+import BuildingPositionTree from "components/Tree/BuildingPositionTree";
 import Container from "components/Product/Container";
 
 const UserPage = () => {

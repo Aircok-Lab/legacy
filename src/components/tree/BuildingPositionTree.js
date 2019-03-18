@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Modal from "react-modal";
-import AddBuilding from "components/tree/AddBuilding";
-import UpdateBuilding from "components/tree/UpdateBuilding";
-import AddPosition from "components/tree/AddPosition";
-import UpdatePosition from "components/tree/UpdatePosition";
+import AddBuilding from "components/Tree/AddBuilding";
+import UpdateBuilding from "components/Tree/UpdateBuilding";
+import AddPosition from "components/Tree/AddPosition";
+import UpdatePosition from "components/Tree/UpdatePosition";
 // import AddDevice from "components/AddDevice";
 // import UpdateDevice from "components/UpdateDevice";
 import { selectTreeNode } from "actions/Tree";

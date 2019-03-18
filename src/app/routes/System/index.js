@@ -1,8 +1,8 @@
 import React from "react";
-import BuildingPositionTree from "components/tree/BuildingPositionTree";
-import Container from "components/Profile/Container";
+import BuildingPositionTree from "components/Tree/BuildingPositionTree";
+import Container from "components/System/Container";
 
-const ProfilePage = () => {
+const SystemPage = () => {
   return (
     <div className="app-wrapper">
       <div className="row">
@@ -19,4 +19,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default SystemPage;

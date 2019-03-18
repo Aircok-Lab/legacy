@@ -29,8 +29,8 @@ class List extends React.Component {
   };
 
   componentDidMount() {
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     if (this.props.selectedNode.BuildingID) {
+      console.log("@@@@@", this.props.selectedNode.Name);
       // 층
       this.props.deviceListByPositionIdRequest({
         id: this.props.selectedNode.id
@@ -46,7 +46,6 @@ class List extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("update 요청....................");
     if (
       JSON.stringify(prevProps.deviceList) !=
       JSON.stringify(this.props.deviceList)
@@ -54,35 +53,22 @@ class List extends React.Component {
       this.setState({ deviceList: this.props.deviceList });
     }
 
-    // if (
-    //   JSON.stringify(prevProps.selectedNode) !=
-    //   JSON.stringify(this.props.selectedNode)
-    // ) {
-    //   console.log("list 요청함....");
-    //   if (this.props.selectedNode.BuildingID) {
-    //     // 층
-    //     this.props.deviceListByPositionIdRequest({
-    //       id: this.props.selectedNode.id
-    //     });
-    //   } else {
-    //     // 건물
-    //     this.props.deviceListByBuildingIdRequest({
-    //       id: this.props.selectedNode.id
-    //     });
-    //   }
-    // }
-
-    console.log("***** list 요청함....");
-    if (this.props.selectedNode.BuildingID) {
-      // 층
-      this.props.deviceListByPositionIdRequest({
-        id: this.props.selectedNode.id
-      });
-    } else {
-      // 건물
-      this.props.deviceListByBuildingIdRequest({
-        id: this.props.selectedNode.id
-      });
+    if (
+      JSON.stringify(prevProps.selectedNode) !=
+      JSON.stringify(this.props.selectedNode)
+    ) {
+      console.log("list 요청함 aaa....");
+      if (this.props.selectedNode.BuildingID) {
+        // 층
+        this.props.deviceListByPositionIdRequest({
+          id: this.props.selectedNode.id
+        });
+      } else {
+        // 건물
+        this.props.deviceListByBuildingIdRequest({
+          id: this.props.selectedNode.id
+        });
+      }
     }
   }
 
