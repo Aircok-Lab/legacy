@@ -1,4 +1,11 @@
-import { PM10, PM25, CO2, HCHO, VOC } from "../public/javascripts/defined";
+import {
+  PM10,
+  PM25,
+  CO2,
+  HCHO,
+  VOC,
+  NOISE
+} from "../public/javascripts/defined";
 
 var express = require("express");
 var router = express.Router();
