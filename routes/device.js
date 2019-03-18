@@ -112,7 +112,7 @@ router.post("/", function(req, res, next) {
           status.co2 = E3Core.getSensorIndex(CO2, Number(paramCO2));
           status.hcho = E3Core.getSensorIndex(HCHO, Number(paramHCHO));
           status.voc = E3Core.getSensorIndex(VOC, Number(paramVOC));
-          status.noise = E3Core.getSensorIndex(NOISE, Number(paramNOISE));
+          status.noise = E3Core.getSensorIndex(NOISE, Number(paramNoise));
           status.temperature = E3Core.getTempIndex(paramTemperature);
           status.humidity = E3Core.getHumidityIndex(paramHumidity);
           totalScore = E3Core.calTotalIndex(
