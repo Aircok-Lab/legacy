@@ -42,8 +42,8 @@ export const setTEMPScore = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      global.sensorTable.temperature[grade - 1].Min = min;
-      global.sensorTable.temperature[grade - 1].Max = max;
+      global.sensorTable.temperature[grade - 1].min = min;
+      global.sensorTable.temperature[grade - 1].max = max;
     } else {
       console.error("TEMP : sensorIndexInfo 정보없음");
     }

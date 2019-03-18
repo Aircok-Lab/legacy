@@ -63,41 +63,41 @@ var E3Core = {
       console.log("error sensor type");
     }
 
-    if (sensorValue < data[1].Min) {
-      cMax = data[0].Max;
-      cMin = data[0].Min;
-      sMax = score[1].Min - 0.1;
-      sMin = score[0].Min;
+    if (sensorValue < data[1].min) {
+      cMax = data[0].max;
+      cMin = data[0].min;
+      sMax = score[1].min - 0.1;
+      sMin = score[0].min;
       result.index = GOOD;
-    } else if (sensorValue < data[2].Min) {
-      cMax = data[1].Max;
-      cMin = data[1].Min;
-      sMax = score[2].Min - 0.1;
-      sMin = score[1].Min;
+    } else if (sensorValue < data[2].min) {
+      cMax = data[1].max;
+      cMin = data[1].min;
+      sMax = score[2].min - 0.1;
+      sMin = score[1].min;
       result.index = NORMAL;
-    } else if (sensorValue < data[3].Min) {
-      cMax = data[2].Max;
-      cMin = data[2].Min;
-      sMax = score[3].Min - 0.1;
-      sMin = score[2].Min;
+    } else if (sensorValue < data[3].min) {
+      cMax = data[2].max;
+      cMin = data[2].min;
+      sMax = score[3].min - 0.1;
+      sMin = score[2].min;
       result.index = UNHEALTHY_FOR_SENSITIVE_GROUP1;
-    } else if (sensorValue < data[4].Min) {
-      cMax = data[3].Max;
-      cMin = data[3].Min;
-      sMax = score[4].Min - 0.1;
-      sMin = score[3].Min;
+    } else if (sensorValue < data[4].min) {
+      cMax = data[3].max;
+      cMin = data[3].min;
+      sMax = score[4].min - 0.1;
+      sMin = score[3].min;
       result.index = UNHEALTHY_FOR_SENSITIVE_GROUP2;
-    } else if (sensorValue < data[5].Min) {
-      cMax = data[4].Max;
-      cMin = data[4].Min;
-      sMax = score[5].Min - 0.1;
-      sMin = score[4].Min;
+    } else if (sensorValue < data[5].min) {
+      cMax = data[4].max;
+      cMin = data[4].min;
+      sMax = score[5].min - 0.1;
+      sMin = score[4].min;
       result.index = VERY_UNHEALTHY;
     } else {
-      cMax = data[5].Max;
-      cMin = data[5].Min;
-      sMax = score[5].Max;
-      sMin = score[5].Min;
+      cMax = data[5].max;
+      cMin = data[5].min;
+      sMax = score[5].max;
+      sMin = score[5].min;
       result.index = HAZARDOUS;
     }
 
@@ -128,30 +128,30 @@ var E3Core = {
     var score = global.sensorTable.score;
 
     if (month > 2 && month < 6) {
-      cMin = data[0].Min;
-      cMax = data[0].Max;
+      cMin = data[0].min;
+      cMax = data[0].max;
     } else if (month > 5 && month < 9) {
-      cMin = data[1].Min;
-      cMax = data[1].Max;
+      cMin = data[1].min;
+      cMax = data[1].max;
     } else if (month > 8 && month < 12) {
-      cMin = data[2].Min;
-      cMax = data[2].Max;
+      cMin = data[2].min;
+      cMax = data[2].max;
     } else {
-      cMin = data[3].Min;
-      cMax = data[3].Max;
+      cMin = data[3].min;
+      cMax = data[3].max;
     }
     cOpt = (cMin + cMax) / 2;
     result.score = 100 * (Math.abs(temp - cOpt) / (cMax - cMin)) * 2;
 
-    if (result.score < score[1].Min) {
+    if (result.score < score[1].min) {
       result.index = GOOD;
-    } else if (result.score < score[2].Min) {
+    } else if (result.score < score[2].min) {
       result.index = NORMAL;
-    } else if (result.score < score[3].Min) {
+    } else if (result.score < score[3].min) {
       result.index = UNHEALTHY_FOR_SENSITIVE_GROUP1;
-    } else if (result.score < score[4].Min) {
+    } else if (result.score < score[4].min) {
       result.index = UNHEALTHY_FOR_SENSITIVE_GROUP2;
-    } else if (result.score < score[5].Min) {
+    } else if (result.score < score[5].min) {
       result.index = VERY_UNHEALTHY;
     } else {
       result.index = HAZARDOUS;
@@ -181,31 +181,31 @@ var E3Core = {
     var score = global.sensorTable.score;
 
     if (month > 2 && month < 6) {
-      cMin = data[0].Min;
-      cMax = data[0].Max;
+      cMin = data[0].min;
+      cMax = data[0].max;
     } else if (month > 5 && month < 9) {
-      cMin = data[1].Min;
-      cMax = data[1].Max;
+      cMin = data[1].min;
+      cMax = data[1].max;
     } else if (month > 8 && month < 12) {
-      cMin = data[2].Min;
-      cMax = data[2].Max;
+      cMin = data[2].min;
+      cMax = data[2].max;
     } else {
-      cMin = data[3].Min;
-      cMax = data[3].Max;
+      cMin = data[3].min;
+      cMax = data[3].max;
     }
 
     cOpt = (cMin + cMax) / 2;
     result.score = 100 * (Math.abs(humidity - cOpt) / (cMax - cMin)) * 2;
 
-    if (result.score < score[1].Min) {
+    if (result.score < score[1].min) {
       result.index = GOOD;
-    } else if (result.score < score[2].Min) {
+    } else if (result.score < score[2].min) {
       result.index = NORMAL;
-    } else if (result.score < score[3].Min) {
+    } else if (result.score < score[3].min) {
       result.index = UNHEALTHY_FOR_SENSITIVE_GROUP1;
-    } else if (result.score < score[4].Min) {
+    } else if (result.score < score[4].min) {
       result.index = UNHEALTHY_FOR_SENSITIVE_GROUP2;
-    } else if (result.score < score[5].Min) {
+    } else if (result.score < score[5].min) {
       result.index = VERY_UNHEALTHY;
     } else {
       result.index = HAZARDOUS;
@@ -353,15 +353,15 @@ var E3Core = {
     }
     result.score = Math.floor(result.score);
 
-    if (result.score < score[1].Min) {
+    if (result.score < score[1].min) {
       result.index = GOOD;
-    } else if (result.score < score[2].Min) {
+    } else if (result.score < score[2].min) {
       result.index = NORMAL;
-    } else if (result.score < score[3].Min) {
+    } else if (result.score < score[3].min) {
       result.index = UNHEALTHY_FOR_SENSITIVE_GROUP1;
-    } else if (result.score < score[4].Min) {
+    } else if (result.score < score[4].min) {
       result.index = UNHEALTHY_FOR_SENSITIVE_GROUP2;
-    } else if (result.score < score[5].Min) {
+    } else if (result.score < score[5].min) {
       result.index = VERY_UNHEALTHY;
     } else {
       result.index = HAZARDOUS;

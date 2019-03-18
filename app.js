@@ -6,7 +6,6 @@ var bodyParser = require("body-parser");
 var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
 var deviceRouter = require("./routes/device");
 var score = require("./sensor/score");
 var pm10 = require("./sensor/pm10");
@@ -32,7 +31,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use("/device", deviceRouter);
 
 // catch 404 and forward to error handler

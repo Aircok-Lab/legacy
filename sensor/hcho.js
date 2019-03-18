@@ -36,8 +36,8 @@ export const setHCHOScore = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      global.sensorTable.hcho[grade - 1].Min = min;
-      global.sensorTable.hcho[grade - 1].Max = max;
+      global.sensorTable.hcho[grade - 1].min = min;
+      global.sensorTable.hcho[grade - 1].max = max;
     } else {
       console.error("HCHO : sensorIndexInfo 정보없음");
     }

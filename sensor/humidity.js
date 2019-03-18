@@ -42,8 +42,8 @@ export const setHUMIScore = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      global.sensorTable.humidity[grade - 1].Min = min;
-      global.sensorTable.humidity[grade - 1].Max = max;
+      global.sensorTable.humidity[grade - 1].min = min;
+      global.sensorTable.humidity[grade - 1].max = max;
     } else {
       console.error("HUMI : sensorIndexInfo 정보없음");
     }

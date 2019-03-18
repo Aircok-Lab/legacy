@@ -105,19 +105,19 @@ var Product = {
 
       // 데이터를 객체로 만듭니다.
       var data = {
-        Name: name,
-        Version: version,
-        IP: ip,
-        Period: period,
-        Indoor: indoor,
-        PM25: pm25,
-        PM10: pm10,
-        CO2: co2,
-        HCHO: hcho,
-        VOC: voc,
-        Temperature: temperature,
-        Humidity: humidity,
-        Noise: noise
+        name: name,
+        version: version,
+        ip: ip,
+        period: period,
+        indoor: indoor,
+        pm25: pm25,
+        pm10: pm10,
+        co2: co2,
+        hcho: hcho,
+        voc: voc,
+        temperature: temperature,
+        humidity: humidity,
+        noise: noise
       };
 
       // SQL문을 실행합니다.
@@ -190,7 +190,7 @@ var Product = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Product set Name=?, Version=?, IP=?, Period=?, Indoor=?, PM25=?, PM10=?, CO2=?, HCHO=?, VOC=?, Temperature=?, Humidity=?, Noise=? where id=?",
+        "update Product set name=?, version=?, ip=?, period=?, indoor=?, pm25=?, pm10=?, co2=?, hcho=?, voc=?, temperature=?, humidity=?, noise=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -226,15 +226,6 @@ var Product = {
 
       // 데이터를 객체로 만듭니다.
       var queryString = "delete from Product where id in(" + productId + ")";
-      // var ids = productId.split(",");
-      // console.log(ids);
-      // var queryString = 'delete from Product where ';
-      // for (i in ids){
-      //     let str = 'id='+ids[i];
-      //     queryString = queryString + str;
-      //     if( i < (ids.length-1))
-      //         queryString = queryString + ' or ';
-      // }
 
       // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {

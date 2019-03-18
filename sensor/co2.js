@@ -36,8 +36,8 @@ export const setCO2Score = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      global.sensorTable.co2[grade - 1].Min = min;
-      global.sensorTable.co2[grade - 1].Max = max;
+      global.sensorTable.co2[grade - 1].min = min;
+      global.sensorTable.co2[grade - 1].max = max;
     } else {
       console.error("CO2 : sensorIndexInfo 정보없음");
     }

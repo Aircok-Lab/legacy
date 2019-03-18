@@ -36,8 +36,8 @@ export const setPM10Score = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      global.sensorTable.pm10[grade - 1].Min = min;
-      global.sensorTable.pm10[grade - 1].Max = max;
+      global.sensorTable.pm10[grade - 1].min = min;
+      global.sensorTable.pm10[grade - 1].max = max;
     } else {
       console.error("PM10 : sensorIndexInfo 정보없음");
     }

@@ -36,8 +36,8 @@ export const setPM25Score = (grade, min, max) => {
     }
 
     if (sensorIndexInfo) {
-      global.sensorTable.pm25[grade - 1].Min = min;
-      global.sensorTable.pm25[grade - 1].Max = max;
+      global.sensorTable.pm25[grade - 1].min = min;
+      global.sensorTable.pm25[grade - 1].max = max;
     } else {
       console.error("PM25 : sensorIndexInfo 정보없음");
     }

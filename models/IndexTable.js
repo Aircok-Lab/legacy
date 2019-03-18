@@ -17,7 +17,7 @@ var IndexTable = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "Select * from IndexTable where SensorType=?",
+        "Select * from IndexTable where sensorType=?",
         sensorType,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -55,7 +55,7 @@ var IndexTable = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var data = { SensorType: sensorType, Grade: grade, Min: min, Max: max };
+      var data = { sensorType: sensorType, grade: grade, min: min, max: max };
 
       // SQL문을 실행합니다.
       var exec = conn.query("insert into IndexTable set ?", data, function(
@@ -96,7 +96,7 @@ var IndexTable = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update IndexTable set Min=?, Max=? where SensorType=? and Grade=?",
+        "update IndexTable set min=?, max=? where sensorType=? and grade=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -132,15 +132,6 @@ var IndexTable = {
 
       // 데이터를 객체로 만듭니다.
       var queryString = "delete from IndexTable where id=" + IndexTableid;
-      // var ids = IndexTableid.split(",");
-      // console.log(ids);
-      // var queryString = 'delete from IndexTable where ';
-      // for (i in ids){
-      //     let str = 'id='+ids[i];
-      //     queryString = queryString + str;
-      //     if( i < (ids.length-1))
-      //         queryString = queryString + ' or ';
-      // }
 
       // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {
@@ -154,7 +145,7 @@ var IndexTable = {
           callback(err, null);
           return;
         }
-        var success = "true";
+        var success = true;
         callback(null, success);
       });
     });
