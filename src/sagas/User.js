@@ -12,6 +12,7 @@ import {
   USER_DELETE_REQUEST
 } from "constants/ActionTypes";
 import api from "api";
+import { userSignInSuccess } from "actions/Auth";
 import responseDataProcess from "util/responseDataProcess";
 
 function* userListByBuildingIdWorker(action) {
@@ -56,6 +57,10 @@ function* userAddWorker(action) {
         type: USER_LIST_BY_POSITION_ID_REQUEST,
         payload: { positionID: action.payload.positionList }
       });
+      yield put({
+        type: "SET_VIEW_MODE",
+        payload: "list"
+      });
     }
   } catch (error) {
     console.log("[ERROR#####]", error);
@@ -69,6 +74,12 @@ function* userUpdateWorker(action) {
   try {
     const res = yield api.put(`user/updateUser`, action.payload);
     if (responseDataProcess(res.data)) {
+      localStorage.setItem("user_id", JSON.stringify(res.data.data));
+      yield put(userSignInSuccess(res.data.data));
+      yield put({
+        type: "SET_VIEW_MODE",
+        payload: "list"
+      });
       // yield put({
       //   type: USER_LIST_BY_POSITION_ID_REQUEST,
       //   payload: { positionID: action.payload.positionList }
@@ -97,6 +108,10 @@ function* userDeleteWorker(action) {
           payload: { buildingID: "" + action.payload.node.id }
         });
       }
+      yield put({
+        type: "SET_VIEW_MODE",
+        payload: "list"
+      });
     }
   } catch (error) {
     console.log("[ERROR#####]", error);

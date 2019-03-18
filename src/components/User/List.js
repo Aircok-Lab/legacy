@@ -1,27 +1,27 @@
 import React, { cloneElement, Component } from "react";
 import { connect } from "react-redux";
 import {
-  deviceListByBuildingIdRequest,
-  deviceListByPositionIdRequest,
-  deviceDeleteRequest,
-  deviceSetItem
-} from "actions/Device";
+  userListByBuildingIdRequest,
+  userListByPositionIdRequest,
+  userDeleteRequest,
+  userSetItem
+} from "actions/User";
 import { setViewMode } from "actions/Setting";
 
 class List extends React.Component {
   state = {
     showModal: false,
     selectedNode: {},
-    deviceList: []
+    userList: []
   };
 
   delete = () => {
     if (confirm("선택항목을 삭제하시겠습니까?")) {
-      const selectedDevices = this.state.deviceList.filter(device => {
-        return device.isChecked;
+      const selectedUsers = this.state.userList.filter(user => {
+        return user.isChecked;
       });
-      const ids = selectedDevices.map(({ SerialNumber }) => SerialNumber);
-      this.props.deviceDeleteRequest({
+      const ids = selectedUsers.map(({ id }) => id);
+      this.props.userDeleteRequest({
         node: this.props.selectedNode,
         ids: ids.join()
       });
@@ -29,60 +29,43 @@ class List extends React.Component {
   };
 
   componentDidMount() {
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     if (this.props.selectedNode.BuildingID) {
       // 층
-      this.props.deviceListByPositionIdRequest({
-        id: this.props.selectedNode.id
+      this.props.userListByPositionIdRequest({
+        positionID: "" + this.props.selectedNode.id
       });
     } else if (this.props.selectedNode.id) {
       // 건물
-      this.props.deviceListByBuildingIdRequest({
-        id: this.props.selectedNode.id
+      this.props.userListByBuildingIdRequest({
+        buildingID: "" + this.props.selectedNode.id
       });
     }
 
-    // this.setState({ deviceList: this.props.deviceList });
+    // this.setState({ userList: this.props.userList });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("update 요청....................");
     if (
-      JSON.stringify(prevProps.deviceList) !=
-      JSON.stringify(this.props.deviceList)
+      JSON.stringify(prevProps.userList) != JSON.stringify(this.props.userList)
     ) {
-      this.setState({ deviceList: this.props.deviceList });
+      this.setState({ userList: this.props.userList });
     }
 
-    // if (
-    //   JSON.stringify(prevProps.selectedNode) !=
-    //   JSON.stringify(this.props.selectedNode)
-    // ) {
-    //   console.log("list 요청함....");
-    //   if (this.props.selectedNode.BuildingID) {
-    //     // 층
-    //     this.props.deviceListByPositionIdRequest({
-    //       id: this.props.selectedNode.id
-    //     });
-    //   } else {
-    //     // 건물
-    //     this.props.deviceListByBuildingIdRequest({
-    //       id: this.props.selectedNode.id
-    //     });
-    //   }
-    // }
-
-    console.log("***** list 요청함....");
-    if (this.props.selectedNode.BuildingID) {
-      // 층
-      this.props.deviceListByPositionIdRequest({
-        id: this.props.selectedNode.id
-      });
-    } else {
-      // 건물
-      this.props.deviceListByBuildingIdRequest({
-        id: this.props.selectedNode.id
-      });
+    if (
+      JSON.stringify(prevProps.selectedNode) !=
+      JSON.stringify(this.props.selectedNode)
+    ) {
+      if (this.props.selectedNode.BuildingID) {
+        // 층
+        this.props.userListByPositionIdRequest({
+          positionID: "" + this.props.selectedNode.id
+        });
+      } else if (this.props.selectedNode.id) {
+        // 건물
+        this.props.userListByBuildingIdRequest({
+          buildingID: "" + this.props.selectedNode.id
+        });
+      }
     }
   }
 
@@ -104,14 +87,15 @@ class List extends React.Component {
               <button
                 className="btn btn-primary"
                 onClick={e => {
-                  this.props.deviceSetItem(this.state.deviceList[0]);
-                  // console.log("test....");
+                  const selectedUser = this.state.userList.filter(
+                    user => user.isChecked
+                  );
+                  this.props.userSetItem(selectedUser[0]);
                   this.props.setViewMode("update");
                 }}
                 style={{ marginLeft: "2px" }}
                 disabled={
-                  this.state.deviceList.filter(device => device.isChecked)
-                    .length != 1
+                  this.state.userList.filter(user => user.isChecked).length != 1
                 }
               >
                 수정
@@ -123,8 +107,7 @@ class List extends React.Component {
                 }}
                 style={{ marginLeft: "2px" }}
                 disabled={
-                  this.state.deviceList.filter(device => device.isChecked)
-                    .length == 0
+                  this.state.userList.filter(user => user.isChecked).length == 0
                 }
               >
                 삭제
@@ -140,49 +123,55 @@ class List extends React.Component {
                     className="w3-check"
                     type="checkbox"
                     onChange={event => {
-                      let deviceList = this.state.deviceList;
-                      deviceList.forEach(device => {
-                        device.isChecked = event.target.checked;
+                      let userList = [...this.state.userList];
+                      userList.forEach(user => {
+                        user.isChecked = event.target.checked;
                       });
-                      this.setState({ deviceList: deviceList });
+                      this.setState({ userList: userList });
                     }}
                   />
                 </th>
                 <th>번호</th>
-                <th>측정기명</th>
-                <th>측정주기</th>
-                <th>S/N</th>
-                <th>제품군</th>
+                <th>구분</th>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>소속(부서)</th>
                 <th>전화번호</th>
               </tr>
             </thead>
             <tbody>
-              {this.state.deviceList &&
-                this.state.deviceList.map((row, index) => (
-                  <tr key={row.SerialNumber}>
+              {this.state.userList &&
+                this.state.userList.map((row, index) => (
+                  <tr key={row.id}>
                     <td>
                       <input
                         className="w3-check"
                         type="checkbox"
                         checked={row.isChecked}
-                        value={row.SerialNumber}
+                        value={row.id}
                         onChange={event => {
                           console.log("onChange checkbox....");
-                          let deviceList = this.state.deviceList;
-                          deviceList.forEach(device => {
-                            if (device.SerialNumber === event.target.value) {
-                              device.isChecked = event.target.checked;
+                          let userList = this.state.userList;
+                          userList.forEach(user => {
+                            if (user.id === Number(event.target.value)) {
+                              user.isChecked = event.target.checked;
                             }
                           });
-                          this.setState({ deviceList: deviceList });
+                          this.setState({ userList: userList });
                         }}
                       />
                     </td>
                     <td>{index + 1}</td>
+                    <td>
+                      <span style={{ textTransform: "capitalize" }}>
+                        {row.UserType}
+                      </span>
+                    </td>
+                    <td>{row.LoginID}</td>
                     <td>{row.Name}</td>
-                    <td>{row.Period} 분</td>
-                    <td>{row.SerialNumber}</td>
-                    <td>{row.ProductName}</td>
+                    <td>{row.Email}</td>
+                    <td>{row.Department}</td>
                     <td>{row.Phone}</td>
                   </tr>
                 ))}
@@ -195,17 +184,17 @@ class List extends React.Component {
 }
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
-  deviceList: state.device.list,
+  userList: state.user.list,
   selectedNode: state.tree.selectedNode,
   viewMode: state.settings.viewMode
 });
 
 const mapDispatchToProps = {
-  deviceListByBuildingIdRequest: deviceListByBuildingIdRequest,
-  deviceListByPositionIdRequest: deviceListByPositionIdRequest,
-  deviceDeleteRequest,
+  userListByBuildingIdRequest: userListByBuildingIdRequest,
+  userListByPositionIdRequest: userListByPositionIdRequest,
+  userDeleteRequest,
   setViewMode,
-  deviceSetItem
+  userSetItem
 };
 
 export default connect(

@@ -1,26 +1,33 @@
 import React, { cloneElement, Component } from "react";
 import { connect } from "react-redux";
-import { productListRequest, productDeleteRequest } from "actions/Product";
-import ProductModalContainer from "components/product/ProductContainer";
+import {
+  productListRequest,
+  productDeleteRequest,
+  productSetItem
+} from "actions/Product";
+import { setViewMode } from "actions/Setting";
 
-class ProductTable extends React.Component {
+class List extends React.Component {
   state = {
     showModal: false,
-    modalMode: "addProduct",
+    selectedNode: {},
     productList: []
   };
 
-  openModal = param => e => {
-    let modalMode = param;
-    this.setState({ showModal: true, modalMode });
-  };
-
-  closeModal = () => {
-    this.setState({ showModal: false });
+  delete = () => {
+    if (confirm("선택항목을 삭제하시겠습니까?")) {
+      const selectedUsers = this.state.productList.filter(product => {
+        return product.isChecked;
+      });
+      const ids = selectedUsers.map(({ id }) => id);
+      this.props.productDeleteRequest({
+        node: this.props.selectedNode,
+        ids: ids.join()
+      });
+    }
   };
 
   componentDidMount() {
-    // this.setState({ productList: this.props.productList });
     this.props.productListRequest();
   }
 
@@ -41,9 +48,9 @@ class ProductTable extends React.Component {
         this.props.productListByPositionIdRequest({
           positionID: "" + this.props.selectedNode.id
         });
-      } else {
+      } else if (this.props.selectedNode.id) {
         // 건물
-        this.props.productListRequest({
+        this.props.productListByBuildingIdRequest({
           buildingID: "" + this.props.selectedNode.id
         });
       }
@@ -54,35 +61,50 @@ class ProductTable extends React.Component {
     return (
       <div className="">
         <div className="animated slideInUpTiny animation-duration-3">
-          <div className="text-right w3-margin-bottom">
-            <button
-              onClick={this.openModal("addProduct")}
-              style={{ marginLeft: "2px" }}
-            >
-              등록
-            </button>
-
-            <button
-              onClick={this.openModal("updateProduct")}
-              style={{ marginLeft: "2px" }}
-              disabled={
-                this.state.productList.filter(product => product.isChecked)
-                  .length != 1
-              }
-            >
-              수정
-            </button>
-            <button
-              onClick={this.openModal("deleteConfirmProduct")}
-              style={{ marginLeft: "2px" }}
-              disabled={
-                this.state.productList.filter(product => product.isChecked)
-                  .length == 0
-              }
-            >
-              삭제
-            </button>
+          <div className="clearfix pb-1">
+            <div className="float-left" />
+            <div className="float-right">
+              <button
+                className="btn btn-primary"
+                onClick={e => this.props.setViewMode("add")}
+                style={{ marginLeft: "2px" }}
+                disabled={!this.props.selectedNode.BuildingID}
+              >
+                등록
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={e => {
+                  const selectedUser = this.state.productList.filter(
+                    product => product.isChecked
+                  );
+                  this.props.productSetItem(selectedUser[0]);
+                  this.props.setViewMode("update");
+                }}
+                style={{ marginLeft: "2px" }}
+                disabled={
+                  this.state.productList.filter(product => product.isChecked)
+                    .length != 1
+                }
+              >
+                수정
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={e => {
+                  this.delete();
+                }}
+                style={{ marginLeft: "2px" }}
+                disabled={
+                  this.state.productList.filter(product => product.isChecked)
+                    .length == 0
+                }
+              >
+                삭제
+              </button>
+            </div>
           </div>
+
           <div className="w3-responsive">
             <table className="w3-table-all w3-centered">
               <thead>
@@ -137,28 +159,25 @@ class ProductTable extends React.Component {
             </table>
           </div>
         </div>
-        <ProductModalContainer
-          showModal={this.state.showModal}
-          modalMode={this.state.modalMode}
-          closeModal={this.closeModal}
-          productList={this.state.productList}
-        />
       </div>
     );
   }
 }
 const mapStateToProps = state => ({
-  authProduct: state.auth.authProduct,
+  authUser: state.auth.authUser,
   productList: state.product.list,
-  selectedNode: state.tree.selectedNode
+  selectedNode: state.tree.selectedNode,
+  viewMode: state.settings.viewMode
 });
 
 const mapDispatchToProps = {
-  productListRequest: productListRequest,
-  productDeleteRequest
+  productListRequest,
+  productDeleteRequest,
+  setViewMode,
+  productSetItem
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProductTable);
+)(List);

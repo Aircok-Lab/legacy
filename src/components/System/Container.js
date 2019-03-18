@@ -11,17 +11,7 @@ class Container extends React.Component {
   }
 
   render() {
-    return (
-      <React.Fragment>
-        {
-          {
-            list: <List />,
-            add: <Add />,
-            update: <Update />
-          }[this.props.viewMode]
-        }
-      </React.Fragment>
-    );
+    return <Update />;
   }
 }
 

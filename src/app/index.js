@@ -11,6 +11,7 @@ import Product from "./routes/Product";
 import User from "./routes/User";
 import System from "./routes/System";
 import Profile from "./routes/Profile";
+import BatchRegister from "./routes/BatchRegister";
 import {
   ABOVE_THE_HEADER,
   BELOW_THE_HEADER,
@@ -77,6 +78,10 @@ class App extends React.Component {
                 <Route path={`${match.url}/product`} component={Product} />
                 <Route path={`${match.url}/user`} component={User} />
                 <Route path={`${match.url}/system`} component={System} />
+                <Route
+                  path={`${match.url}/batchRegister`}
+                  component={BatchRegister}
+                />
                 <Route path={`${match.url}/profile`} component={Profile} />
                 <Route
                   component={asyncComponent(() =>

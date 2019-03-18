@@ -5,14 +5,32 @@ import { productListRequest } from "actions/Product";
 import { setViewMode } from "actions/Setting";
 
 class Add extends Component {
+  //  var paramName = req.body.name || req.query.name;
+  //   var paramSerialNumber = req.body.serialNumber || req.query.serialNumber;
+  //   var paramPhone = req.body.phone || req.query.phone || null;
+
+  //   var paramIP = req.body.ip || req.query.ip || null;
+  //   var paramPositionID = req.body.positionID || req.query.positionID;
+  //   var paramProductID = req.body.productID || req.query.productID;
+  //   var paramIMEI = req.body.imei || req.query.imei;
+  //   var paramGateway = req.body.gateway || req.query.gateway || null;
+  //   var paramSubnet = req.body.subnet || req.query.subnet || null;
+  //   var result = { statusCode: null, message: null, data: null };
+
   state = {
     postData: {
       name: "" + new Date().getTime(),
       serialNumber: "" + new Date().getTime(),
       // serialNumber: "",
-      phone: "010-555-5555",
       positionID: this.props.selectedNode.id,
-      productID: 1
+      productID: 1,
+      imei: "" + new Date().getTime(),
+      networkType: "cellular", // cellular | ethernet
+      phone: "" + new Date().getTime(),
+      ip: "" + new Date().getTime(),
+      gateway: "" + new Date().getTime(),
+      subnet: "" + new Date().getTime()
+
       // name: "",
       // serialNumber: "",
       // phone: "",
@@ -30,11 +48,30 @@ class Add extends Component {
       alert("측정기명을 입력하세요");
     } else if (!this.state.postData.serialNumber) {
       alert("S/N을 입력하세요");
-    } else if (!this.state.postData.phone) {
-      alert("전화번호를 입력하세요");
     } else if (!this.state.postData.productID) {
       alert("제품군을 선택하세요");
+    } else if (
+      this.state.postData.networkType === "cellular" &&
+      !this.state.postData.phone
+    ) {
+      alert("전화번호를 입력하세요");
+    } else if (
+      this.state.postData.networkType === "ethernet" &&
+      !this.state.postData.ip
+    ) {
+      alert("IP address를 입력하세요");
+    } else if (
+      this.state.postData.networkType === "ethernet" &&
+      !this.state.postData.subnet
+    ) {
+      alert("Subnet mask를 입력하세요");
+    } else if (
+      this.state.postData.networkType === "ethernet" &&
+      !this.state.postData.gateway
+    ) {
+      alert("Gateway를 입력하세요");
     } else {
+      console.log("bbb");
       // 변경된 포지션을 저장
       this.setState(
         {
@@ -51,6 +88,11 @@ class Add extends Component {
     }
   };
   handleChange = e => {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    // const name = target.name;
+    console.log("value: ", target, value);
+
     this.setState({
       postData: {
         ...this.state.postData,
@@ -146,19 +188,118 @@ class Add extends Component {
           </div>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              전화 번호
+              &nbsp;
             </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="phone"
-                value={this.state.postData.phone}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
+            <div className="w3-rest pl-1">
+              <div className="form-check form-check-inline">
+                <label className="form-check-label">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="networkType"
+                    // id="inlineRadio1"
+                    value="cellular"
+                    checked={this.state.postData.networkType === "cellular"}
+                    onChange={this.handleChange}
+                  />
+                  LTE
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <label className="form-check-label">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="networkType"
+                    // id="inlineRadio2"
+                    value="ethernet"
+                    checked={this.state.postData.networkType === "ethernet"}
+                    onChange={this.handleChange}
+                  />
+                  Ethernet
+                </label>
+              </div>
             </div>
           </div>
+          {this.state.postData.networkType === "cellular" && (
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                전화 번호
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="form-control"
+                  name="phone"
+                  value={this.state.postData.phone}
+                  type="text"
+                  placeholder=""
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+          )}
+
+          {this.state.postData.networkType === "ethernet" && (
+            <React.Fragment>
+              <div className="w3-row w3-section">
+                <div
+                  className="w3-col w3-padding-right"
+                  style={{ width: "80px" }}
+                >
+                  IP address
+                </div>
+                <div className="w3-rest">
+                  <input
+                    className="form-control"
+                    name="ip"
+                    value={this.state.postData.ip}
+                    type="text"
+                    placeholder=""
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+              <div className="w3-row w3-section">
+                <div
+                  className="w3-col w3-padding-right"
+                  style={{ width: "80px" }}
+                >
+                  Subnet mask
+                </div>
+                <div className="w3-rest">
+                  <input
+                    className="form-control"
+                    name="subnet"
+                    value={this.state.postData.subnet}
+                    type="text"
+                    placeholder=""
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+              <div className="w3-row w3-section">
+                <div
+                  className="w3-col w3-padding-right"
+                  style={{ width: "80px" }}
+                >
+                  Gateway
+                </div>
+                <div className="w3-rest">
+                  <input
+                    className="form-control"
+                    name="gateway"
+                    value={this.state.postData.gateway}
+                    type="text"
+                    placeholder=""
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+            </React.Fragment>
+          )}
           <div className="w3-right">
             <button
               type="button"

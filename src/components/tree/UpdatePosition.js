@@ -6,7 +6,7 @@ class UpdatePosition extends Component {
   state = {
     postData: {
       id: "" + this.props.node.id,
-      name: "" + new Date().getTime(),
+      name: "" + this.props.selectedNode.Name,
       position: "1",
       buildingID: "" + this.props.selectedNode.BuildingID,
       positionList: this.props.authUser.PositionList,
@@ -29,17 +29,6 @@ class UpdatePosition extends Component {
       }
     });
   };
-
-  // addPosition = () => {
-  //   this.props.positionUpdateRequest({
-  //     name: "",
-  //     address: "",
-  //     latitude: 22,
-  //     longitude: 2222,
-  //     userID: this.props.authUser.UserID,
-  //     user_id: this.props.authUser.id
-  //   });
-  // };
 
   deletePosition = () => {
     this.props.positionDeleteRequest({

@@ -11,8 +11,8 @@ import { setViewMode } from "actions/Setting";
 
 class List extends React.Component {
   state = {
-    showModal: false,
-    selectedNode: {},
+    // showModal: false,
+    // selectedNode: {},
     deviceList: []
   };
 
@@ -25,18 +25,6 @@ class List extends React.Component {
       id: this.props.authUser.id,
       deviceList: ids.join()
     });
-
-    console.log("모니터링 선택", ids);
-    // if (confirm("선택항목을 삭제하시겠습니까?")) {
-    //   const selectedDevices = this.state.deviceList.filter(device => {
-    //     return device.isChecked;
-    //   });
-    //   const ids = selectedDevices.map(({ SerialNumber }) => SerialNumber);
-    //   this.props.deviceDeleteRequest({
-    //     node: this.props.selectedNode,
-    //     ids: ids.join()
-    //   });
-    // }
   };
 
   componentDidMount() {
@@ -62,7 +50,6 @@ class List extends React.Component {
   }
 
   render() {
-    console.log("render", Date.now());
     return (
       <div className="">
         <div className="animated slideInUpTiny animation-duration-3">
@@ -154,8 +141,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  deviceListByBuildingIdRequest: deviceListByBuildingIdRequest,
-  deviceListByPositionIdRequest: deviceListByPositionIdRequest,
+  deviceListByBuildingIdRequest,
+  deviceListByPositionIdRequest,
   deviceDeleteRequest,
   setViewMode,
   deviceSetItem,

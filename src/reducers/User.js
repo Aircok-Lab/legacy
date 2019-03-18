@@ -1,7 +1,8 @@
 import {
   USER_LIST_BY_BUILDING_ID_SUCCESS,
   USER_LIST_BY_POSITION_ID_SUCCESS,
-  USER_ADD_SUCCESS
+  USER_ADD_SUCCESS,
+  USER_SET_ITEM
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -28,6 +29,12 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         loader: false
+      };
+    }
+    case USER_SET_ITEM: {
+      return {
+        ...state,
+        item: action.payload
       };
     }
     default:
