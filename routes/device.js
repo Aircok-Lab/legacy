@@ -47,8 +47,8 @@ router.post("/", function(req, res, next) {
           var paramCO2 = arr[5];
           var paramHCHO = arr[8];
           var paramVOC = arr[6];
-          var paramTemperature = arr[9];
-          var paramHumidity = arr[10];
+          var paramTemperature = (Number(arr[9]) - 1000) / 10;
+          var paramHumidity = Number(arr[10]) / 10;
           var paramNoise = arr[7];
         } else {
           // 스마트 에어콕 실외형
@@ -58,8 +58,8 @@ router.post("/", function(req, res, next) {
           var paramNoise = null;
           var paramPM10 = arr[3];
           var paramPM25 = arr[4];
-          var paramTemperature = arr[9];
-          var paramHumidity = arr[10];
+          var paramTemperature = (Number(arr[9]) - 1000) / 10;
+          var paramHumidity = Number(arr[10]) / 10;
         }
 
         Data.addData(
@@ -106,10 +106,8 @@ router.post("/", function(req, res, next) {
           status.hcho = E3Core.getSensorIndex(HCHO, Number(paramHCHO));
           status.voc = E3Core.getSensorIndex(VOC, Number(paramVOC));
           status.noise = E3Core.getSensorIndex(NOISE, Number(paramNOISE));
-          status.temperature = E3Core.getTempIndex(
-            (Number(paramTemperature) - 1000) / 10
-          );
-          status.humidity = E3Core.getHumidityIndex(Number(paramHumidity) / 10);
+          status.temperature = E3Core.getTempIndex(paramTemperature);
+          status.humidity = E3Core.getHumidityIndex(paramHumidity);
           totalScore = E3Core.calTotalIndex(
             info.BuildingType,
             status.pm10.score,
