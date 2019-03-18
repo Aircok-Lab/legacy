@@ -59,11 +59,11 @@ router.post("/addPosition", function(req, res, next) {
         if (users) {
           users.map(user => {
             let positionList =
-              user.PositionList + addedPosition.insertId + ",/";
+              user.positionList + addedPosition.insertId + ",/";
 
             User.updateUserPositionList(user.id, positionList);
             if (user.id == paramUserID) {
-              user.PositionList = positionList;
+              user.positionList = positionList;
               let userData = userPattern.deletePattern(user);
               result.statusCode = OK;
               result.message = "성공";
@@ -262,11 +262,11 @@ router.delete("/deletePosition", function(req, res, next) {
               users.map(user => {
                 let delStr = "/" + paramPositionID + ",/";
                 let inStr = "/";
-                let positionList = user.PositionList.replace(delStr, inStr);
+                let positionList = user.positionList.replace(delStr, inStr);
 
                 User.updateUserPositionList(user.id, positionList);
                 if (user.id == paramUserID) {
-                  user.PositionList = positionList;
+                  user.positionList = positionList;
                   let userData = userPattern.deletePattern(user);
                   result.statusCode = OK;
                   result.message = "성공";

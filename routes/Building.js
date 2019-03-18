@@ -63,9 +63,9 @@ router.post("/addBuilding", function(req, res, next) {
           }
 
           if (userInfo) {
-            userInfo.BuildingList =
-              userInfo.BuildingList + addedBuilding.insertId + ",/";
-            User.updateUserBuildingList(paramUserID, userInfo.BuildingList);
+            userInfo.buildingList =
+              userInfo.buildingList + addedBuilding.insertId + ",/";
+            User.updateUserBuildingList(paramUserID, userInfo.buildingList);
             let userData = userPattern.deletePattern(userInfo);
             console.log("추가된 레코드의 아이디 : " + addedBuilding.insertId);
             result.statusCode = OK;
@@ -236,11 +236,11 @@ router.delete("/deleteBuilding", function(req, res, next) {
               users.map(user => {
                 let delStr = "/" + paramBuildingID + ",/";
                 let inStr = "/";
-                let buildingList = user.BuildingList.replace(delStr, inStr);
+                let buildingList = user.buildingList.replace(delStr, inStr);
 
                 User.updateUserBuildingList(user.id, buildingList);
                 if (user.id == paramUserID) {
-                  user.BuildingList = buildingList;
+                  user.buildingList = buildingList;
                   let userData = userPattern.deletePattern(user);
                   result.statusCode = OK;
                   result.message = "성공";

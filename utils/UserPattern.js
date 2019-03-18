@@ -25,28 +25,28 @@ userPattern.deletePattern = function(userInfo) {
   delete userInfo.Password;
   var insertStr = ",";
   var user = userInfo;
-  if (userInfo.BuildingList) {
-    userInfo.BuildingList = userInfo.BuildingList.replace(/\,\//g, insertStr);
-    if (userInfo.BuildingList.endsWith(","))
-      user.BuildingList = userInfo.BuildingList.slice(0, -1);
-    if (userInfo.BuildingList.startsWith("/"))
-      user.BuildingList = user.BuildingList.substring(1);
+  if (userInfo.buildingList) {
+    userInfo.buildingList = userInfo.buildingList.replace(/\,\//g, insertStr);
+    if (userInfo.buildingList.endsWith(","))
+      user.buildingList = userInfo.buildingList.slice(0, -1);
+    if (userInfo.buildingList.startsWith("/"))
+      user.buildingList = user.buildingList.substring(1);
   }
 
-  if (userInfo.PositionList) {
-    userInfo.PositionList = userInfo.PositionList.replace(/\,\//g, insertStr);
-    if (userInfo.PositionList.endsWith(","))
-      user.PositionList = userInfo.PositionList.slice(0, -1);
-    if (userInfo.PositionList.startsWith("/"))
-      user.PositionList = user.PositionList.substring(1);
+  if (userInfo.positionList) {
+    userInfo.positionList = userInfo.positionList.replace(/\,\//g, insertStr);
+    if (userInfo.positionList.endsWith(","))
+      user.positionList = userInfo.positionList.slice(0, -1);
+    if (userInfo.positionList.startsWith("/"))
+      user.positionList = user.positionList.substring(1);
   }
 
-  if (userInfo.DeviceList) {
-    userInfo.DeviceList = userInfo.DeviceList.replace(/\,\//g, insertStr);
-    if (userInfo.DeviceList.endsWith(","))
-      user.DeviceList = userInfo.DeviceList.slice(0, -1);
-    if (userInfo.DeviceList.startsWith("/"))
-      user.DeviceList = user.DeviceList.substring(1);
+  if (userInfo.deviceList) {
+    userInfo.deviceList = userInfo.deviceList.replace(/\,\//g, insertStr);
+    if (userInfo.deviceList.endsWith(","))
+      user.deviceList = userInfo.deviceList.slice(0, -1);
+    if (userInfo.deviceList.startsWith("/"))
+      user.deviceList = user.deviceList.substring(1);
   }
   return user;
 };

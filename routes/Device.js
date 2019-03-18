@@ -373,11 +373,11 @@ router.delete("/deleteDevice", function(req, res, next) {
           users.map(user => {
             let delStr = "/" + paramDeviceSerialNumber + ",/";
             let inStr = "/";
-            let deviceList = user.DeviceList.replace(delStr, inStr);
+            let deviceList = user.deviceList.replace(delStr, inStr);
 
             User.updateUserBuildingList(user.id, deviceList);
             if (user.id == paramUserID) {
-              user.DeviceList = deviceList;
+              user.deviceList = deviceList;
               let userData = userPattern.deletePattern(user);
               result.statusCode = OK;
               result.message = "성공";
