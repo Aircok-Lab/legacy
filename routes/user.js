@@ -44,10 +44,10 @@ router.post("/login", function(req, res, next) {
     //결과 객체 있으면 성공 응답 전송
     if (loginUser) {
       console.dir(loginUser);
-      if (!loginUser.approval) {
+      if (loginUser.approval) {
         res.cookie("user", {
-          loginId: loginUser.LoginID,
-          name: loginUser.Name,
+          loginId: loginUser.loginID,
+          name: loginUser.name,
           authorized: true
         });
         var user = userPattern.deletePattern(loginUser);
