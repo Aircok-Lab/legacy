@@ -9,7 +9,9 @@ import {
   DEVICE_ADD_REQUEST,
   DEVICE_ADD_SUCCESS,
   DEVICE_UPDATE_REQUEST,
-  DEVICE_DELETE_REQUEST
+  DEVICE_DELETE_REQUEST,
+  DEVICE_GET_ALL_BY_POSITION_ID_REQUEST,
+  DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS
 } from "constants/ActionTypes";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
@@ -102,7 +104,7 @@ function* deviceDeleteWorker(action) {
       `device/deleteDevice?serialNumber=${action.payload.ids}`
     );
     if (responseDataProcess(res.data)) {
-      if (action.payload.node.BuildingID) {
+      if (action.payload.node.buildingID) {
         yield put({
           type: "DEVICE_LIST_BY_POSITION_ID_REQUEST",
           payload: { id: action.payload.node.id }
@@ -122,10 +124,45 @@ export function* deviceDeleteWatcher() {
   yield takeEvery(DEVICE_DELETE_REQUEST, deviceDeleteWorker);
 }
 
+function* deviceGetAllByPositionIdWorker(action) {
+  try {
+    const res = yield api.get(
+      `device/getAllDeviceByPositionId?positionID=${action.payload.id}`
+    );
+    if (responseDataProcess(res.data)) {
+      yield put({
+        type: "DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS",
+        payload: { id: action.payload.node.id }
+      });
+
+      // if (action.payload.node.buildingID) {
+      //   yield put({
+      //     type: "DEVICE_LIST_BY_POSITION_ID_REQUEST",
+      //     payload: { id: action.payload.node.id }
+      //   });
+      // } else {
+      //   yield put({
+      //     type: "DEVICE_LIST_BY_BUILDING_ID_REQUEST",
+      //     payload: { id: action.payload.node.id }
+      //   });
+      // }
+    }
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* deviceGetAllByPositionIdWatcher() {
+  yield takeEvery(
+    DEVICE_GET_ALL_BY_POSITION_ID_REQUEST,
+    deviceGetAllByPositionIdWorker
+  );
+}
+
 export default function* rootSaga() {
   yield all([fork(deviceListByBuildingIdWatcher)]);
   yield all([fork(deviceListByPositionIdWatcher)]);
   yield all([fork(deviceAddWatcher)]);
   yield all([fork(deviceUpdateWatcher)]);
   yield all([fork(deviceDeleteWatcher)]);
+  yield all([fork(deviceGetAllByPositionIdWatcher)]);
 }

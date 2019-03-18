@@ -74,6 +74,7 @@ function* userUpdateWorker(action) {
   try {
     const res = yield api.put(`user/updateUser`, action.payload);
     if (responseDataProcess(res.data)) {
+      console.log("userUpdateWorker res.data.data", res.data.data);
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({
@@ -97,7 +98,7 @@ function* userDeleteWorker(action) {
   try {
     const res = yield api.delete(`user/deleteUser?id=${action.payload.ids}`);
     if (responseDataProcess(res.data)) {
-      if (action.payload.node.BuildingID) {
+      if (action.payload.node.buildingID) {
         yield put({
           type: "USER_LIST_BY_POSITION_ID_REQUEST",
           payload: { positionID: "" + action.payload.node.id }

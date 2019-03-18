@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { NavLink, withRouter } from "react-router-dom";
 
 import IntlMessages from "util/IntlMessages";
 import CustomScrollbars from "util/CustomScrollbars";
+import { userSignOut } from "actions/Auth";
 
 class SidenavContent extends Component {
   componentDidMount() {
@@ -78,9 +80,17 @@ class SidenavContent extends Component {
     return null;
   }
 
+  handleLogout = e => {
+    alert("logout");
+    console.log("e: ", e);
+    e.preventDefault();
+    this.props.userSignOut();
+    // this.setState({ open: false });
+  };
+
   render() {
     return (
-      <CustomScrollbars className="scrollbar">
+      <div>
         <ul className="nav-menu">
           <li className="nav-header">
             <IntlMessages id="sidebar.main" />
@@ -114,19 +124,33 @@ class SidenavContent extends Component {
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">시스템 관리 </span>
             </NavLink>
-            <NavLink to="/app/profile">
+            {/* <NavLink to="/app/profile">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">내 정보 관리 </span>
-            </NavLink>
-            <a href="">
+            </NavLink> */}
+            {/* <a onClick={this.handleLogout}>
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">로그아웃 </span>
             </a>
+            <button onClick={this.handleLogout}>aaa</button> */}
           </li>
         </ul>
-      </CustomScrollbars>
+      </div>
     );
   }
 }
 
-export default withRouter(SidenavContent);
+// export default withRouter(SidenavContent);
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = {
+  userSignOut
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SidenavContent)
+);

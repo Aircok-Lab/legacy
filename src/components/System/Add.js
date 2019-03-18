@@ -14,7 +14,7 @@ class Add extends Component {
       department: "Sales Department",
       phone: "010-555-5555",
       userType: "monitoring",
-      buildingList: "" + this.props.selectedNode.BuildingID,
+      buildingList: "" + this.props.selectedNode.buildingID,
       positionList: "" + this.props.selectedNode.id,
       deviceList: ""
     }
@@ -163,7 +163,7 @@ class Add extends Component {
                 <option value="" />
                 {/* {this.props.productList.map(product => (
                   <option key={product.id} value={product.id}>
-                    {product.Name}
+                    {product.name}
                   </option>
                 ))} */}
                 <option value="manager">Manager</option>

@@ -5,23 +5,10 @@ import { productListRequest } from "actions/Product";
 import { setViewMode } from "actions/Setting";
 
 class Add extends Component {
-  //  var paramName = req.body.name || req.query.name;
-  //   var paramSerialNumber = req.body.serialNumber || req.query.serialNumber;
-  //   var paramPhone = req.body.phone || req.query.phone || null;
-
-  //   var paramIP = req.body.ip || req.query.ip || null;
-  //   var paramPositionID = req.body.positionID || req.query.positionID;
-  //   var paramProductID = req.body.productID || req.query.productID;
-  //   var paramIMEI = req.body.imei || req.query.imei;
-  //   var paramGateway = req.body.gateway || req.query.gateway || null;
-  //   var paramSubnet = req.body.subnet || req.query.subnet || null;
-  //   var result = { statusCode: null, message: null, data: null };
-
   state = {
     postData: {
       name: "" + new Date().getTime(),
       serialNumber: "" + new Date().getTime(),
-      // serialNumber: "",
       positionID: this.props.selectedNode.id,
       productID: 1,
       imei: "" + new Date().getTime(),
@@ -30,16 +17,10 @@ class Add extends Component {
       ip: "" + new Date().getTime(),
       gateway: "" + new Date().getTime(),
       subnet: "" + new Date().getTime()
-
-      // name: "",
-      // serialNumber: "",
-      // phone: "",
-      // productID: "",
-      // positionID: ""
     }
   };
   add = () => {
-    const positionId = this.props.selectedNode.BuildingID
+    const positionId = this.props.selectedNode.buildingID
       ? this.props.selectedNode.id
       : "";
     if (!positionId) {
@@ -109,6 +90,7 @@ class Add extends Component {
     return (
       <div className="col-6 mx-auto">
         <form className="text-blue w3-margin">
+          {JSON.stringify(this.props.selectedNode)}
           <h2 className="text-center">측정기 등록</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
@@ -116,9 +98,9 @@ class Add extends Component {
             </div>
             <div className="w3-rest">
               <div className="form-control" style={{ background: "#eee" }}>
-                {this.props.selectedNode.BuildingID
-                  ? this.props.selectedNode.BuildingName
-                  : this.props.selectedNode.Name}{" "}
+                {this.props.selectedNode.buildingID
+                  ? this.props.selectedNode.buildingName
+                  : this.props.selectedNode.name}{" "}
                 &nbsp;
               </div>
             </div>
@@ -129,8 +111,8 @@ class Add extends Component {
             </div>
             <div className="w3-rest">
               <div className="form-control" style={{ background: "#eee" }}>
-                {this.props.selectedNode.BuildingID
-                  ? this.props.selectedNode.Name
+                {this.props.selectedNode.buildingID
+                  ? this.props.selectedNode.name
                   : ""}{" "}
                 &nbsp;
               </div>
@@ -165,7 +147,7 @@ class Add extends Component {
                 <option value="" />
                 {this.props.productList.map(product => (
                   <option key={product.id} value={product.id}>
-                    {product.Name}
+                    {product.name}
                   </option>
                 ))}
               </select>

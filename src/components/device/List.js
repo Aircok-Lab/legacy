@@ -20,7 +20,7 @@ class List extends React.Component {
       const selectedDevices = this.state.deviceList.filter(device => {
         return device.isChecked;
       });
-      const ids = selectedDevices.map(({ SerialNumber }) => SerialNumber);
+      const ids = selectedDevices.map(({ serialNumber }) => serialNumber);
       this.props.deviceDeleteRequest({
         node: this.props.selectedNode,
         ids: ids.join()
@@ -29,8 +29,8 @@ class List extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.selectedNode.BuildingID) {
-      console.log("@@@@@", this.props.selectedNode.Name);
+    if (this.props.selectedNode.buildingID) {
+      console.log("@@@@@", this.props.selectedNode.name);
       // 층
       this.props.deviceListByPositionIdRequest({
         id: this.props.selectedNode.id
@@ -58,7 +58,7 @@ class List extends React.Component {
       JSON.stringify(this.props.selectedNode)
     ) {
       console.log("list 요청함 aaa....");
-      if (this.props.selectedNode.BuildingID) {
+      if (this.props.selectedNode.buildingID) {
         // 층
         this.props.deviceListByPositionIdRequest({
           id: this.props.selectedNode.id
@@ -83,13 +83,14 @@ class List extends React.Component {
                 className="btn btn-primary"
                 onClick={e => this.props.setViewMode("add")}
                 style={{ marginLeft: "2px" }}
-                disabled={!this.props.selectedNode.BuildingID}
+                disabled={!this.props.selectedNode.buildingID}
               >
                 등록
               </button>
               <button
                 className="btn btn-primary"
                 onClick={e => {
+                  console.log("update click", this.state.deviceList[0]);
                   this.props.deviceSetItem(this.state.deviceList[0]);
                   // console.log("test....");
                   this.props.setViewMode("update");
@@ -145,18 +146,18 @@ class List extends React.Component {
             <tbody>
               {this.state.deviceList &&
                 this.state.deviceList.map((row, index) => (
-                  <tr key={row.SerialNumber}>
+                  <tr key={row.serialNumber}>
                     <td>
                       <input
                         className="w3-check"
                         type="checkbox"
                         checked={row.isChecked}
-                        value={row.SerialNumber}
+                        value={row.serialNumber}
                         onChange={event => {
                           console.log("onChange checkbox....");
                           let deviceList = this.state.deviceList;
                           deviceList.forEach(device => {
-                            if (device.SerialNumber === event.target.value) {
+                            if (device.serialNumber === event.target.value) {
                               device.isChecked = event.target.checked;
                             }
                           });
@@ -165,11 +166,11 @@ class List extends React.Component {
                       />
                     </td>
                     <td>{index + 1}</td>
-                    <td>{row.Name}</td>
-                    <td>{row.Period} 분</td>
-                    <td>{row.SerialNumber}</td>
-                    <td>{row.ProductName}</td>
-                    <td>{row.Phone}</td>
+                    <td>{row.name}</td>
+                    <td>{row.period} 분</td>
+                    <td>{row.serialNumber}</td>
+                    <td>{row.productName}</td>
+                    <td>{row.phone}</td>
                   </tr>
                 ))}
             </tbody>

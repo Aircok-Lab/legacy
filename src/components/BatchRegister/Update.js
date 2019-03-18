@@ -8,11 +8,11 @@ class Update extends Component {
   state = {
     postData: {
       loginId: this.props.item.LoginID,
-      name: this.props.item.Name,
+      name: this.props.item.name,
       password: this.props.item.Password,
       email: this.props.item.Email,
       department: this.props.item.Department,
-      phone: this.props.item.Phone,
+      phone: this.props.item.phone,
       userType: this.props.item.UserType
     }
   };

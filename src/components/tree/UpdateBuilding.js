@@ -6,12 +6,12 @@ class UpdateBuilding extends Component {
   state = {
     postData: {
       id: this.props.node.id,
-      name: this.props.node.Name,
+      name: this.props.node.name,
       address: this.props.node.Address,
       latitude: this.props.node.Latitude,
       longitude: this.props.node.Longitude,
       userID: this.props.authUser.id,
-      buildingList: this.props.authUser.BuildingList
+      buildingList: this.props.authUser.buildingList
     }
   };
   updateBuilding = () => {

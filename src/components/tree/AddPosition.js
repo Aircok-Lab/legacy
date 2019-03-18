@@ -39,7 +39,7 @@ class AddPosition extends Component {
           <div className="w3-rest">
             <div className="w3-rest">
               <div className="form-control" style={{ background: "#eee" }}>
-                {this.props.selectedNode.Name} &nbsp;
+                {this.props.selectedNode.name} &nbsp;
               </div>
             </div>
           </div>

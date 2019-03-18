@@ -15,7 +15,7 @@ class AddBuilding extends Component {
   };
   addBuilding = () => {
     // this.props.buildingAddRequest(this.state.postData);
-    const positionId = this.props.selectedNode.BuildingID
+    const positionId = this.props.selectedNode.buildingID
       ? this.props.selectedNode.id
       : "";
     if (!this.state.postData.name) {

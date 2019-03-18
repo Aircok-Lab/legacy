@@ -4,7 +4,8 @@ import {
   DEVICE_ADD_REQUEST,
   DEVICE_UPDATE_REQUEST,
   DEVICE_DELETE_REQUEST,
-  DEVICE_SET_ITEM
+  DEVICE_SET_ITEM,
+  DEVICE_GET_ALL_BY_POSITION_ID_REQUEST
 } from "constants/ActionTypes";
 
 export const deviceListByBuildingIdRequest = payload => {
@@ -45,6 +46,13 @@ export const deviceDeleteRequest = payload => {
 export const deviceSetItem = payload => {
   return {
     type: DEVICE_SET_ITEM,
+    payload
+  };
+};
+
+export const deviceGetAllByPositionIdRequest = payload => {
+  return {
+    type: DEVICE_GET_ALL_BY_POSITION_ID_REQUEST,
     payload
   };
 };

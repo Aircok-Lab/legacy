@@ -29,7 +29,7 @@ class List extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.selectedNode.BuildingID) {
+    if (this.props.selectedNode.buildingID) {
       // 층
       this.props.userListByPositionIdRequest({
         positionID: "" + this.props.selectedNode.id
@@ -55,7 +55,7 @@ class List extends React.Component {
       JSON.stringify(prevProps.selectedNode) !=
       JSON.stringify(this.props.selectedNode)
     ) {
-      if (this.props.selectedNode.BuildingID) {
+      if (this.props.selectedNode.buildingID) {
         // 층
         this.props.userListByPositionIdRequest({
           positionID: "" + this.props.selectedNode.id

@@ -39,23 +39,27 @@ class BuildingPositionTree extends Component {
     deviceList: []
   };
   componentDidMount() {
-    console.log("auth", JSON.stringify(this.props.authUser));
-    this.props.buildingListRequest({ id: this.props.authUser.BuildingList });
-    this.props.positionListRequest({ id: this.props.authUser.PositionList });
+    console.log("auth", this.props.authUser);
+    this.props.buildingListRequest({
+      id: "" + this.props.authUser.buildingList
+    });
+    this.props.positionListRequest({
+      id: "" + this.props.authUser.positionList
+    });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     // 건물 추가/삭제시 건물데이터 요청
-    if (this.props.authUser.BuildingList != prevProps.authUser.BuildingList) {
+    if (this.props.authUser.buildingList != prevProps.authUser.buildingList) {
       this.props.buildingListRequest({
-        id: this.props.authUser.BuildingList
+        id: this.props.authUser.buildingList
       });
     }
 
     // 층 추가/삭제시 층데이터 요청
-    if (this.props.authUser.PositionList != this.props.authUser.PositionList) {
+    if (this.props.authUser.positionList != this.props.authUser.positionList) {
       this.props.positionListRequest({
-        id: this.props.authUser.PositionList
+        id: this.props.authUser.positionList
       });
     }
   }
@@ -77,6 +81,7 @@ class BuildingPositionTree extends Component {
     });
   };
   nodeClick = item => {
+    console.log("item", item);
     this.props.selectTreeNode(item);
   };
 
@@ -84,11 +89,11 @@ class BuildingPositionTree extends Component {
     let buildingPositionList = [...this.props.buildingList];
     buildingPositionList.map(building => {
       let positions = this.props.positionList.filter(
-        position => position.BuildingID == building.id
+        position => position.buildingID == building.id
       );
       if (positions.length) {
         positions = positions.map(position => {
-          position.BuildingName = building.Name;
+          position.buildingName = building.name;
           return position;
         });
 
@@ -98,19 +103,8 @@ class BuildingPositionTree extends Component {
 
     return (
       <div>
-        {/* {JSON.stringify(this.props.selectedNode)} */}
         <div className="pb-1">
           <div className="clearfix">
-            {/* {!this.props.hideSelectAll && (
-              <div className="float-left">
-                <button
-                  style={{ marginLeft: "2px" }}
-                  // onClick={this.openModal("addBuilding")}
-                >
-                  Select All
-                </button>
-              </div>
-            )} */}
             {!this.props.hideButton && (
               <div className="float-right">
                 <button
@@ -125,13 +119,13 @@ class BuildingPositionTree extends Component {
                   style={{ marginLeft: "2px" }}
                   onClick={this.openModal("addPosition")}
                   disabled={
-                    this.props.selectedNode.BuildingID ||
+                    this.props.selectedNode.buildingID ||
                     !this.props.selectedNode.id
                   }
                 >
                   위치등록
                 </button>
-                {this.props.selectedNode.BuildingID && (
+                {this.props.selectedNode.buildingID && (
                   <button
                     className="btn btn-primary"
                     style={{ marginLeft: "2px" }}
@@ -141,7 +135,7 @@ class BuildingPositionTree extends Component {
                   </button>
                 )}
                 {this.props.selectedNode.id &&
-                  !this.props.selectedNode.BuildingID && (
+                  !this.props.selectedNode.buildingID && (
                     <button
                       className="btn btn-primary"
                       style={{ marginLeft: "2px" }}
@@ -154,21 +148,6 @@ class BuildingPositionTree extends Component {
             )}
           </div>
         </div>
-
-        {/* <div
-          style={{
-            cursor: "pointer",
-            padding: "2px 10px",
-            marginBottom: "2px"
-          }}
-          className={
-            "w3-block w3-border " + ""
-            // (this.props.selectedNode.id === item.id ? "w3-blue" : "")
-          }
-          onClick={e => this.nodeClick(item)}
-        >
-          모든 포지션
-        </div> */}
 
         {buildingPositionList.map(item => (
           <div key={item.id}>
@@ -195,7 +174,7 @@ class BuildingPositionTree extends Component {
                   console.log("TODO: toggle show/hide");
                 }}
               />
-              <span> {item.Name}</span>
+              <span> {item.name}</span>
             </div>
 
             <div className="">
@@ -212,16 +191,15 @@ class BuildingPositionTree extends Component {
                       className={
                         "w3-border-0 w3-padding-left " +
                         ("" +
-                          this.props.selectedNode.BuildingID +
+                          this.props.selectedNode.buildingID +
                           "-" +
                           this.props.selectedNode.id ===
-                        "" + position.BuildingID + "-" + position.id
+                        "" + position.buildingID + "-" + position.id
                           ? "w3-blue"
                           : "")
                       }
                       onClick={e => this.nodeClick(position)}
                     >
-                      {/* <i className="fa fa-file-o" aria-hidden="true" />{" "} */}
                       {this.props.checkable && (
                         <input
                           className="w3-check"
@@ -237,19 +215,9 @@ class BuildingPositionTree extends Component {
                               e.target.checked
                             );
                           }}
-
-                          // onChange={event => {
-                          //   let userList = [...this.state.userList];
-                          //   userList.forEach(user => {
-                          //     if (user.id === Number(event.target.value)) {
-                          //       user.isChecked = event.target.checked;
-                          //     }
-                          //   });
-                          //   this.setState({ userList: userList });
-                          // }}
                         />
                       )}
-                      {position.Name}
+                      {position.name}
                     </li>
                   ))}
               </ul>

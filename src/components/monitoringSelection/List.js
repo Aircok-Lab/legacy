@@ -4,7 +4,8 @@ import {
   deviceListByBuildingIdRequest,
   deviceListByPositionIdRequest,
   deviceDeleteRequest,
-  deviceSetItem
+  deviceSetItem,
+  deviceGetAllByPositionIdRequest
 } from "actions/Device";
 import { userUpdateRequest } from "actions/User";
 import { setViewMode } from "actions/Setting";
@@ -29,8 +30,8 @@ class List extends React.Component {
 
   componentDidMount() {
     this.setState({ deviceList: this.props.deviceList });
-    this.props.deviceListByPositionIdRequest({
-      id: this.props.authUser.PositionList
+    this.props.deviceGetAllByPositionIdRequest({
+      id: this.props.authUser.positionList
     });
   }
 
@@ -99,18 +100,18 @@ class List extends React.Component {
             <tbody>
               {this.state.deviceList &&
                 this.state.deviceList.map((row, index) => (
-                  <tr key={row.SerialNumber}>
+                  <tr key={row.serialNumber}>
                     <td>
                       <input
                         className="w3-check"
                         type="checkbox"
                         checked={row.isChecked}
-                        value={row.SerialNumber}
+                        value={row.serialNumber}
                         onChange={event => {
                           console.log("onChange checkbox....");
                           let deviceList = this.state.deviceList;
                           deviceList.forEach(device => {
-                            if (device.SerialNumber === event.target.value) {
+                            if (device.serialNumber === event.target.value) {
                               device.isChecked = event.target.checked;
                             }
                           });
@@ -119,11 +120,11 @@ class List extends React.Component {
                       />
                     </td>
                     <td>{index + 1}</td>
-                    <td>{row.Name}</td>
-                    <td>{row.Period} 분</td>
-                    <td>{row.SerialNumber}</td>
-                    <td>{row.ProductName}</td>
-                    <td>{row.Phone}</td>
+                    <td>{row.name}</td>
+                    <td>{row.period} 분</td>
+                    <td>{row.serialNumber}</td>
+                    <td>{row.productName}</td>
+                    <td>{row.phone}</td>
                   </tr>
                 ))}
             </tbody>
@@ -146,7 +147,8 @@ const mapDispatchToProps = {
   deviceDeleteRequest,
   setViewMode,
   deviceSetItem,
-  userUpdateRequest
+  userUpdateRequest,
+  deviceGetAllByPositionIdRequest
 };
 
 export default connect(

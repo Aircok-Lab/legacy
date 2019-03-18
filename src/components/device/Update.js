@@ -6,23 +6,22 @@ import { setViewMode } from "actions/Setting";
 
 class Update extends Component {
   state = {
-    oldPositionId: this.props.item.PositionID,
+    oldPositionId: this.props.item.positionID,
     postData: {
-      name: this.props.item.Name,
-      // serialNumber: "" + new Date().getTime(),
-      serialNumber: this.props.item.SerialNumber,
-      phone: this.props.item.Phone,
-      positionID: this.props.item.PositionID,
-      productID: this.props.item.ProductID
-      // name: "",
-      // serialNumber: "",
-      // phone: "",
-      // productID: "",
-      // positionID: ""
+      name: this.props.item.name,
+      serialNumber: this.props.item.serialNumber,
+      positionID: "" + this.props.item.positionID,
+      productID: "" + this.props.item.productID,
+      imei: this.props.item.imei,
+      networkType: this.props.item.networkType, // cellular | ethernet
+      phone: this.props.item.phone,
+      ip: this.props.item.ip,
+      gateway: this.props.item.gateway,
+      subnet: this.props.item.subnet
     }
   };
   update = () => {
-    const positionId = this.props.selectedNode.BuildingID
+    const positionId = this.props.selectedNode.buildingID
       ? this.props.selectedNode.id
       : "";
     if (!positionId) {
@@ -86,9 +85,9 @@ class Update extends Component {
             </div>
             <div className="w3-rest">
               <div className="form-control" style={{ background: "#eee" }}>
-                {this.props.selectedNode.BuildingID
-                  ? this.props.selectedNode.BuildingName
-                  : this.props.selectedNode.Name}{" "}
+                {this.props.selectedNode.buildingID
+                  ? this.props.selectedNode.buildingName
+                  : this.props.selectedNode.name}{" "}
                 &nbsp;
               </div>
             </div>
@@ -99,8 +98,8 @@ class Update extends Component {
             </div>
             <div className="w3-rest">
               <div className="form-control" style={{ background: "#eee" }}>
-                {this.props.selectedNode.BuildingID
-                  ? this.props.selectedNode.Name
+                {this.props.selectedNode.buildingID
+                  ? this.props.selectedNode.name
                   : ""}{" "}
                 &nbsp;
               </div>
@@ -110,8 +109,8 @@ class Update extends Component {
                 type="text"
                 disabled
                 value={
-                  this.props.selectedNode.BuildingID
-                    ? this.props.selectedNode.Name
+                  this.props.selectedNode.buildingID
+                    ? this.props.selectedNode.name
                     : ""
                 }
               /> */}
@@ -146,7 +145,7 @@ class Update extends Component {
                 <option value="" />
                 {this.props.productList.map(product => (
                   <option key={product.id} value={product.id}>
-                    {product.Name}
+                    {product.name}
                   </option>
                 ))}
               </select>

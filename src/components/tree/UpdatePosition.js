@@ -6,10 +6,10 @@ class UpdatePosition extends Component {
   state = {
     postData: {
       id: "" + this.props.node.id,
-      name: "" + this.props.selectedNode.Name,
+      name: "" + this.props.selectedNode.name,
       position: "1",
-      buildingID: "" + this.props.selectedNode.BuildingID,
-      positionList: this.props.authUser.PositionList,
+      buildingID: "" + this.props.selectedNode.buildingID,
+      positionList: this.props.authUser.positionList,
       userID: this.props.authUser.id
     }
   };
@@ -48,7 +48,7 @@ class UpdatePosition extends Component {
           </div>
           <div className="w3-rest">
             <div className="form-control" style={{ background: "#eee" }}>
-              {this.props.selectedNode.BuildingName} &nbsp;
+              {this.props.selectedNode.buildingName} &nbsp;
             </div>
           </div>
         </div>

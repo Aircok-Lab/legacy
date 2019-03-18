@@ -43,7 +43,7 @@ class List extends React.Component {
       JSON.stringify(prevProps.selectedNode) !=
       JSON.stringify(this.props.selectedNode)
     ) {
-      if (this.props.selectedNode.BuildingID) {
+      if (this.props.selectedNode.buildingID) {
         // 층
         this.props.productListByPositionIdRequest({
           positionID: "" + this.props.selectedNode.id
@@ -68,7 +68,7 @@ class List extends React.Component {
                 className="btn btn-primary"
                 onClick={e => this.props.setViewMode("add")}
                 style={{ marginLeft: "2px" }}
-                disabled={!this.props.selectedNode.BuildingID}
+                disabled={!this.props.selectedNode.buildingID}
               >
                 등록
               </button>
@@ -150,9 +150,9 @@ class List extends React.Component {
                         />
                       </td>
                       <td>{index + 1}</td>
-                      <td>{row.Name}</td>
+                      <td>{row.name}</td>
                       <td>{row.Version}</td>
-                      <td>{row.Period}</td>
+                      <td>{row.period}</td>
                     </tr>
                   ))}
               </tbody>

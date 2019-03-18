@@ -37,7 +37,7 @@ function* positionAddWorker(action) {
       yield put(userSignInSuccess(res.data.data));
       yield put({
         type: "POSITION_LIST_REQUEST",
-        payload: { id: res.data.data.PositionList }
+        payload: { id: res.data.data.positionList }
       });
     }
   } catch (error) {
@@ -79,7 +79,7 @@ function* positionDeleteWorker(action) {
       yield put(userSignInSuccess(res.data.data));
       yield put({
         type: "POSITION_LIST_REQUEST",
-        payload: { id: res.data.data.PositionList }
+        payload: { id: res.data.data.positionList }
       });
     }
   } catch (error) {

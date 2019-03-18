@@ -39,7 +39,7 @@ function* buildingAddWorker(action) {
       yield put(userSignInSuccess(res.data.data));
       yield put({
         type: "BUILDING_LIST_REQUEST",
-        payload: { id: res.data.data.BuildingList }
+        payload: { id: res.data.data.buildingList }
       });
     }
   } catch (error) {
@@ -81,7 +81,7 @@ function* buildingDeleteWorker(action) {
       yield put(userSignInSuccess(res.data.data));
       yield put({
         type: "BUILDING_LIST_REQUEST",
-        payload: { id: res.data.data.BuildingList }
+        payload: { id: res.data.data.buildingList }
       });
     }
   } catch (error) {

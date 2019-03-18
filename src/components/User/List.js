@@ -29,7 +29,7 @@ class List extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.selectedNode.BuildingID) {
+    if (this.props.selectedNode.buildingID) {
       // 층
       this.props.userListByPositionIdRequest({
         positionID: "" + this.props.selectedNode.id
@@ -55,7 +55,7 @@ class List extends React.Component {
       JSON.stringify(prevProps.selectedNode) !=
       JSON.stringify(this.props.selectedNode)
     ) {
-      if (this.props.selectedNode.BuildingID) {
+      if (this.props.selectedNode.buildingID) {
         // 층
         this.props.userListByPositionIdRequest({
           positionID: "" + this.props.selectedNode.id
@@ -80,7 +80,7 @@ class List extends React.Component {
                 className="btn btn-primary"
                 onClick={e => this.props.setViewMode("add")}
                 style={{ marginLeft: "2px" }}
-                disabled={!this.props.selectedNode.BuildingID}
+                disabled={!this.props.selectedNode.buildingID}
               >
                 등록
               </button>
@@ -169,10 +169,10 @@ class List extends React.Component {
                       </span>
                     </td>
                     <td>{row.LoginID}</td>
-                    <td>{row.Name}</td>
+                    <td>{row.name}</td>
                     <td>{row.Email}</td>
                     <td>{row.Department}</td>
-                    <td>{row.Phone}</td>
+                    <td>{row.phone}</td>
                   </tr>
                 ))}
             </tbody>
