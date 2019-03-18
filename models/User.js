@@ -209,7 +209,7 @@ var User = {
             return;
           }
 
-          findPassword = result[0].Password;
+          findPassword = result[0].password;
 
           callback(null, findPassword);
         }

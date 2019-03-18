@@ -22,7 +22,7 @@ userPattern.setPositionListPattern = function(positionList) {
 
 userPattern.deletePattern = function(userInfo) {
   if (!userInfo) return null;
-  delete userInfo.Password;
+  delete userInfo.password;
   var insertStr = ",";
   var user = userInfo;
   if (userInfo.buildingList) {
