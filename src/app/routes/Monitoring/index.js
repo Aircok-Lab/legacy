@@ -78,7 +78,7 @@ class SamplePage extends React.Component {
                       {contact.buildingName}
                     </td>
                     <td style={{ width: `${nameTabWidth}` }}>
-                      <a href={"#/app/device-detail/" + contact.deviceSN}>
+                      <a href={"#/app/device-detail/" + contact.id}>
                         {contact.positionName}
                       </a>
                     </td>
