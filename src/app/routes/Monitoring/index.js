@@ -20,7 +20,7 @@ class SamplePage extends React.Component {
     super(props);
     this.props.showAuthLoader();
     this.props.alarmReferenceValueRequest();
-    this.props.recentDataRequest(this.props.authUser.PositionList);
+    this.props.recentDataRequest(this.props.authUser.positionList);
     this.pageScroll = this.pageScroll.bind(this);
     this.loadData = this.loadData.bind(this);
   }
@@ -48,7 +48,7 @@ class SamplePage extends React.Component {
   }
 
   loadData() {
-    this.props.recentDataRequest(this.props.authUser.PositionList);
+    this.props.recentDataRequest(this.props.authUser.positionList);
   }
 
   render() {
@@ -70,81 +70,88 @@ class SamplePage extends React.Component {
         <table className="table table-fixed">
           <MainTableHead />
           <tbody id="contain" ref="contain">
-            {this.props.contactData.map((contact, i) => {
-              return (
-                <tr key={i}>
-                  <td style={{ width: `${nameTabWidth}` }}>{contact.BuildingName}</td>
-                  <td style={{ width: `${nameTabWidth}` }}>{contact.PositionName}</td>
-                  <td style={{ width: `${indexTabWidth}` }}>
-                    <span className={getClassText(contact.E3Index)}>
-                      {qualityType[`${contact.E3Index}`]}({contact.E3Score})
-                    </span>
-                  </td>
-                  <SensorData
-                    alarmReferenceValue={
-                      this.props.alarmReferenceValue.temperature
-                    }
-                    sensorData={contact.Temperature}
-                    sensorIndex={contact.TemperatureIndex}
-                    sensorAlarm={contact.TemperatureAlarm}
-                  />
-                  <SensorData
-                    alarmReferenceValue={
-                      this.props.alarmReferenceValue.humidity
-                    }
-                    sensorData={contact.Humidity}
-                    sensorIndex={contact.HumidityIndex}
-                    sensorAlarm={contact.HumidityAlarm}
-                  />
-                  <SensorData
-                    alarmReferenceValue={this.props.alarmReferenceValue.pm10}
-                    sensorData={contact.PM10}
-                    sensorIndex={contact.PM10Index}
-                    sensorAlarm={contact.PM10Alarm}
-                  />
-                  <SensorData
-                    alarmReferenceValue={this.props.alarmReferenceValue.pm25}
-                    sensorData={contact.PM25}
-                    sensorIndex={contact.PM25Index}
-                    sensorAlarm={contact.PM25Alarm}
-                  />
-                  <SensorData
-                    alarmReferenceValue={this.props.alarmReferenceValue.co2}
-                    sensorData={contact.CO2}
-                    sensorIndex={contact.CO2Index}
-                    sensorAlarm={contact.CO2Alarm}
-                  />
-                  <SensorData
-                    alarmReferenceValue={this.props.alarmReferenceValue.hcho}
-                    sensorData={contact.HCHO}
-                    sensorIndex={contact.HCHOIndex}
-                    sensorAlarm={contact.HCHOAlarm}
-                  />
-                  <SensorData
-                    alarmReferenceValue={this.props.alarmReferenceValue.voc}
-                    sensorData={contact.VOC}
-                    sensorIndex={contact.VOCIndex}
-                    sensorAlarm={contact.VOCAlarm}
-                  />
-                  <SensorData
-                    alarmReferenceValue={this.props.alarmReferenceValue.voc}
-                    sensorData={contact.Noise}
-                    sensorIndex={contact.NoiseIndex}
-                    sensorAlarm={contact.NoiseAlarm}
-                  />
-                  <td style={{ width: "60px" }}>
-                    <div>
-                      <img
-                        src="/assets/images/sms.jpg"
-                        style={{ width: "30px", height: "30px" }}
-                        alt="sms"
-                        title="SMS Icon"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+            {this.props.contactData &&
+              this.props.contactData.map((contact, i) => {
+                return (
+                  <tr key={i}>
+                    <td style={{ width: `${nameTabWidth}` }}>
+                      {contact.buildingName}
+                    </td>
+                    <td style={{ width: `${nameTabWidth}` }}>
+                      <a href={"#/app/device-detail/" + contact.deviceSN}>
+                        {contact.positionName}
+                      </a>
+                    </td>
+                    <td style={{ width: `${indexTabWidth}` }}>
+                      <span className={getClassText(contact.e3Index)}>
+                        {qualityType[`${contact.e3Index}`]}({contact.e3Score})
+                      </span>
+                    </td>
+                    <SensorData
+                      alarmReferenceValue={
+                        this.props.alarmReferenceValue.temperature
+                      }
+                      sensorData={contact.temperature}
+                      sensorIndex={contact.temperatureIndex}
+                      sensorAlarm={contact.temperatureAlarm}
+                    />
+                    <SensorData
+                      alarmReferenceValue={
+                        this.props.alarmReferenceValue.humidity
+                      }
+                      sensorData={contact.humidity}
+                      sensorIndex={contact.humidityIndex}
+                      sensorAlarm={contact.humidityAlarm}
+                    />
+                    <SensorData
+                      alarmReferenceValue={this.props.alarmReferenceValue.pm10}
+                      sensorData={contact.pm10}
+                      sensorIndex={contact.pm10Index}
+                      sensorAlarm={contact.pm10Alarm}
+                    />
+                    <SensorData
+                      alarmReferenceValue={this.props.alarmReferenceValue.pm25}
+                      sensorData={contact.pm25}
+                      sensorIndex={contact.pm25Index}
+                      sensorAlarm={contact.pm25Alarm}
+                    />
+                    <SensorData
+                      alarmReferenceValue={this.props.alarmReferenceValue.co2}
+                      sensorData={contact.co2}
+                      sensorIndex={contact.co2Index}
+                      sensorAlarm={contact.co2Alarm}
+                    />
+                    <SensorData
+                      alarmReferenceValue={this.props.alarmReferenceValue.hcho}
+                      sensorData={contact.hcho}
+                      sensorIndex={contact.hchoIndex}
+                      sensorAlarm={contact.hchoAlarm}
+                    />
+                    <SensorData
+                      alarmReferenceValue={this.props.alarmReferenceValue.voc}
+                      sensorData={contact.voc}
+                      sensorIndex={contact.vocIndex}
+                      sensorAlarm={contact.vocAlarm}
+                    />
+                    <SensorData
+                      alarmReferenceValue={this.props.alarmReferenceValue.voc}
+                      sensorData={contact.noise}
+                      sensorIndex={contact.noiseIndex}
+                      sensorAlarm={contact.noiseAlarm}
+                    />
+                    <td style={{ width: "60px" }}>
+                      <div>
+                        <img
+                          src="/assets/images/sms.jpg"
+                          style={{ width: "30px", height: "30px" }}
+                          alt="sms"
+                          title="SMS Icon"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
