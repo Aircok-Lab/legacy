@@ -352,6 +352,7 @@ var E3Core = {
         break;
     }
     result.score = Math.floor(result.score);
+    console.log("score : " + result.score);
 
     if (result.score < score[1].min) {
       result.index = GOOD;
@@ -366,7 +367,7 @@ var E3Core = {
     } else {
       result.index = HAZARDOUS;
     }
-
+    console.log("index : " + result.index);
     return result;
   }
 };
