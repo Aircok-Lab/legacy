@@ -219,7 +219,7 @@ var RecentData = {
       var data = [value, deviceSN];
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update RecentData set ? where DeviceSN=?",
+        "update RecentData set ? where deviceSN=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -290,7 +290,7 @@ var RecentData = {
       console.log(serials);
       var queryString = "delete from RecentData where ";
       for (i in serials) {
-        let str = "DeviceSN='" + serials[i] + "'";
+        let str = "deviceSN='" + serials[i] + "'";
         queryString = queryString + str;
         if (i < serials.length - 1) queryString = queryString + " or ";
       }
