@@ -127,7 +127,7 @@ var Data = {
 
       // 데이터를 객체로 만듭니다.
       var tableName = "Data_" + deviceSN;
-      var data = { Date: date };
+      var data = { date: date };
       if (pm25) data.pm25 = pm25;
       if (pm10) data.pm10 = pm10;
       if (co2) data.co2 = co2;
