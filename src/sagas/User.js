@@ -9,7 +9,8 @@ import {
   USER_ADD_REQUEST,
   USER_ADD_SUCCESS,
   USER_UPDATE_REQUEST,
-  USER_DELETE_REQUEST
+  USER_DELETE_REQUEST,
+  SET_VIEW_MODE
 } from "constants/ActionTypes";
 import api from "api";
 import { userSignInSuccess } from "actions/Auth";
@@ -58,7 +59,7 @@ function* userAddWorker(action) {
         payload: { positionID: action.payload.positionList }
       });
       yield put({
-        type: "SET_VIEW_MODE",
+        type: SET_VIEW_MODE,
         payload: "list"
       });
     }
@@ -74,11 +75,13 @@ function* userUpdateWorker(action) {
   try {
     const res = yield api.put(`user/updateUser`, action.payload);
     if (responseDataProcess(res.data)) {
-      console.log("userUpdateWorker res.data.data", res.data.data);
-      localStorage.setItem("user_id", JSON.stringify(res.data.data));
-      yield put(userSignInSuccess(res.data.data));
+      console.log(action);
+      if (action.payload.id === action.authUser.id) {
+        localStorage.setItem("user_id", JSON.stringify(action.payload));
+        yield put(userSignInSuccess(action.payload));
+      }
       yield put({
-        type: "SET_VIEW_MODE",
+        type: SET_VIEW_MODE,
         payload: "list"
       });
       // yield put({
@@ -110,7 +113,7 @@ function* userDeleteWorker(action) {
         });
       }
       yield put({
-        type: "SET_VIEW_MODE",
+        type: SET_VIEW_MODE,
         payload: "list"
       });
     }

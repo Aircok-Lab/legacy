@@ -7,13 +7,13 @@ import { setViewMode } from "actions/Setting";
 class Update extends Component {
   state = {
     postData: {
-      loginId: this.props.item.LoginID,
+      loginId: this.props.item.loginID,
       name: this.props.item.name,
       password: this.props.item.Password,
-      email: this.props.item.Email,
-      department: this.props.item.Department,
+      email: this.props.item.email,
+      department: this.props.item.department,
       phone: this.props.item.phone,
-      userType: this.props.item.UserType
+      userType: this.props.item.userType
     }
   };
   update = () => {

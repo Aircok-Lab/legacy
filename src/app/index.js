@@ -10,6 +10,7 @@ import Device from "./routes/Device";
 import Product from "./routes/Product";
 import User from "./routes/User";
 import System from "./routes/System";
+import Sensor from "./routes/Sensor";
 import Profile from "./routes/Profile";
 import BatchRegister from "./routes/BatchRegister";
 import {
@@ -78,6 +79,7 @@ class App extends React.Component {
                 <Route path={`${match.url}/product`} component={Product} />
                 <Route path={`${match.url}/user`} component={User} />
                 <Route path={`${match.url}/system`} component={System} />
+                <Route path={`${match.url}/sensor`} component={Sensor} />
                 <Route
                   path={`${match.url}/batchRegister`}
                   component={BatchRegister}

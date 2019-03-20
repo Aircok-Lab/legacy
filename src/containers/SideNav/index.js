@@ -65,7 +65,7 @@ class SideNav extends React.PureComponent {
           }}
         >
           <UserInfo />
-          {/* {authUser.UserType ? <SidenavContent /> : null} */}
+          {/* {authUser.userType ? <SidenavContent /> : null} */}
           <SidenavContent />
         </Drawer>
       </div>

@@ -8,6 +8,8 @@ import Device from "./Device";
 import User from "./User";
 import Tree from "./Tree";
 import Product from "./Product";
+import System from "./System";
+import Sensor from "./Sensor";
 
 const reducers = combineReducers({
   routing: routerReducer,
@@ -18,7 +20,9 @@ const reducers = combineReducers({
   device: Device,
   user: User,
   tree: Tree,
-  product: Product
+  product: Product,
+  system: System,
+  sensor: Sensor
 });
 
 export default reducers;

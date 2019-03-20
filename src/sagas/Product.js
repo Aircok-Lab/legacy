@@ -7,7 +7,8 @@ import {
   PRODUCT_ADD_REQUEST,
   PRODUCT_ADD_SUCCESS,
   PRODUCT_UPDATE_REQUEST,
-  PRODUCT_DELETE_REQUEST
+  PRODUCT_DELETE_REQUEST,
+  SET_VIEW_MODE
 } from "constants/ActionTypes";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
@@ -35,12 +36,36 @@ function* productAddWorker(action) {
       // payload: { positionID: action.payload.positionID }
       payload: { positionID: action.payload.positionList }
     });
+    yield put({
+      type: SET_VIEW_MODE,
+      payload: "list"
+    });
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
 }
 export function* productAddWatcher() {
   yield takeEvery(PRODUCT_ADD_REQUEST, productAddWorker);
+}
+
+function* productUpdateWorker(action) {
+  try {
+    const res = yield api.put(`product/updateProduct`, action.payload);
+    yield put({
+      type: PRODUCT_LIST_REQUEST,
+      // payload: { positionID: action.payload.positionID }
+      payload: { positionID: action.payload.positionList }
+    });
+    yield put({
+      type: SET_VIEW_MODE,
+      payload: "list"
+    });
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* productUpdateWatcher() {
+  yield takeEvery(PRODUCT_UPDATE_REQUEST, productUpdateWorker);
 }
 
 function* productDeleteWorker(action) {
@@ -64,5 +89,6 @@ export function* productDeleteWatcher() {
 export default function* rootSaga() {
   yield all([fork(productListWatcher)]);
   yield all([fork(productAddWatcher)]);
+  yield all([fork(productUpdateWatcher)]);
   yield all([fork(productDeleteWatcher)]);
 }

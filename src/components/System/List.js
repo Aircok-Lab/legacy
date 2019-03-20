@@ -151,7 +151,7 @@ class List extends React.Component {
                       </td>
                       <td>{index + 1}</td>
                       <td>{row.name}</td>
-                      <td>{row.Version}</td>
+                      <td>{row.version}</td>
                       <td>{row.period}</td>
                     </tr>
                   ))}

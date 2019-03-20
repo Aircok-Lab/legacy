@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink, withRouter } from "react-router-dom";
-
 import IntlMessages from "util/IntlMessages";
 import CustomScrollbars from "util/CustomScrollbars";
 import { userSignOut } from "actions/Auth";
@@ -92,6 +91,7 @@ class SidenavContent extends Component {
     return (
       <div>
         <ul className="nav-menu">
+          <li className="nav-header" />
           <li className="nav-header">
             <IntlMessages id="sidebar.main" />
           </li>
@@ -100,6 +100,7 @@ class SidenavContent extends Component {
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">대기질센서 결과 확인 </span>
             </NavLink>
+            {this.props.authUser.userType === "master"}
             <NavLink to="/app/batchRegister">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">일괄등록 </span>
@@ -124,15 +125,14 @@ class SidenavContent extends Component {
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">시스템 관리 </span>
             </NavLink>
-            {/* <NavLink to="/app/profile">
+            <NavLink to="/app/sensor">
+              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+              <span className="nav-text">센서 관리 </span>
+            </NavLink>
+            <NavLink to="/app/profile">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">내 정보 관리 </span>
-            </NavLink> */}
-            {/* <a onClick={this.handleLogout}>
-              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
-              <span className="nav-text">로그아웃 </span>
-            </a>
-            <button onClick={this.handleLogout}>aaa</button> */}
+            </NavLink>
           </li>
         </ul>
       </div>
@@ -140,9 +140,9 @@ class SidenavContent extends Component {
   }
 }
 
-// export default withRouter(SidenavContent);
-
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  authUser: state.auth.authUser
+});
 
 const mapDispatchToProps = {
   userSignOut

@@ -5,6 +5,8 @@ import positionSagas from "./Position";
 import deviceSagas from "./Device";
 import userSagas from "./User";
 import productSagas from "./Product";
+import systemSagas from "./System";
+import sensorSagas from "./Sensor";
 
 export default function* rootSaga(getState) {
   yield all([
@@ -13,6 +15,8 @@ export default function* rootSaga(getState) {
     positionSagas(),
     deviceSagas(),
     userSagas(),
-    productSagas()
+    productSagas(),
+    systemSagas(),
+    sensorSagas()
   ]);
 }

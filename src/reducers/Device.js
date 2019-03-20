@@ -26,11 +26,14 @@ export default (state = INIT_STATE, action) => {
       };
     }
     case DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS: {
-      console.log("action: ", action);
+      console.log("action.deviceList: ", action.deviceList);
       const list = action.payload.map(item => {
+        console.log("item", item);
+        const checked =
+          action.deviceList.indexOf(item.serialNumber) > -1 ? true : false;
         return {
           ...item,
-          isChecked: true
+          isChecked: checked
         };
       });
       return {

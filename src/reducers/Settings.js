@@ -4,7 +4,8 @@ import {
   SWITCH_LANGUAGE,
   TOGGLE_COLLAPSED_NAV,
   VERTICAL_NAVIGATION,
-  WINDOW_WIDTH
+  WINDOW_WIDTH,
+  SET_VIEW_MODE
 } from "constants/ActionTypes";
 
 const rltLocale = ["ar"];
@@ -47,10 +48,11 @@ const settings = (state = initialSettings, action) => {
         locale: action.payload,
         isDirectionRTL: rltLocale.includes(action.payload.locale)
       };
-    case "SET_VIEW_MODE":
+    case SET_VIEW_MODE:
       return {
         ...state,
-        viewMode: action.payload
+        viewMode: action.payload,
+        item: action.item
       };
     default:
       return state;

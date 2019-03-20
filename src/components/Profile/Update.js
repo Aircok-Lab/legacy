@@ -6,15 +6,16 @@ import { setViewMode } from "actions/Setting";
 
 class Update extends Component {
   state = {
-    postData: {
-      loginId: this.props.authUser.LoginID,
-      name: this.props.authUser.name,
-      password: this.props.authUser.Password,
-      email: this.props.authUser.Email,
-      department: this.props.authUser.Department,
-      phone: this.props.authUser.phone,
-      userType: this.props.authUser.UserType
-    }
+    // postData: {
+    //   loginId: this.props.authUser.loginID,
+    //   name: this.props.authUser.name,
+    //   password: this.props.authUser.Password,
+    //   email: this.props.authUser.email,
+    //   department: this.props.authUser.department,
+    //   phone: this.props.authUser.phone,
+    //   userType: this.props.authUser.userType
+    // }
+    postData: { ...this.props.authUser }
   };
   update = () => {
     if (!this.state.postData.name) {
@@ -35,7 +36,10 @@ class Update extends Component {
           }
         },
         () => {
-          this.props.userUpdateRequest(this.state.postData);
+          this.props.userUpdateRequest(
+            this.state.postData,
+            this.props.authUser
+          );
         }
       );
     }
@@ -58,14 +62,14 @@ class Update extends Component {
     return (
       <div className="col-6 mx-auto">
         <form className="text-blue w3-margin">
-          <h2 className="text-center">사용자 수정</h2>
+          <h2 className="text-center">내 정보 수정</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               아이디
             </div>
             <div className="w3-rest">
               <div className="form-control" style={{ background: "#eee" }}>
-                {this.state.postData.loginId}
+                {this.state.postData.loginID}
                 &nbsp;
               </div>
             </div>

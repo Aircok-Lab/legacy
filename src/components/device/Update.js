@@ -213,7 +213,7 @@ const mapStateToProps = state => ({
   selectedNode: state.tree.selectedNode,
   productList: state.product.list,
   viewMode: state.settings.viewMode,
-  item: state.device.item
+  item: state.settings.item
 });
 
 const mapDispatchToProps = {

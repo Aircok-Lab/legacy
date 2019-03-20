@@ -1,7 +1,8 @@
 import {
   SWITCH_LANGUAGE,
   TOGGLE_COLLAPSED_NAV,
-  WINDOW_WIDTH
+  WINDOW_WIDTH,
+  SET_VIEW_MODE
 } from "../constants/ActionTypes";
 
 export function toggleCollapsedNav(isNavCollapsed) {
@@ -19,9 +20,10 @@ export function switchLanguage(locale) {
   };
 }
 
-export function setViewMode(viewMode) {
+export function setViewMode(viewMode, item) {
   return {
-    type: "SET_VIEW_MODE",
-    payload: viewMode
+    type: SET_VIEW_MODE,
+    payload: viewMode,
+    item: item
   };
 }

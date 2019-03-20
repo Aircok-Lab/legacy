@@ -1,93 +1,59 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userUpdateRequest } from "actions/User";
-import { productListRequest } from "actions/Product";
+import { productUpdateRequest } from "actions/Product";
 import { setViewMode } from "actions/Setting";
 
 class Update extends Component {
   state = {
     postData: {
-      loginId: this.props.item.LoginID,
+      id: this.props.item.id,
       name: this.props.item.name,
-      password: this.props.item.Password,
-      email: this.props.item.Email,
-      department: this.props.item.Department,
-      phone: this.props.item.phone,
-      userType: this.props.item.UserType
+      version: this.props.item.version,
+      firmware: this.props.item.firmware,
+      period: this.props.item.period,
+      indoor: this.props.item.indoor,
+      pm25: "" + this.props.item.pm25,
+      pm10: "" + this.props.item.pm10,
+      co2: "" + this.props.item.co2,
+      hcho: "" + this.props.item.hcho,
+      voc: "" + this.props.item.voc,
+      temperature: "" + this.props.item.temperature,
+      humidity: "" + this.props.item.humidity,
+      noise: "" + this.props.item.noise
     }
   };
   update = () => {
+    console.log("1111");
     if (!this.state.postData.name) {
-      alert("사용자이름을 입력하세요");
-    } else if (!this.state.postData.email) {
-      alert("이메일을 입력하세요");
-    } else if (!this.state.postData.department) {
-      alert("부서를 입력하세요");
-    } else if (!this.state.postData.phone) {
-      alert("전화번호를 입력하세요");
-    } else if (!this.state.postData.userType) {
-      alert("사용자권한을 선택하세요");
+      alert("제품군명을 입력하세요");
+    } else if (!this.state.postData.version) {
+      alert("펌웨어버전을 입력하세요");
     } else {
-      this.setState(
-        {
-          postData: {
-            ...this.state.postData
-          }
-        },
-        () => {
-          this.props.userUpdateRequest(this.state.postData);
-        }
-      );
+      console.log("2222");
+      this.props.productUpdateRequest(this.state.postData);
     }
   };
   handleChange = e => {
-    console.log("handleChange", e.target.value);
+    const target = e.target;
+    const value =
+      target.type === "checkbox" ? (target.checked ? "1" : "0") : target.value;
+    const name = target.name;
     this.setState({
       postData: {
         ...this.state.postData,
-        [e.target.name]: e.target.value
+        [name]: value
       }
     });
   };
-
-  componentDidMount() {
-    this.props.productListRequest();
-  }
 
   render() {
     return (
       <div className="col-6 mx-auto">
         <form className="text-blue w3-margin">
-          <h2 className="text-center">사용자 수정</h2>
+          <h2 className="text-center">제품군 수정</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              아이디
-            </div>
-            <div className="w3-rest">
-              <div className="form-control" style={{ background: "#eee" }}>
-                {this.state.postData.loginId}
-                &nbsp;
-              </div>
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              암호
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="password"
-                value={this.state.postData.password}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              이름
+              제품군명
             </div>
             <div className="w3-rest">
               <input
@@ -102,49 +68,240 @@ class Update extends Component {
           </div>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              이메일
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="email"
-                value={this.state.postData.email}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              소속(부서)
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="department"
-                value={this.state.postData.department}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              권한
+              장치타입
             </div>
             <div className="w3-rest">
               <select
                 className="form-control"
-                name="userType"
-                value={this.state.postData.userType}
+                name="indoor"
+                value={this.state.postData.indoor}
                 onChange={this.handleChange}
               >
-                <option value="" />
-                <option value="manager">Manager</option>
-                <option value="user">User</option>
-                <option value="monitoring">Monitoring</option>
+                <option value="1">실내형</option>
+                <option value="0">실외형</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              측정항목
+            </div>
+            <div className="w3-rest text-black">
+              <table className="table table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th />
+                    <th>측정항목 설정</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="pm10"
+                            checked={
+                              this.state.postData.pm10 === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>PM10</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="pm25"
+                            checked={
+                              this.state.postData.pm25 === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>PM25</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="co2"
+                            checked={
+                              this.state.postData.co2 === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>CO2</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="hcho"
+                            checked={
+                              this.state.postData.hcho === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>HCHO</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="voc"
+                            checked={
+                              this.state.postData.voc === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>VOC</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="temperature"
+                            checked={
+                              this.state.postData.temperature === "1"
+                                ? true
+                                : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>Temperature</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="humidity"
+                            checked={
+                              this.state.postData.humidity === "1"
+                                ? true
+                                : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>humidity</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="noise"
+                            checked={
+                              this.state.postData.noise === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>Noise</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              펌웨어버전
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="version"
+                value={this.state.postData.version}
+                type="text"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              펌웨어파일
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="firmware"
+                // value={this.state.postData.firmware}
+                type="file"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              측정주기
+            </div>
+            <div className="w3-rest">
+              <select
+                className="form-control"
+                name="period"
+                value={this.state.postData.period}
+                onChange={this.handleChange}
+              >
+                {/* <option value="" /> */}
+                <option value="1">1분</option>
+                <option value="5">5분</option>
+                <option value="10">10분</option>
+                <option value="60">60분</option>
               </select>
             </div>
           </div>
@@ -175,16 +332,11 @@ class Update extends Component {
 }
 
 const mapStateToProps = state => ({
-  authUser: state.auth.authUser,
-  selectedNode: state.tree.selectedNode,
-  productList: state.product.list,
-  viewMode: state.settings.viewMode,
-  item: state.user.item
+  item: state.settings.item
 });
 
 const mapDispatchToProps = {
-  userUpdateRequest,
-  productListRequest,
+  productUpdateRequest,
   setViewMode
 };
 

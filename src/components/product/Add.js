@@ -1,112 +1,56 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userAddRequest } from "actions/User";
-import { productListRequest } from "actions/Product";
+import { productAddRequest } from "actions/Product";
 import { setViewMode } from "actions/Setting";
 
 class Add extends Component {
   state = {
     postData: {
-      loginId: "" + new Date().getTime(),
-      password: "" + new Date().getTime(),
       name: "" + new Date().getTime(),
-      email: "test@test.com",
-      department: "Sales Department",
-      phone: "010-555-5555",
-      userType: "monitoring",
-      buildingList: "" + this.props.selectedNode.buildingID,
-      positionList: "" + this.props.selectedNode.id,
-      deviceList: ""
+      version: "v2.0.0",
+      firmware: null,
+      period: "1",
+      indoor: "1",
+      pm25: "1",
+      pm10: "1",
+      co2: "1",
+      hcho: "1",
+      voc: "1",
+      temperature: "1",
+      humidity: "1",
+      noise: "1"
     }
   };
   add = () => {
-    if (!this.state.postData.loginId) {
-      alert("로그인ID를 입력하세요");
-    } else if (!this.state.postData.name) {
-      alert("사용자이름을 입력하세요");
-    } else if (!this.state.postData.password) {
-      alert("암호를 입력하세요");
-    } else if (!this.state.postData.email) {
-      alert("이메일을 입력하세요");
-    } else if (!this.state.postData.department) {
-      alert("부서를 입력하세요");
-    } else if (!this.state.postData.phone) {
-      alert("전화번호를 입력하세요");
-    } else if (!this.state.postData.userType) {
-      alert("사용자권한을 선택하세요");
+    if (!this.state.postData.name) {
+      alert("제품군명을 입력하세요");
+    } else if (!this.state.postData.version) {
+      alert("펌웨어버전을 입력하세요");
     } else {
-      console.log("bbb");
-      // 변경된 포지션을 저장
-      this.setState(
-        {
-          postData: {
-            ...this.state.postData
-            // positionID: positionId
-          }
-        },
-        () => {
-          //포지션 저장완료 후, 서버에 데이터 전송
-          this.props.userAddRequest(this.state.postData);
-        }
-      );
+      this.props.productAddRequest(this.state.postData);
     }
   };
   handleChange = e => {
     const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    // const name = target.name;
-    console.log("value: ", target, value);
-
+    const value =
+      target.type === "checkbox" ? (target.checked ? "1" : "0") : target.value;
+    const name = target.name;
     this.setState({
       postData: {
         ...this.state.postData,
-        [e.target.name]: e.target.value
+        [name]: value
       }
     });
   };
-
-  componentDidMount() {
-    this.props.productListRequest();
-  }
 
   render() {
     return (
       <div className="col-6 mx-auto">
         <form className="text-blue w3-margin">
-          <h2 className="text-center">사용자 등록</h2>
+          <h2 className="text-center">제품군 등록</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              아이디
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="loginId"
-                value={this.state.postData.loginId}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              암호
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="password"
-                value={this.state.postData.password}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              이름
+              제품군명
             </div>
             <div className="w3-rest">
               <input
@@ -121,54 +65,240 @@ class Add extends Component {
           </div>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              이메일
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="email"
-                value={this.state.postData.email}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              소속(부서)
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="department"
-                value={this.state.postData.department}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              권한
+              장치타입
             </div>
             <div className="w3-rest">
               <select
                 className="form-control"
-                name="userType"
-                value={this.state.postData.userType}
+                name="indoor"
+                value={this.state.postData.indoor}
                 onChange={this.handleChange}
               >
-                <option value="" />
-                {/* {this.props.productList.map(product => (
-                  <option key={product.id} value={product.id}>
-                    {product.name}
-                  </option>
-                ))} */}
-                <option value="manager">Manager</option>
-                <option value="user">User</option>
-                <option value="monitoring">Monitoring</option>
+                <option value="1">실내형</option>
+                <option value="0">실외형</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              측정항목
+            </div>
+            <div className="w3-rest text-black">
+              <table className="table table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th />
+                    <th>측정항목 설정</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="pm10"
+                            checked={
+                              this.state.postData.pm10 === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>PM10</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="pm25"
+                            checked={
+                              this.state.postData.pm25 === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>PM25</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="co2"
+                            checked={
+                              this.state.postData.co2 === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>CO2</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="hcho"
+                            checked={
+                              this.state.postData.hcho === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>HCHO</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="voc"
+                            checked={
+                              this.state.postData.voc === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>VOC</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="temperature"
+                            checked={
+                              this.state.postData.temperature === "1"
+                                ? true
+                                : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>Temperature</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="humidity"
+                            checked={
+                              this.state.postData.humidity === "1"
+                                ? true
+                                : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>humidity</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="noise"
+                            checked={
+                              this.state.postData.noise === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>Noise</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              펌웨어버전
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="version"
+                value={this.state.postData.version}
+                type="text"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              펌웨어파일
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="firmware"
+                // value={this.state.postData.firmware}
+                type="file"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              측정주기
+            </div>
+            <div className="w3-rest">
+              <select
+                className="form-control"
+                name="period"
+                value={this.state.postData.period}
+                onChange={this.handleChange}
+              >
+                {/* <option value="" /> */}
+                <option value="1">1분</option>
+                <option value="5">5분</option>
+                <option value="10">10분</option>
+                <option value="60">60분</option>
               </select>
             </div>
           </div>
@@ -206,8 +336,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  userAddRequest,
-  productListRequest,
+  productAddRequest,
   setViewMode
 };
 

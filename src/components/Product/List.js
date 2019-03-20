@@ -29,6 +29,7 @@ class List extends React.Component {
 
   componentDidMount() {
     this.props.productListRequest();
+    this.setState({ productList: this.props.productList });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -68,7 +69,6 @@ class List extends React.Component {
                 className="btn btn-primary"
                 onClick={e => this.props.setViewMode("add")}
                 style={{ marginLeft: "2px" }}
-                disabled={!this.props.selectedNode.buildingID}
               >
                 등록
               </button>
@@ -78,8 +78,8 @@ class List extends React.Component {
                   const selectedUser = this.state.productList.filter(
                     product => product.isChecked
                   );
-                  this.props.productSetItem(selectedUser[0]);
-                  this.props.setViewMode("update");
+                  // this.props.productSetItem(selectedUser[0]);
+                  this.props.setViewMode("update", selectedUser[0]);
                 }}
                 style={{ marginLeft: "2px" }}
                 disabled={
@@ -132,7 +132,7 @@ class List extends React.Component {
                 {this.state.productList &&
                   this.state.productList.map((row, index) => (
                     <tr key={row.id}>
-                      <td>
+                      <td style={{ width: "60px" }}>
                         <input
                           className="w3-check"
                           type="checkbox"
@@ -149,10 +149,10 @@ class List extends React.Component {
                           }}
                         />
                       </td>
-                      <td>{index + 1}</td>
+                      <td style={{ width: "60px" }}>{index + 1}</td>
                       <td>{row.name}</td>
-                      <td>{row.Version}</td>
-                      <td>{row.period}</td>
+                      <td>{row.version}</td>
+                      <td>{row.period} 분</td>
                     </tr>
                   ))}
               </tbody>

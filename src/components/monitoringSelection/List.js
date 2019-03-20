@@ -21,20 +21,17 @@ class List extends React.Component {
     const selectedDevices = this.state.deviceList.filter(device => {
       return device.isChecked;
     });
-    const ids = selectedDevices.map(({ SerialNumber }) => SerialNumber);
-    this.props.userUpdateRequest({
-      id: this.props.authUser.id,
-      deviceList: ids.join()
-    });
+    const ids = selectedDevices.map(({ serialNumber }) => serialNumber);
+    let authUser = { ...this.props.authUser, deviceList: ids.join() };
+    this.props.userUpdateRequest(authUser);
   };
 
   componentDidMount() {
-    console.log("this.props.deviceList ....", this.props.deviceList);
+    this.props.deviceGetAllByPositionIdRequest({
+      id: this.props.authUser.positionList,
+      deviceList: this.props.authUser.deviceList
+    });
     this.setState({ deviceList: this.props.deviceList });
-    // this.props.deviceGetAllByPositionIdRequest({
-    //   id: this.props.authUser.positionList,
-    //   devices: this.props.authUser.deviceList
-    // });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -70,7 +67,7 @@ class List extends React.Component {
                     .length == 0
                 }
               >
-                모니터링 측정기 적용...
+                모니터링 측정기 적용
               </button>
             </div>
           </div>
@@ -93,6 +90,8 @@ class List extends React.Component {
                 </th>
                 <th>번호</th>
                 <th>측정기명</th>
+                <th>건물</th>
+                <th>위치</th>
                 <th>측정주기</th>
                 <th>S/N</th>
                 <th>제품군</th>
@@ -123,9 +122,11 @@ class List extends React.Component {
                     </td>
                     <td>{index + 1}</td>
                     <td>{row.name}</td>
+                    <td>{row.buildingName}</td>
+                    <td>{row.positionName}</td>
                     <td>{row.period} 분</td>
                     <td>{row.serialNumber}</td>
-                    <td>{row.productName}</td>
+                    <td>{row.productID}</td>
                     <td>{row.phone}</td>
                   </tr>
                 ))}

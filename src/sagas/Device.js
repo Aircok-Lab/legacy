@@ -11,7 +11,8 @@ import {
   DEVICE_UPDATE_REQUEST,
   DEVICE_DELETE_REQUEST,
   DEVICE_GET_ALL_BY_POSITION_ID_REQUEST,
-  DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS
+  DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS,
+  SET_VIEW_MODE
 } from "constants/ActionTypes";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
@@ -65,7 +66,7 @@ function* deviceAddWorker(action) {
         payload: { id: action.payload.positionID }
       });
       yield put({
-        type: "SET_VIEW_MODE",
+        type: SET_VIEW_MODE,
         payload: "list"
       });
     }
@@ -86,7 +87,7 @@ function* deviceUpdateWorker(action) {
         payload: { id: action.payload.positionID }
       });
       yield put({
-        type: "SET_VIEW_MODE",
+        type: SET_VIEW_MODE,
         payload: "list"
       });
     }
@@ -134,7 +135,7 @@ function* deviceGetAllByPositionIdWorker(action) {
       yield put({
         type: "DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS",
         payload: res.data.data,
-        devices: action.payload.devices
+        deviceList: action.payload.deviceList
       });
 
       // if (action.payload.node.buildingID) {

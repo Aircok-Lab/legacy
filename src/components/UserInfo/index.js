@@ -36,7 +36,7 @@ class UserInfo extends React.Component {
         />
         <div className="user-detail">
           <h4 className="user-name" onClick={this.handleClick}>
-            {this.props.authUser.LoginID}{" "}
+            {this.props.authUser.loginID}{" "}
             <i className="zmdi zmdi-caret-down zmdi-hc-fw align-middle" />
           </h4>
         </div>
@@ -54,18 +54,9 @@ class UserInfo extends React.Component {
             }
           }}
         >
-          <MenuItem onClick={this.handleRequestClose}>
-            <i className="zmdi zmdi-account zmdi-hc-fw mr-2" />
-            {/* <IntlMessages id="popup.profile" /> */}
-
-            <NavLink to="/app/profile">
-              {/* <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" /> */}
-              <span className="nav-text">Profile </span>
-            </NavLink>
-          </MenuItem>
           <MenuItem onClick={this.handleLogout}>
             <i className="zmdi zmdi-sign-in zmdi-hc-fw mr-2" />
-            <IntlMessages id="popup.logout" />
+            로그아웃
           </MenuItem>
         </Menu>
       </div>

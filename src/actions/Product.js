@@ -21,7 +21,7 @@ export const productAddRequest = payload => {
 
 export const productUpdateRequest = payload => {
   return {
-    type: PRODUCT_ADD_REQUEST,
+    type: PRODUCT_UPDATE_REQUEST,
     payload
   };
 };

@@ -161,11 +161,6 @@ class Add extends Component {
                 onChange={this.handleChange}
               >
                 <option value="" />
-                {/* {this.props.productList.map(product => (
-                  <option key={product.id} value={product.id}>
-                    {product.name}
-                  </option>
-                ))} */}
                 <option value="manager">Manager</option>
                 <option value="user">User</option>
                 <option value="monitoring">Monitoring</option>
