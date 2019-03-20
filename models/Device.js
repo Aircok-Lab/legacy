@@ -111,7 +111,7 @@ var Device = {
             return;
           }
           console.dir(result);
-          var buildingType = result[0].BuildingType;
+          var buildingType = result[0].buildingType;
 
           callback(null, buildingType);
         }

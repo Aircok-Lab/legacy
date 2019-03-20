@@ -46,8 +46,8 @@ router.post("/", function(req, res, next) {
         return;
       }
       if (info) {
-        console.log(info.Indoor);
-        if (info.Indoor) {
+        console.log(info.indoor);
+        if (info.indoor) {
           //  스마트 에어콕 실내형
           var paramPM10 = arr[3];
           var paramPM25 = arr[4];
@@ -103,7 +103,7 @@ router.post("/", function(req, res, next) {
           }
         );
 
-        if (info.BuildingType) {
+        if (info.buildingType) {
           // 빌딩의 타입에 따른 지수 계산
           var status = {};
           var totalScore = {};
@@ -116,7 +116,7 @@ router.post("/", function(req, res, next) {
           status.temperature = E3Core.getTempIndex(paramTemperature);
           status.humidity = E3Core.getHumidityIndex(paramHumidity);
           totalScore = E3Core.calTotalIndex(
-            info.BuildingType,
+            info.buildingType,
             status.pm10.score,
             status.pm25.score,
             status.co2.score,
