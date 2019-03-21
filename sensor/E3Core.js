@@ -351,6 +351,7 @@ var E3Core = {
         result.score = 0;
         break;
     }
+    console.log("score : " + result.score);
     result.score = Math.floor(result.score);
     console.log("score : " + result.score);
 
