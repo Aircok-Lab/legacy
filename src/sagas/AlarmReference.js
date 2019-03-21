@@ -9,7 +9,7 @@ import api from "api";
 
 const getAlarmReferenceValueRequest = async () =>
   await api
-    .post("AlarmTable/getAlarmValue")
+    .post("alarmTable/getAlarmValue")
     .then(alarmValue => alarmValue)
     .catch(error => error);
 
