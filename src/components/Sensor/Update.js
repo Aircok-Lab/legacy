@@ -72,6 +72,18 @@ class Update extends Component {
       "temperature",
       "humidity"
     ];
+
+    const sensorTypes2 = [
+      { sensorType: "pm10", engName: "PM10", korName: "미세먼지" },
+      { sensorType: "pm25", engName: "PM2.5", korName: "미세먼지" },
+      { sensorType: "co2", engName: "CO2", korName: "이산화탄소" },
+      { sensorType: "hcho", engName: "HCHO", korName: "포름알데히드" },
+      { sensorType: "voc", engName: "VOC", korName: "휘발성유기화합물" },
+      { sensorType: "noise", engName: "Noise", korName: "소음" },
+      { sensorType: "temperature", engName: "Temperature", korName: "온도" },
+      { sensorType: "humidity", engName: "Humidity", korName: "습도" }
+    ];
+
     // console.log("grades : ", grades);
     // console.log("sensorTypes : ", sensorTypes);
     // console.log("this.props.alarmData : ", this.props.alarmData);
@@ -79,8 +91,9 @@ class Update extends Component {
 
     let sensors = [];
 
-    sensorTypes.map(sensorType => {
-      sensors.push({ sensorType });
+    sensorTypes2.map(sensorType => {
+      // sensors.push({ sensorType: sensorType.sensorType });
+      sensors.push(sensorType);
     });
 
     // console.log("sensors : ", JSON.parse(JSON.stringify(sensors)));
@@ -158,33 +171,50 @@ class Update extends Component {
               }
             /> */}
           </div>
-          <table className="table table-bordered text-center">
-            <thead>
-              <tr className="text-white bg-primary">
-                <th>구분</th>
-                {grades.map((grade, index) => (
-                  <th colSpan="2" key={index}>
-                    {grade}
-                  </th>
-                ))}
-                <th>알람</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sensors.map(sensor => (
-                <tr key={sensor.sensorType}>
-                  <td>{sensor.sensorType}</td>
+          <div className="table-responsive">
+            <table className="table table-bordered text-center">
+              <thead className="text-white bg-primary">
+                <tr>
+                  <th rowSpan="2">구분</th>
+                  {grades.map((grade, index) => (
+                    <th colSpan="2" key={index}>
+                      {grade}
+                    </th>
+                  ))}
+                  <th rowSpan="2">알람</th>
+                </tr>
+                <tr>
+                  {/* <th rowSpan="2">구분</th> */}
                   {grades.map((grade, index) => (
                     <React.Fragment key={index}>
-                      <td>{sensor.grade["1"].min}</td>
-                      <td>{sensor.grade["1"].max}</td>
+                      <th>Min</th>
+                      <th>Max</th>
                     </React.Fragment>
                   ))}
-                  <td>{sensor.alarm}</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {sensors.map(sensor => (
+                  <tr key={sensor.sensorType}>
+                    <th className="bg-light text-dark">
+                      {sensor.korName}
+                      <br />
+                      <span>({sensor.engName})</span>
+                    </th>
+                    {grades.map((grade, index) => (
+                      <React.Fragment key={index}>
+                        {/* <td>{sensor.grade["1"].min}</td>
+                      <td>{sensor.grade["1"].max}</td> */}
+                        <td>{sensor.grade["" + (index + 1)].min}</td>
+                        <td>{sensor.grade["" + (index + 1)].max}</td>
+                      </React.Fragment>
+                    ))}
+                    <td>{sensor.alarm}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </form>{" "}
       </div>
     );
