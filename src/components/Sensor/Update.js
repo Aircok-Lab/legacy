@@ -53,48 +53,73 @@ class Update extends Component {
   };
 
   componentDidMount() {
-    this.props.sensorListRequest({ sensorType: "hcho" });
-    this.props.sensorListRequest({ sensorType: "pm10" });
+    this.props.sensorListRequest();
     this.props.alarmListRequest();
   }
 
-  // componentDidMount() {
-  //    this.setState({inputValue: this.props.inputValue});
-  // }
-  // handleChange = (e) => {
-  //   this.setState({inputValue: e.target.value});
-  // }
-
   render() {
+    if (!this.props.sensorData || !this.props.alarmData) {
+      return null;
+    }
     const grades = ["좋음", "보통", "민감군Ⅰ", "민감군Ⅱ", "나쁨", "매우나쁨"];
     const sensorTypes = [
       "pm10",
       "pm25",
       "co2",
       "hcho",
-      "vocs",
+      "voc",
       "noise",
       "temperature",
       "humidity"
     ];
-    console.log("grades : ", grades);
-    console.log("sensorTypes : ", sensorTypes);
-    console.log("this.props.alarmData : ", this.props.alarmData);
-    console.log("this.props.sensorData : ", this.props.sensorData);
+    // console.log("grades : ", grades);
+    // console.log("sensorTypes : ", sensorTypes);
+    // console.log("this.props.alarmData : ", this.props.alarmData);
+    // console.log("this.props.sensorData : ", this.props.sensorData);
 
-    let listAll = [];
+    let sensors = [];
 
     sensorTypes.map(sensorType => {
-      listAll.push({ sensorType });
+      sensors.push({ sensorType });
     });
 
-    console.log("listAll : ", listAll);
+    // console.log("sensors : ", JSON.parse(JSON.stringify(sensors)));
+    sensors.map(sensor => {
+      // console.log("sensor.sensorType", sensor.sensorType);
+
+      // console.log(
+      //   "alarm",
+      //   sensor.sensorType,
+      //   this.props.alarmData[sensor.sensorType]
+      // );
+
+      const sensorGrades = this.props.sensorData.filter(
+        item => item.sensorType == sensor.sensorType
+      );
+      // console.log("sensorGrades", sensorGrades);
+      sensor.grade = {};
+      sensorGrades.map(item => {
+        sensor.grade[item.grade] = {
+          key: item.grade,
+          min: item.min,
+          max: item.max
+        };
+      });
+
+      sensor.alarm = this.props.alarmData[sensor.sensorType];
+    });
+    const sensors_temp_humi = sensors.splice(6);
+    console.log(
+      "sensors : ",
+      sensors_temp_humi,
+      JSON.parse(JSON.stringify(sensors))
+    );
 
     return (
       <div className="col-12 mx-auto">
-        <form className="text-blue w3-margin">
+        <form className="w3-margin">
           <div className="row">
-            <div className="col-3">
+            {/* <div className="col-3">
               <input
                 className="form-control"
                 name="pm10"
@@ -123,7 +148,7 @@ class Update extends Component {
                 }}
                 style={{ border: "none" }}
               />
-            </div>
+            </div> */}
 
             {/* <input
               value={this.state.inputValue}
@@ -135,7 +160,7 @@ class Update extends Component {
           </div>
           <table className="table table-bordered text-center">
             <thead>
-              <tr>
+              <tr className="text-white bg-primary">
                 <th>구분</th>
                 {grades.map((grade, index) => (
                   <th colSpan="2" key={index}>
@@ -143,23 +168,21 @@ class Update extends Component {
                   </th>
                 ))}
                 <th>알람</th>
-                <th>수정</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>구분</td>
-                {grades.map((grade, index) => (
-                  <React.Fragment key={index}>
-                    <td>min</td>
-                    <td>max</td>
-                  </React.Fragment>
-                ))}
-                <td>알람</td>
-                <td>
-                  <button className="btn btn-primary mb-0">수정</button>
-                </td>
-              </tr>
+              {sensors.map(sensor => (
+                <tr key={sensor.sensorType}>
+                  <td>{sensor.sensorType}</td>
+                  {grades.map((grade, index) => (
+                    <React.Fragment key={index}>
+                      <td>{sensor.grade["1"].min}</td>
+                      <td>{sensor.grade["1"].max}</td>
+                    </React.Fragment>
+                  ))}
+                  <td>{sensor.alarm}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </form>{" "}

@@ -1,7 +1,7 @@
 import { SENSOR_LIST_SUCCESS } from "constants/ActionTypes";
 
 const INIT_STATE = {
-  data: {}
+  data: null
 };
 
 export default (state = INIT_STATE, action) => {
