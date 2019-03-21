@@ -2,20 +2,20 @@ import { push } from "react-router-redux";
 import { delay } from "redux-saga";
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import {
-  SENSOR_LIST_REQUEST,
-  SENSOR_LIST_SUCCESS,
-  SENSOR_UPDATE_REQUEST,
-  SENSOR_UPDATE_SUCCESS
+  ALARM_LIST_REQUEST,
+  ALARM_LIST_SUCCESS,
+  ALARM_UPDATE_REQUEST,
+  ALARM_UPDATE_SUCCESS
 } from "constants/ActionTypes";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
 
-function* sensorItemWorker(action) {
+function* alarmListWorker(action) {
   try {
-    const res = yield api.post(`indextable/allIndexTable`, action.payload);
+    const res = yield api.post(`alarmtable/getAlarmValue`, action.payload);
     if (responseDataProcess(res.data)) {
       yield put({
-        type: SENSOR_LIST_SUCCESS,
+        type: ALARM_LIST_SUCCESS,
         payload: res.data.data
       });
     }
@@ -23,16 +23,16 @@ function* sensorItemWorker(action) {
     console.log("[ERROR#####]", error);
   }
 }
-export function* sensorItemWatcher() {
-  yield takeEvery(SENSOR_LIST_REQUEST, sensorItemWorker);
+export function* alarmListWatcher() {
+  yield takeEvery(ALARM_LIST_REQUEST, alarmListWorker);
 }
 
-function* sensorUpdateWorker(action) {
+function* alarmUpdateWorker(action) {
   try {
     const res = yield api.put(`setting/updateSetting`, action.payload);
     if (responseDataProcess(res.data)) {
       // yield put({
-      //   type: SENSOR_UPDATE_SUCCESS,
+      //   type: ALARM_UPDATE_SUCCESS,
       //   payload: res.data.data
       // });
       alert("변경사항을 저장하였습니다.");
@@ -41,11 +41,11 @@ function* sensorUpdateWorker(action) {
     console.log("[ERROR#####]", error);
   }
 }
-export function* sensorUpdateWatcher() {
-  yield takeEvery(SENSOR_UPDATE_REQUEST, sensorUpdateWorker);
+export function* alarmUpdateWatcher() {
+  yield takeEvery(ALARM_UPDATE_REQUEST, alarmUpdateWorker);
 }
 
 export default function* rootSaga() {
-  yield all([fork(sensorItemWatcher)]);
-  yield all([fork(sensorUpdateWatcher)]);
+  yield all([fork(alarmListWatcher)]);
+  yield all([fork(alarmUpdateWatcher)]);
 }

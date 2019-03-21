@@ -7,6 +7,7 @@ import userSagas from "./User";
 import productSagas from "./Product";
 import systemSagas from "./System";
 import sensorSagas from "./Sensor";
+import alarmSagas from "./Alarm";
 
 export default function* rootSaga(getState) {
   yield all([
@@ -17,6 +18,7 @@ export default function* rootSaga(getState) {
     userSagas(),
     productSagas(),
     systemSagas(),
-    sensorSagas()
+    sensorSagas(),
+    alarmSagas()
   ]);
 }

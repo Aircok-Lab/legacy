@@ -1,11 +1,11 @@
 import {
-  SENSOR_ITEM_REQUEST,
+  SENSOR_LIST_REQUEST,
   SENSOR_UPDATE_REQUEST
 } from "constants/ActionTypes";
 
-export const sensorItemRequest = payload => {
+export const sensorListRequest = payload => {
   return {
-    type: SENSOR_ITEM_REQUEST,
+    type: SENSOR_LIST_REQUEST,
     payload
   };
 };

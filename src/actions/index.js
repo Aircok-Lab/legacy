@@ -7,3 +7,4 @@ export * from "./User";
 export * from "./Product";
 export * from "./System";
 export * from "./Sensor";
+export * from "./Alarm";

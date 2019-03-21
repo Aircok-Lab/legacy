@@ -10,6 +10,7 @@ import Tree from "./Tree";
 import Product from "./Product";
 import System from "./System";
 import Sensor from "./Sensor";
+import Alarm from "./Alarm";
 
 const reducers = combineReducers({
   routing: routerReducer,
@@ -22,7 +23,8 @@ const reducers = combineReducers({
   tree: Tree,
   product: Product,
   system: System,
-  sensor: Sensor
+  sensor: Sensor,
+  alarm: Alarm
 });
 
 export default reducers;

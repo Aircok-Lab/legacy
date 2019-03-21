@@ -1,11 +1,11 @@
 import {
-  SYSTEM_ITEM_REQUEST,
+  SYSTEM_LIST_REQUEST,
   SYSTEM_UPDATE_REQUEST
 } from "constants/ActionTypes";
 
-export const systemItemRequest = payload => {
+export const systemListRequest = payload => {
   return {
-    type: SYSTEM_ITEM_REQUEST,
+    type: SYSTEM_LIST_REQUEST,
     payload
   };
 };

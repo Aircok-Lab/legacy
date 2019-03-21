@@ -1,15 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { systemItemRequest, systemUpdateRequest } from "actions/System";
+import { systemListRequest, systemUpdateRequest } from "actions/System";
 import { setViewMode } from "actions/Setting";
 
 class Update extends Component {
   state = {
-    postData: {}
+    postData: {
+      scrollTime: 5,
+      scrollRow: 10,
+      monitoringTime: 5
+    }
   };
 
   update = () => {
-    this.props.systemUpdateRequest(this.state.postData);
+    if (isNaN(this.state.postData.scrollTime)) {
+      alert("테이블 전환주기 값을 입력하세요.");
+    } else if (isNaN(this.state.postData.monitoringTime)) {
+      alert("모니터링 전환주기 값을 입력하세요.");
+    } else {
+      this.props.systemUpdateRequest(this.state.postData);
+    }
   };
 
   handleChange = e => {
@@ -22,7 +32,7 @@ class Update extends Component {
   };
 
   componentDidMount() {
-    this.props.systemItemRequest({ id: "1" });
+    this.props.systemListRequest({ id: "1" });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -43,19 +53,14 @@ class Update extends Component {
               Table 전환주기(초)
             </div>
             <div className="w3-rest">
-              <select
+              <input
                 className="form-control"
                 name="scrollTime"
                 value={this.state.postData.scrollTime}
+                type="number"
+                placeholder=""
                 onChange={this.handleChange}
-              >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-                <option value="30">30</option>
-              </select>
+              />
             </div>
           </div>
           <div className="w3-row w3-section">
@@ -72,9 +77,6 @@ class Update extends Component {
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-                <option value="30">30</option>
               </select>
             </div>
           </div>
@@ -83,19 +85,14 @@ class Update extends Component {
               모니터링 전환주기(초)
             </div>
             <div className="w3-rest">
-              <select
+              <input
                 className="form-control"
                 name="monitoringTime"
                 value={this.state.postData.monitoringTime}
+                type="number"
+                placeholder=""
                 onChange={this.handleChange}
-              >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-                <option value="30">30</option>
-              </select>
+              />
             </div>
           </div>
           <div className="clearfix">
@@ -124,7 +121,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   systemUpdateRequest,
-  systemItemRequest
+  systemListRequest
 };
 
 export default connect(

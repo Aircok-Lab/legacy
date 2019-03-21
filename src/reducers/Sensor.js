@@ -1,12 +1,13 @@
-import { SENSOR_ITEM_SUCCESS } from "constants/ActionTypes";
+import { SENSOR_LIST_SUCCESS } from "constants/ActionTypes";
 
 const INIT_STATE = {
   data: {}
 };
 
 export default (state = INIT_STATE, action) => {
+  console.log("Sensor reducer", action.payload);
   switch (action.type) {
-    case SENSOR_ITEM_SUCCESS: {
+    case SENSOR_LIST_SUCCESS: {
       return {
         ...state,
         data: action.payload

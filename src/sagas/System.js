@@ -2,8 +2,8 @@ import { push } from "react-router-redux";
 import { delay } from "redux-saga";
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import {
-  SYSTEM_ITEM_REQUEST,
-  SYSTEM_ITEM_SUCCESS,
+  SYSTEM_LIST_REQUEST,
+  SYSTEM_LIST_SUCCESS,
   SYSTEM_UPDATE_REQUEST,
   SYSTEM_UPDATE_SUCCESS
 } from "constants/ActionTypes";
@@ -15,7 +15,7 @@ function* systemItemWorker(action) {
     const res = yield api.post(`setting/getSettingById`, action.payload);
     if (responseDataProcess(res.data)) {
       yield put({
-        type: SYSTEM_ITEM_SUCCESS,
+        type: SYSTEM_LIST_SUCCESS,
         payload: res.data.data
       });
     }
@@ -24,7 +24,7 @@ function* systemItemWorker(action) {
   }
 }
 export function* systemItemWatcher() {
-  yield takeEvery(SYSTEM_ITEM_REQUEST, systemItemWorker);
+  yield takeEvery(SYSTEM_LIST_REQUEST, systemItemWorker);
 }
 
 function* systemUpdateWorker(action) {

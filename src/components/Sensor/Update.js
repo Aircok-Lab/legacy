@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userUpdateRequest } from "actions/User";
-import { productListRequest } from "actions/Product";
+import { alarmListRequest } from "actions/Alarm";
+import { sensorListRequest } from "actions/Sensor";
 import { setViewMode } from "actions/Setting";
 
 class Update extends Component {
   state = {
     postData: {
-      loginId: this.props.authUser.loginID,
-      name: this.props.authUser.name,
-      password: this.props.authUser.Password,
-      email: this.props.authUser.email,
-      department: this.props.authUser.department,
-      phone: this.props.authUser.phone,
-      userType: this.props.authUser.userType
+      pm10: "10",
+      pm25: "25"
+      // loginId: this.props.authUser.loginID,
+      // name: this.props.authUser.name,
+      // password: this.props.authUser.Password,
+      // email: this.props.authUser.email,
+      // department: this.props.authUser.department,
+      // phone: this.props.authUser.phone,
+      // userType: this.props.authUser.userType
     }
   };
   update = () => {
@@ -51,21 +53,94 @@ class Update extends Component {
   };
 
   componentDidMount() {
-    this.props.productListRequest();
+    this.props.sensorListRequest({ sensorType: "hcho" });
+    this.props.sensorListRequest({ sensorType: "pm10" });
+    this.props.alarmListRequest();
   }
+
+  // componentDidMount() {
+  //    this.setState({inputValue: this.props.inputValue});
+  // }
+  // handleChange = (e) => {
+  //   this.setState({inputValue: e.target.value});
+  // }
 
   render() {
     const grades = ["좋음", "보통", "민감군Ⅰ", "민감군Ⅱ", "나쁨", "매우나쁨"];
+    const sensorTypes = [
+      "pm10",
+      "pm25",
+      "co2",
+      "hcho",
+      "vocs",
+      "noise",
+      "temperature",
+      "humidity"
+    ];
+    console.log("grades : ", grades);
+    console.log("sensorTypes : ", sensorTypes);
+    console.log("this.props.alarmData : ", this.props.alarmData);
+    console.log("this.props.sensorData : ", this.props.sensorData);
+
+    let listAll = [];
+
+    sensorTypes.map(sensorType => {
+      listAll.push({ sensorType });
+    });
+
+    console.log("listAll : ", listAll);
 
     return (
       <div className="col-12 mx-auto">
         <form className="text-blue w3-margin">
+          <div className="row">
+            <div className="col-3">
+              <input
+                className="form-control"
+                name="pm10"
+                value={this.state.postData.pm10}
+                type="number"
+                placeholder=""
+                onChange={this.handleChange}
+                onBlur={() => {
+                  // this.props.actions.updateInput(this.state.inputValue)
+                  console.log("onBlur .... ");
+                }}
+                style={{ border: "none" }}
+              />
+            </div>
+            <div className="col-3">
+              <input
+                className="form-control"
+                name="pm25"
+                value={this.state.postData.pm25}
+                type="number"
+                placeholder=""
+                onChange={this.handleChange}
+                onBlur={() => {
+                  // this.props.actions.updateInput(this.state.inputValue)
+                  console.log("onBlur .... ");
+                }}
+                style={{ border: "none" }}
+              />
+            </div>
+
+            {/* <input
+              value={this.state.inputValue}
+              onChange={this.handlechange}
+              onBlur={() =>
+                this.props.actions.updateInput(this.state.inputValue)
+              }
+            /> */}
+          </div>
           <table className="table table-bordered text-center">
             <thead>
               <tr>
                 <th>구분</th>
-                {grades.map(grade => (
-                  <th colspan="2">{grade}</th>
+                {grades.map((grade, index) => (
+                  <th colSpan="2" key={index}>
+                    {grade}
+                  </th>
                 ))}
                 <th>알람</th>
                 <th>수정</th>
@@ -74,8 +149,8 @@ class Update extends Component {
             <tbody>
               <tr>
                 <td>구분</td>
-                {grades.map(grade => (
-                  <React.Fragment>
+                {grades.map((grade, index) => (
+                  <React.Fragment key={index}>
                     <td>min</td>
                     <td>max</td>
                   </React.Fragment>
@@ -94,17 +169,18 @@ class Update extends Component {
 }
 
 const mapStateToProps = state => ({
-  authUser: state.auth.authUser,
-  selectedNode: state.tree.selectedNode,
-  productList: state.product.list,
-  viewMode: state.settings.viewMode,
-  item: state.user.item
+  // authUser: state.auth.authUser,
+  // selectedNode: state.tree.selectedNode,
+  // productList: state.product.list,
+  // viewMode: state.settings.viewMode,
+  alarmData: state.alarm.data,
+  sensorData: state.sensor.data
 });
 
 const mapDispatchToProps = {
-  userUpdateRequest,
-  productListRequest,
-  setViewMode
+  alarmListRequest,
+  sensorListRequest
+  // setViewMode
 };
 
 export default connect(

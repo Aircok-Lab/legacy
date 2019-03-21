@@ -1,16 +1,15 @@
-import { SYSTEM_LIST_SUCCESS } from "constants/ActionTypes";
+import { ALARM_LIST_SUCCESS } from "constants/ActionTypes";
 
 const INIT_STATE = {
-  data: []
+  data: {}
 };
 
 export default (state = INIT_STATE, action) => {
-  console.log("action", action);
   switch (action.type) {
-    case SYSTEM_LIST_SUCCESS: {
+    case ALARM_LIST_SUCCESS: {
       return {
         ...state,
-        data: action.payload[0]
+        data: action.payload
       };
     }
     default:
