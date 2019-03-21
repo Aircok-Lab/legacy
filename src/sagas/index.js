@@ -8,6 +8,8 @@ import productSagas from "./Product";
 import systemSagas from "./System";
 import sensorSagas from "./Sensor";
 import alarmSagas from "./Alarm";
+import alarmReferenceSagas from "./AlarmReference";
+import recentDataSagas from "./RecentData";
 
 export default function* rootSaga(getState) {
   yield all([
@@ -19,6 +21,8 @@ export default function* rootSaga(getState) {
     productSagas(),
     systemSagas(),
     sensorSagas(),
-    alarmSagas()
+    alarmSagas(),
+    alarmReferenceSagas(),
+    recentDataSagas()
   ]);
 }

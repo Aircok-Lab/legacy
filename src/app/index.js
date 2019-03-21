@@ -6,6 +6,7 @@ import Sidebar from "containers/SideNav/index";
 import Footer from "components/Footer";
 import Monitoring from "./routes/Monitoring";
 import MonitoringSelection from "./routes/MonitoringSelection";
+import deviceDetail from "./routes/Detail";
 import Device from "./routes/Device";
 import Product from "./routes/Product";
 import User from "./routes/User";
@@ -74,6 +75,10 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/monitoringSelection`}
                   component={MonitoringSelection}
+                />
+                <Route
+                  path={`${match.url}/device-detail/:id`}
+                  component={deviceDetail}
                 />
                 <Route path={`${match.url}/device`} component={Device} />
                 <Route path={`${match.url}/product`} component={Product} />

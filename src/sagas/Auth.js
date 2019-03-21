@@ -13,6 +13,7 @@ import {
   setInitUrl,
   publicKeySuccess
 } from "actions/Auth";
+import { alarmReferenceValueRequest } from "actions/AlarmReference";
 import api from "api/index";
 import forge from "node-forge";
 import responseDataProcess from "util/responseDataProcess";
@@ -22,9 +23,6 @@ import responseDataProcess from "util/responseDataProcess";
 //     .catch(error => error);
 
 const signInUserWithEmailPasswordRequest = async (email, password) =>
-  // await api.post("user/login?id="+email+"&password="+password)
-  //   .then(authUser => authUser)
-  //   .catch(error => error);
   await api
     .post("user/login", {
       loginId: email,
@@ -76,9 +74,9 @@ function* signInUserWithEmailPassword({ payload }) {
       yield put(showAuthMessage(signInUser.message));
     } else {
       yield put(userSignInSuccess(signInUser.data.data));
-      console.log("aaaabbbbb", JSON.stringify(signInUser.data.data));
       yield put(setInitUrl("/app/monitoring"));
       localStorage.setItem("user_id", JSON.stringify(signInUser.data.data));
+      yield put(alarmReferenceValueRequest());
     }
   } catch (error) {
     yield put(showAuthMessage(error));

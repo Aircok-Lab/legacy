@@ -143,6 +143,26 @@ Version        : 1.0
   vertical-align: middle !important;
 }
 
+.table-fixed {
+  width: 2000px;
+  background-color: #f3f3f3;
+  tbody {
+    height: 600px;
+    overflow-y: auto;
+    width: 2000px;
+  }
+  thead,
+  tbody {
+    display: block;
+  }
+  thead,
+  tbody{
+    td{
+      text-align: center !important;
+      vertical-align: middle !important;
+    }
+  }
+}
 /*** ACCORDION ***/
 
 /* Header */

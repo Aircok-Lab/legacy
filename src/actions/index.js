@@ -8,3 +8,4 @@ export * from "./Product";
 export * from "./System";
 export * from "./Sensor";
 export * from "./Alarm";
+export * from "./AlarmReference";

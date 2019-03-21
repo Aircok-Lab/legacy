@@ -11,6 +11,8 @@ import Product from "./Product";
 import System from "./System";
 import Sensor from "./Sensor";
 import Alarm from "./Alarm";
+import AlarmReference from "./AlarmReference";
+import RecentData from "./RecentData";
 
 const reducers = combineReducers({
   routing: routerReducer,
@@ -24,7 +26,9 @@ const reducers = combineReducers({
   product: Product,
   system: System,
   sensor: Sensor,
-  alarm: Alarm
+  alarm: Alarm,
+  alarmReference: AlarmReference,
+  recentData: RecentData
 });
 
 export default reducers;
