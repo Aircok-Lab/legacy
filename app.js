@@ -48,8 +48,8 @@ app.use("/product", productRouter);
 app.use("/setting", settingRouter);
 app.use("/data", dataRouter);
 app.use("/recentData", recentDataRouter);
-app.use("/IndexTable", indexTableRouter);
-app.use("/AlarmTable", alarmTableRouter);
+app.use("/indexTable", indexTableRouter);
+app.use("/alarmTable", alarmTableRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
