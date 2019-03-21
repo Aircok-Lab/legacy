@@ -15,18 +15,18 @@ import {
 } from "actions/Auth";
 import api from "api/index";
 import forge from "node-forge";
-
+import responseDataProcess from "util/responseDataProcess";
 // const createUserWithEmailPasswordRequest = async (email, password) =>
 //   await  auth.createUserWithEmailAndPassword(email, password)
 //     .then(authUser => authUser)
 //     .catch(error => error);
 
 const signInUserWithEmailPasswordRequest = async (email, password) =>
-  // await api.post("users/login?id="+email+"&password="+password)
+  // await api.post("user/login?id="+email+"&password="+password)
   //   .then(authUser => authUser)
   //   .catch(error => error);
   await api
-    .post("users/login", {
+    .post("user/login", {
       loginId: email,
       password: password
     })
@@ -35,13 +35,13 @@ const signInUserWithEmailPasswordRequest = async (email, password) =>
 
 const signOutRequest = async () =>
   await api
-    .get("users/logout")
+    .get("user/logout")
     .then(authUser => authUser)
     .catch(error => error);
 
 const publicKeyRequest = async () =>
   await api
-    .get("users/pkey")
+    .get("user/pkey")
     .then(pkey => pkey)
     .catch(error => error);
 
@@ -76,6 +76,7 @@ function* signInUserWithEmailPassword({ payload }) {
       yield put(showAuthMessage(signInUser.message));
     } else {
       yield put(userSignInSuccess(signInUser.data.data));
+      console.log("aaaabbbbb", JSON.stringify(signInUser.data.data));
       yield put(setInitUrl("/app/monitoring"));
       localStorage.setItem("user_id", JSON.stringify(signInUser.data.data));
     }

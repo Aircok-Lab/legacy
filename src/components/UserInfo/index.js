@@ -5,6 +5,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IntlMessages from "util/IntlMessages";
 import { userSignOut } from "actions/Auth";
+import { NavLink, withRouter } from "react-router-dom";
 
 class UserInfo extends React.Component {
   state = {
@@ -35,7 +36,7 @@ class UserInfo extends React.Component {
         />
         <div className="user-detail">
           <h4 className="user-name" onClick={this.handleClick}>
-            {this.props.authUser.LoginID}{" "}
+            {this.props.authUser.loginID}{" "}
             <i className="zmdi zmdi-caret-down zmdi-hc-fw align-middle" />
           </h4>
         </div>
@@ -53,13 +54,9 @@ class UserInfo extends React.Component {
             }
           }}
         >
-          <MenuItem onClick={this.handleRequestClose}>
-            <i className="zmdi zmdi-account zmdi-hc-fw mr-2" />
-            <IntlMessages id="popup.profile" />
-          </MenuItem>
           <MenuItem onClick={this.handleLogout}>
             <i className="zmdi zmdi-sign-in zmdi-hc-fw mr-2" />
-            <IntlMessages id="popup.logout" />
+            로그아웃
           </MenuItem>
         </Menu>
       </div>

@@ -1,7 +1,7 @@
 import {
-  BUILDING_LIST_REQUEST,
   BUILDING_LIST_SUCCESS,
-  BUILDING_LIST_FAIL
+  BUILDING_ADD_SUCCESS,
+  BUILDING_DELETE_SUCCESS
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -16,27 +16,32 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case BUILDING_LIST_REQUEST: {
-      // alert("REQUEST");
-      return {
-        ...state
-        // loader: false,
-        // authUser: action.payload
-      };
-    }
     case BUILDING_LIST_SUCCESS: {
-      // alert("SUCCESS");
-      // console.log("SUCCESS", action.payload);
+      const list = action.payload.map(item => {
+        return {
+          ...item,
+          nodeId: "" + item.id
+        };
+      });
+
       return {
         ...state,
         loader: false,
-        list: action.payload
+        list: list
       };
     }
-    case BUILDING_LIST_FAIL: {
+    case BUILDING_ADD_SUCCESS: {
       return {
         ...state,
-        initURL: action.payload
+        loader: false
+        // list: action.payload
+      };
+    }
+    case BUILDING_DELETE_SUCCESS: {
+      return {
+        ...state,
+        loader: false
+        // list: action.payload
       };
     }
     default:

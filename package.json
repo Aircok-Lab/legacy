@@ -80,6 +80,7 @@
     "style-ext-html-webpack-plugin": "^3.4.7",
     "typeface-roboto": "^0.0.45",
     "upath": "^1.1.0",
+    "uuid": "^3.3.2",
     "w3-css": "^4.1.0"
   },
   "scripts": {
