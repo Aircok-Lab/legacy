@@ -62,7 +62,7 @@ router.post("/getAlarmValue", function(req, res, next) {
       console.dir(alarmReferenceInfo);
       var returnVal = {};
       alarmReferenceInfo.map(sensor => {
-        returnVal[`${sensor.SensorType}`] = sensor.AlarmValue;
+        returnVal[`${sensor.sensorType}`] = sensor.alarmValue;
       });
 
       result.statusCode = OK;
