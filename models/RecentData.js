@@ -95,7 +95,7 @@ var RecentData = {
 
       // SQL문을 실행합니다.
       var queryString =
-        "select Building.Name as BuildingName , Position.Name as PositionName, RecentData.* from RecentData, Position, Building, Device\
+        "select Building.Name as buildingName , Position.Name as positionName, RecentData.* from RecentData, Position, Building, Device\
         where RecentData.DeviceSN = Device.SerialNumber and  Device.PositionID = Position.id and Position.BuildingID = Building.id and RecentData.deviceSN in(" +
         deviceSN +
         ")";
