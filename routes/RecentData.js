@@ -114,6 +114,38 @@ router.post("/getRecentDataByPositionId", function(req, res, next) {
   });
 });
 
+router.post("/getRecentDataByDeviceSN", function(req, res, next) {
+  console.log("/getRecentDataByDeviceSN 호출됨.");
+
+  var paramDeviceSN = req.body.deviceSN || req.query.deviceSN;
+  var result = { statusCode: null, message: null, data: null };
+
+  console.log("요청 파라미터 : " + paramDeviceSN);
+
+  RecentData.getRecentDataByDeviceSN(paramDeviceSN, function(err, datas) {
+    if (err) {
+      console.error("오류 발생 :" + err.stack);
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
+    }
+
+    //결과 객체 있으면 성공 응답 전송
+    if (datas) {
+      console.dir(datas);
+      result.statusCode = OK;
+      result.message = "성공";
+      result.data = datas;
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "실패";
+      res.send(result);
+    }
+  });
+});
+
 // router.put('/updateRecentData', function(req, res, next) {
 //     console.log('/updateRecentData 호출됨.');
 
