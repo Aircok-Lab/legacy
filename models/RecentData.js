@@ -95,8 +95,8 @@ var RecentData = {
 
       // SQL문을 실행합니다.
       var queryString =
-        "select Building.Name as buildingName , Position.Name as positionName, RecentData.* from RecentData, Position, Building, Device\
-        where RecentData.DeviceSN = Device.SerialNumber and  Device.PositionID = Position.id and Position.BuildingID = Building.id and RecentData.deviceSN in(" +
+        "select Building.name as buildingName , Position.name as positionName, Device.name as deviceName, RecentData.* from RecentData, Position, Building, Device\
+        where RecentData.deviceSN = Device.serialNumber and  Device.positionID = Position.id and Position.buildingID = Building.id and RecentData.deviceSN in(" +
         deviceSN +
         ")";
       var exec = conn.query(queryString, function(err, result) {
