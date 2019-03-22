@@ -80,7 +80,7 @@ const mainTableHead = props => {
         >
           포름알데히드(HCHO)
           <br />
-          (ppm)
+          (㎍/㎥)
         </th>
         <th
           className="table-header-row0-class"
@@ -89,7 +89,7 @@ const mainTableHead = props => {
         >
           휘발성유기화합물(VOCs)
           <br />
-          (㎍/㎥)
+          (ppb)
         </th>
         <th
           className="table-header-row0-class"
@@ -98,7 +98,7 @@ const mainTableHead = props => {
         >
           소음
           <br />
-          (㎍/㎥)
+          (db)
         </th>
         <th
           className="table-header-row0-class"
