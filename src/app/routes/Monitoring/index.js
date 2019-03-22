@@ -2,7 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { alarmReferenceValueRequest } from "actions/AlarmReference";
 import { showAuthLoader } from "actions/Auth";
-import { recentDataRequest } from "actions/RecentData";
+import {
+  allRecentDataRequest,
+  monitoringRecentDataRequest
+} from "actions/RecentData";
 import MainTableHead from "../Monitoring/mainTableHead";
 import SensorData from "../Monitoring/sensorData";
 
@@ -20,19 +23,22 @@ class SamplePage extends React.Component {
     super(props);
     this.props.showAuthLoader();
     this.props.alarmReferenceValueRequest();
-    this.props.recentDataRequest(this.props.authUser.positionList);
+    console.log(this.props.authUser.userType);
+    if (this.props.authUser.userType === "monitoring")
+      this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
+    else this.props.allRecentDataRequest(this.props.authUser.positionList);
     this.pageScroll = this.pageScroll.bind(this);
     this.loadData = this.loadData.bind(this);
   }
 
   componentDidMount() {
-    this.scrollIntervalHandle = setInterval(this.pageScroll, 30000);
-    this.loadDataIntervalHandle = setInterval(this.loadData, 60000);
+    this.intervalScrollHandle = setInterval(this.pageScroll, 30000);
+    this.loadDataintervalLoadDataHandle = setInterval(this.loadData, 60000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.scrollIntervalHandle);
-    clearInterval(this.loadDataIntervalHandle);
+    clearInterval(this.intervalScrollHandle);
+    clearInterval(this.loadDataintervalLoadDataHandle);
   }
 
   pageScroll() {
@@ -48,7 +54,9 @@ class SamplePage extends React.Component {
   }
 
   loadData() {
-    this.props.recentDataRequest(this.props.authUser.positionList);
+    if (this.props.authUser.userType === "monitoring")
+      this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
+    else this.props.allRecentDataRequest(this.props.authUser.positionList);
   }
 
   render() {
@@ -70,15 +78,19 @@ class SamplePage extends React.Component {
         <table className="table table-fixed">
           <MainTableHead />
           <tbody id="contain" ref="contain">
-            {this.props.contactData &&
-              this.props.contactData.map((contact, i) => {
+            {this.props.allRecentData &&
+              this.props.allRecentData.map((contact, i) => {
+                let deviceList = null;
+                if (this.props.authUser.userType === "monitoring")
+                  deviceList = this.props.authUser.deviceList;
+                else deviceList = contact.deviceSN;
                 return (
                   <tr key={i}>
                     <td style={{ width: `${nameTabWidth}` }}>
                       {contact.buildingName}
                     </td>
                     <td style={{ width: `${nameTabWidth}` }}>
-                      <a href={"#/app/device-detail/" + contact.id}>
+                      <a href={"#/app/device-detail/" + deviceList}>
                         {contact.positionName}
                       </a>
                     </td>
@@ -162,10 +174,15 @@ class SamplePage extends React.Component {
 const mapStateToProps = ({ alarmReference, auth, recentData }) => {
   const { alarmReferenceValue } = alarmReference;
   const { authUser } = auth;
-  const { contactData } = recentData;
-  return { alarmReferenceValue, authUser, contactData };
+  const { allRecentData, monitoringRecentData } = recentData;
+  return { alarmReferenceValue, authUser, allRecentData, monitoringRecentData };
 };
 export default connect(
   mapStateToProps,
-  { alarmReferenceValueRequest, showAuthLoader, recentDataRequest }
+  {
+    alarmReferenceValueRequest,
+    showAuthLoader,
+    allRecentDataRequest,
+    monitoringRecentDataRequest
+  }
 )(SamplePage);

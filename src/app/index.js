@@ -77,7 +77,7 @@ class App extends React.Component {
                   component={MonitoringSelection}
                 />
                 <Route
-                  path={`${match.url}/device-detail/:id`}
+                  path={`${match.url}/device-detail/:deviceList`}
                   component={deviceDetail}
                 />
                 <Route path={`${match.url}/device`} component={Device} />
