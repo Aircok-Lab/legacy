@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { monitoringRecentDataRequest } from "actions/RecentData";
 import { showAuthLoader } from "actions/Auth";
 import SensorCard from "./card.js";
+import DeviceInfo from "./deviceInfo.js";
+import AdviceInfo from "./adviceInfo.js";
 
 class DetailPage extends React.Component {
   constructor(props) {
@@ -101,6 +103,18 @@ class DetailPage extends React.Component {
                 sensorIndex={contact.vocIndex}
                 sensorType="voc"
               />
+            </div>
+          </div>
+          <div>
+            <div className="card-deck mx-3 mb-3">
+              <DeviceInfo
+                time={contact.date}
+                buildingName={contact.buildingName}
+                positionName={contact.positionName}
+                deviceName={contact.deviceName}
+                serialNumber={contact.deviceSN}
+              />
+              <AdviceInfo />
             </div>
           </div>
         </div>

@@ -42,57 +42,56 @@ class SensorCard extends React.Component {
     console.log("sensorIndex : " + sensorIndex);
     let icon = "assets/icons/" + sensorType + ".png";
 
-    if (this.props.sensorType)
-      return (
-        <div className="card" style={{ borderRadius: "10px" }}>
-          <div
-            className="card-header text-center p-2"
-            style={{
-              borderTopLeftRadius: "10px",
-              borderTopRightRadius: "10px",
-              fontStyle: "Bold",
-              fontSize: "1.4em"
-            }}
-          >
-            {title}
-          </div>
-          <div
-            className={getClassText(sensorIndex)}
-            style={{
-              borderBottomLeftRadius: "10px",
-              borderBottomRightRadius: "10px",
-              padding: "28px"
-            }}
-          >
-            <div className="row align-items-center">
-              <div className="d-inline" style={{ width: "50%" }}>
-                <img
-                  src={icon}
-                  alt="icons"
-                  style={{ width: "150px", height: "150px" }}
-                />
+    return (
+      <div className="card" style={{ borderRadius: "10px" }}>
+        <div
+          className="card-header text-center p-2"
+          style={{
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px",
+            fontStyle: "Bold",
+            fontSize: "1.4em"
+          }}
+        >
+          {title}
+        </div>
+        <div
+          className={getClassText(sensorIndex)}
+          style={{
+            borderBottomLeftRadius: "10px",
+            borderBottomRightRadius: "10px",
+            padding: "28px"
+          }}
+        >
+          <div className="row align-items-center">
+            <div className="d-inline" style={{ width: "50%" }}>
+              <img
+                src={icon}
+                alt="icons"
+                style={{ width: "150px", height: "150px" }}
+              />
+            </div>
+            <div className="d-inline" style={{ width: "50%" }}>
+              <div
+                className="text-white font-weight-bold"
+                style={{ fontSize: "3.6em" }}
+              >
+                {qualityType[`${sensorIndex}`]}
               </div>
-              <div className="d-inline" style={{ width: "50%" }}>
-                <div
-                  className="text-white font-weight-bold"
-                  style={{ fontSize: "3.6em" }}
-                >
-                  {qualityType[`${sensorIndex}`]}
-                </div>
-                <div
-                  className="text-white font-weight-light"
-                  style={{ fontSize: "3.2em" }}
-                >
-                  {sensorData}
-                  <span style={{ fontSize: "1em" }}>
-                    {unitType[`${sensorType}`]}
-                  </span>
-                </div>
+              <div
+                className="text-white font-weight-light"
+                style={{ fontSize: "3.2em" }}
+              >
+                {sensorData}
+                <span style={{ fontSize: "1em" }}>
+                  {unitType[`${sensorType}`]}
+                </span>
               </div>
             </div>
           </div>
         </div>
-      );
+      </div>
+    );
   }
 }
 
