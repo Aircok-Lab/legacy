@@ -23,8 +23,6 @@ class DetailPage extends React.Component {
     this.intervalLoadDataHandle = setInterval(this.loadData, 10000);
   }
 
-  componentWillReceiveProps(nextProps) {}
-
   componentWillUnmount() {
     clearInterval(this.intervalLoadDataHandle);
   }
@@ -57,7 +55,7 @@ class DetailPage extends React.Component {
                 title="통합공기질관리지수"
                 sensorData={contact.e3Score}
                 sensorIndex={contact.e3Index}
-                sensorType="E3"
+                sensorType="totalindex"
               />
               <SensorCard
                 title="온도"

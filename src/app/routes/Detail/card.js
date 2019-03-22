@@ -1,20 +1,63 @@
 import React from "react";
 
+const qualityType = {
+  1: "좋음",
+  2: "보통",
+  3: "약간나쁨",
+  4: "나쁨",
+  5: "매우나쁨",
+  6: "최악"
+};
+
+const unitType = {
+  temperature: "℃",
+  humidity: "%",
+  pm10: "㎍/㎥",
+  pm25: "㎍/㎥",
+  co2: "ppm",
+  hcho: "㎍/㎥",
+  voc: "ppb",
+  noise: "db"
+};
+
+const getClassText = grade => {
+  let classText = " card-body text-white text-center bg-good";
+  if (grade == 1) classText = " card-body text-white text-center bg-good";
+  else if (grade == 2)
+    classText = " card-body text-white text-center bg-normal";
+  else if (grade == 3)
+    classText = " card-body text-white text-center bg-sensitive1";
+  else if (grade == 4)
+    classText = " card-body text-white text-center bg-sensitive2";
+  else if (grade == 5) classText = " card-body text-white text-center bg-bad";
+  else if (grade == 6)
+    classText = " card-body text-white text-center bg-very-bad";
+  // console.log(classText);
+  return classText;
+};
+
 class SensorCard extends React.Component {
   render() {
-    return (
+    const { title, sensorData, sensorIndex, sensorType } = this.props;
+    console.log("sensorIndex : " + sensorIndex);
+    let icon = "assets/icons/" + sensorType + ".png";
+
+    if (this.props.sensorType)
+      return (
         <div className="card" style={{ borderRadius: "10px" }}>
           <div
             className="card-header text-center p-2"
             style={{
               borderTopLeftRadius: "10px",
-              borderTopRightRadius: "10px"
+              borderTopRightRadius: "10px",
+              fontStyle: "Bold",
+              fontSize: "1.4em"
             }}
           >
-            <h1>{this.props.title}</h1>
+            {title}
           </div>
           <div
-            className="card-body text-white text-center bg-sensitive1"
+            className={getClassText(sensorIndex)}
             style={{
               borderBottomLeftRadius: "10px",
               borderBottomRightRadius: "10px",
@@ -24,7 +67,7 @@ class SensorCard extends React.Component {
             <div className="row align-items-center">
               <div className="d-inline" style={{ width: "50%" }}>
                 <img
-                  src="assets/icons/totalindex.png"
+                  src={icon}
                   alt="icons"
                   style={{ width: "150px", height: "150px" }}
                 />
@@ -34,19 +77,22 @@ class SensorCard extends React.Component {
                   className="text-white font-weight-bold"
                   style={{ fontSize: "3.6em" }}
                 >
-                  약간나쁨
+                  {qualityType[`${sensorIndex}`]}
                 </div>
                 <div
                   className="text-white font-weight-light"
                   style={{ fontSize: "3.2em" }}
                 >
-                  {this.props.sensorData}
+                  {sensorData}
+                  <span style={{ fontSize: "1em" }}>
+                    {unitType[`${sensorType}`]}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-    );
+      );
   }
 }
 
