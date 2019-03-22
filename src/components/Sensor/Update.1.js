@@ -9,9 +9,7 @@ class Update extends Component {
     postData: {
       pm10: "10",
       pm25: "25"
-    },
-    sensors_a: [],
-    sensors_b: []
+    }
   };
   update = () => {
     if (!this.state.postData.name) {
@@ -39,17 +37,12 @@ class Update extends Component {
   };
   handleChange = e => {
     console.log("handleChange", e.target.value);
-    this.setState(
-      {
-        postData: {
-          ...this.state.postData,
-          [e.target.name]: e.target.value
-        }
-      },
-      () => {
-        console.log("this.state", this.state);
+    this.setState({
+      postData: {
+        ...this.state.postData,
+        [e.target.name]: e.target.value
       }
-    );
+    });
   };
 
   componentDidMount() {
@@ -57,42 +50,23 @@ class Update extends Component {
     this.props.alarmListRequest();
   }
 
-  static getDerivedStateFromProps(props, state) {
-    // if (props.data.id !== state.postData.id) {
-    //   return {
-    //     postData: props.data
-    //   };
-    // }
-    if (!state.sensors_a.length) {
-      console.log("getDerivedStateFromProps ..... ");
-      return {
-        sensors_a: [{ sensorType: "pm10", alarm: "50" }]
-      };
-    }
-    return null;
-  }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log("componentDidUpdate ..... ");
-  // }
-
   render() {
     if (!this.props.sensorData || !this.props.alarmData) {
       return null;
     }
     const grades = ["좋음", "보통", "민감군Ⅰ", "민감군Ⅱ", "나쁨", "매우나쁨"];
-    // const sensorTypes = [
-    //   "pm10",
-    //   "pm25",
-    //   "co2",
-    //   "hcho",
-    //   "voc",
-    //   "noise",
-    //   "temperature",
-    //   "humidity"
-    // ];
-
     const sensorTypes = [
+      "pm10",
+      "pm25",
+      "co2",
+      "hcho",
+      "voc",
+      "noise",
+      "temperature",
+      "humidity"
+    ];
+
+    const sensorTypes2 = [
       { sensorType: "pm10", engName: "PM10", korName: "미세먼지" },
       { sensorType: "pm25", engName: "PM2.5", korName: "미세먼지" },
       { sensorType: "co2", engName: "CO2", korName: "이산화탄소" },
@@ -110,7 +84,7 @@ class Update extends Component {
 
     let sensors = [];
 
-    sensorTypes.map(sensorType => {
+    sensorTypes2.map(sensorType => {
       // sensors.push({ sensorType: sensorType.sensorType });
       sensors.push(sensorType);
     });
@@ -141,22 +115,22 @@ class Update extends Component {
       sensor.alarm = this.props.alarmData[sensor.sensorType];
     });
     const sensors_temp_humi = sensors.splice(6);
-    // console.log(
-    //   "sensors : ",
-    //   sensors_temp_humi,
-    //   JSON.parse(JSON.stringify(sensors))
-    // );
+    console.log(
+      "sensors : ",
+      sensors_temp_humi,
+      JSON.parse(JSON.stringify(sensors))
+    );
 
     return (
       <div className="col-12 mx-auto">
         <form className="w3-margin">
           <div className="row">
-            <div className="col-3">
+            {/* <div className="col-3">
               <input
                 className="form-control"
                 name="pm10"
                 value={this.state.postData.pm10}
-                type="text"
+                type="number"
                 placeholder=""
                 onChange={this.handleChange}
                 onBlur={() => {
@@ -171,7 +145,7 @@ class Update extends Component {
                 className="form-control"
                 name="pm25"
                 value={this.state.postData.pm25}
-                type="text"
+                type="number"
                 placeholder=""
                 onChange={this.handleChange}
                 onBlur={() => {
@@ -180,7 +154,7 @@ class Update extends Component {
                 }}
                 style={{ border: "none" }}
               />
-            </div>
+            </div> */}
 
             {/* <input
               value={this.state.inputValue}
@@ -215,68 +189,20 @@ class Update extends Component {
               <tbody>
                 {sensors.map(sensor => (
                   <tr key={sensor.sensorType}>
-                    <th
-                      className="bg-light text-dark"
-                      style={{ width: "160px" }}
-                    >
+                    <th className="bg-light text-dark">
                       {sensor.korName}
                       <br />
                       <span>({sensor.engName})</span>
                     </th>
                     {grades.map((grade, index) => (
                       <React.Fragment key={index}>
-                        <td>
-                          <input
-                            className="form-control"
-                            name="pm25"
-                            value={sensor.grade["" + (index + 1)].min}
-                            type="text"
-                            placeholder=""
-                            onChange={this.handleChange}
-                            onBlur={() => {
-                              // this.props.actions.updateInput(this.state.inputValue)
-                              console.log("onBlur .... ");
-                            }}
-                            style={{ border: "none" }}
-                          />
-                        </td>
-                        <td>
-                          <input
-                            className="form-control"
-                            name="pm25"
-                            value={sensor.grade["" + (index + 1)].max}
-                            type="text"
-                            placeholder=""
-                            onChange={this.handleChange}
-                            onBlur={() => {
-                              // this.props.actions.updateInput(this.state.inputValue)
-                              console.log("onBlur .... ");
-                            }}
-                            style={{ border: "none" }}
-                          />
-                        </td>
-
-                        {/* <td>{sensor.grade["" + (index + 1)].min}</td> */}
-                        {/* <td>{sensor.grade["" + (index + 1)].max}</td> */}
+                        {/* <td>{sensor.grade["1"].min}</td>
+                      <td>{sensor.grade["1"].max}</td> */}
+                        <td>{sensor.grade["" + (index + 1)].min}</td>
+                        <td>{sensor.grade["" + (index + 1)].max}</td>
                       </React.Fragment>
                     ))}
-                    <td>
-                      <input
-                        className="form-control"
-                        name="pm25"
-                        value={sensor.alarm}
-                        type="text"
-                        placeholder=""
-                        onChange={this.handleChange}
-                        onBlur={() => {
-                          // this.props.actions.updateInput(this.state.inputValue)
-                          console.log("onBlur .... ");
-                        }}
-                        style={{ border: "none" }}
-                      />
-                    </td>
-
-                    {/* <td>{sensor.alarm}</td> */}
+                    <td>{sensor.alarm}</td>
                   </tr>
                 ))}
               </tbody>
@@ -289,6 +215,10 @@ class Update extends Component {
 }
 
 const mapStateToProps = state => ({
+  // authUser: state.auth.authUser,
+  // selectedNode: state.tree.selectedNode,
+  // productList: state.product.list,
+  // viewMode: state.settings.viewMode,
   alarmData: state.alarm.data,
   sensorData: state.sensor.data
 });
@@ -296,6 +226,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   alarmListRequest,
   sensorListRequest
+  // setViewMode
 };
 
 export default connect(

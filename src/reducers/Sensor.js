@@ -5,7 +5,7 @@ const INIT_STATE = {
 };
 
 export default (state = INIT_STATE, action) => {
-  console.log("Sensor reducer", action.payload);
+  // console.log("Sensor reducer", action.payload);
   switch (action.type) {
     case SENSOR_LIST_SUCCESS: {
       return {

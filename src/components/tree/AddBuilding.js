@@ -1,44 +1,76 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { buildingAddRequest } from "actions/Building";
+import {
+  buildingAddRequest,
+  buildingLocationRequest,
+  buildingLocationReset
+} from "actions/Building";
 
 class AddBuilding extends Component {
   state = {
-    postData: {
-      name: "" + new Date().getTime(),
-      address: "영등포구 여의도동",
-      latitude: 38,
-      longitude: 127,
-      userID: this.props.authUser.id
-    },
-    searchedAddress: "영등포구 여의도동"
+    name: "" + new Date().getTime(),
+    address: "여의도",
+    latitude: "",
+    longitude: "",
+    userID: this.props.authUser.id
   };
+
   addBuilding = () => {
-    // this.props.buildingAddRequest(this.state.postData);
-    const positionId = this.props.selectedNode.buildingID
-      ? this.props.selectedNode.id
-      : "";
-    if (!this.state.postData.name) {
+    if (!this.state.name) {
       alert("건물명을 입력하세요");
-    } else if (!this.state.postData.address) {
+    } else if (!this.state.address) {
       alert("주소를 입력하세요");
-    } else if (!this.state.postData.latitude) {
+    } else if (!this.state.latitude) {
       alert("위도를 입력하세요");
-    } else if (!this.state.postData.longitude) {
+    } else if (!this.state.longitude) {
       alert("경도를 입력하세요");
     } else {
-      this.props.buildingAddRequest(this.state.postData);
+      this.props.buildingAddRequest(this.state);
       this.props.closeModal();
     }
   };
+
   handleChange = e => {
     this.setState({
-      postData: {
-        ...this.state.postData,
-        [e.target.name]: e.target.value
-      }
+      [e.target.name]: e.target.value
     });
   };
+
+  searchAddress = () => {
+    this.props.buildingLocationRequest(this.state.address);
+  };
+
+  applyLocation = () => {
+    this.setState({
+      address: this.state.searchedAddress,
+      latitude: this.state.searchedLatitude,
+      longitude: this.state.searchedLongitude
+    });
+  };
+
+  resetLocation = () => {
+    this.setState({
+      address: "여의도",
+      latitude: "",
+      longitude: ""
+    });
+    this.props.buildingLocationReset();
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.address !== state.searchedAddress && props.location) {
+      return {
+        searchedAddress: props.address,
+        searchedLatitude: props.location.lat,
+        searchedLongitude: props.location.lng
+      };
+    }
+    return null;
+  }
+
+  componentDidMount() {
+    this.resetLocation();
+  }
 
   render() {
     return (
@@ -52,7 +84,7 @@ class AddBuilding extends Component {
             <input
               className="form-control"
               name="name"
-              value={this.state.postData.name}
+              value={this.state.name}
               type="text"
               placeholder=""
               onChange={this.handleChange}
@@ -68,8 +100,10 @@ class AddBuilding extends Component {
               <div className="w3-right">
                 <button
                   type="button"
-                  className="w3-padding-top w3-padding-bottom"
-                  style={{ padding: "8px 8px", marginLeft: "8px" }}
+                  className="btn btn-primary"
+                  style={{ padding: "8px", marginLeft: "8px" }}
+                  onClick={this.searchAddress}
+                  disabled={!this.state.address}
                 >
                   주소검색
                 </button>
@@ -78,7 +112,7 @@ class AddBuilding extends Component {
                 <input
                   className="form-control"
                   name="address"
-                  value={this.state.postData.address}
+                  value={this.state.address}
                   type="text"
                   placeholder=""
                   onChange={this.handleChange}
@@ -87,42 +121,53 @@ class AddBuilding extends Component {
             </div>
           </div>
         </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            &nbsp;
-          </div>
-          <div className="w3-rest">
-            <div className="w3-right">
-              <button
-                type="button"
-                className="w3-padding-top w3-padding-bottom"
-                style={{ marginLeft: "8px" }}
-              >
-                적용
-              </button>
-              <button
-                type="button"
-                className="w3-padding-top w3-padding-bottom"
-                style={{ marginLeft: "8px" }}
-              >
-                Reset
-              </button>
+        {this.state.searchedAddress && (
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              &nbsp;
             </div>
-            <div className="w3-rest w3-padding-right w3-text-grey">
-              <div className="form-control" style={{ background: "#eee" }}>
-                {this.state.searchedAddress} &nbsp;
+            <div className="w3-rest">
+              <div className="w3-text-grey">
+                <div className="form-control" style={{ background: "#eee" }}>
+                  <div>주소 : {this.props.address}</div>
+                  <div>위도 : {this.props.location.lat}</div>
+                  <div>경도 : {this.props.location.lng}</div>
+                </div>
+              </div>
+              <div className="clear-fix">
+                <div className="float-right pt-1">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.applyLocation}
+                  >
+                    적용
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.resetLocation}
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
             위도
           </div>
           <div className="w3-rest">
-            <div className="form-control" style={{ background: "#eee" }}>
-              {this.state.postData.latitude} &nbsp;
-            </div>
+            <input
+              className="form-control"
+              name="latitude"
+              value={this.state.latitude}
+              type="number"
+              placeholder=""
+              onChange={this.handleChange}
+            />
           </div>
         </div>
         <div className="w3-row w3-section">
@@ -130,9 +175,14 @@ class AddBuilding extends Component {
             경도
           </div>
           <div className="w3-rest">
-            <div className="form-control" style={{ background: "#eee" }}>
-              {this.state.postData.longitude} &nbsp;
-            </div>
+            <input
+              className="form-control"
+              name="longitude"
+              value={this.state.longitude}
+              type="number"
+              placeholder=""
+              onChange={this.handleChange}
+            />
           </div>
         </div>
         <div className="w3-right">
@@ -153,11 +203,14 @@ class AddBuilding extends Component {
 
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
-  selectedNode: state.tree.selectedNode
+  address: state.building.address,
+  location: state.building.location
 });
 
 const mapDispatchToProps = {
-  buildingAddRequest: buildingAddRequest
+  buildingAddRequest,
+  buildingLocationRequest,
+  buildingLocationReset
 };
 
 export default connect(

@@ -242,25 +242,25 @@ class BuildingPositionTree extends Component {
             {
               addBuilding: (
                 <AddBuilding
-                  node={this.props.selectedNode}
+                  // node={this.props.selectedNode}
                   closeModal={this.closeModal}
                 />
               ),
               updateBuilding: (
                 <UpdateBuilding
-                  node={this.props.selectedNode}
+                  // node={this.props.selectedNode}
                   closeModal={this.closeModal}
                 />
               ),
               addPosition: (
                 <AddPosition
-                  node={this.props.selectedNode}
+                  // node={this.props.selectedNode}
                   closeModal={this.closeModal}
                 />
               ),
               updatePosition: (
                 <UpdatePosition
-                  node={this.props.selectedNode}
+                  // node={this.props.selectedNode}
                   closeModal={this.closeModal}
                 />
               )

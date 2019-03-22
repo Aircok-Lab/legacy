@@ -10,6 +10,8 @@ import {
   BUILDING_UPDATE_SUCCESS,
   BUILDING_DELETE_REQUEST,
   BUILDING_DELETE_SUCCESS,
+  BUILDING_LOCATION_REQUEST,
+  BUILDING_LOCATION_SUCCESS,
   USER_GET_BY_ID_REQUEST
 } from "constants/ActionTypes";
 import { userSignInSuccess } from "actions/Auth";
@@ -92,9 +94,31 @@ export function* buildingDeleteWatcher() {
   yield takeEvery(BUILDING_DELETE_REQUEST, buildingDeleteWorker);
 }
 
+function* buildingLocationWorker(action) {
+  const res = yield fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAGuzyxaRGQvhdMnjtxjdImEWO4zWOYKAE&language=ko&region=KR&address=${
+      action.payload
+    }`
+  ).then(response => response.json());
+  yield put({
+    type: BUILDING_LOCATION_SUCCESS,
+    // payload: res.results[0].geometry.location
+    payload: res.results[0]
+  });
+  try {
+  } catch (e) {
+    console.log("Error at fetching googlemaps location.");
+    return;
+  }
+}
+export function* buildingLocationWatcher() {
+  yield takeEvery(BUILDING_LOCATION_REQUEST, buildingLocationWorker);
+}
+
 export default function* rootSaga() {
   yield all([fork(buildingListWatcher)]);
   yield all([fork(buildingAddWatcher)]);
   yield all([fork(buildingUpdateWatcher)]);
   yield all([fork(buildingDeleteWatcher)]);
+  yield all([fork(buildingLocationWatcher)]);
 }

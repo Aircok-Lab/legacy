@@ -5,7 +5,7 @@ import { positionUpdateRequest, positionDeleteRequest } from "actions/Position";
 class UpdatePosition extends Component {
   state = {
     postData: {
-      id: "" + this.props.node.id,
+      id: "" + this.props.selectedNode.id,
       name: "" + this.props.selectedNode.name,
       position: "1",
       buildingID: "" + this.props.selectedNode.buildingID,
@@ -41,7 +41,6 @@ class UpdatePosition extends Component {
     return (
       <form className="w3-text-blue w3-margin">
         <h2 className="w3-center">위치수정</h2>
-        {JSON.stringify(this.props.selectedNode)}
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
             건물명
@@ -52,7 +51,6 @@ class UpdatePosition extends Component {
             </div>
           </div>
         </div>
-
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
             위치
