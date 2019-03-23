@@ -26,7 +26,6 @@ export default (state = INIT_STATE, action) => {
     }
     case POSITION_LIST_SUCCESS: {
       const list = action.payload.map(item => {
-        console.log("item.....zzzz..", item);
         return {
           ...item,
           nodeId: "" + item.buildingID + "-" + item.id

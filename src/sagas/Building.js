@@ -40,7 +40,7 @@ function* buildingAddWorker(action) {
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({
-        type: "BUILDING_LIST_REQUEST",
+        type: BUILDING_LIST_REQUEST,
         payload: { id: res.data.data.buildingList }
       });
     }
@@ -48,6 +48,7 @@ function* buildingAddWorker(action) {
     console.log("[ERROR#####]", error);
   }
 }
+
 export function* buildingAddWatcher() {
   yield takeEvery(BUILDING_ADD_REQUEST, buildingAddWorker);
 }
@@ -58,7 +59,7 @@ function* buildingUpdateWorker(action) {
     if (responseDataProcess(res.data)) {
       yield put({ type: BUILDING_UPDATE_SUCCESS, payload: res.data.data });
       yield put({
-        type: "BUILDING_LIST_REQUEST",
+        type: BUILDING_LIST_REQUEST,
         payload: { id: action.payload.buildingList }
       });
     }
@@ -82,7 +83,7 @@ function* buildingDeleteWorker(action) {
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({
-        type: "BUILDING_LIST_REQUEST",
+        type: BUILDING_LIST_REQUEST,
         payload: { id: res.data.data.buildingList }
       });
     }
@@ -102,7 +103,6 @@ function* buildingLocationWorker(action) {
   ).then(response => response.json());
   yield put({
     type: BUILDING_LOCATION_SUCCESS,
-    // payload: res.results[0].geometry.location
     payload: res.results[0]
   });
   try {

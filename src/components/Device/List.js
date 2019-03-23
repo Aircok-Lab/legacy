@@ -30,7 +30,6 @@ class List extends React.Component {
 
   componentDidMount() {
     if (this.props.selectedNode.buildingID) {
-      console.log("@@@@@", this.props.selectedNode.name);
       // 층
       this.props.deviceListByPositionIdRequest({
         id: this.props.selectedNode.id
@@ -41,23 +40,22 @@ class List extends React.Component {
         id: this.props.selectedNode.id
       });
     }
+  }
 
-    // this.setState({ deviceList: this.props.deviceList });
+  static getDerivedStateFromProps(props, state) {
+    if (JSON.stringify(state.deviceList) != JSON.stringify(props.deviceList)) {
+      return {
+        deviceList: props.deviceList
+      };
+    }
+    return null;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
-      JSON.stringify(prevProps.deviceList) !=
-      JSON.stringify(this.props.deviceList)
-    ) {
-      this.setState({ deviceList: this.props.deviceList });
-    }
-
-    if (
       JSON.stringify(prevProps.selectedNode) !=
       JSON.stringify(this.props.selectedNode)
     ) {
-      console.log("list 요청함 aaa....");
       if (this.props.selectedNode.buildingID) {
         // 층
         this.props.deviceListByPositionIdRequest({
@@ -90,10 +88,10 @@ class List extends React.Component {
               <button
                 className="btn btn-primary"
                 onClick={e => {
-                  console.log("update click", this.state.deviceList[0]);
-                  this.props.deviceSetItem(this.state.deviceList[0]);
-                  // console.log("test....");
-                  this.props.setViewMode("update");
+                  const selectedDevices = this.state.deviceList.filter(
+                    device => device.isChecked
+                  );
+                  this.props.setViewMode("update", selectedDevices[0]);
                 }}
                 style={{ marginLeft: "2px" }}
                 disabled={
@@ -122,9 +120,8 @@ class List extends React.Component {
           <table className="w3-table-all w3-centered">
             <thead>
               <tr>
-                <th style={{ paddingRight: "24px", width: "30px" }}>
+                <th>
                   <input
-                    className="w3-check"
                     type="checkbox"
                     onChange={event => {
                       let deviceList = this.state.deviceList;
@@ -149,12 +146,10 @@ class List extends React.Component {
                   <tr key={row.serialNumber}>
                     <td>
                       <input
-                        className="w3-check"
                         type="checkbox"
                         checked={row.isChecked}
                         value={row.serialNumber}
                         onChange={event => {
-                          console.log("onChange checkbox....");
                           let deviceList = this.state.deviceList;
                           deviceList.forEach(device => {
                             if (device.serialNumber === event.target.value) {
@@ -188,8 +183,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  deviceListByBuildingIdRequest: deviceListByBuildingIdRequest,
-  deviceListByPositionIdRequest: deviceListByPositionIdRequest,
+  deviceListByBuildingIdRequest,
+  deviceListByPositionIdRequest,
   deviceDeleteRequest,
   setViewMode,
   deviceSetItem

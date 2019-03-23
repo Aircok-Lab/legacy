@@ -4,29 +4,24 @@ import { positionUpdateRequest, positionDeleteRequest } from "actions/Position";
 
 class UpdatePosition extends Component {
   state = {
-    postData: {
-      id: "" + this.props.selectedNode.id,
-      name: "" + this.props.selectedNode.name,
-      position: "1",
-      buildingID: "" + this.props.selectedNode.buildingID,
-      positionList: this.props.authUser.positionList,
-      userID: this.props.authUser.id
-    }
+    id: "" + this.props.selectedNode.id,
+    name: "" + this.props.selectedNode.name,
+    position: "1",
+    buildingID: "" + this.props.selectedNode.buildingID,
+    positionList: this.props.authUser.positionList,
+    userID: this.props.authUser.id
   };
   updatePosition = () => {
-    if (!this.state.postData.name) {
+    if (!this.state.name) {
       alert("위치를 입력하세요");
     } else {
-      this.props.positionUpdateRequest(this.state.postData);
+      this.props.positionUpdateRequest(this.state);
       this.props.closeModal();
     }
   };
   handleChange = e => {
     this.setState({
-      postData: {
-        ...this.state.postData,
-        [e.target.name]: e.target.value
-      }
+      [e.target.name]: e.target.value
     });
   };
 
@@ -59,7 +54,7 @@ class UpdatePosition extends Component {
             <input
               className="form-control"
               name="name"
-              value={this.state.postData.name}
+              value={this.state.name}
               type="text"
               placeholder=""
               onChange={this.handleChange}

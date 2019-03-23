@@ -217,7 +217,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  deviceUpdateRequest: deviceUpdateRequest,
+  deviceUpdateRequest,
   productListRequest,
   setViewMode
 };

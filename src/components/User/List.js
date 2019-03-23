@@ -45,6 +45,16 @@ class List extends React.Component {
     this.setState({ userList: this.props.userList });
   }
 
+  // static getDerivedStateFromProps(props, state) {
+  //   if (JSON.stringify(state.userList) != JSON.stringify(props.userList)) {
+  //     console.log("1111...");
+  //     return {
+  //       userList: props.userList
+  //     };
+  //   }
+  //   return null;
+  // }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
       JSON.stringify(prevProps.userList) != JSON.stringify(this.props.userList)
@@ -130,11 +140,10 @@ class List extends React.Component {
               <button
                 className="btn btn-primary"
                 onClick={e => {
-                  const selectedUser = this.state.userList.filter(
+                  const selectedUsers = this.state.userList.filter(
                     user => user.isChecked
                   );
-                  // this.props.userSetItem(selectedUser[0]);
-                  this.props.setViewMode("update", selectedUser[0]);
+                  this.props.setViewMode("update", selectedUsers[0]);
                 }}
                 style={{ marginLeft: "2px" }}
                 disabled={
@@ -161,9 +170,8 @@ class List extends React.Component {
           <table className="w3-table-all w3-centered">
             <thead>
               <tr>
-                <th style={{ paddingRight: "24px", width: "30px" }}>
+                <th>
                   <input
-                    className="w3-check"
                     type="checkbox"
                     onChange={event => {
                       let userList = [...this.state.userList];
@@ -188,7 +196,6 @@ class List extends React.Component {
                 <tr key={row.id}>
                   <td>
                     <input
-                      className="w3-check"
                       type="checkbox"
                       checked={row.isChecked}
                       value={row.id}

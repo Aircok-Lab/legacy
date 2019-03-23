@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   buildingUpdateRequest,
+  buildingDeleteRequest,
   buildingLocationRequest,
   buildingLocationReset
 } from "actions/Building";
@@ -32,6 +33,13 @@ class UpdateBuilding extends Component {
     }
   };
 
+  deleteBuilding = () => {
+    this.props.buildingDeleteRequest({
+      id: this.props.selectedNode.id,
+      userID: this.props.authUser.id
+    });
+  };
+
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -44,31 +52,31 @@ class UpdateBuilding extends Component {
 
   applyLocation = () => {
     this.setState({
-      address: this.state.searchedAddress,
-      latitude: this.state.searchedLatitude,
-      longitude: this.state.searchedLongitude
+      address: this.props.address,
+      latitude: this.props.location.lat,
+      longitude: this.props.location.lng
     });
   };
 
   resetLocation = () => {
     this.setState({
-      address: "여의도",
+      address: "",
       latitude: "",
       longitude: ""
     });
     this.props.buildingLocationReset();
   };
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.address !== state.searchedAddress && props.location) {
-      return {
-        searchedAddress: props.address,
-        searchedLatitude: props.location.lat,
-        searchedLongitude: props.location.lng
-      };
-    }
-    return null;
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.address !== state.searchedAddress && props.location) {
+  //     return {
+  //       searchedAddress: props.address,
+  //       searchedLatitude: props.location.lat,
+  //       searchedLongitude: props.location.lng
+  //     };
+  //   }
+  //   return null;
+  // }
 
   render() {
     return (
@@ -119,7 +127,7 @@ class UpdateBuilding extends Component {
             </div>
           </div>
         </div>
-        {this.state.searchedAddress && (
+        {this.props.address && (
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               &nbsp;
@@ -186,6 +194,16 @@ class UpdateBuilding extends Component {
         <div className="w3-right">
           <button
             type="button"
+            className="w3-button w3-blue w3-padding w3-margin-right"
+            onClick={e => {
+              this.deleteBuilding();
+              this.props.closeModal();
+            }}
+          >
+            삭제
+          </button>
+          <button
+            type="button"
             className="w3-button w3-blue w3-padding"
             onClick={e => {
               this.updateBuilding();
@@ -208,6 +226,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   buildingUpdateRequest,
+  buildingDeleteRequest,
   buildingLocationRequest,
   buildingLocationReset
 };

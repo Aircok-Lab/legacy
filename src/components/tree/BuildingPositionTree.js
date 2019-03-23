@@ -39,7 +39,6 @@ class BuildingPositionTree extends Component {
     deviceList: []
   };
   componentDidMount() {
-    console.log("auth", this.props.authUser);
     this.props.buildingListRequest({
       id: "" + this.props.authUser.buildingList
     });
@@ -63,6 +62,7 @@ class BuildingPositionTree extends Component {
       });
     }
   }
+
   openModal = param => e => {
     let modalMode = param;
     this.setState({ showModal: true, modalMode });
@@ -81,12 +81,15 @@ class BuildingPositionTree extends Component {
     });
   };
   nodeClick = item => {
-    console.log("item", item);
     this.props.selectTreeNode(item);
   };
 
   render() {
-    let buildingPositionList = [...this.props.buildingList];
+    // 중요 : Spread Operator는 Sharrow Copy만 하므로 JSON.stringify로 Deep Clone 해야 합니다.
+    // let buildingPositionList = [...this.props.buildingList];
+    let buildingPositionList = JSON.parse(
+      JSON.stringify(this.props.buildingList)
+    );
     buildingPositionList.map(building => {
       let positions = this.props.positionList.filter(
         position => position.buildingID == building.id
@@ -103,6 +106,9 @@ class BuildingPositionTree extends Component {
 
     return (
       <div>
+        {/* <div>{JSON.stringify(this.props.buildingList)}</div>
+        <hr />
+        <div>{JSON.stringify(this.props.buildingList2)}</div> */}
         <div className="pb-1">
           <div className="clearfix">
             {!this.props.hideButton && (
@@ -202,18 +208,11 @@ class BuildingPositionTree extends Component {
                     >
                       {this.props.checkable && (
                         <input
-                          className="w3-check"
                           type="checkbox"
                           checked={item.isChecked}
                           value={item.id}
                           onClick={e => {
                             e.stopPropagation();
-                          }}
-                          onChange={e => {
-                            console.log(
-                              "checkbox onChange ...",
-                              e.target.checked
-                            );
                           }}
                         />
                       )}
@@ -240,30 +239,10 @@ class BuildingPositionTree extends Component {
           <div className="" style={{ minWidth: "400px" }} />
           {
             {
-              addBuilding: (
-                <AddBuilding
-                  // node={this.props.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              ),
-              updateBuilding: (
-                <UpdateBuilding
-                  // node={this.props.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              ),
-              addPosition: (
-                <AddPosition
-                  // node={this.props.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              ),
-              updatePosition: (
-                <UpdatePosition
-                  // node={this.props.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              )
+              addBuilding: <AddBuilding closeModal={this.closeModal} />,
+              updateBuilding: <UpdateBuilding closeModal={this.closeModal} />,
+              addPosition: <AddPosition closeModal={this.closeModal} />,
+              updatePosition: <UpdatePosition closeModal={this.closeModal} />
             }[this.state.modalMode]
           }
         </Modal>
@@ -275,6 +254,7 @@ class BuildingPositionTree extends Component {
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
   buildingList: state.building.list,
+  buildingList2: state.building.list2,
   positionList: state.position.list,
   selectedNode: state.tree.selectedNode
 });

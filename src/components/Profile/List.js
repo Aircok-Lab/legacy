@@ -109,9 +109,8 @@ class List extends React.Component {
             <table className="w3-table-all w3-centered">
               <thead>
                 <tr>
-                  <th style={{ paddingRight: "24px", width: "30px" }}>
+                  <th>
                     <input
-                      className="w3-check"
                       type="checkbox"
                       onChange={event => {
                         let productList = [...this.state.productList];
@@ -134,7 +133,6 @@ class List extends React.Component {
                     <tr key={row.id}>
                       <td>
                         <input
-                          className="w3-check"
                           type="checkbox"
                           checked={row.isChecked}
                           value={row.id}

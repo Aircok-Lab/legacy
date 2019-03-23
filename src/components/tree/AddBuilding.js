@@ -9,7 +9,7 @@ import {
 class AddBuilding extends Component {
   state = {
     name: "" + new Date().getTime(),
-    address: "여의도",
+    address: "",
     latitude: "",
     longitude: "",
     userID: this.props.authUser.id
@@ -42,31 +42,31 @@ class AddBuilding extends Component {
 
   applyLocation = () => {
     this.setState({
-      address: this.state.searchedAddress,
-      latitude: this.state.searchedLatitude,
-      longitude: this.state.searchedLongitude
+      address: this.props.address,
+      latitude: this.props.location.lat,
+      longitude: this.props.location.lng
     });
   };
 
   resetLocation = () => {
     this.setState({
-      address: "여의도",
+      address: "",
       latitude: "",
       longitude: ""
     });
     this.props.buildingLocationReset();
   };
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.address !== state.searchedAddress && props.location) {
-      return {
-        searchedAddress: props.address,
-        searchedLatitude: props.location.lat,
-        searchedLongitude: props.location.lng
-      };
-    }
-    return null;
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.address !== state.searchedAddress && props.location) {
+  //     return {
+  //       searchedAddress: props.address,
+  //       searchedLatitude: props.location.lat,
+  //       searchedLongitude: props.location.lng
+  //     };
+  //   }
+  //   return null;
+  // }
 
   componentDidMount() {
     this.resetLocation();
@@ -121,7 +121,7 @@ class AddBuilding extends Component {
             </div>
           </div>
         </div>
-        {this.state.searchedAddress && (
+        {this.props.address && (
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               &nbsp;
