@@ -90,7 +90,6 @@ class Add extends Component {
     return (
       <div className="col-6 mx-auto">
         <form className="text-blue w3-margin">
-          {/* {JSON.stringify(this.props.selectedNode)} */}
           <h2 className="text-center">측정기 등록</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
@@ -179,7 +178,6 @@ class Add extends Component {
                     className="form-check-input"
                     type="radio"
                     name="networkType"
-                    // id="inlineRadio1"
                     value="cellular"
                     checked={this.state.postData.networkType === "cellular"}
                     onChange={this.handleChange}
@@ -193,7 +191,6 @@ class Add extends Component {
                     className="form-check-input"
                     type="radio"
                     name="networkType"
-                    // id="inlineRadio2"
                     value="ethernet"
                     checked={this.state.postData.networkType === "ethernet"}
                     onChange={this.handleChange}

@@ -77,7 +77,6 @@ class Update extends Component {
     return (
       <div className="col-6 mx-auto">
         <form className="text-blue w3-margin">
-          {/* {JSON.stringify(this.props.item)} */}
           <h2 className="text-center">측정기 수정</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
@@ -103,17 +102,6 @@ class Update extends Component {
                   : ""}{" "}
                 &nbsp;
               </div>
-              {/* <input
-                className="form-control"
-                style={{ background: "#eee" }}
-                type="text"
-                disabled
-                value={
-                  this.props.selectedNode.buildingID
-                    ? this.props.selectedNode.name
-                    : ""
-                }
-              /> */}
             </div>
           </div>
           <div className="w3-row w3-section">
@@ -168,19 +156,115 @@ class Update extends Component {
           </div>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              전화 번호
+              &nbsp;
             </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="phone"
-                value={this.state.postData.phone}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
+            <div className="w3-rest pl-1">
+              <div className="form-check form-check-inline">
+                <label className="form-check-label">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="networkType"
+                    value="cellular"
+                    checked={this.state.postData.networkType === "cellular"}
+                    onChange={this.handleChange}
+                  />
+                  LTE
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <label className="form-check-label">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="networkType"
+                    value="ethernet"
+                    checked={this.state.postData.networkType === "ethernet"}
+                    onChange={this.handleChange}
+                  />
+                  Ethernet
+                </label>
+              </div>
             </div>
           </div>
+          {this.state.postData.networkType === "cellular" && (
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                전화 번호
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="form-control"
+                  name="phone"
+                  value={this.state.postData.phone}
+                  type="text"
+                  placeholder=""
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+          )}
+          {this.state.postData.networkType === "ethernet" && (
+            <React.Fragment>
+              <div className="w3-row w3-section">
+                <div
+                  className="w3-col w3-padding-right"
+                  style={{ width: "80px" }}
+                >
+                  IP address
+                </div>
+                <div className="w3-rest">
+                  <input
+                    className="form-control"
+                    name="ip"
+                    value={this.state.postData.ip}
+                    type="text"
+                    placeholder=""
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+              <div className="w3-row w3-section">
+                <div
+                  className="w3-col w3-padding-right"
+                  style={{ width: "80px" }}
+                >
+                  Subnet mask
+                </div>
+                <div className="w3-rest">
+                  <input
+                    className="form-control"
+                    name="subnet"
+                    value={this.state.postData.subnet}
+                    type="text"
+                    placeholder=""
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+              <div className="w3-row w3-section">
+                <div
+                  className="w3-col w3-padding-right"
+                  style={{ width: "80px" }}
+                >
+                  Gateway
+                </div>
+                <div className="w3-rest">
+                  <input
+                    className="form-control"
+                    name="gateway"
+                    value={this.state.postData.gateway}
+                    type="text"
+                    placeholder=""
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+            </React.Fragment>
+          )}
           <div className="w3-right">
             <button
               type="button"
@@ -196,7 +280,6 @@ class Update extends Component {
               className="btn btn-primary"
               onClick={e => {
                 this.update();
-                // this.props.setViewMode("list");
               }}
             >
               OK

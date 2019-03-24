@@ -9,6 +9,7 @@ import {
 } from "constants/ActionTypes";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
+import toaster from "util/toaster";
 
 function* systemItemWorker(action) {
   try {
@@ -31,11 +32,8 @@ function* systemUpdateWorker(action) {
   try {
     const res = yield api.put(`setting/updateSetting`, action.payload);
     if (responseDataProcess(res.data)) {
-      // yield put({
-      //   type: SYSTEM_UPDATE_SUCCESS,
-      //   payload: res.data.data
-      // });
-      alert("변경사항을 저장하였습니다.");
+      // alert("변경사항을 저장하였습니다.");
+      toaster("변경사항을 저장하였습니다.", 1000, "bg-success");
     }
   } catch (error) {
     console.log("[ERROR#####]", error);
