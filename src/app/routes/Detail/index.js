@@ -114,7 +114,7 @@ class DetailPage extends React.Component {
                 deviceName={contact.deviceName}
                 serialNumber={contact.deviceSN}
               />
-              <AdviceInfo />
+              <AdviceInfo deviceData={contact} />
             </div>
           </div>
         </div>
