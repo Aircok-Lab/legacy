@@ -145,6 +145,10 @@ export const UPDATE_SEARCH = "update_search";
 //// Settings
 export const SET_VIEW_MODE = "SET_VIEW_MODE";
 
+//// Tree
+export const SELECT_TREE_NODE = "SELECT_TREE_NODE";
+export const TOGGLE_TREE_NODE = "TOGGLE_TREE_NODE";
+
 //// Building
 export const BUILDING_LIST_REQUEST = "BUILDING_LIST_REQUEST";
 export const BUILDING_LIST_SUCCESS = "BUILDING_LIST_SUCCESS";

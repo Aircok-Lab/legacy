@@ -1,19 +1,22 @@
-// import {
-//   BUILDING_LIST_SUCCESS,
-//   BUILDING_ADD_SUCCESS,
-//   BUILDING_DELETE_SUCCESS
-// } from "constants/ActionTypes";
+import { SELECT_TREE_NODE, TOGGLE_TREE_NODE } from "constants/ActionTypes";
 
 const INIT_STATE = {
-  selectedNode: {}
+  selectedNode: {},
+  expandedNodes: []
 };
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case "SELECT_TREE_NODE": {
+    case SELECT_TREE_NODE: {
       return {
         ...state,
         selectedNode: action.payload
+      };
+    }
+    case TOGGLE_TREE_NODE: {
+      return {
+        ...state,
+        expandedNodes: action.payload
       };
     }
     default:

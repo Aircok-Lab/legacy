@@ -15,8 +15,7 @@ export default (state = INIT_STATE, action) => {
     case BUILDING_LIST_SUCCESS: {
       return {
         ...state,
-        list: action.payload,
-        list2: action.payload
+        list: action.payload
       };
     }
     case BUILDING_ADD_SUCCESS: {
