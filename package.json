@@ -27,6 +27,7 @@
     "jss-rtl": "^0.2.3",
     "material-ui-pickers": "^1.0.0-rc.10",
     "moment": "^2.19.2",
+    "moment-timezone": "^0.5.23",
     "node-forge": "^0.8.0",
     "node-sass": "^4.7.2",
     "nprogress": "^0.2.0",

@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment-timezone";
 
 class DeviceInfo extends React.Component {
   render() {
@@ -9,6 +10,7 @@ class DeviceInfo extends React.Component {
       deviceName,
       serialNumber
     } = this.props;
+    var dateTime = moment(time);
 
     return (
       <div className="card" style={{ borderRadius: "10px" }}>
@@ -63,7 +65,11 @@ class DeviceInfo extends React.Component {
                 >
                   측정 시간
                 </span>
-                {time.replace(/([^T]+)T([^\.]+).*/g, "$1 $2")}
+                {dateTime
+                  .tz("Asia/Seoul")
+                  .format()
+                  .replace(/([^T]+)T([^\.]+).*/g, "$1 $2")
+                  .slice(0, -9)}
               </div>
             </div>
           </div>
