@@ -167,7 +167,7 @@ router.post("/getPositionByBuildingId", function(req, res, next) {
       result.statusCode = OK;
       result.message = "성공";
       result.data = positions;
-      res.send(positions);
+      res.send(result);
     } else {
       result.statusCode = FAIL;
       result.message = "실패";
