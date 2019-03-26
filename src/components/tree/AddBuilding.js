@@ -25,8 +25,17 @@ class AddBuilding extends Component {
     } else if (!this.state.longitude) {
       alert("경도를 입력하세요");
     } else {
+      this.setState({
+        name: "",
+        address: "",
+        latitude: "",
+        longitude: ""
+      });
+      this.props.buildingLocationReset();
       this.props.buildingAddRequest(this.state);
-      this.props.closeModal();
+      if (typeof this.props.closeModal === "function") {
+        this.props.closeModal();
+      }
     }
   };
 
@@ -50,7 +59,7 @@ class AddBuilding extends Component {
 
   resetLocation = () => {
     this.setState({
-      address: "",
+      address: "여의도",
       latitude: "",
       longitude: ""
     });
@@ -73,6 +82,7 @@ class AddBuilding extends Component {
   }
 
   render() {
+    console.log("typeof this.props.nextStep : ", typeof this.props.nextStep);
     return (
       <form className="w3-text-blue w3-margin">
         <h2 className="w3-center">건물등록</h2>
@@ -185,16 +195,29 @@ class AddBuilding extends Component {
             />
           </div>
         </div>
-        <div className="w3-right">
-          <button
-            type="button"
-            className="w3-button w3-blue w3-padding"
-            onClick={e => {
-              this.addBuilding();
-            }}
-          >
-            OK
-          </button>
+        <div className="clearfix">
+          <div className="float-right">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={e => {
+                this.addBuilding();
+              }}
+            >
+              추가
+            </button>
+            {/* {typeof this.props.nextStep === "function" && (
+              <button
+                type="button"
+                className="ml-2 w3-button w3-blue w3-padding"
+                onClick={e => {
+                  this.props.nextStep();
+                }}
+              >
+                다음
+              </button>
+            )} */}
+          </div>
         </div>
       </form>
     );

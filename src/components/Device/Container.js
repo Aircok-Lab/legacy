@@ -17,27 +17,24 @@ class Container extends React.Component {
         break;
 
       case "add":
-        return <Add />;
+        return (
+          <div className="col-6 mx-auto">
+            <Add />
+          </div>
+        );
         break;
 
       case "update":
-        return <Update />;
+        return (
+          <div className="col-6 mx-auto">
+            <Update />
+          </div>
+        );
         break;
 
       default:
         break;
     }
-    // return (
-    //   <React.Fragment>
-    //     {
-    //       {
-    //         list: <List />,
-    //         add: <Add />,
-    //         update: <Update />
-    //       }[this.props.viewMode]
-    //     }
-    //   </React.Fragment>
-    // );
   }
 }
 

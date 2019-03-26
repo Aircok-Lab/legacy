@@ -12,14 +12,17 @@ import {
 } from "constants/ActionTypes";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
+import toaster from "util/toaster";
 
 function* productListWorker(action) {
   try {
     const res = yield api.get(`product/allProduct`, action.payload);
-    yield put({
-      type: PRODUCT_LIST_SUCCESS,
-      payload: res.data.data
-    });
+    if (responseDataProcess(res.data)) {
+      yield put({
+        type: PRODUCT_LIST_SUCCESS,
+        payload: res.data.data
+      });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -31,15 +34,18 @@ export function* productListWatcher() {
 function* productAddWorker(action) {
   try {
     const res = yield api.post(`product/addProduct`, action.payload);
-    yield put({
-      type: PRODUCT_LIST_REQUEST,
-      // payload: { positionID: action.payload.positionID }
-      payload: { positionID: action.payload.positionList }
-    });
-    yield put({
-      type: SET_VIEW_MODE,
-      payload: "list"
-    });
+    if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
+      yield put({
+        type: PRODUCT_LIST_REQUEST,
+        // payload: { positionID: action.payload.positionID }
+        payload: { positionID: action.payload.positionList }
+      });
+      yield put({
+        type: SET_VIEW_MODE,
+        payload: "list"
+      });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -51,15 +57,18 @@ export function* productAddWatcher() {
 function* productUpdateWorker(action) {
   try {
     const res = yield api.put(`product/updateProduct`, action.payload);
-    yield put({
-      type: PRODUCT_LIST_REQUEST,
-      // payload: { positionID: action.payload.positionID }
-      payload: { positionID: action.payload.positionList }
-    });
-    yield put({
-      type: SET_VIEW_MODE,
-      payload: "list"
-    });
+    if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
+      yield put({
+        type: PRODUCT_LIST_REQUEST,
+        // payload: { positionID: action.payload.positionID }
+        payload: { positionID: action.payload.positionList }
+      });
+      yield put({
+        type: SET_VIEW_MODE,
+        payload: "list"
+      });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -73,11 +82,13 @@ function* productDeleteWorker(action) {
     const res = yield api.delete(
       `product/deleteProduct?id=${action.payload.ids}`
     );
-    console.log("product delete - action.payload :", action.payload);
-    yield put({
-      type: "PRODUCT_LIST_REQUEST",
-      payload: { buildingID: "" + action.payload.node.id }
-    });
+    if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
+      yield put({
+        type: "PRODUCT_LIST_REQUEST",
+        payload: { buildingID: "" + action.payload.node.id }
+      });
+    }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }

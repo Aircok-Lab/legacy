@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import List from "./List";
-import Add from "./Add";
-import Update from "./Update";
-import { setViewMode } from "actions/Setting";
-import FormUserDetails from "./FormUserDetails";
+import { Steps } from "antd";
+import "antd/dist/antd.css";
+import BuildingContainer from "./BuildingContainer";
+import PositionContainer from "./PositionContainer";
+import DeviceContainer from "./DeviceContainer";
+import UserContainer from "./UserContainer";
+
+const Step = Steps.Step;
 
 class Container extends React.Component {
   state = {
-    step: 1,
-    firstName: "",
-    lastName: "",
-    email: "",
-    occupation: "",
-    city: "",
-    bio: ""
+    step: 0
+    // oldBuildingList: this.props.authUser.buildingList
   };
+
+  componentDidMount() {}
 
   // Proceed to next step
   nextStep = () => {
@@ -40,53 +40,63 @@ class Container extends React.Component {
 
   render() {
     const { step } = this.state;
-    const { firstName, lastName, email, occupation, city, bio } = this.state;
-    const values = { firstName, lastName, email, occupation, city, bio };
+    let buildingList = this.props.authUser.buildingList;
+    buildingList = buildingList.substr(0, buildingList.lastIndexOf(","));
 
-    switch (step) {
-      case 1:
-        return (
-          <FormUserDetails
-            nextStep={this.nextStep}
-            handleChange={this.handleChange}
-            values={values}
-          />
-        );
-      case 2:
-        return (
-          <FormUserDetails
-            nextStep={this.nextStep}
-            handleChange={this.handleChange}
-            values={values}
-          />
-        );
-      case 3:
-        return (
-          <FormUserDetails
-            nextStep={this.nextStep}
-            handleChange={this.handleChange}
-            values={values}
-          />
-        );
-      case 4:
-        return (
-          <FormUserDetails
-            nextStep={this.nextStep}
-            handleChange={this.handleChange}
-            values={values}
-          />
-        );
+    let stepData = null;
+    if (step === 0) {
+      stepData = (
+        <BuildingContainer
+          oldBuildingList={this.state.oldBuildingList}
+          nextStep={this.nextStep}
+        />
+      );
+    } else if (step === 1) {
+      stepData = (
+        <PositionContainer
+          oldBuildingList={buildingList}
+          nextStep={this.nextStep}
+        />
+      );
+    } else if (step === 2) {
+      stepData = (
+        <DeviceContainer
+          oldBuildingList={buildingList}
+          nextStep={this.nextStep}
+        />
+      );
+    } else if (step === 3) {
+      stepData = (
+        <UserContainer
+          oldBuildingList={buildingList}
+          nextStep={this.nextStep}
+        />
+      );
     }
+
+    return (
+      <div className="col-6 mx-auto">
+        <div>{stepData}</div>
+        <div className="w3-row w3-margin">
+          <div className="w3-col-12">
+            <Steps size="small" current={this.state.step}>
+              <Step title="건물" description="" />
+              <Step title="위치" description="" />
+              <Step title="측정기" description="" />
+              <Step title="사용자" description="" />
+            </Steps>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => ({
-  viewMode: state.settings.viewMode
+  authUser: state.auth.authUser
 });
 
-const mapDispatchToProps = {
-  setViewMode
-};
+const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

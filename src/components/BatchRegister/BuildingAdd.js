@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export class FormUserDetails extends Component {
+export class BuildingAdd extends Component {
   continue = e => {
     e.preventDefault();
     this.props.nextStep();
@@ -70,7 +70,7 @@ export class FormUserDetails extends Component {
     // );
 
     return (
-      <div className="col-6 mx-auto">
+      <div>
         <form className="text-blue w3-margin">
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "160px" }}>
@@ -145,4 +145,4 @@ const styles = {
   }
 };
 
-export default FormUserDetails;
+export default BuildingAdd;

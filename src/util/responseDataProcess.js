@@ -4,7 +4,7 @@ const responseDataProcess = responseData => {
     return true;
   } else {
     // alert(responseData.message);
-    toaster(responseData.message, 1000, "bg-warning");
+    toaster(responseData.message, 3000, "bg-warning");
   }
   return null;
 };

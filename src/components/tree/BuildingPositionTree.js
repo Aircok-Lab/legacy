@@ -278,7 +278,6 @@ class BuildingPositionTree extends Component {
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
   buildingList: state.building.list,
-  buildingList2: state.building.list2,
   positionList: state.position.list,
   selectedNode: state.tree.selectedNode,
   expandedNodes: state.tree.expandedNodes

@@ -32,7 +32,7 @@ function* systemUpdateWorker(action) {
   try {
     const res = yield api.put(`setting/updateSetting`, action.payload);
     if (responseDataProcess(res.data)) {
-      toaster("변경사항을 저장하였습니다.", 1000, "bg-success");
+      toaster("적용하였습니다.", 3000, "bg-success");
     }
   } catch (error) {
     console.log("[ERROR#####]", error);

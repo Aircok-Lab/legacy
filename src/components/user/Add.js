@@ -71,124 +71,124 @@ class Add extends Component {
 
   render() {
     return (
-      <div className="col-6 mx-auto">
-        <form className="text-blue w3-margin">
-          <h2 className="text-center">사용자 등록</h2>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              아이디
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="loginId"
-                value={this.state.postData.loginId}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
+      // <div className="col-6 mx-auto">
+      <form className="text-blue w3-margin">
+        <h2 className="text-center">사용자 등록</h2>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            아이디
           </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              암호
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="password"
-                value={this.state.postData.password}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
+          <div className="w3-rest">
+            <input
+              className="form-control"
+              name="loginId"
+              value={this.state.postData.loginId}
+              type="text"
+              placeholder=""
+              onChange={this.handleChange}
+            />
           </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              이름
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="name"
-                value={this.state.postData.name}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            암호
           </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              이메일
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="email"
-                value={this.state.postData.email}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
+          <div className="w3-rest">
+            <input
+              className="form-control"
+              name="password"
+              value={this.state.postData.password}
+              type="text"
+              placeholder=""
+              onChange={this.handleChange}
+            />
           </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              소속(부서)
-            </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="department"
-                value={this.state.postData.department}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
-            </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            이름
           </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              권한
-            </div>
-            <div className="w3-rest">
-              <select
-                className="form-control"
-                name="userType"
-                value={this.state.postData.userType}
-                onChange={this.handleChange}
-              >
-                <option value="" />
-                <option value="manager">Manager</option>
-                <option value="user">User</option>
-                <option value="monitoring">Monitoring</option>
-              </select>
-            </div>
+          <div className="w3-rest">
+            <input
+              className="form-control"
+              name="name"
+              value={this.state.postData.name}
+              type="text"
+              placeholder=""
+              onChange={this.handleChange}
+            />
           </div>
-          <div className="w3-right">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={e => {
-                this.props.setViewMode("list");
-              }}
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            이메일
+          </div>
+          <div className="w3-rest">
+            <input
+              className="form-control"
+              name="email"
+              value={this.state.postData.email}
+              type="text"
+              placeholder=""
+              onChange={this.handleChange}
+            />
+          </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            소속(부서)
+          </div>
+          <div className="w3-rest">
+            <input
+              className="form-control"
+              name="department"
+              value={this.state.postData.department}
+              type="text"
+              placeholder=""
+              onChange={this.handleChange}
+            />
+          </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            권한
+          </div>
+          <div className="w3-rest">
+            <select
+              className="form-control"
+              name="userType"
+              value={this.state.postData.userType}
+              onChange={this.handleChange}
             >
-              List
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={e => {
-                this.add();
-              }}
-            >
-              OK
-            </button>
+              <option value="" />
+              <option value="manager">Manager</option>
+              <option value="user">User</option>
+              <option value="monitoring">Monitoring</option>
+            </select>
           </div>
-        </form>
-      </div>
+        </div>
+        <div className="w3-right">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={e => {
+              this.props.setViewMode("list");
+            }}
+          >
+            List
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={e => {
+              this.add();
+            }}
+          >
+            OK
+          </button>
+        </div>
+      </form>
+      // </div>
     );
   }
 }

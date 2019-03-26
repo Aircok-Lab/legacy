@@ -15,6 +15,7 @@ import {
 import api from "api";
 import { userSignInSuccess } from "actions/Auth";
 import responseDataProcess from "util/responseDataProcess";
+import toaster from "util/toaster";
 
 function* userListByBuildingIdWorker(action) {
   try {
@@ -54,6 +55,7 @@ function* userAddWorker(action) {
   try {
     const res = yield api.post(`user/addUser`, action.payload);
     if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
       yield put({
         type: USER_LIST_BY_POSITION_ID_REQUEST,
         payload: { positionID: action.payload.positionList }
@@ -75,7 +77,7 @@ function* userUpdateWorker(action) {
   try {
     const res = yield api.put(`user/updateUser`, action.payload);
     if (responseDataProcess(res.data)) {
-      console.log(action);
+      toaster("적용하였습니다.", 3000, "bg-success");
       if (action.payload.id === action.authUser.id) {
         localStorage.setItem("user_id", JSON.stringify(action.payload));
         yield put(userSignInSuccess(action.payload));
@@ -101,6 +103,7 @@ function* userDeleteWorker(action) {
   try {
     const res = yield api.delete(`user/deleteUser?id=${action.payload.ids}`);
     if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
       if (action.payload.node.buildingID) {
         yield put({
           type: "USER_LIST_BY_POSITION_ID_REQUEST",

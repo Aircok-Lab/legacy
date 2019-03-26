@@ -1,5 +1,6 @@
 import {
   POSITION_LIST_REQUEST,
+  POSITION_LIST_BY_BUILDING_ID_REQUEST,
   POSITION_ADD_REQUEST,
   POSITION_UPDATE_REQUEST,
   POSITION_DELETE_REQUEST
@@ -8,6 +9,13 @@ import {
 export const positionListRequest = payload => {
   return {
     type: POSITION_LIST_REQUEST,
+    payload
+  };
+};
+
+export const positionListByBuildingIdRequest = payload => {
+  return {
+    type: POSITION_LIST_BY_BUILDING_ID_REQUEST,
     payload
   };
 };
