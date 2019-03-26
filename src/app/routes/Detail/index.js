@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { monitoringRecentDataRequest } from "actions/RecentData";
 import { showAuthLoader } from "actions/Auth";
+import { systemListRequest } from "actions/System";
 import SensorCard from "./card.js";
 import DeviceInfo from "./deviceInfo.js";
 import AdviceInfo from "./adviceInfo.js";
@@ -11,25 +12,43 @@ class DetailPage extends React.Component {
     super(props);
     this.props.showAuthLoader();
     this.props.monitoringRecentDataRequest(this.props.match.params.deviceList);
+    console.log(this.props.data.monitoringTime);
+    this.props.systemListRequest({ id: "1" });
     let device = this.props.match.params.deviceList.split(",");
     this.state = {
       index: 0,
       deviceCnt: device.length,
       deviceData: this.props.allRecentData[0]
     };
-    console.log(device.length);
     this.loadData = this.loadData.bind(this);
+    this.scrollDevice = this.scrollDevice.bind(this);
   }
 
   componentDidMount() {
-    this.intervalLoadDataHandle = setInterval(this.loadData, 10000);
+    this.intervalLoadDataHandle = setInterval(this.loadData, 60000);
+    this.intervalScrollHandle = setInterval(
+      this.scrollDevice,
+      this.props.data.monitoringTime * 1000
+    );
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalLoadDataHandle);
+    clearInterval(this.intervalScrollHandle);
   }
 
-  loadData() {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.data.monitoringTime !== nextProps.data.monitoringTime) {
+      console.log("변경" + nextProps.data.monitoringTime);
+      if (this.intervalScrollHandle) clearInterval(this.intervalScrollHandle);
+      this.intervalScrollHandle = setInterval(
+        this.scrollDevice,
+        nextProps.data.monitoringTime * 1000
+      );
+    }
+  }
+
+  scrollDevice() {
     let i = this.state.index;
     console.log(this.state.deviceCnt);
     console.log(this.state.index);
@@ -39,6 +58,9 @@ class DetailPage extends React.Component {
       index: i,
       deviceData: this.props.allRecentData[i]
     });
+  }
+
+  loadData() {
     this.props.monitoringRecentDataRequest(this.props.match.params.deviceList);
   }
 
@@ -123,12 +145,13 @@ class DetailPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ auth, recentData }) => {
+const mapStateToProps = ({ auth, recentData, system }) => {
   const { authUser } = auth;
   const { allRecentData } = recentData;
-  return { authUser, allRecentData };
+  const { data } = system;
+  return { authUser, allRecentData, data };
 };
 export default connect(
   mapStateToProps,
-  { monitoringRecentDataRequest, showAuthLoader }
+  { monitoringRecentDataRequest, showAuthLoader, systemListRequest }
 )(DetailPage);

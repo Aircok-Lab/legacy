@@ -6,6 +6,7 @@ import {
   allRecentDataRequest,
   monitoringRecentDataRequest
 } from "actions/RecentData";
+import { systemListRequest } from "actions/System";
 import MainTableHead from "../Monitoring/mainTableHead";
 import SensorData from "../Monitoring/sensorData";
 
@@ -23,6 +24,7 @@ class SamplePage extends React.Component {
     super(props);
     this.props.showAuthLoader();
     this.props.alarmReferenceValueRequest();
+    this.props.systemListRequest({ id: "1" });
     console.log(this.props.authUser.userType);
     if (this.props.authUser.userType === "monitoring")
       this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
@@ -32,8 +34,11 @@ class SamplePage extends React.Component {
   }
 
   componentDidMount() {
-    this.intervalScrollHandle = setInterval(this.pageScroll, 30000);
     this.loadDataintervalLoadDataHandle = setInterval(this.loadData, 60000);
+    this.intervalScrollHandle = setInterval(
+      this.pageScroll,
+      this.props.data.scrollTime * 1000
+    );
   }
 
   componentWillUnmount() {
@@ -41,10 +46,24 @@ class SamplePage extends React.Component {
     clearInterval(this.loadDataintervalLoadDataHandle);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.data.scrollTime !== nextProps.data.scrollTime) {
+      if (this.intervalScrollHandle) clearInterval(this.intervalScrollHandle);
+      this.intervalScrollHandle = setInterval(
+        this.pageScroll,
+        nextProps.data.scrollTime * 1000
+      );
+    }
+  }
+
   pageScroll() {
     var objDiv = document.getElementById("contain");
-    if (objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight > 100)
-      objDiv.scrollTop = objDiv.scrollTop + 100;
+    var scrollHeight = 55 * this.props.data.scrollRow; // tableHeight
+    if (
+      objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight >
+      scrollHeight
+    )
+      objDiv.scrollTop = objDiv.scrollTop + scrollHeight;
     else if (objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight > 0)
       objDiv.scrollTop =
         objDiv.scrollTop + (objDiv.scrollHeight - objDiv.clientHeight);
@@ -171,11 +190,18 @@ class SamplePage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ alarmReference, auth, recentData }) => {
+const mapStateToProps = ({ alarmReference, auth, recentData, system }) => {
   const { alarmReferenceValue } = alarmReference;
   const { authUser } = auth;
   const { allRecentData, monitoringRecentData } = recentData;
-  return { alarmReferenceValue, authUser, allRecentData, monitoringRecentData };
+  const { data } = system;
+  return {
+    alarmReferenceValue,
+    authUser,
+    allRecentData,
+    monitoringRecentData,
+    data
+  };
 };
 export default connect(
   mapStateToProps,
@@ -183,6 +209,7 @@ export default connect(
     alarmReferenceValueRequest,
     showAuthLoader,
     allRecentDataRequest,
-    monitoringRecentDataRequest
+    monitoringRecentDataRequest,
+    systemListRequest
   }
 )(SamplePage);

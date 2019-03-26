@@ -15,8 +15,8 @@ const INIT_STATE = {
   loader: false,
   alertMessage: "",
   showMessage: false,
-  initURL: "",
-  authUser: localStorage.getItem("user_id"),
+  initURL: "/app/monitoring",
+  authUser: "", //localStorage.getItem("user_id"),
   pkey: ""
 };
 

@@ -32,7 +32,6 @@ const getClassText = grade => {
   else if (grade == 5) classText = " card-body text-white text-center bg-bad";
   else if (grade == 6)
     classText = " card-body text-white text-center bg-very-bad";
-  // console.log(classText);
   return classText;
 };
 
@@ -121,7 +120,7 @@ class AdviceInfo extends React.Component {
         }
       });
       let temp = adviceStr2.slice(0, -1);
-      adviceStr2 = temp + " 관리가 필요합니다.";
+      if (cnt > 0) adviceStr2 = temp + " 관리가 필요합니다.";
     } else {
       device.data.map(sensor => {
         if (sensor.index > 3) {

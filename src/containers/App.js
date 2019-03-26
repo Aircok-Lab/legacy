@@ -21,6 +21,8 @@ import Login from "./Login";
 import Join from "./Join";
 import Forgot from "./Forgot";
 import { setInitUrl, setInitUser } from "../actions/Auth";
+import { systemListRequest } from "actions/System";
+import { alarmReferenceValueRequest } from "actions/AlarmReference";
 import RTL from "util/RTL";
 import asyncComponent from "util/asyncComponent";
 
@@ -51,11 +53,12 @@ class App extends Component {
 
     var retrievedObject = localStorage.getItem("user_id");
 
-    // console.log("retrievedObject: ", JSON.parse(retrievedObject));
+    console.log("retrievedObject: ", JSON.parse(retrievedObject));
     if (localStorage.getItem("user_id") !== null) {
-      // console.log(retrievedObject);
       this.props.setInitUser(JSON.parse(retrievedObject));
     }
+    this.props.alarmReferenceValueRequest();
+    this.props.systemListRequest({ id: "1" });
   }
 
   componentDidMount() {
@@ -132,5 +135,5 @@ const mapStateToProps = ({ settings, auth }) => {
 
 export default connect(
   mapStateToProps,
-  { setInitUrl, setInitUser }
+  { setInitUrl, setInitUser, alarmReferenceValueRequest, systemListRequest }
 )(App);
