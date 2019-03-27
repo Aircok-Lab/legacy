@@ -13,15 +13,12 @@ import AdviceInfo from "./adviceInfo.js";
 class DetailPage extends React.Component {
   constructor(props) {
     super(props);
-    var address = {
-      latitude: this.props.allRecentData[0].latitude,
-      longitude: this.props.allRecentData[0].longitude
-    };
+    var latitude = this.props.allRecentData[0].latitude;
+    var longitude = this.props.allRecentData[0].longitude;
     this.props.showAuthLoader();
     this.props.monitoringRecentDataRequest(this.props.match.params.deviceList);
     this.props.systemListRequest({ id: "1" });
-
-    this.props.outdoorDataRequest(address);
+    this.props.outdoorDataRequest({ latitude, longitude });
     let device = this.props.match.params.deviceList.split(",");
     this.state = {
       index: 0,
