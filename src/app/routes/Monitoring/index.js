@@ -25,7 +25,6 @@ class SamplePage extends React.Component {
     this.props.showAuthLoader();
     this.props.alarmReferenceValueRequest();
     this.props.systemListRequest({ id: "1" });
-    console.log(this.props.authUser.userType);
     if (this.props.authUser.userType === "monitoring")
       this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
     else this.props.allRecentDataRequest(this.props.authUser.positionList);

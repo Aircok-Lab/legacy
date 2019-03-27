@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { monitoringRecentDataRequest } from "actions/RecentData";
+import {
+  monitoringRecentDataRequest,
+  outdoorDataRequest
+} from "actions/RecentData";
 import { showAuthLoader } from "actions/Auth";
 import { systemListRequest } from "actions/System";
 import SensorCard from "./card.js";
@@ -10,10 +13,15 @@ import AdviceInfo from "./adviceInfo.js";
 class DetailPage extends React.Component {
   constructor(props) {
     super(props);
+    var address = {
+      latitude: this.props.allRecentData[0].latitude,
+      longitude: this.props.allRecentData[0].longitude
+    };
     this.props.showAuthLoader();
     this.props.monitoringRecentDataRequest(this.props.match.params.deviceList);
-    console.log(this.props.data.monitoringTime);
     this.props.systemListRequest({ id: "1" });
+
+    this.props.outdoorDataRequest(address);
     let device = this.props.match.params.deviceList.split(",");
     this.state = {
       index: 0,
@@ -39,7 +47,6 @@ class DetailPage extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.data.monitoringTime !== nextProps.data.monitoringTime) {
-      console.log("변경" + nextProps.data.monitoringTime);
       if (this.intervalScrollHandle) clearInterval(this.intervalScrollHandle);
       this.intervalScrollHandle = setInterval(
         this.scrollDevice,
@@ -50,8 +57,6 @@ class DetailPage extends React.Component {
 
   scrollDevice() {
     let i = this.state.index;
-    console.log(this.state.deviceCnt);
-    console.log(this.state.index);
     if (this.state.deviceCnt - 1 !== this.state.index) i++;
     else i = 0;
     this.setState({
@@ -153,5 +158,10 @@ const mapStateToProps = ({ auth, recentData, system }) => {
 };
 export default connect(
   mapStateToProps,
-  { monitoringRecentDataRequest, showAuthLoader, systemListRequest }
+  {
+    monitoringRecentDataRequest,
+    outdoorDataRequest,
+    showAuthLoader,
+    systemListRequest
+  }
 )(DetailPage);
