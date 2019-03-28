@@ -165,7 +165,7 @@ var AlarmTable = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "delete from alarmTable where sensorType = ?",
+        "delete from AlarmTable where sensorType = ?",
         sensorType,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.

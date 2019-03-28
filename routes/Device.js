@@ -21,7 +21,7 @@ router.post("/addDevice", function(req, res, next) {
   var paramIMEI = req.body.imei || req.query.imei;
   var paramGateway = req.body.gateway || req.query.gateway || null;
   var paramSubnet = req.body.subnet || req.query.subnet || null;
-  var paramNetworkType = req.body.networkType || req.query.networkType || null;
+  var paramNetworkType = req.body.networkType || req.query.networkType || 'cellular';
   var result = { statusCode: null, message: null, data: null };
 
   if (
