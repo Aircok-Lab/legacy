@@ -9,6 +9,7 @@ import {
 } from "constants/ActionTypes";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
+import toaster from "util/toaster";
 
 function* alarmListWorker(action) {
   try {
@@ -29,13 +30,9 @@ export function* alarmListWatcher() {
 
 function* alarmUpdateWorker(action) {
   try {
-    const res = yield api.put(`setting/updateSetting`, action.payload);
+    const res = yield api.put(`alarmTable/updateAlarmValue`, action.payload);
     if (responseDataProcess(res.data)) {
-      // yield put({
-      //   type: ALARM_UPDATE_SUCCESS,
-      //   payload: res.data.data
-      // });
-      alert("변경사항을 저장하였습니다.");
+      toaster("적용하였습니다.", 3000, "bg-success");
     }
   } catch (error) {
     console.log("[ERROR#####]", error);

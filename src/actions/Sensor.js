@@ -1,6 +1,7 @@
 import {
   SENSOR_LIST_REQUEST,
-  SENSOR_UPDATE_REQUEST
+  SENSOR_MIN_UPDATE_REQUEST,
+  SENSOR_MAX_UPDATE_REQUEST
 } from "constants/ActionTypes";
 
 export const sensorListRequest = payload => {
@@ -10,9 +11,16 @@ export const sensorListRequest = payload => {
   };
 };
 
-export const sensorUpdateRequest = payload => {
+export const sensorMinUpdateRequest = payload => {
   return {
-    type: SENSOR_UPDATE_REQUEST,
+    type: SENSOR_MIN_UPDATE_REQUEST,
+    payload
+  };
+};
+
+export const sensorMaxUpdateRequest = payload => {
+  return {
+    type: SENSOR_MAX_UPDATE_REQUEST,
     payload
   };
 };

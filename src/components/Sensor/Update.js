@@ -1,17 +1,37 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { alarmListRequest } from "actions/Alarm";
-import { sensorListRequest } from "actions/Sensor";
+import { alarmListRequest, alarmUpdateRequest } from "actions/Alarm";
+import {
+  sensorListRequest,
+  sensorMinUpdateRequest,
+  sensorMaxUpdateRequest
+} from "actions/Sensor";
 import { setViewMode } from "actions/Setting";
+
+const grades = ["좋음", "보통", "민감군Ⅰ", "민감군Ⅱ", "나쁨", "매우나쁨"];
+const seasons = ["봄", "여름", "가을", "겨울"];
+
+const sensorTypes = [
+  { sensorType: "pm10", engName: "PM10", korName: "미세먼지" },
+  { sensorType: "pm25", engName: "PM2.5", korName: "미세먼지" },
+  { sensorType: "co2", engName: "CO2", korName: "이산화탄소" },
+  { sensorType: "hcho", engName: "HCHO", korName: "포름알데히드" },
+  { sensorType: "voc", engName: "VOC", korName: "휘발성유기화합물" },
+  { sensorType: "noise", engName: "Noise", korName: "소음" },
+  { sensorType: "temperature", engName: "Temperature", korName: "온도" },
+  { sensorType: "humidity", engName: "Humidity", korName: "습도" }
+];
 
 class Update extends Component {
   state = {
-    postData: {
-      pm10: "10",
-      pm25: "25"
-    },
-    sensors_a: [],
-    sensors_b: []
+    // postData: {
+    //   pm10: "10",
+    //   pm25: "25"
+    // },
+    sensors: [],
+    sensors_temp_humi: []
+    // sensors_a: [],
+    // sensors_b: []
   };
   update = () => {
     if (!this.state.postData.name) {
@@ -58,77 +78,21 @@ class Update extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    // if (props.data.id !== state.postData.id) {
-    //   return {
-    //     postData: props.data
-    //   };
-    // }
-    if (!state.sensors_a.length) {
-      console.log("getDerivedStateFromProps ..... ");
-      return {
-        sensors_a: [{ sensorType: "pm10", alarm: "50" }]
-      };
-    }
-    return null;
-  }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log("componentDidUpdate ..... ");
-  // }
-
-  render() {
-    if (!this.props.sensorData || !this.props.alarmData) {
+    if (!props.sensorData || !props.alarmData || state.sensors.length) {
       return null;
     }
-    const grades = ["좋음", "보통", "민감군Ⅰ", "민감군Ⅱ", "나쁨", "매우나쁨"];
-    // const sensorTypes = [
-    //   "pm10",
-    //   "pm25",
-    //   "co2",
-    //   "hcho",
-    //   "voc",
-    //   "noise",
-    //   "temperature",
-    //   "humidity"
-    // ];
-
-    const sensorTypes = [
-      { sensorType: "pm10", engName: "PM10", korName: "미세먼지" },
-      { sensorType: "pm25", engName: "PM2.5", korName: "미세먼지" },
-      { sensorType: "co2", engName: "CO2", korName: "이산화탄소" },
-      { sensorType: "hcho", engName: "HCHO", korName: "포름알데히드" },
-      { sensorType: "voc", engName: "VOC", korName: "휘발성유기화합물" },
-      { sensorType: "noise", engName: "Noise", korName: "소음" },
-      { sensorType: "temperature", engName: "Temperature", korName: "온도" },
-      { sensorType: "humidity", engName: "Humidity", korName: "습도" }
-    ];
-
-    // console.log("grades : ", grades);
-    // console.log("sensorTypes : ", sensorTypes);
-    // console.log("this.props.alarmData : ", this.props.alarmData);
-    // console.log("this.props.sensorData : ", this.props.sensorData);
+    console.log("getDerivedStateFromProps", props, state);
 
     let sensors = [];
 
     sensorTypes.map(sensorType => {
-      // sensors.push({ sensorType: sensorType.sensorType });
       sensors.push(sensorType);
     });
 
-    // console.log("sensors : ", JSON.parse(JSON.stringify(sensors)));
     sensors.map(sensor => {
-      // console.log("sensor.sensorType", sensor.sensorType);
-
-      // console.log(
-      //   "alarm",
-      //   sensor.sensorType,
-      //   this.props.alarmData[sensor.sensorType]
-      // );
-
-      const sensorGrades = this.props.sensorData.filter(
+      const sensorGrades = props.sensorData.filter(
         item => item.sensorType == sensor.sensorType
       );
-      // console.log("sensorGrades", sensorGrades);
       sensor.grade = {};
       sensorGrades.map(item => {
         sensor.grade[item.grade] = {
@@ -138,72 +102,54 @@ class Update extends Component {
         };
       });
 
-      sensor.alarm = this.props.alarmData[sensor.sensorType];
+      // console.log("sernsors: ", sensors);
+      sensor.alarm = props.alarmData[sensor.sensorType];
+
+      //   return {
+      //     sensors_temp_humi,
+      //     sensors
+      // });
     });
+
+    //   });
     const sensors_temp_humi = sensors.splice(6);
-    // console.log(
-    //   "sensors : ",
-    //   sensors_temp_humi,
-    //   JSON.parse(JSON.stringify(sensors))
-    // );
+    // return null;
+    return {
+      sensors,
+      sensors_temp_humi
+    };
+  }
+
+  render() {
+    if (!this.props.sensorData || !this.props.alarmData) {
+      return null;
+    }
+
+    console.log("this.state @#@#@#@ ", this.state);
 
     return (
       <div className="col-12 mx-auto">
         <form className="w3-margin">
-          <div className="row">
-            <div className="col-3">
-              <input
-                className="form-control"
-                name="pm10"
-                value={this.state.postData.pm10}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-                onBlur={() => {
-                  // this.props.actions.updateInput(this.state.inputValue)
-                  console.log("onBlur .... ");
-                }}
-                style={{ border: "none" }}
-              />
-            </div>
-            <div className="col-3">
-              <input
-                className="form-control"
-                name="pm25"
-                value={this.state.postData.pm25}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-                onBlur={() => {
-                  // this.props.actions.updateInput(this.state.inputValue)
-                  console.log("onBlur .... ");
-                }}
-                style={{ border: "none" }}
-              />
-            </div>
-
-            {/* <input
-              value={this.state.inputValue}
-              onChange={this.handlechange}
-              onBlur={() =>
-                this.props.actions.updateInput(this.state.inputValue)
-              }
-            /> */}
-          </div>
           <div className="table-responsive">
-            <table className="table table-bordered text-center">
+            <table
+              className="table table-bordered text-center"
+              style={{ background: "#fff" }}
+            >
               <thead className="text-white bg-primary">
                 <tr>
-                  <th rowSpan="2">구분</th>
+                  <th rowSpan="2" style={{ verticalAlign: "middle" }}>
+                    구분
+                  </th>
                   {grades.map((grade, index) => (
                     <th colSpan="2" key={index}>
                       {grade}
                     </th>
                   ))}
-                  <th rowSpan="2">알람</th>
+                  <th rowSpan="2" style={{ verticalAlign: "middle" }}>
+                    알람
+                  </th>
                 </tr>
                 <tr>
-                  {/* <th rowSpan="2">구분</th> */}
                   {grades.map((grade, index) => (
                     <React.Fragment key={index}>
                       <th>Min</th>
@@ -213,76 +159,374 @@ class Update extends Component {
                 </tr>
               </thead>
               <tbody>
-                {sensors.map(sensor => (
-                  <tr key={sensor.sensorType}>
-                    <th
-                      className="bg-light text-dark"
-                      style={{ width: "160px" }}
-                    >
-                      {sensor.korName}
-                      <br />
-                      <span>({sensor.engName})</span>
-                    </th>
-                    {grades.map((grade, index) => (
-                      <React.Fragment key={index}>
-                        <td>
-                          <input
-                            className="form-control"
-                            name="pm25"
-                            value={sensor.grade["" + (index + 1)].min}
-                            type="text"
-                            placeholder=""
-                            onChange={this.handleChange}
-                            onBlur={() => {
-                              // this.props.actions.updateInput(this.state.inputValue)
-                              console.log("onBlur .... ");
-                            }}
-                            style={{ border: "none" }}
-                          />
-                        </td>
-                        <td>
-                          <input
-                            className="form-control"
-                            name="pm25"
-                            value={sensor.grade["" + (index + 1)].max}
-                            type="text"
-                            placeholder=""
-                            onChange={this.handleChange}
-                            onBlur={() => {
-                              // this.props.actions.updateInput(this.state.inputValue)
-                              console.log("onBlur .... ");
-                            }}
-                            style={{ border: "none" }}
-                          />
-                        </td>
-
-                        {/* <td>{sensor.grade["" + (index + 1)].min}</td> */}
-                        {/* <td>{sensor.grade["" + (index + 1)].max}</td> */}
-                      </React.Fragment>
-                    ))}
-                    <td>
-                      <input
-                        className="form-control"
-                        name="pm25"
-                        value={sensor.alarm}
-                        type="text"
-                        placeholder=""
-                        onChange={this.handleChange}
-                        onBlur={() => {
-                          // this.props.actions.updateInput(this.state.inputValue)
-                          console.log("onBlur .... ");
+                {this.state.sensors &&
+                  this.state.sensors.map(sensor => (
+                    <tr key={sensor.sensorType}>
+                      <th
+                        className="text-dark"
+                        style={{
+                          width: "160px",
+                          background: "#ccc"
                         }}
-                        style={{ border: "none" }}
-                      />
-                    </td>
+                      >
+                        {sensor.korName}
+                        <br />
+                        <span>({sensor.engName})</span>
+                      </th>
+                      {grades.map((grade, index) => (
+                        <React.Fragment key={index}>
+                          <td
+                            style={{ padding: "4px", verticalAlign: "middle" }}
+                          >
+                            <input
+                              className="form-control"
+                              defaultValue={sensor.grade["" + (index + 1)].min}
+                              type="text"
+                              placeholder=""
+                              onFocus={e => {
+                                e.target.select();
+                              }}
+                              onBlur={e => {
+                                console.log(
+                                  "onBlur .... ",
+                                  sensor.sensorType,
+                                  index + 1,
+                                  "min",
+                                  e.target.value
+                                );
+                                if (
+                                  e.target.value !==
+                                  "" + sensor.grade["" + (index + 1)].min
+                                ) {
+                                  console.log("data 변경 ++++++");
+                                  this.props.sensorMinUpdateRequest({
+                                    sensorType: sensor.sensorType,
+                                    grade: index + 1,
+                                    min: e.target.value
+                                  });
+                                  const newSensors = this.state.sensors.map(
+                                    _sensor => {
+                                      if (
+                                        _sensor.sensorType !== sensor.sensorType
+                                      )
+                                        return _sensor;
+                                      return {
+                                        ..._sensor,
+                                        alarm: e.target.value
+                                      };
+                                    }
+                                  );
+                                  this.setState({ sensors: newSensors });
+                                } else {
+                                  console.log("변경 없음.");
+                                }
+                              }}
+                              style={{
+                                fontSize: "1rem",
+                                borderRadius: "0",
+                                padding: "4px",
+                                textAlign: "right"
+                              }}
+                            />
+                          </td>
+                          <td
+                            style={{ padding: "4px", verticalAlign: "middle" }}
+                          >
+                            <input
+                              className="form-control"
+                              defaultValue={sensor.grade["" + (index + 1)].max}
+                              type="text"
+                              onFocus={e => {
+                                e.target.select();
+                              }}
+                              onBlur={e => {
+                                console.log(
+                                  "onBlur .... ",
+                                  sensor.sensorType,
+                                  index + 1,
+                                  "max",
+                                  e.target.value
+                                );
+                                // this.props.sensorMinUpdateRequest({
+                                //   sensorType: sensor.sensorType,
+                                //   grade: index + 1,
+                                //   max: e.target.value
+                                // });
+                                // const newSensors = this.state.sensors.map(
+                                //   _sensor => {
+                                //     if (
+                                //       _sensor.sensorType !== sensor.sensorType
+                                //     )
+                                //       return _sensor;
+                                //     return {
+                                //       ..._sensor,
+                                //       alarm: e.target.value
+                                //     };
+                                //   }
+                                // );
+                                // this.setState({ sensors: newSensors });
 
-                    {/* <td>{sensor.alarm}</td> */}
-                  </tr>
-                ))}
+                                if (
+                                  e.target.value !==
+                                  "" + sensor.grade["" + (index + 1)].max
+                                ) {
+                                  console.log("data 변경 ++++++");
+                                } else {
+                                  console.log("변경 없음.");
+                                }
+                              }}
+                              style={{
+                                fontSize: "1rem",
+                                borderRadius: "0",
+                                padding: "4px",
+                                textAlign: "right"
+                              }}
+                            />
+                          </td>
+                        </React.Fragment>
+                      ))}
+                      <td style={{ padding: "4px", verticalAlign: "middle" }}>
+                        <input
+                          className="form-control"
+                          name="alarm"
+                          placeholder=""
+                          type="text"
+                          defaultValue={sensor.alarm}
+                          onFocus={e => {
+                            e.target.select();
+                          }}
+                          onBlur={e => {
+                            if (e.target.value !== "" + sensor.alarm) {
+                              this.props.alarmUpdateRequest({
+                                sensorType: sensor.sensorType,
+                                alarmValue: e.target.value
+                              });
+                              const newSensors = this.state.sensors.map(
+                                _sensor => {
+                                  if (_sensor.sensorType !== sensor.sensorType)
+                                    return _sensor;
+                                  return {
+                                    ..._sensor,
+                                    alarm: e.target.value
+                                  };
+                                }
+                              );
+                              this.setState({ sensors: newSensors });
+                            }
+                          }}
+                          style={{
+                            fontSize: "1rem",
+                            verticalAlign: "middle",
+                            borderRadius: "0",
+                            padding: "4px",
+                            textAlign: "right"
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
-        </form>{" "}
+          <hr />
+          <div className="table-responsive">
+            <table
+              className="table table-bordered text-center"
+              style={{ background: "#fff" }}
+            >
+              <thead className="text-white bg-primary">
+                <tr>
+                  <th rowSpan="2" style={{ verticalAlign: "middle" }}>
+                    구분
+                  </th>
+                  {seasons.map((season, index) => (
+                    <th colSpan="2" key={index}>
+                      {season}
+                    </th>
+                  ))}
+                  <th rowSpan="2" style={{ verticalAlign: "middle" }}>
+                    알람
+                  </th>
+                </tr>
+                <tr>
+                  {seasons.map((season, index) => (
+                    <React.Fragment key={index}>
+                      <th>Min</th>
+                      <th>Max</th>
+                    </React.Fragment>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.sensors_temp_humi &&
+                  this.state.sensors_temp_humi.map(sensor => (
+                    <tr key={sensor.sensorType}>
+                      <th
+                        className="text-dark"
+                        style={{
+                          width: "160px",
+                          background: "#ccc"
+                        }}
+                      >
+                        {sensor.korName}
+                        <br />
+                        <span>({sensor.engName})</span>
+                      </th>
+                      {seasons.map((season, index) => (
+                        <React.Fragment key={index}>
+                          <td
+                            style={{ padding: "4px", verticalAlign: "middle" }}
+                          >
+                            <input
+                              className="form-control"
+                              defaultValue={sensor.grade["" + (index + 1)].min}
+                              type="text"
+                              onFocus={e => {
+                                e.target.select();
+                              }}
+                              onBlur={e => {
+                                // this.props.sensorMinUpdateRequest({
+                                //   sensorType: sensor.sensorType,
+                                //   season: index + 1,
+                                //   min: e.target.value
+                                // });
+                                // const newSensors = this.state.sensors.map(
+                                //   _sensor => {
+                                //     if (
+                                //       _sensor.sensorType !== sensor.sensorType
+                                //     )
+                                //       return _sensor;
+                                //     return {
+                                //       ..._sensor,
+                                //       alarm: e.target.value
+                                //     };
+                                //   }
+                                // );
+                                // this.setState({ sensors: newSensors });
+                                console.log(
+                                  "onBlur .... ",
+                                  sensor.sensorType,
+                                  index + 1,
+                                  "min",
+                                  e.target.value
+                                );
+                                if (
+                                  e.target.value !==
+                                  "" + sensor.grade["" + (index + 1)].min
+                                ) {
+                                  console.log("data 변경 ++++++");
+                                } else {
+                                  console.log("변경 없음.");
+                                }
+                              }}
+                              style={{
+                                fontSize: "1rem",
+                                borderRadius: "0",
+                                padding: "4px",
+                                textAlign: "right"
+                              }}
+                            />
+                          </td>
+                          <td
+                            style={{ padding: "4px", verticalAlign: "middle" }}
+                          >
+                            <input
+                              className="form-control"
+                              defaultValue={sensor.grade["" + (index + 1)].max}
+                              type="text"
+                              onFocus={e => {
+                                e.target.select();
+                              }}
+                              onBlur={e => {
+                                console.log(
+                                  "onBlur .... ",
+                                  sensor.sensorType,
+                                  index + 1,
+                                  "max",
+                                  e.target.value
+                                );
+                                // this.props.sensorMinUpdateRequest({
+                                //   sensorType: sensor.sensorType,
+                                //   season: index + 1,
+                                //   max: e.target.value
+                                // });
+                                // const newSensors = this.state.sensors.map(
+                                //   _sensor => {
+                                //     if (
+                                //       _sensor.sensorType !== sensor.sensorType
+                                //     )
+                                //       return _sensor;
+                                //     return {
+                                //       ..._sensor,
+                                //       alarm: e.target.value
+                                //     };
+                                //   }
+                                // );
+                                // this.setState({ sensors: newSensors });
+
+                                if (
+                                  e.target.value !==
+                                  "" + sensor.grade["" + (index + 1)].max
+                                ) {
+                                  console.log("data 변경 ++++++");
+                                } else {
+                                  console.log("변경 없음.");
+                                }
+                              }}
+                              style={{
+                                fontSize: "1rem",
+                                borderRadius: "0",
+                                padding: "4px",
+                                textAlign: "right"
+                              }}
+                            />
+                          </td>
+                        </React.Fragment>
+                      ))}
+                      <td style={{ padding: "4px", verticalAlign: "middle" }}>
+                        <input
+                          className="form-control"
+                          name="alarm"
+                          placeholder=""
+                          type="text"
+                          defaultValue={sensor.alarm}
+                          onFocus={e => {
+                            e.target.select();
+                          }}
+                          onBlur={e => {
+                            if (e.target.value !== "" + sensor.alarm) {
+                              this.props.alarmUpdateRequest({
+                                sensorType: sensor.sensorType,
+                                alarmValue: e.target.value
+                              });
+                              const newSensors = this.state.sensors.map(
+                                _sensor => {
+                                  if (_sensor.sensorType !== sensor.sensorType)
+                                    return _sensor;
+                                  return {
+                                    ..._sensor,
+                                    alarm: e.target.value
+                                  };
+                                }
+                              );
+                              this.setState({ sensors: newSensors });
+                            }
+                          }}
+                          style={{
+                            fontSize: "1rem",
+                            verticalAlign: "middle",
+                            borderRadius: "0",
+                            padding: "4px",
+                            textAlign: "right"
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </form>
       </div>
     );
   }
@@ -295,7 +539,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   alarmListRequest,
-  sensorListRequest
+  alarmUpdateRequest,
+  sensorListRequest,
+  sensorMinUpdateRequest,
+  sensorMaxUpdateRequest
 };
 
 export default connect(

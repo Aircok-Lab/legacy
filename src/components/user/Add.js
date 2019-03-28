@@ -71,7 +71,6 @@ class Add extends Component {
 
   render() {
     return (
-      // <div className="col-6 mx-auto">
       <form className="text-blue w3-margin">
         <h2 className="text-center">사용자 등록</h2>
         <div className="w3-row w3-section">
@@ -167,28 +166,31 @@ class Add extends Component {
             </select>
           </div>
         </div>
-        <div className="w3-right">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={e => {
-              this.props.setViewMode("list");
-            }}
-          >
-            List
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={e => {
-              this.add();
-            }}
-          >
-            OK
-          </button>
+        <div className="clearfix">
+          <div className="w3-right">
+            {!this.props.hideButton && (
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={e => {
+                  this.props.setViewMode("list");
+                }}
+              >
+                List
+              </button>
+            )}
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={e => {
+                this.add();
+              }}
+            >
+              OK
+            </button>
+          </div>
         </div>
       </form>
-      // </div>
     );
   }
 }

@@ -275,25 +275,29 @@ class Add extends Component {
             </div>
           </React.Fragment>
         )}
-        <div className="w3-right">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={e => {
-              this.props.setViewMode("list");
-            }}
-          >
-            List
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={e => {
-              this.add();
-            }}
-          >
-            OK
-          </button>
+        <div className="clearfix">
+          <div className="float-right">
+            {!this.props.hideButton && (
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={e => {
+                  this.props.setViewMode("list");
+                }}
+              >
+                List
+              </button>
+            )}
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={e => {
+                this.add();
+              }}
+            >
+              OK
+            </button>
+          </div>
         </div>
       </form>
     );

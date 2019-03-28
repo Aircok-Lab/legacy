@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import BuildingPosition from "components/Tree/BuildingPositionTree";
+import BuildingPositionTree from "components/Tree/BuildingPositionTree";
 import List from "components/Device/List";
 import Add from "components/Device/Add";
 import { selectTreeNode } from "actions/Tree";
@@ -20,29 +20,17 @@ class DeviceContainer extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row">
-          <div className="col-3">
-            <BuildingPosition />
-          </div>
-          <div className="col-9">
-            <Add />
-          </div>
+      <div className="row">
+        <div className="col-2 py-3">
+          <h2 className="text-center">건물 목록</h2>
+          <BuildingPositionTree hideButton={true} />{" "}
         </div>
-        <hr />
-        <List />
-
-        <div className="text-center mt-3">
-          <button
-            type="button"
-            className="btn btn-primary"
-            style={{ width: "150px" }}
-            onClick={e => {
-              this.props.nextStep();
-            }}
-          >
-            다음
-          </button>
+        <div className="col-4 border-left border-right">
+          <Add hideButton={true} />
+        </div>
+        <div className="col-6 py-3">
+          <h2 className="text-center">측정기 목록</h2>
+          <List hideButton={true} />
         </div>
       </div>
     );
