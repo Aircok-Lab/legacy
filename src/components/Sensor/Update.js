@@ -247,30 +247,30 @@ class Update extends Component {
                                   "max",
                                   e.target.value
                                 );
-                                // this.props.sensorMinUpdateRequest({
-                                //   sensorType: sensor.sensorType,
-                                //   grade: index + 1,
-                                //   max: e.target.value
-                                // });
-                                // const newSensors = this.state.sensors.map(
-                                //   _sensor => {
-                                //     if (
-                                //       _sensor.sensorType !== sensor.sensorType
-                                //     )
-                                //       return _sensor;
-                                //     return {
-                                //       ..._sensor,
-                                //       alarm: e.target.value
-                                //     };
-                                //   }
-                                // );
-                                // this.setState({ sensors: newSensors });
 
                                 if (
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].max
                                 ) {
                                   console.log("data 변경 ++++++");
+                                  this.props.sensorMaxUpdateRequest({
+                                    sensorType: sensor.sensorType,
+                                    grade: index + 1,
+                                    max: e.target.value
+                                  });
+                                  const newSensors = this.state.sensors.map(
+                                    _sensor => {
+                                      if (
+                                        _sensor.sensorType !== sensor.sensorType
+                                      )
+                                        return _sensor;
+                                      return {
+                                        ..._sensor,
+                                        max: e.target.value
+                                      };
+                                    }
+                                  );
+                                  this.setState({ sensors: newSensors });
                                 } else {
                                   console.log("변경 없음.");
                                 }
@@ -288,8 +288,6 @@ class Update extends Component {
                       <td style={{ padding: "4px", verticalAlign: "middle" }}>
                         <input
                           className="form-control"
-                          name="alarm"
-                          placeholder=""
                           type="text"
                           defaultValue={sensor.alarm}
                           onFocus={e => {
@@ -385,24 +383,6 @@ class Update extends Component {
                                 e.target.select();
                               }}
                               onBlur={e => {
-                                // this.props.sensorMinUpdateRequest({
-                                //   sensorType: sensor.sensorType,
-                                //   season: index + 1,
-                                //   min: e.target.value
-                                // });
-                                // const newSensors = this.state.sensors.map(
-                                //   _sensor => {
-                                //     if (
-                                //       _sensor.sensorType !== sensor.sensorType
-                                //     )
-                                //       return _sensor;
-                                //     return {
-                                //       ..._sensor,
-                                //       alarm: e.target.value
-                                //     };
-                                //   }
-                                // );
-                                // this.setState({ sensors: newSensors });
                                 console.log(
                                   "onBlur .... ",
                                   sensor.sensorType,
@@ -415,6 +395,24 @@ class Update extends Component {
                                   "" + sensor.grade["" + (index + 1)].min
                                 ) {
                                   console.log("data 변경 ++++++");
+                                  this.props.sensorMinUpdateRequest({
+                                    sensorType: sensor.sensorType,
+                                    grade: index + 1,
+                                    min: e.target.value
+                                  });
+                                  const newSensors = this.state.sensors.map(
+                                    _sensor => {
+                                      if (
+                                        _sensor.sensorType !== sensor.sensorType
+                                      )
+                                        return _sensor;
+                                      return {
+                                        ..._sensor,
+                                        min: e.target.value
+                                      };
+                                    }
+                                  );
+                                  this.setState({ sensors: newSensors });
                                 } else {
                                   console.log("변경 없음.");
                                 }
@@ -445,30 +443,30 @@ class Update extends Component {
                                   "max",
                                   e.target.value
                                 );
-                                // this.props.sensorMinUpdateRequest({
-                                //   sensorType: sensor.sensorType,
-                                //   season: index + 1,
-                                //   max: e.target.value
-                                // });
-                                // const newSensors = this.state.sensors.map(
-                                //   _sensor => {
-                                //     if (
-                                //       _sensor.sensorType !== sensor.sensorType
-                                //     )
-                                //       return _sensor;
-                                //     return {
-                                //       ..._sensor,
-                                //       alarm: e.target.value
-                                //     };
-                                //   }
-                                // );
-                                // this.setState({ sensors: newSensors });
 
                                 if (
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].max
                                 ) {
                                   console.log("data 변경 ++++++");
+                                  this.props.sensorMaxUpdateRequest({
+                                    sensorType: sensor.sensorType,
+                                    grade: index + 1,
+                                    max: e.target.value
+                                  });
+                                  const newSensors = this.state.sensors.map(
+                                    _sensor => {
+                                      if (
+                                        _sensor.sensorType !== sensor.sensorType
+                                      )
+                                        return _sensor;
+                                      return {
+                                        ..._sensor,
+                                        max: e.target.value
+                                      };
+                                    }
+                                  );
+                                  this.setState({ sensors: newSensors });
                                 } else {
                                   console.log("변경 없음.");
                                 }
@@ -486,8 +484,6 @@ class Update extends Component {
                       <td style={{ padding: "4px", verticalAlign: "middle" }}>
                         <input
                           className="form-control"
-                          name="alarm"
-                          placeholder=""
                           type="text"
                           defaultValue={sensor.alarm}
                           onFocus={e => {
