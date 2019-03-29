@@ -88,6 +88,149 @@ class SidenavContent extends Component {
   };
 
   render() {
+    switch (this.props.authUser.userType) {
+      case "master":
+        return (
+          <div>
+            <ul className="nav-menu">
+              <li className="nav-header" />
+              <li className="nav-header">
+                <IntlMessages id="sidebar.main" />
+              </li>
+              <li className="menu no-arrow">
+                <NavLink to="/app/monitoring">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">대기질센서 결과 확인 </span>
+                </NavLink>
+                {/* TODO : delete >>>> */}
+                <NavLink to="/app/monitoringSelection">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">모니터링 측정기 관리 </span>
+                </NavLink>
+                {/* delete <<<< */}
+                <NavLink to="/app/batchRegister">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">일괄등록 </span>
+                </NavLink>
+                <NavLink to="/app/device">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">측정기 관리 </span>
+                </NavLink>
+                <NavLink to="/app/product">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">제품군 관리 </span>
+                </NavLink>
+                <NavLink to="/app/user">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">사용자 관리 </span>
+                </NavLink>
+                <NavLink to="/app/system">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">시스템 관리 </span>
+                </NavLink>
+                <NavLink to="/app/sensor">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">센서 관리 </span>
+                </NavLink>
+                <NavLink to="/app/profile">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">내 정보 관리 </span>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        );
+        break;
+
+      case "manager":
+        return (
+          <div>
+            <ul className="nav-menu">
+              <li className="nav-header" />
+              <li className="nav-header">
+                <IntlMessages id="sidebar.main" />
+              </li>
+              <li className="menu no-arrow">
+                <NavLink to="/app/monitoring">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">대기질센서 결과 확인 </span>
+                </NavLink>
+                <NavLink to="/app/device">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">측정기 관리 </span>
+                </NavLink>
+                <NavLink to="/app/product">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">제품군 관리 </span>
+                </NavLink>
+                <NavLink to="/app/user">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">사용자 관리 </span>
+                </NavLink>
+                <NavLink to="/app/profile">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">내 정보 관리 </span>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        );
+        break;
+
+      case "user":
+        return (
+          <div>
+            <ul className="nav-menu">
+              <li className="nav-header" />
+              <li className="nav-header">
+                <IntlMessages id="sidebar.main" />
+              </li>
+              <li className="menu no-arrow">
+                <NavLink to="/app/monitoring">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">대기질센서 결과 확인 </span>
+                </NavLink>
+
+                <NavLink to="/app/profile">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">내 정보 관리 </span>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        );
+        break;
+
+      case "monitoring":
+        return (
+          <div>
+            <ul className="nav-menu">
+              <li className="nav-header" />
+              <li className="nav-header">
+                <IntlMessages id="sidebar.main" />
+              </li>
+              <li className="menu no-arrow">
+                <NavLink to="/app/monitoring">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">대기질센서 결과 확인 </span>
+                </NavLink>
+                <NavLink to="/app/monitoringSelection">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">모니터링 측정기 관리 </span>
+                </NavLink>
+                <NavLink to="/app/profile">
+                  <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+                  <span className="nav-text">내 정보 관리 </span>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        );
+        break;
+
+      default:
+        break;
+    }
     return (
       <div>
         <ul className="nav-menu">

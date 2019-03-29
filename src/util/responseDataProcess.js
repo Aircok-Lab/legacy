@@ -1,10 +1,10 @@
+import toaster from "./toaster";
 const responseDataProcess = responseData => {
-  // console.log("responseData", responseData);
   if (responseData.statusCode == "OK") {
-    // return responseData.data;
     return true;
   } else {
-    alert(responseData.message);
+    // alert(responseData.message);
+    toaster(responseData.message, 3000, "bg-warning");
   }
   return null;
 };

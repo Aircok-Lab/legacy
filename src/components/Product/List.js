@@ -75,11 +75,10 @@ class List extends React.Component {
               <button
                 className="btn btn-primary"
                 onClick={e => {
-                  const selectedUser = this.state.productList.filter(
+                  const selectedProducts = this.state.productList.filter(
                     product => product.isChecked
                   );
-                  // this.props.productSetItem(selectedUser[0]);
-                  this.props.setViewMode("update", selectedUser[0]);
+                  this.props.setViewMode("update", selectedProducts[0]);
                 }}
                 style={{ marginLeft: "2px" }}
                 disabled={
@@ -109,9 +108,8 @@ class List extends React.Component {
             <table className="w3-table-all w3-centered">
               <thead>
                 <tr>
-                  <th style={{ paddingRight: "24px", width: "30px" }}>
+                  <th>
                     <input
-                      className="w3-check"
                       type="checkbox"
                       onChange={event => {
                         let productList = [...this.state.productList];
@@ -134,7 +132,6 @@ class List extends React.Component {
                     <tr key={row.id}>
                       <td style={{ width: "60px" }}>
                         <input
-                          className="w3-check"
                           type="checkbox"
                           checked={row.isChecked}
                           value={row.id}

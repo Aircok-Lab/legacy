@@ -10,12 +10,14 @@ import {
   BUILDING_UPDATE_SUCCESS,
   BUILDING_DELETE_REQUEST,
   BUILDING_DELETE_SUCCESS,
+  BUILDING_LOCATION_REQUEST,
+  BUILDING_LOCATION_SUCCESS,
   USER_GET_BY_ID_REQUEST
 } from "constants/ActionTypes";
 import { userSignInSuccess } from "actions/Auth";
-import responseDataProcess from "util/responseDataProcess";
-
 import api from "api";
+import responseDataProcess from "util/responseDataProcess";
+import toaster from "util/toaster";
 
 function* buildingListWorker(action) {
   try {
@@ -35,10 +37,11 @@ function* buildingAddWorker(action) {
   try {
     let res = yield api.post(`building/addBuilding`, action.payload);
     if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({
-        type: "BUILDING_LIST_REQUEST",
+        type: BUILDING_LIST_REQUEST,
         payload: { id: res.data.data.buildingList }
       });
     }
@@ -46,6 +49,7 @@ function* buildingAddWorker(action) {
     console.log("[ERROR#####]", error);
   }
 }
+
 export function* buildingAddWatcher() {
   yield takeEvery(BUILDING_ADD_REQUEST, buildingAddWorker);
 }
@@ -54,9 +58,10 @@ function* buildingUpdateWorker(action) {
   try {
     let res = yield api.put(`building/updateBuilding`, action.payload);
     if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
       yield put({ type: BUILDING_UPDATE_SUCCESS, payload: res.data.data });
       yield put({
-        type: "BUILDING_LIST_REQUEST",
+        type: BUILDING_LIST_REQUEST,
         payload: { id: action.payload.buildingList }
       });
     }
@@ -77,10 +82,11 @@ function* buildingDeleteWorker(action) {
       }`
     );
     if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({
-        type: "BUILDING_LIST_REQUEST",
+        type: BUILDING_LIST_REQUEST,
         payload: { id: res.data.data.buildingList }
       });
     }
@@ -92,9 +98,30 @@ export function* buildingDeleteWatcher() {
   yield takeEvery(BUILDING_DELETE_REQUEST, buildingDeleteWorker);
 }
 
+function* buildingLocationWorker(action) {
+  const res = yield fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAGuzyxaRGQvhdMnjtxjdImEWO4zWOYKAE&language=ko&region=KR&address=${
+      action.payload
+    }`
+  ).then(response => response.json());
+  yield put({
+    type: BUILDING_LOCATION_SUCCESS,
+    payload: res.results[0]
+  });
+  try {
+  } catch (e) {
+    console.log("Error at fetching googlemaps location.");
+    return;
+  }
+}
+export function* buildingLocationWatcher() {
+  yield takeEvery(BUILDING_LOCATION_REQUEST, buildingLocationWorker);
+}
+
 export default function* rootSaga() {
   yield all([fork(buildingListWatcher)]);
   yield all([fork(buildingAddWatcher)]);
   yield all([fork(buildingUpdateWatcher)]);
   yield all([fork(buildingDeleteWatcher)]);
+  yield all([fork(buildingLocationWatcher)]);
 }

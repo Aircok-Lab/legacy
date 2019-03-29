@@ -4,27 +4,27 @@ import { positionAddRequest, positionDeleteRequest } from "actions/Position";
 
 class AddPosition extends Component {
   state = {
-    postData: {
-      name: "" + new Date().getTime(),
-      position: "1",
-      buildingID: "" + this.props.selectedNode.id,
-      userID: this.props.authUser.id
-    }
+    name: "" + new Date().getTime(),
+    position: "1",
+    buildingID: "" + this.props.selectedNode.id,
+    // buildingID: this.props.selectedNode.id,
+    userID: this.props.authUser.id
   };
   addPosition = () => {
-    if (!this.state.postData.name) {
+    if (!this.props.selectedNode.id) {
+      alert("건물을 선택하세요");
+    } else if (!this.state.name) {
       alert("위치명을 입력하세요");
     } else {
-      this.props.positionAddRequest(this.state.postData);
-      this.props.closeModal();
+      this.props.positionAddRequest(this.state);
+      if (typeof this.props.closeModal === "function") {
+        this.props.closeModal();
+      }
     }
   };
   handleChange = e => {
     this.setState({
-      postData: {
-        ...this.state.postData,
-        [e.target.name]: e.target.value
-      }
+      [e.target.name]: e.target.value
     });
   };
   render() {
@@ -52,7 +52,7 @@ class AddPosition extends Component {
               <input
                 className="form-control"
                 name="name"
-                value={this.state.postData.name}
+                value={this.state.name}
                 type="text"
                 placeholder=""
                 onChange={this.handleChange}
@@ -60,7 +60,7 @@ class AddPosition extends Component {
             </div>
           </div>
 
-          <button
+          {/* <button
             type="button"
             className="w3-button w3-right w3-blue w3-padding"
             onClick={e => {
@@ -68,7 +68,21 @@ class AddPosition extends Component {
             }}
           >
             OK
-          </button>
+          </button> */}
+
+          <div className="clearfix">
+            <div className="float-right">
+              <button
+                type="button"
+                className="w3-button w3-blue w3-padding"
+                onClick={e => {
+                  this.addPosition();
+                }}
+              >
+                추가
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     );

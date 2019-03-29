@@ -5,7 +5,6 @@ const INIT_STATE = {
 };
 
 export default (state = INIT_STATE, action) => {
-  console.log("action", action);
   switch (action.type) {
     case SYSTEM_LIST_SUCCESS: {
       return {

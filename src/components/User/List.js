@@ -45,6 +45,16 @@ class List extends React.Component {
     this.setState({ userList: this.props.userList });
   }
 
+  // static getDerivedStateFromProps(props, state) {
+  //   if (JSON.stringify(state.userList) != JSON.stringify(props.userList)) {
+  //     console.log("1111...");
+  //     return {
+  //       userList: props.userList
+  //     };
+  //   }
+  //   return null;
+  // }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
       JSON.stringify(prevProps.userList) != JSON.stringify(this.props.userList)
@@ -102,123 +112,130 @@ class List extends React.Component {
     return (
       <div className="">
         <div className="animated slideInUpTiny animation-duration-3">
-          <div className="clearfix pb-1">
-            <div className="float-left">
-              <div style={{ width: "200px" }}>
-                <select
-                  className="form-control"
-                  name="userType"
-                  value={this.state.userType}
-                  onChange={this.handleChange}
+          {!this.props.hideButton && (
+            <div className="clearfix pb-1">
+              <div className="float-left">
+                <div style={{ width: "200px" }}>
+                  <select
+                    className="form-control"
+                    name="userType"
+                    value={this.state.userType}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">All</option>
+                    <option value="manager">Manager</option>
+                    <option value="user">User</option>
+                    <option value="monitoring">Monitoring</option>
+                  </select>
+                </div>
+              </div>
+              <div className="float-right">
+                <button
+                  className="btn btn-primary"
+                  onClick={e => this.props.setViewMode("add")}
+                  style={{ marginLeft: "2px" }}
+                  disabled={!this.props.selectedNode.buildingID}
                 >
-                  <option value="">All</option>
-                  <option value="manager">Manager</option>
-                  <option value="user">User</option>
-                  <option value="monitoring">Monitoring</option>
-                </select>
+                  등록
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={e => {
+                    const selectedUsers = this.state.userList.filter(
+                      user => user.isChecked
+                    );
+                    this.props.setViewMode("update", selectedUsers[0]);
+                  }}
+                  style={{ marginLeft: "2px" }}
+                  disabled={
+                    this.state.userList.filter(user => user.isChecked).length !=
+                    1
+                  }
+                >
+                  수정
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={e => {
+                    this.delete();
+                  }}
+                  style={{ marginLeft: "2px" }}
+                  disabled={
+                    this.state.userList.filter(user => user.isChecked).length ==
+                    0
+                  }
+                >
+                  삭제
+                </button>
               </div>
             </div>
-            <div className="float-right">
-              <button
-                className="btn btn-primary"
-                onClick={e => this.props.setViewMode("add")}
-                style={{ marginLeft: "2px" }}
-                disabled={!this.props.selectedNode.buildingID}
-              >
-                등록
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={e => {
-                  const selectedUser = this.state.userList.filter(
-                    user => user.isChecked
-                  );
-                  // this.props.userSetItem(selectedUser[0]);
-                  this.props.setViewMode("update", selectedUser[0]);
-                }}
-                style={{ marginLeft: "2px" }}
-                disabled={
-                  this.state.userList.filter(user => user.isChecked).length != 1
-                }
-              >
-                수정
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={e => {
-                  this.delete();
-                }}
-                style={{ marginLeft: "2px" }}
-                disabled={
-                  this.state.userList.filter(user => user.isChecked).length == 0
-                }
-              >
-                삭제
-              </button>
-            </div>
-          </div>
+          )}
 
-          <table className="w3-table-all w3-centered">
-            <thead>
-              <tr>
-                <th style={{ paddingRight: "24px", width: "30px" }}>
-                  <input
-                    className="w3-check"
-                    type="checkbox"
-                    onChange={event => {
-                      let userList = [...this.state.userList];
-                      userList.forEach(user => {
-                        user.isChecked = event.target.checked;
-                      });
-                      this.setState({ userList: userList });
-                    }}
-                  />
-                </th>
-                <th>번호</th>
-                <th>구분</th>
-                <th>아이디</th>
-                <th>이름</th>
-                <th>이메일</th>
-                <th>소속(부서)</th>
-                <th>전화번호</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.userList.map((row, index) => (
-                <tr key={row.id}>
-                  <td>
-                    <input
-                      className="w3-check"
-                      type="checkbox"
-                      checked={row.isChecked}
-                      value={row.id}
-                      onChange={event => {
-                        console.log("onChange checkbox....");
-                        let userList = this.state.userList;
-                        userList.forEach(user => {
-                          if (user.id === Number(event.target.value)) {
+          <div className="table-responsive">
+            <table className="table table-bordered text-center text-nowrap">
+              <thead>
+                <tr>
+                  {!this.props.hideButton && (
+                    <th>
+                      <input
+                        type="checkbox"
+                        onChange={event => {
+                          let userList = [...this.state.userList];
+                          userList.forEach(user => {
                             user.isChecked = event.target.checked;
-                          }
-                        });
-                        this.setState({ userList: userList });
-                      }}
-                    />
-                  </td>
-                  <td>{index + 1}</td>
-                  <td>
-                    <span style={{ textTransform: "capitalize" }}>
-                      {row.userType}
-                    </span>
-                  </td>
-                  <td>{row.loginID}</td>
-                  <td>{row.name}</td>
-                  <td>{row.email}</td>
-                  <td>{row.department}</td>
-                  <td>{row.phone}</td>
+                          });
+                          this.setState({ userList: userList });
+                        }}
+                      />
+                    </th>
+                  )}
+                  <th>번호</th>
+                  <th>구분</th>
+                  <th>아이디</th>
+                  <th>이름</th>
+                  <th>이메일</th>
+                  <th>소속(부서)</th>
+                  <th>전화번호</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {this.state.userList.map((row, index) => (
+                  <tr key={row.id}>
+                    {!this.props.hideButton && (
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={row.isChecked}
+                          value={row.id}
+                          onChange={event => {
+                            console.log("onChange checkbox....");
+                            let userList = this.state.userList;
+                            userList.forEach(user => {
+                              if (user.id === Number(event.target.value)) {
+                                user.isChecked = event.target.checked;
+                              }
+                            });
+                            this.setState({ userList: userList });
+                          }}
+                        />
+                      </td>
+                    )}
+                    <td>{index + 1}</td>
+                    <td>
+                      <span style={{ textTransform: "capitalize" }}>
+                        {row.userType}
+                      </span>
+                    </td>
+                    <td>{row.loginID}</td>
+                    <td>{row.name}</td>
+                    <td>{row.email}</td>
+                    <td>{row.department}</td>
+                    <td>{row.phone}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     );

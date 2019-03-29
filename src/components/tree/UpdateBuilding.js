@@ -1,46 +1,87 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { buildingUpdateRequest, buildingDeleteRequest } from "actions/Building";
+import {
+  buildingUpdateRequest,
+  buildingDeleteRequest,
+  buildingLocationRequest,
+  buildingLocationReset
+} from "actions/Building";
 
 class UpdateBuilding extends Component {
   state = {
-    postData: {
-      id: this.props.node.id,
-      name: this.props.node.name,
-      address: this.props.node.Address,
-      latitude: this.props.node.Latitude,
-      longitude: this.props.node.Longitude,
-      userID: this.props.authUser.id,
-      buildingList: this.props.authUser.buildingList
-    }
-  };
-  updateBuilding = () => {
-    this.props.buildingUpdateRequest(this.state.postData);
+    id: this.props.selectedNode.id,
+    name: this.props.selectedNode.name,
+    address: this.props.selectedNode.address,
+    latitude: this.props.selectedNode.latitude,
+    longitude: this.props.selectedNode.longitude,
+    userID: this.props.authUser.id,
+    buildingList: this.props.authUser.buildingList
   };
 
-  handleChange = e => {
-    // console.log("handleChange", e.target.value);
-    this.setState({
-      postData: {
-        ...this.state.postData,
-        [e.target.name]: e.target.value
-      }
-    });
+  updateBuilding = () => {
+    if (!this.state.name) {
+      alert("건물명을 입력하세요");
+    } else if (!this.state.address) {
+      alert("주소를 입력하세요");
+    } else if (!this.state.latitude) {
+      alert("위도를 입력하세요");
+    } else if (!this.state.longitude) {
+      alert("경도를 입력하세요");
+    } else {
+      this.props.buildingUpdateRequest(this.state);
+      this.props.closeModal();
+    }
   };
 
   deleteBuilding = () => {
-    // console.log("deleteBuilding", this.props.node.id);
     this.props.buildingDeleteRequest({
       id: this.props.selectedNode.id,
       userID: this.props.authUser.id
     });
   };
 
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  searchAddress = () => {
+    this.props.buildingLocationRequest(this.state.address);
+  };
+
+  applyLocation = () => {
+    this.setState({
+      address: this.props.address,
+      latitude: this.props.location.lat,
+      longitude: this.props.location.lng
+    });
+  };
+
+  resetLocation = () => {
+    this.setState({
+      address: "",
+      latitude: "",
+      longitude: ""
+    });
+    this.props.buildingLocationReset();
+  };
+
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.address !== state.searchedAddress && props.location) {
+  //     return {
+  //       searchedAddress: props.address,
+  //       searchedLatitude: props.location.lat,
+  //       searchedLongitude: props.location.lng
+  //     };
+  //   }
+  //   return null;
+  // }
+
   render() {
     return (
       <form className="w3-text-blue w3-margin">
         <h2 className="w3-center">건물수정</h2>
-        {/* {JSON.stringify(this.props.node)} */}
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
             건물명
@@ -49,7 +90,7 @@ class UpdateBuilding extends Component {
             <input
               className="form-control"
               name="name"
-              value={this.state.postData.name}
+              value={this.state.name}
               type="text"
               placeholder=""
               onChange={this.handleChange}
@@ -65,8 +106,10 @@ class UpdateBuilding extends Component {
               <div className="w3-right">
                 <button
                   type="button"
-                  className="w3-padding-top w3-padding-bottom"
-                  style={{ padding: "8px 8px", marginLeft: "8px" }}
+                  className="btn btn-primary"
+                  style={{ padding: "8px", marginLeft: "8px" }}
+                  onClick={this.searchAddress}
+                  disabled={!this.state.address}
                 >
                   주소검색
                 </button>
@@ -75,7 +118,7 @@ class UpdateBuilding extends Component {
                 <input
                   className="form-control"
                   name="address"
-                  value={this.state.postData.address}
+                  value={this.state.address}
                   type="text"
                   placeholder=""
                   onChange={this.handleChange}
@@ -84,32 +127,40 @@ class UpdateBuilding extends Component {
             </div>
           </div>
         </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            &nbsp;
-          </div>
-          <div className="w3-rest">
-            <div className="w3-right">
-              <button
-                type="button"
-                className="w3-padding-top w3-padding-bottom"
-                style={{ marginLeft: "8px" }}
-              >
-                적용
-              </button>
-              <button
-                type="button"
-                className="w3-padding-top w3-padding-bottom"
-                style={{ marginLeft: "8px" }}
-              >
-                Reset
-              </button>
+        {this.props.address && (
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              &nbsp;
             </div>
-            <div className="w3-rest w3-padding-right w3-text-grey">
-              서울시 영등포구 여의도동
+            <div className="w3-rest">
+              <div className="w3-text-grey">
+                <div className="form-control" style={{ background: "#eee" }}>
+                  <div>주소 : {this.props.address}</div>
+                  <div>위도 : {this.props.location.lat}</div>
+                  <div>경도 : {this.props.location.lng}</div>
+                </div>
+              </div>
+              <div className="clear-fix">
+                <div className="float-right pt-1">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.applyLocation}
+                  >
+                    적용
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.resetLocation}
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
             위도
@@ -118,8 +169,8 @@ class UpdateBuilding extends Component {
             <input
               className="form-control"
               name="latitude"
-              value={this.state.postData.latitude}
-              type="text"
+              value={this.state.latitude}
+              type="number"
               placeholder=""
               onChange={this.handleChange}
             />
@@ -133,8 +184,8 @@ class UpdateBuilding extends Component {
             <input
               className="form-control"
               name="longitude"
-              value={this.state.postData.longitude}
-              type="text"
+              value={this.state.longitude}
+              type="number"
               placeholder=""
               onChange={this.handleChange}
             />
@@ -156,7 +207,6 @@ class UpdateBuilding extends Component {
             className="w3-button w3-blue w3-padding"
             onClick={e => {
               this.updateBuilding();
-              this.props.closeModal();
             }}
           >
             OK
@@ -169,12 +219,16 @@ class UpdateBuilding extends Component {
 
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
-  selectedNode: state.tree.selectedNode
+  selectedNode: state.tree.selectedNode,
+  address: state.building.address,
+  location: state.building.location
 });
 
 const mapDispatchToProps = {
-  buildingUpdateRequest: buildingUpdateRequest,
-  buildingDeleteRequest: buildingDeleteRequest
+  buildingUpdateRequest,
+  buildingDeleteRequest,
+  buildingLocationRequest,
+  buildingLocationReset
 };
 
 export default connect(

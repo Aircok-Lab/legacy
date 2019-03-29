@@ -7,7 +7,7 @@ import AddPosition from "components/Tree/AddPosition";
 import UpdatePosition from "components/Tree/UpdatePosition";
 // import AddDevice from "components/AddDevice";
 // import UpdateDevice from "components/UpdateDevice";
-import { selectTreeNode } from "actions/Tree";
+import { selectTreeNode, toggleTreeNode } from "actions/Tree";
 import { buildingListRequest, buildingAddRequest } from "actions/Building";
 import { positionListRequest, positionAddRequest } from "actions/Position";
 const customStyles = {
@@ -39,7 +39,6 @@ class BuildingPositionTree extends Component {
     deviceList: []
   };
   componentDidMount() {
-    console.log("auth", this.props.authUser);
     this.props.buildingListRequest({
       id: "" + this.props.authUser.buildingList
     });
@@ -63,6 +62,7 @@ class BuildingPositionTree extends Component {
       });
     }
   }
+
   openModal = param => e => {
     let modalMode = param;
     this.setState({ showModal: true, modalMode });
@@ -81,12 +81,33 @@ class BuildingPositionTree extends Component {
     });
   };
   nodeClick = item => {
-    console.log("item", item);
     this.props.selectTreeNode(item);
+  };
+  handleExpand = (id, e) => {
+    e.stopPropagation();
+    console.log("TODO: toggle show/hide", this.props.expandedNodes, id, e);
+    let array = [...this.props.expandedNodes];
+    const index = array.indexOf(id);
+    index === -1 ? array.push(id) : array.splice(index, 1);
+    this.props.toggleTreeNode(array);
+  };
+
+  isExpanded = id => {
+    let array = [...this.props.expandedNodes];
+    const index = array.indexOf(id);
+    if (index === -1) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
   render() {
-    let buildingPositionList = [...this.props.buildingList];
+    // 중요 : Spread Operator는 Sharrow Copy만 하므로 JSON.stringify로 Deep Clone 해야 합니다.
+    // let buildingPositionList = [...this.props.buildingList];
+    let buildingPositionList = JSON.parse(
+      JSON.stringify(this.props.buildingList)
+    );
     buildingPositionList.map(building => {
       let positions = this.props.positionList.filter(
         position => position.buildingID == building.id
@@ -103,7 +124,11 @@ class BuildingPositionTree extends Component {
 
     return (
       <div>
-        <div className="pb-1">
+        {/* <div>{JSON.stringify(this.props.buildingList)}</div>
+        <hr />
+        <div>{JSON.stringify(this.props.buildingList2)}</div> */}
+        {/* <div>{JSON.stringify(this.props.expandedNodes)}</div> */}
+        <div className="py-2">
           <div className="clearfix">
             {!this.props.hideButton && (
               <div className="float-right">
@@ -155,73 +180,71 @@ class BuildingPositionTree extends Component {
               style={{
                 cursor: "pointer",
                 padding: "2px 10px",
-                marginBottom: "2px"
+                marginBottom: "2px",
+                background:
+                  this.props.selectedNode.id === item.id ? "#bae7ff" : ""
               }}
-              className={
-                "w3-block w3-border " +
-                (this.props.selectedNode.id === item.id ? "w3-blue" : "")
-              }
+              className="w3-block"
               onClick={e => this.nodeClick(item)}
             >
-              <i
-                className="fa fa-caret-right p-1"
-                aria-hidden="true"
-                style={{
-                  cursor: "pointer"
-                }}
-                onClick={e => {
-                  e.stopPropagation();
-                  console.log("TODO: toggle show/hide");
-                }}
-              />
+              {item.positions ? (
+                <i
+                  className={
+                    this.isExpanded(item.id)
+                      ? "p-1 fa fa-caret-down"
+                      : "p-1 fa fa-caret-right"
+                  }
+                  aria-hidden="true"
+                  style={{
+                    cursor: "pointer",
+                    width: "16px"
+                  }}
+                  onClick={this.handleExpand.bind(this, item.id)}
+                />
+              ) : (
+                <span style={{ paddingLeft: "20px" }} />
+              )}
               <span> {item.name}</span>
             </div>
 
-            <div className="">
-              <ul className="w3-ul">
-                {item.positions &&
-                  item.positions.map(position => (
+            {item.positions && this.isExpanded(item.id) && (
+              <div className="">
+                <ul className="w3-ul">
+                  {item.positions.map(position => (
                     <li
                       key={position.id}
                       style={{
                         cursor: "pointer",
                         padding: "2px 10px 2px 25px",
-                        marginBottom: "2px"
+                        margin: "0 0 2px 10px",
+                        background:
+                          "" +
+                            this.props.selectedNode.buildingID +
+                            "-" +
+                            this.props.selectedNode.id ===
+                          "" + position.buildingID + "-" + position.id
+                            ? "#bae7ff"
+                            : ""
                       }}
-                      className={
-                        "w3-border-0 w3-padding-left " +
-                        ("" +
-                          this.props.selectedNode.buildingID +
-                          "-" +
-                          this.props.selectedNode.id ===
-                        "" + position.buildingID + "-" + position.id
-                          ? "w3-blue"
-                          : "")
-                      }
+                      className="font-weight-light font-italic w3-border-0 w3-padding-left"
                       onClick={e => this.nodeClick(position)}
                     >
                       {this.props.checkable && (
                         <input
-                          className="w3-check"
                           type="checkbox"
                           checked={item.isChecked}
                           value={item.id}
                           onClick={e => {
                             e.stopPropagation();
                           }}
-                          onChange={e => {
-                            console.log(
-                              "checkbox onChange ...",
-                              e.target.checked
-                            );
-                          }}
                         />
                       )}
                       {position.name}
                     </li>
                   ))}
-              </ul>
-            </div>
+                </ul>
+              </div>
+            )}
           </div>
         ))}
         <Modal
@@ -240,30 +263,10 @@ class BuildingPositionTree extends Component {
           <div className="" style={{ minWidth: "400px" }} />
           {
             {
-              addBuilding: (
-                <AddBuilding
-                  node={this.props.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              ),
-              updateBuilding: (
-                <UpdateBuilding
-                  node={this.props.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              ),
-              addPosition: (
-                <AddPosition
-                  node={this.props.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              ),
-              updatePosition: (
-                <UpdatePosition
-                  node={this.props.selectedNode}
-                  closeModal={this.closeModal}
-                />
-              )
+              addBuilding: <AddBuilding closeModal={this.closeModal} />,
+              updateBuilding: <UpdateBuilding closeModal={this.closeModal} />,
+              addPosition: <AddPosition closeModal={this.closeModal} />,
+              updatePosition: <UpdatePosition closeModal={this.closeModal} />
             }[this.state.modalMode]
           }
         </Modal>
@@ -276,15 +279,17 @@ const mapStateToProps = state => ({
   authUser: state.auth.authUser,
   buildingList: state.building.list,
   positionList: state.position.list,
-  selectedNode: state.tree.selectedNode
+  selectedNode: state.tree.selectedNode,
+  expandedNodes: state.tree.expandedNodes
 });
 
 const mapDispatchToProps = {
-  buildingAddRequest: buildingAddRequest,
-  buildingListRequest: buildingListRequest,
-  positionAddRequest: positionAddRequest,
-  positionListRequest: positionListRequest,
-  selectTreeNode: selectTreeNode
+  buildingAddRequest,
+  buildingListRequest,
+  positionAddRequest,
+  positionListRequest,
+  selectTreeNode,
+  toggleTreeNode
 };
 
 export default connect(

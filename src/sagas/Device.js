@@ -16,6 +16,7 @@ import {
 } from "constants/ActionTypes";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
+import toaster from "util/toaster";
 
 function* deviceListByBuildingIdWorker(action) {
   try {
@@ -61,6 +62,7 @@ function* deviceAddWorker(action) {
   try {
     const res = yield api.post(`device/addDevice`, action.payload);
     if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
       yield put({
         type: DEVICE_LIST_BY_POSITION_ID_REQUEST,
         payload: { id: action.payload.positionID }
@@ -82,6 +84,7 @@ function* deviceUpdateWorker(action) {
   try {
     const res = yield api.put(`device/updateDevice`, action.payload);
     if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
       yield put({
         type: DEVICE_LIST_BY_POSITION_ID_REQUEST,
         payload: { id: action.payload.positionID }
@@ -105,6 +108,7 @@ function* deviceDeleteWorker(action) {
       `device/deleteDevice?serialNumber=${action.payload.ids}`
     );
     if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
       if (action.payload.node.buildingID) {
         yield put({
           type: "DEVICE_LIST_BY_POSITION_ID_REQUEST",
