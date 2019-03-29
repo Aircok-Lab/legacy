@@ -102,10 +102,12 @@ class SidenavContent extends Component {
                   <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
                   <span className="nav-text">대기질센서 결과 확인 </span>
                 </NavLink>
+                {/* TODO : delete >>>> */}
                 <NavLink to="/app/monitoringSelection">
                   <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
                   <span className="nav-text">모니터링 측정기 관리 </span>
                 </NavLink>
+                {/* delete <<<< */}
                 <NavLink to="/app/batchRegister">
                   <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
                   <span className="nav-text">일괄등록 </span>

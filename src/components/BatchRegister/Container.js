@@ -53,7 +53,7 @@ class Container extends React.Component {
     // const nextStep = step ? step : this.state.step + 1;
     const steps = {
       step: nextStep,
-      prevBuildingList: "216" // this.props.authUser.prevBuildingList
+      this.props.authUser.prevBuildingList
     };
 
     if (nextStep === 2 && steps.prevBuildingList == "") {

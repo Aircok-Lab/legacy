@@ -11,6 +11,10 @@ class BuildingContainer extends React.Component {
     this.props.selectTreeNode(item);
   };
   render() {
+    console.log(
+      "buildingList.redner() this.props.prevBuildingList:",
+      this.props.prevBuildingList
+    );
     const filterOutList = this.props.buildingList.filter(building => {
       return this.props.prevBuildingList.indexOf("" + building.id) === -1;
     });

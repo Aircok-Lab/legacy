@@ -22,6 +22,8 @@ class PositionContainer extends React.Component {
     return (
       <div className="row">
         <div className="col-3 py-3">
+          this.props.prevBuildingList: {this.props.prevBuildingList}
+          <ListBuilding prevBuildingList={this.props.prevBuildingList} />
           <ListBuilding prevBuildingList={this.props.prevBuildingList} />
         </div>
         <div className="col-5 border-left border-right">
