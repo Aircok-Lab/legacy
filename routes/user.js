@@ -528,6 +528,7 @@ router.put("/updateUser", function(req, res, next) {
   console.log("/updateUser 호출됨.");
 
   var paramUserID = req.body.id || req.query.id;
+  var paramLoginId = req.body.loginId || req.query.loginId;
   var paramPassword = req.body.password || req.query.password;
   var paramName = req.body.name || req.query.name;
   var paramEmail = req.body.email || req.query.email;
@@ -539,15 +540,18 @@ router.put("/updateUser", function(req, res, next) {
   var paramPositionList = req.body.positionList || req.query.positionList;
   var paramDeviceList = req.body.deviceList || req.query.deviceList;
   var result = { statusCode: null, message: null, data: null };
+  let password = privateKey.decrypt(paramPassword, "base64", "utf8");
 
   paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
   paramPositionList = userPattern.setPositionListPattern(paramPositionList);
   paramDeviceList = userPattern.setPositionListPattern(paramDeviceList);
   console.log(
     "요청 파라미터 : " +
+      paramLoginId +
+      "," +
       paramUserID +
       "," +
-      paramPassword +
+      password +
       "," +
       paramName +
       "," +
@@ -568,41 +572,95 @@ router.put("/updateUser", function(req, res, next) {
       paramDeviceList
   );
 
-  User.updateUser(
-    paramUserID,
-    paramPassword,
-    paramName,
-    paramEmail,
-    paramDepartment,
-    paramAaproval,
-    paramUserType,
-    paramPhone,
-    paramBuildingList,
-    paramPositionList,
-    paramDeviceList,
-    function(err, success) {
-      // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
-      if (err) {
-        console.error("사용자 추가 중 오류 발생 :" + err.stack);
-        result.statusCode = FAIL;
-        result.message = "오류 발생";
-        res.send(result);
-        return;
-      }
-
-      //결과 객체 있으면 성공 응답 전송
-      if (success) {
-        console.dir(success);
-        result.statusCode = OK;
-        result.message = "성공";
-        res.send(result);
-      } else {
-        result.statusCode = FAIL;
-        result.message = "수정된 내용이 없습니다.";
-        res.send(result);
-      }
+  User.checkPassword(paramUserID, password, function(err, success) {
+    if (err) {
+      console.error("사용자 비번 확인중 오류 발생 :" + err.stack);
+      return;
     }
+    //결과 객체 있으면 성공 응답 전송
+    if (success) {
+      User.updateUser(
+        paramUserID,
+        password,
+        paramName,
+        paramEmail,
+        paramDepartment,
+        paramAaproval,
+        paramUserType,
+        paramPhone,
+        paramBuildingList,
+        paramPositionList,
+        paramDeviceList,
+        function(err, success) {
+          // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
+          if (err) {
+            console.error("사용자 추가 중 오류 발생 :" + err.stack);
+            result.statusCode = FAIL;
+            result.message = "오류 발생";
+            res.send(result);
+            return;
+          }
+
+          //결과 객체 있으면 성공 응답 전송
+          if (success) {
+            console.dir(success);
+            result.statusCode = OK;
+            result.message = "성공";
+            res.send(result);
+          } else {
+            result.statusCode = FAIL;
+            result.message = "수정된 내용이 없습니다.";
+            res.send(result);
+          }
+        }
+      );
+    } else {
+      result.statusCode = FAIL;
+      result.message = "비밀번호가 안 맞습니다. 다시 확인바랍니다.";
+      res.send(result);
+    }
+  });
+});
+
+router.put("/changePassword", function(req, res, next) {
+  console.log("/changePassword 호출됨.");
+
+  var paramUserID = req.body.id || req.query.id;
+  var paramOldPassword = req.body.oldPassword || req.query.oldPassword;
+  var paramNewPassword = req.body.newPassword || req.query.newPassword;
+  let oldPassword = privateKey.decrypt(paramOldPassword, "base64", "utf8");
+  let newPassword = privateKey.decrypt(paramNewPassword, "base64", "utf8");
+
+  console.log(
+    "요청 파라미터 : " + paramUserID + "," + oldPassword + "," + newPassword
   );
+
+  User.checkPassword(paramUserID, oldPassword, function(err, success) {
+    // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
+    if (err) {
+      console.error("사용자 비번 확인중 오류 발생 :" + err.stack);
+      return;
+    }
+
+    //결과 객체 있으면 성공 응답 전송
+    if (success) {
+      User.changePassword(paramUserID, newPassword, function(err, success) {
+        if (err) {
+          console.error("사용자 비번 변경중 오류 발생 :" + err.stack);
+          return;
+        }
+        if (success) {
+          result.statusCode = OK;
+          result.message = "성공";
+          res.send(result);
+        }
+      });
+    } else {
+      result.statusCode = FAIL;
+      result.message = "비밀번호가 안 맞습니다. 다시 확인바랍니다.";
+      res.send(result);
+    }
+  });
 });
 
 router.delete("/deleteUser", function(req, res, next) {
