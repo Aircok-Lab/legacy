@@ -92,53 +92,70 @@ router.post("/getIndexTableBySensorType", function(req, res, next) {
   });
 });
 
-router.put("/updateIndexTable", function(req, res, next) {
-  console.log("/updateIndexTable 호출됨.");
+router.put('/updateMinIndexTable', function(req, res, next) {
+    console.log('/updateMinIndexTable 호출됨.');
 
-  var paramSensorType = req.body.sensorType || req.query.sensorType;
-  var paramGrade = req.body.grade || req.query.grade;
-  var paramMin = req.body.min || req.query.min;
-  var paramMax = req.body.max || req.query.max;
-  var result = { statusCode: null, message: null, data: null };
+    var paramSensorType = req.body.sensorType || req.query.sensorType;
+    var paramGrade = req.body.grade || req.query.grade;
+    var paramMin = req.body.min || req.query.min;
+    var result = {statusCode : null, message : null, data : null};
+    
+    console.log('요청 파라미터 : ' + paramSensorType + ',' + paramGrade + ',' + paramMin);
 
-  console.log(
-    "요청 파라미터 : " +
-      paramSensorType +
-      "," +
-      paramGrade +
-      "," +
-      paramMin +
-      "," +
-      paramMax
-  );
+    IndexTable.updateMinIndexTable(paramSensorType, paramGrade, paramMin, function(err, success){
+        if(err){
+            console.error('셋팅 정보 수정 중 오류 발생 :' + err.stack);
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
+            return;
+        }
 
-  IndexTable.updateIndexTable(
-    paramSensorType,
-    paramGrade,
-    paramMin,
-    paramMax,
-    function(err, success) {
-      if (err) {
-        console.error("셋팅 정보 수정 중 오류 발생 :" + err.stack);
-        result.statusCode = FAIL;
-        result.message = "오류 발생";
-        res.send(result);
-        return;
-      }
+        //결과 객체 있으면 성공 응답 전송
+        if(success){
+            console.dir(success);
+            result.statusCode = OK;
+            result.message = '성공';
+            res.send(result);
+        } else {
+            result.statusCode = FAIL;
+            result.message = '수정된 내용이 없습니다.';
+            res.send(result);
+        }
+    });
+});
 
-      //결과 객체 있으면 성공 응답 전송
-      if (success) {
-        console.dir(success);
-        result.statusCode = OK;
-        result.message = "성공";
-        res.send(result);
-      } else {
-        result.statusCode = FAIL;
-        result.message = "수정된 내용이 없습니다.";
-        res.send(result);
-      }
-    }
-  );
+router.put('/updateMaxIndexTable', function(req, res, next) {
+    console.log('/updateMaxIndexTable 호출됨.');
+
+    var paramSensorType = req.body.sensorType || req.query.sensorType;
+    var paramGrade = req.body.grade || req.query.grade;
+    var paramMax = req.body.max || req.query.max;
+    var result = {statusCode : null, message : null, data : null};
+    
+    console.log('요청 파라미터 : ' + paramSensorType + ',' + paramGrade + ',' + paramMax);
+
+    IndexTable.updateMaxIndexTable(paramSensorType, paramGrade, paramMax, function(err, success){
+        if(err){
+            console.error('셋팅 정보 수정 중 오류 발생 :' + err.stack);
+            result.statusCode = FAIL;
+            result.message = '오류 발생';
+            res.send(result);
+            return;
+        }
+
+        //결과 객체 있으면 성공 응답 전송
+        if(success){
+            console.dir(success);
+            result.statusCode = OK;
+            result.message = '성공';
+            res.send(result);
+        } else {
+            result.statusCode = FAIL;
+            result.message = '수정된 내용이 없습니다.';
+            res.send(result);
+        }
+    });
 });
 
 router.delete("/deleteIndexTable", function(req, res, next) {
