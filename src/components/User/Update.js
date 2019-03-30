@@ -1,13 +1,54 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { userUpdateRequest } from "actions/User";
-import { productListRequest } from "actions/Product";
+// import { productListRequest } from "actions/Product";
 import { setViewMode } from "actions/Setting";
+import { publicKeyRequest } from "actions/Auth";
+import Modal from "react-modal";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: "9999"
+  },
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    zIndex: "9999"
+  }
+};
+
+Modal.setAppElement("#body");
 
 class Update extends Component {
   state = {
-    postData: { ...this.props.item }
+    postData: {
+      ...this.props.item,
+      password: "",
+      oldPassword: "",
+      newPassword: "",
+      newPasswordConfirm: ""
+    },
+    showModal: false
   };
+
+  openModal = param => e => {
+    let modalMode = param;
+    this.setState({ showModal: true, modalMode });
+  };
+
+  closeModal = () => {
+    this.setState({ showModal: false });
+  };
+
+  changePassword = () => {
+    console.log("changePassword..... ");
+  };
+
   update = () => {
     console.log(this.state);
     if (!this.state.postData.name) {
@@ -32,7 +73,11 @@ class Update extends Component {
       //   }
       // );
       console.log(this.state.postData);
-      this.props.userUpdateRequest(this.state.postData, this.props.authUser);
+      this.props.userUpdateRequest(
+        this.state.postData,
+        this.props.authUser,
+        this.props.pkey
+      );
     }
   };
   handleChange = e => {
@@ -46,130 +91,248 @@ class Update extends Component {
   };
 
   componentDidMount() {
-    this.props.productListRequest();
+    // this.props.productListRequest();
+    this.props.publicKeyRequest();
   }
 
   render() {
     return (
-      // <div className="col-6 mx-auto">
-      <form className="text-blue w3-margin">
-        <h2 className="text-center">사용자 수정</h2>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            아이디
-          </div>
-          <div className="w3-rest">
-            <div className="form-control" style={{ background: "#eee" }}>
-              {this.state.postData.loginID}
-              &nbsp;
+      <div className="">
+        <form className="text-blue w3-margin">
+          pkey: {this.props.pkey}
+          <h2 className="text-center">사용자 수정</h2>
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              아이디
+            </div>
+            <div className="w3-rest">
+              <div className="form-control" style={{ background: "#eee" }}>
+                {this.state.postData.loginID}
+                &nbsp;
+              </div>
             </div>
           </div>
-        </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            암호
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              암호
+            </div>
+            <div className="w3-rest">
+              <div className="input-group mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  aria-label="password"
+                  aria-describedby="button-addon2"
+                  name="password"
+                  value={this.state.postData.password}
+                  onChange={this.handleChange}
+                />
+                <div className="input-group-append">
+                  <button
+                    className="form-control btn btn-primary mb-0"
+                    type="button"
+                    id="button-addon2"
+                    onClick={this.openModal()}
+                  >
+                    암호변경
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="w3-rest">
-            <input
-              className="form-control"
-              name="password"
-              value={this.state.postData.password}
-              type="text"
-              placeholder=""
-              onChange={this.handleChange}
-            />
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              이름
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="name"
+                value={this.state.postData.name}
+                type="text"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            이름
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              이메일
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="email"
+                value={this.state.postData.email}
+                type="text"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-          <div className="w3-rest">
-            <input
-              className="form-control"
-              name="name"
-              value={this.state.postData.name}
-              type="text"
-              placeholder=""
-              onChange={this.handleChange}
-            />
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              소속(부서)
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="department"
+                value={this.state.postData.department}
+                type="text"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
-        </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            이메일
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              권한
+            </div>
+            <div className="w3-rest">
+              <select
+                className="form-control"
+                name="userType"
+                value={this.state.postData.userType}
+                onChange={this.handleChange}
+              >
+                <option value="master">Master</option>
+                <option value="manager">Manager</option>
+                <option value="user">User</option>
+                <option value="monitoring">Monitoring</option>
+              </select>
+            </div>
           </div>
-          <div className="w3-rest">
-            <input
-              className="form-control"
-              name="email"
-              value={this.state.postData.email}
-              type="text"
-              placeholder=""
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            소속(부서)
-          </div>
-          <div className="w3-rest">
-            <input
-              className="form-control"
-              name="department"
-              value={this.state.postData.department}
-              type="text"
-              placeholder=""
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-        <div className="w3-row w3-section">
-          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            권한
-          </div>
-          <div className="w3-rest">
-            <select
-              className="form-control"
-              name="userType"
-              value={this.state.postData.userType}
-              onChange={this.handleChange}
+          <div className="w3-right">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={e => {
+                this.props.setViewMode("list");
+              }}
             >
-              <option value="" />
-              <option value="manager">Manager</option>
-              <option value="user">User</option>
-              <option value="monitoring">Monitoring</option>
-            </select>
+              List
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={e => {
+                this.update();
+              }}
+            >
+              OK
+            </button>
           </div>
-        </div>
-        <div className="w3-right">
+        </form>
+        {/* 
+//   var paramUserID = req.body.id || req.query.id;
+//   var paramOldPassword = req.body.oldPassword || req.query.oldPassword;
+//   var paramNewPassword = req.body.newPassword || req.query.newPassword; */}
+
+        <Modal
+          isOpen={this.state.showModal}
+          contentLabel="측정기 관리 Modal"
+          style={customStyles}
+        >
           <button
-            type="button"
-            className="btn btn-primary"
-            onClick={e => {
-              this.props.setViewMode("list");
-            }}
+            className="w3-display-topright w3-button w3-white w3-hover-text-white"
+            onClick={this.closeModal}
           >
-            List
+            X
           </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={e => {
-              this.update();
-            }}
-          >
-            OK
-          </button>
-        </div>
-      </form>
-      // </div>
+          <div className="" style={{ minWidth: "400px" }} />
+
+          <form className="text-blue w3-margin">
+            <h2 className="text-center">사용자 수정</h2>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                아이디
+              </div>
+              <div className="w3-rest">
+                <div className="form-control" style={{ background: "#eee" }}>
+                  {this.state.postData.loginID}
+                  &nbsp;
+                </div>
+              </div>
+            </div>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                현재암호
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="form-control"
+                  name="oldPassword"
+                  type="password"
+                  placeholder=""
+                  value={this.state.postData.oldPassword}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                새 암호
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="form-control"
+                  name="newPassword"
+                  type="password"
+                  placeholder=""
+                  value={this.state.postData.newPassword}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                새 암호 확인
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="form-control"
+                  name="newPasswordConfirm"
+                  type="password"
+                  placeholder=""
+                  value={this.state.postData.newPasswordConfirm}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="w3-right">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={e => {
+                  this.changePassword();
+                }}
+              >
+                OK
+              </button>
+            </div>
+          </form>
+        </Modal>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  pkey: state.auth.pkey,
   authUser: state.auth.authUser,
   selectedNode: state.tree.selectedNode,
   productList: state.product.list,
@@ -178,8 +341,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  publicKeyRequest,
   userUpdateRequest,
-  productListRequest,
+  // productListRequest,
   setViewMode
 };
 

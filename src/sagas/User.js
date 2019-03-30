@@ -12,6 +12,7 @@ import {
   USER_DELETE_REQUEST,
   SET_VIEW_MODE
 } from "constants/ActionTypes";
+import forge from "node-forge";
 import api from "api";
 import { userSignInSuccess } from "actions/Auth";
 import responseDataProcess from "util/responseDataProcess";
@@ -75,6 +76,19 @@ export function* userAddWatcher() {
 
 function* userUpdateWorker(action) {
   try {
+    console.log("action newpw: ", action.payload);
+    let publicKey = forge.pki.publicKeyFromPem(
+      forge.util.encodeUtf8(action.pkey)
+    );
+    let newpw = forge.util.encode64(
+      publicKey.encrypt(
+        forge.util.encodeUtf8(action.payload.password),
+        "RSA-OAEP"
+      )
+    );
+
+    action.payload.password = newpw;
+
     const res = yield api.put(`user/updateUser`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
@@ -86,10 +100,6 @@ function* userUpdateWorker(action) {
         type: SET_VIEW_MODE,
         payload: "list"
       });
-      // yield put({
-      //   type: USER_LIST_BY_POSITION_ID_REQUEST,
-      //   payload: { positionID: action.payload.positionList }
-      // });
     }
   } catch (error) {
     console.log("[ERROR#####]", error);
@@ -126,6 +136,42 @@ function* userDeleteWorker(action) {
 }
 export function* userDeleteWatcher() {
   yield takeEvery(USER_DELETE_REQUEST, userDeleteWorker);
+}
+
+function* userChangePasswordWorker(action) {
+  try {
+    let publicKey = forge.pki.publicKeyFromPem(
+      forge.util.encodeUtf8(action.pkey)
+    );
+    let oldPassword = forge.util.encode64(
+      publicKey.encrypt(
+        forge.util.encodeUtf8(action.payload.oldPassword),
+        "RSA-OAEP"
+      )
+    );
+    action.payload.oldPassword = oldPassword;
+    let newPassword = forge.util.encode64(
+      publicKey.encrypt(
+        forge.util.encodeUtf8(action.payload.newPassword),
+        "RSA-OAEP"
+      )
+    );
+    action.payload.newPassword = newPassword;
+
+    const res = yield api.put(`user/changePassword`, action.payload);
+    if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
+      // yield put({
+      //   type: SET_VIEW_MODE,
+      //   payload: "list"
+      // });
+    }
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* userChangePasswordWatcher() {
+  yield takeEvery(USER_DELETE_REQUEST, userChangePasswordWorker);
 }
 
 export default function* rootSaga() {

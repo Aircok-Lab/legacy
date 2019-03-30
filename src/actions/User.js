@@ -28,11 +28,12 @@ export const userAddRequest = payload => {
   };
 };
 
-export const userUpdateRequest = (payload, authUser) => {
+export const userUpdateRequest = (payload, authUser, pkey) => {
   return {
     type: USER_UPDATE_REQUEST,
     payload,
-    authUser
+    authUser,
+    pkey
   };
 };
 

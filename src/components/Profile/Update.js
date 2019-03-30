@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { userUpdateRequest } from "actions/User";
-import { productListRequest } from "actions/Product";
-import { setViewMode } from "actions/Setting";
+// import { productListRequest } from "actions/Product";
+import { publicKeyRequest } from "actions/Auth";
+import Modal from "react-modal";
 
 class Update extends Component {
   state = {
@@ -15,7 +16,7 @@ class Update extends Component {
     //   phone: this.props.authUser.phone,
     //   userType: this.props.authUser.userType
     // }
-    postData: { ...this.props.authUser }
+    postData: { ...this.props.authUser, password: "" }
   };
   update = () => {
     if (!this.state.postData.name) {
@@ -54,9 +55,9 @@ class Update extends Component {
     });
   };
 
-  componentDidMount() {
-    this.props.productListRequest();
-  }
+  // componentDidMount() {
+  //   this.props.productListRequest();
+  // }
 
   render() {
     return (
@@ -145,7 +146,7 @@ class Update extends Component {
                 value={this.state.postData.userType}
                 onChange={this.handleChange}
               >
-                <option value="" />
+                <option value="master">Master</option>
                 <option value="manager">Manager</option>
                 <option value="user">User</option>
                 <option value="monitoring">Monitoring</option>
@@ -178,9 +179,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  userUpdateRequest,
-  productListRequest,
-  setViewMode
+  userUpdateRequest
+  // productListRequest
+  // setViewMode
 };
 
 export default connect(

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import List from "./List";
-import Add from "./Add";
+// import List from "./List";
+// import Add from "./Add";
 import Update from "./Update";
-import { setViewMode } from "actions/Setting";
+// import { setViewMode } from "actions/Setting";
 
 class Container extends React.Component {
-  componentDidMount() {
-    this.props.setViewMode("list");
-  }
+  // componentDidMount() {
+  //   this.props.setViewMode("list");
+  // }
 
   render() {
     return <Update />;
@@ -16,11 +16,11 @@ class Container extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  viewMode: state.settings.viewMode
+  // viewMode: state.settings.viewMode
 });
 
 const mapDispatchToProps = {
-  setViewMode
+  // setViewMode
 };
 
 export default connect(

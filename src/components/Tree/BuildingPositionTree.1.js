@@ -36,8 +36,7 @@ class BuildingPositionTree extends Component {
     selectedNodeId: "",
     // selectedNodeId: "31-25"
     selectedNode: {},
-    deviceList: [],
-    expandedNodes: []
+    deviceList: []
   };
   componentDidMount() {
     this.props.buildingListRequest({
@@ -49,6 +48,7 @@ class BuildingPositionTree extends Component {
     const selectedNode = JSON.parse(localStorage.getItem("selectedNode"));
     const found = true;
     if (selectedNode && found) {
+      console.log("selectedNode", selectedNode);
       this.nodeClick(selectedNode);
     }
   }
@@ -66,19 +66,6 @@ class BuildingPositionTree extends Component {
       this.props.positionListRequest({
         id: this.props.authUser.positionList
       });
-    }
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
-    if (arrayNodes && props.buildingList) {
-      const expandedObjects = props.buildingList.filter(building => {
-        return arrayNodes.indexOf(building.id) > -1;
-      });
-      const expandedNodes = expandedObjects.map(building => building.id);
-      return {
-        expandedNodes
-      };
     }
   }
 
@@ -103,37 +90,17 @@ class BuildingPositionTree extends Component {
     this.props.selectTreeNode(item);
     localStorage.setItem("selectedNode", JSON.stringify(item));
   };
-  // handleExpand = (id, e) => {
-  //   e.stopPropagation();
-  //   console.log("TODO: toggle show/hide", this.props.expandedNodes, id, e);
-  //   let array = [...this.props.expandedNodes];
-  //   const index = array.indexOf(id);
-  //   index === -1 ? array.push(id) : array.splice(index, 1);
-  //   this.props.toggleTreeNode(array);
-  // };
-
-  // isExpanded = id => {
-  //   let array = [...this.props.expandedNodes];
-  //   const index = array.indexOf(id);
-  //   if (index === -1) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // };
-
   handleExpand = (id, e) => {
     e.stopPropagation();
-    console.log("TODO: toggle show/hide", this.state.expandedNodes, id, e);
-    let array = [...this.state.expandedNodes];
+    console.log("TODO: toggle show/hide", this.props.expandedNodes, id, e);
+    let array = [...this.props.expandedNodes];
     const index = array.indexOf(id);
     index === -1 ? array.push(id) : array.splice(index, 1);
-    this.setState({ expandedNodes: array });
-    localStorage.setItem("expandedNodes", JSON.stringify(array));
+    this.props.toggleTreeNode(array);
   };
 
   isExpanded = id => {
-    let array = [...this.state.expandedNodes];
+    let array = [...this.props.expandedNodes];
     const index = array.indexOf(id);
     if (index === -1) {
       return false;
