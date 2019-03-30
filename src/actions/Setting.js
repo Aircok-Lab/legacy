@@ -2,7 +2,8 @@ import {
   SWITCH_LANGUAGE,
   TOGGLE_COLLAPSED_NAV,
   WINDOW_WIDTH,
-  SET_VIEW_MODE
+  SET_VIEW_MODE,
+  SET_SHOW_MODAL
 } from "../constants/ActionTypes";
 
 export function toggleCollapsedNav(isNavCollapsed) {
@@ -27,3 +28,10 @@ export function setViewMode(viewMode, item) {
     item: item
   };
 }
+
+export const setShowModal = payload => {
+  return {
+    type: SET_SHOW_MODAL,
+    payload
+  };
+};

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userUpdateRequest } from "actions/User";
-// import { productListRequest } from "actions/Product";
-import { setViewMode } from "actions/Setting";
+import { userUpdateRequest, userChangePasswordRequest } from "actions/User";
+import { setViewMode, setShowModal } from "actions/Setting";
 import { publicKeyRequest } from "actions/Auth";
 import Modal from "react-modal";
 
@@ -29,24 +28,43 @@ class Update extends Component {
     postData: {
       ...this.props.item,
       password: "",
-      oldPassword: "",
-      newPassword: "",
-      newPasswordConfirm: ""
+      oldPassword: "123456",
+      newPassword: "123",
+      newPasswordConfirm: "123"
     },
     showModal: false
   };
 
+  static getDerivedStateFromProps(props, state) {
+    console.log(
+      "getDerivedStateFromProps",
+      props.newPassword,
+      props.showModal,
+      props,
+      state
+    );
+    if (props.newPassword) {
+      return { postData: { ...state.postData, password: props.newPassword } };
+    }
+    return null;
+  }
+
   openModal = param => e => {
-    let modalMode = param;
-    this.setState({ showModal: true, modalMode });
+    this.props.setShowModal(true);
   };
 
   closeModal = () => {
-    this.setState({ showModal: false });
+    this.props.setShowModal(false);
   };
 
   changePassword = () => {
-    console.log("changePassword..... ");
+    const data = {
+      id: this.state.postData.id,
+      oldPassword: this.state.postData.oldPassword,
+      newPassword: this.state.postData.newPassword,
+      pkey: this.props.pkey
+    };
+    this.props.userChangePasswordRequest(data);
   };
 
   update = () => {
@@ -62,17 +80,6 @@ class Update extends Component {
     } else if (!this.state.postData.userType) {
       alert("사용자권한을 선택하세요");
     } else {
-      // this.setState(
-      //   {
-      //     postData: {
-      //       ...this.state.postData
-      //     }
-      //   },
-      //   () => {
-      //     this.props.userUpdateRequest(this.state.postData);
-      //   }
-      // );
-      console.log(this.state.postData);
       this.props.userUpdateRequest(
         this.state.postData,
         this.props.authUser,
@@ -81,7 +88,6 @@ class Update extends Component {
     }
   };
   handleChange = e => {
-    console.log("handleChange", e.target.value);
     this.setState({
       postData: {
         ...this.state.postData,
@@ -91,7 +97,6 @@ class Update extends Component {
   };
 
   componentDidMount() {
-    // this.props.productListRequest();
     this.props.publicKeyRequest();
   }
 
@@ -99,7 +104,6 @@ class Update extends Component {
     return (
       <div className="">
         <form className="text-blue w3-margin">
-          pkey: {this.props.pkey}
           <h2 className="text-center">사용자 수정</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
@@ -224,14 +228,10 @@ class Update extends Component {
             </button>
           </div>
         </form>
-        {/* 
-//   var paramUserID = req.body.id || req.query.id;
-//   var paramOldPassword = req.body.oldPassword || req.query.oldPassword;
-//   var paramNewPassword = req.body.newPassword || req.query.newPassword; */}
 
         <Modal
-          isOpen={this.state.showModal}
-          contentLabel="측정기 관리 Modal"
+          isOpen={this.props.showModal}
+          contentLabel="Modal"
           style={customStyles}
         >
           <button
@@ -243,7 +243,7 @@ class Update extends Component {
           <div className="" style={{ minWidth: "400px" }} />
 
           <form className="text-blue w3-margin">
-            <h2 className="text-center">사용자 수정</h2>
+            <h2 className="text-center">암호 변경</h2>
             <div className="w3-row w3-section">
               <div
                 className="w3-col w3-padding-right"
@@ -263,7 +263,7 @@ class Update extends Component {
                 className="w3-col w3-padding-right"
                 style={{ width: "80px" }}
               >
-                현재암호
+                현재 암호
               </div>
               <div className="w3-rest">
                 <input
@@ -337,14 +337,17 @@ const mapStateToProps = state => ({
   selectedNode: state.tree.selectedNode,
   productList: state.product.list,
   viewMode: state.settings.viewMode,
-  item: state.settings.item
+  item: state.settings.item,
+  showModal: state.settings.showModal,
+  newPassword: state.user.newPassword
 });
 
 const mapDispatchToProps = {
   publicKeyRequest,
   userUpdateRequest,
-  // productListRequest,
-  setViewMode
+  setViewMode,
+  userChangePasswordRequest,
+  setShowModal
 };
 
 export default connect(

@@ -4,7 +4,8 @@ import {
   USER_ADD_REQUEST,
   USER_UPDATE_REQUEST,
   USER_DELETE_REQUEST,
-  USER_SET_ITEM
+  USER_SET_ITEM,
+  USER_CHANGE_PASSWORD_REQUEST
 } from "constants/ActionTypes";
 
 export const userListByBuildingIdRequest = payload => {
@@ -47,6 +48,13 @@ export const userDeleteRequest = payload => {
 export const userSetItem = payload => {
   return {
     type: USER_SET_ITEM,
+    payload
+  };
+};
+
+export const userChangePasswordRequest = payload => {
+  return {
+    type: USER_CHANGE_PASSWORD_REQUEST,
     payload
   };
 };

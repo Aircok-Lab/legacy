@@ -10,11 +10,14 @@ import {
   USER_ADD_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_DELETE_REQUEST,
-  SET_VIEW_MODE
+  SET_VIEW_MODE,
+  USER_CHANGE_PASSWORD_REQUEST,
+  USER_CHANGE_PASSWORD_SUCCESS
 } from "constants/ActionTypes";
 import forge from "node-forge";
 import api from "api";
 import { userSignInSuccess } from "actions/Auth";
+import { setShowModal } from "actions/Setting";
 import responseDataProcess from "util/responseDataProcess";
 import toaster from "util/toaster";
 
@@ -139,19 +142,27 @@ export function* userDeleteWatcher() {
 }
 
 function* userChangePasswordWorker(action) {
+  console.log("action.payload", action.payload);
+
   try {
-    let publicKey = forge.pki.publicKeyFromPem(
-      forge.util.encodeUtf8(action.pkey)
+    let oldPublicKey = forge.pki.publicKeyFromPem(
+      forge.util.encodeUtf8(action.payload.pkey)
     );
     let oldPassword = forge.util.encode64(
-      publicKey.encrypt(
+      oldPublicKey.encrypt(
         forge.util.encodeUtf8(action.payload.oldPassword),
         "RSA-OAEP"
       )
     );
     action.payload.oldPassword = oldPassword;
+
+    const newPasswordInput = action.payload.newPassword;
+
+    let newPublicKey = forge.pki.publicKeyFromPem(
+      forge.util.encodeUtf8(action.payload.pkey)
+    );
     let newPassword = forge.util.encode64(
-      publicKey.encrypt(
+      newPublicKey.encrypt(
         forge.util.encodeUtf8(action.payload.newPassword),
         "RSA-OAEP"
       )
@@ -161,17 +172,18 @@ function* userChangePasswordWorker(action) {
     const res = yield api.put(`user/changePassword`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
-      // yield put({
-      //   type: SET_VIEW_MODE,
-      //   payload: "list"
-      // });
+      yield put(setShowModal(false));
+      yield put({
+        type: USER_CHANGE_PASSWORD_SUCCESS,
+        payload: newPasswordInput
+      });
     }
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
 }
 export function* userChangePasswordWatcher() {
-  yield takeEvery(USER_DELETE_REQUEST, userChangePasswordWorker);
+  yield takeEvery(USER_CHANGE_PASSWORD_REQUEST, userChangePasswordWorker);
 }
 
 export default function* rootSaga() {
@@ -180,4 +192,5 @@ export default function* rootSaga() {
   yield all([fork(userAddWatcher)]);
   yield all([fork(userUpdateWatcher)]);
   yield all([fork(userDeleteWatcher)]);
+  yield all([fork(userChangePasswordWatcher)]);
 }
