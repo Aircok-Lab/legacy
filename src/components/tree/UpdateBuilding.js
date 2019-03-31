@@ -29,7 +29,6 @@ class UpdateBuilding extends Component {
       alert("경도를 입력하세요");
     } else {
       this.props.buildingUpdateRequest(this.state);
-      this.props.closeModal();
     }
   };
 
@@ -197,7 +196,6 @@ class UpdateBuilding extends Component {
             className="w3-button w3-blue w3-padding w3-margin-right"
             onClick={e => {
               this.deleteBuilding();
-              this.props.closeModal();
             }}
           >
             삭제

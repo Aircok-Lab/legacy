@@ -17,9 +17,6 @@ class AddPosition extends Component {
       alert("위치명을 입력하세요");
     } else {
       this.props.positionAddRequest(this.state);
-      if (typeof this.props.closeModal === "function") {
-        this.props.closeModal();
-      }
     }
   };
   handleChange = e => {

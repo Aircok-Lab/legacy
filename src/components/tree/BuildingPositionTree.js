@@ -10,6 +10,8 @@ import UpdatePosition from "components/Tree/UpdatePosition";
 import { selectTreeNode, toggleTreeNode } from "actions/Tree";
 import { buildingListRequest, buildingAddRequest } from "actions/Building";
 import { positionListRequest, positionAddRequest } from "actions/Position";
+import { setShowModal } from "actions/Setting";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -30,7 +32,7 @@ Modal.setAppElement("#body");
 
 class BuildingPositionTree extends Component {
   state = {
-    showModal: false,
+    // showModal: false,
     // modalMode: "addBuilding",
     modalMode: "updateBuilding",
     selectedNodeId: "",
@@ -82,13 +84,13 @@ class BuildingPositionTree extends Component {
     }
   }
 
-  openModal = param => e => {
-    let modalMode = param;
-    this.setState({ showModal: true, modalMode });
+  openModal = modalMode => e => {
+    this.setState({ modalMode });
+    this.props.setShowModal(true);
   };
 
   closeModal = () => {
-    this.setState({ showModal: false });
+    this.props.setShowModal(false);
   };
   addBuilding = () => {
     this.props.buildingAddRequest({
@@ -288,7 +290,7 @@ class BuildingPositionTree extends Component {
           </div>
         ))}
         <Modal
-          isOpen={this.state.showModal}
+          isOpen={this.props.showModal}
           // onRequestClose={this.closeModal}
           contentLabel="측정기 관리 Modal"
           style={customStyles}
@@ -303,10 +305,10 @@ class BuildingPositionTree extends Component {
           <div className="" style={{ minWidth: "400px" }} />
           {
             {
-              addBuilding: <AddBuilding closeModal={this.closeModal} />,
-              updateBuilding: <UpdateBuilding closeModal={this.closeModal} />,
-              addPosition: <AddPosition closeModal={this.closeModal} />,
-              updatePosition: <UpdatePosition closeModal={this.closeModal} />
+              addBuilding: <AddBuilding />,
+              updateBuilding: <UpdateBuilding />,
+              addPosition: <AddPosition />,
+              updatePosition: <UpdatePosition />
             }[this.state.modalMode]
           }
         </Modal>
@@ -320,7 +322,8 @@ const mapStateToProps = state => ({
   buildingList: state.building.list,
   positionList: state.position.list,
   selectedNode: state.tree.selectedNode,
-  expandedNodes: state.tree.expandedNodes
+  expandedNodes: state.tree.expandedNodes,
+  showModal: state.settings.showModal
 });
 
 const mapDispatchToProps = {
@@ -329,7 +332,8 @@ const mapDispatchToProps = {
   positionAddRequest,
   positionListRequest,
   selectTreeNode,
-  toggleTreeNode
+  toggleTreeNode,
+  setShowModal
 };
 
 export default connect(

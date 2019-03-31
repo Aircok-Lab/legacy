@@ -5,7 +5,6 @@ import { setViewMode } from "actions/Setting";
 
 class Container extends React.Component {
   componentDidMount() {
-    console.log("this.props.authUser", this.props.authUser);
     this.props.setViewMode("update", this.props.authUser);
   }
 

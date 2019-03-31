@@ -16,7 +16,6 @@ class UpdatePosition extends Component {
       alert("위치를 입력하세요");
     } else {
       this.props.positionUpdateRequest(this.state);
-      this.props.closeModal();
     }
   };
   handleChange = e => {
@@ -67,7 +66,6 @@ class UpdatePosition extends Component {
             className="w3-button w3-blue w3-padding w3-margin-right"
             onClick={e => {
               this.deletePosition();
-              this.props.closeModal();
             }}
           >
             삭제

@@ -31,11 +31,8 @@ class AddBuilding extends Component {
         latitude: "",
         longitude: ""
       });
-      this.props.buildingLocationReset();
+      // this.props.buildingLocationReset();
       this.props.buildingAddRequest(this.state);
-      if (typeof this.props.closeModal === "function") {
-        this.props.closeModal();
-      }
     }
   };
 
@@ -82,7 +79,6 @@ class AddBuilding extends Component {
   }
 
   render() {
-    console.log("typeof this.props.nextStep : ", typeof this.props.nextStep);
     return (
       <form className="w3-text-blue w3-margin">
         <h2 className="w3-center">건물등록</h2>
@@ -206,17 +202,6 @@ class AddBuilding extends Component {
             >
               추가
             </button>
-            {/* {typeof this.props.nextStep === "function" && (
-              <button
-                type="button"
-                className="ml-2 w3-button w3-blue w3-padding"
-                onClick={e => {
-                  this.props.nextStep();
-                }}
-              >
-                다음
-              </button>
-            )} */}
           </div>
         </div>
       </form>

@@ -12,7 +12,9 @@ import {
   USER_DELETE_REQUEST,
   SET_VIEW_MODE,
   USER_CHANGE_PASSWORD_REQUEST,
-  USER_CHANGE_PASSWORD_SUCCESS
+  USER_CHANGE_PASSWORD_SUCCESS,
+  USER_FIND_USER_REQUEST,
+  USER_FIND_PASSWORD_REQUEST
 } from "constants/ActionTypes";
 import forge from "node-forge";
 import api from "api";
@@ -186,6 +188,35 @@ export function* userChangePasswordWatcher() {
   yield takeEvery(USER_CHANGE_PASSWORD_REQUEST, userChangePasswordWorker);
 }
 
+function* userFindUserWorker(action) {
+  try {
+    const res = yield api.post(`user/findUser`, action.payload);
+    if (responseDataProcess(res.data)) {
+      alert("로그인아이디 : " + res.data.data[0].loginID);
+    }
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* userFindUserWatcher() {
+  yield takeEvery(USER_FIND_USER_REQUEST, userFindUserWorker);
+}
+
+function* userFindPasswordWorker(action) {
+  try {
+    const res = yield api.post(`user/findPassword`, action.payload);
+    if (responseDataProcess(res.data)) {
+      console.log("res.data...", res.data);
+      alert(res.data.message);
+    }
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* userFindPasswordWatcher() {
+  yield takeEvery(USER_FIND_PASSWORD_REQUEST, userFindPasswordWorker);
+}
+
 export default function* rootSaga() {
   yield all([fork(userListByBuildingIdWatcher)]);
   yield all([fork(userListByPositionIdWatcher)]);
@@ -193,4 +224,6 @@ export default function* rootSaga() {
   yield all([fork(userUpdateWatcher)]);
   yield all([fork(userDeleteWatcher)]);
   yield all([fork(userChangePasswordWatcher)]);
+  yield all([fork(userFindUserWatcher)]);
+  yield all([fork(userFindPasswordWatcher)]);
 }

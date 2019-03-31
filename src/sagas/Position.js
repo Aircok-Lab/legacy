@@ -16,6 +16,8 @@ import { userSignInSuccess } from "actions/Auth";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
 import toaster from "util/toaster";
+import { setShowModal } from "actions/Setting";
+import { selectTreeNode } from "actions/Tree";
 
 function* positionListWorker(action) {
   try {
@@ -33,7 +35,6 @@ export function* positionListWatcher() {
 
 //http://115.178.65.141:13701/position/getPositionByBuildingId
 function* positionListByBuildingIdWorker(action) {
-  console.log("1111");
   try {
     const res = yield api.post(
       `position/getPositionByBuildingId`,
@@ -59,6 +60,7 @@ function* positionAddWorker(action) {
     let res = yield api.post(`position/addPosition`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
+      yield put(setShowModal(false));
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({
@@ -79,7 +81,7 @@ function* positionUpdateWorker(action) {
     let res = yield api.put(`position/updatePosition`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
-      yield put({ type: POSITION_UPDATE_SUCCESS, payload: res.data.data });
+      yield put(setShowModal(false));
       yield put({
         type: "POSITION_LIST_REQUEST",
         payload: { id: action.payload.positionList }
@@ -103,6 +105,9 @@ function* positionDeleteWorker(action) {
     );
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
+      yield put(selectTreeNode({}));
+      localStorage.removeItem("selectedNode");
+      yield put(setShowModal(false));
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({

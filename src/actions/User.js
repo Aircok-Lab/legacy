@@ -5,7 +5,9 @@ import {
   USER_UPDATE_REQUEST,
   USER_DELETE_REQUEST,
   USER_SET_ITEM,
-  USER_CHANGE_PASSWORD_REQUEST
+  USER_CHANGE_PASSWORD_REQUEST,
+  USER_FIND_USER_REQUEST,
+  USER_FIND_PASSWORD_REQUEST
 } from "constants/ActionTypes";
 
 export const userListByBuildingIdRequest = payload => {
@@ -55,6 +57,20 @@ export const userSetItem = payload => {
 export const userChangePasswordRequest = payload => {
   return {
     type: USER_CHANGE_PASSWORD_REQUEST,
+    payload
+  };
+};
+
+export const userFindUserRequest = payload => {
+  return {
+    type: USER_FIND_USER_REQUEST,
+    payload
+  };
+};
+
+export const userFindPasswordRequest = payload => {
+  return {
+    type: USER_FIND_PASSWORD_REQUEST,
     payload
   };
 };

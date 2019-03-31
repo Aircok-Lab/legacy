@@ -113,9 +113,9 @@ class Login extends React.Component {
                   </div>
 
                   <div className="row mb-3 d-flex align-items-center justify-content-between">
-                    <div className="col text-center">
+                    {/* <div className="col text-center">
                       <Link to="/join">회원가입</Link>
-                    </div>
+                    </div> */}
                     <div className="col text-center">
                       <Link to="/forgot">아이디/비밀번호 찾기</Link>
                     </div>
