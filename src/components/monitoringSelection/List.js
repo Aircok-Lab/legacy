@@ -124,7 +124,7 @@ class List extends React.Component {
                     <td>{row.positionName}</td>
                     <td>{row.period} 분</td>
                     <td>{row.serialNumber}</td>
-                    <td>{row.productID}</td>
+                    <td>{row.productName}</td>
                     <td>{row.phone}</td>
                   </tr>
                 ))}
