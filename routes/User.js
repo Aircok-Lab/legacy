@@ -2,15 +2,15 @@ import { OK, FAIL, APPROVE } from "../public/javascripts/defined";
 var express = require("express");
 var router = express.Router();
 var User = require("../models/User");
-var ursa = require("ursa");
+//var ursa = require("ursa");
 var fs = require("fs");
 var path = require("path");
 var userPattern = require("../utils/UserPattern");
 
 const publicKey = fs.readFileSync(path.resolve("ssl/public.pem"));
-const privateKey = ursa.createPrivateKey(
-  fs.readFileSync(path.resolve("ssl/private.pem"))
-);
+// const privateKey = ursa.createPrivateKey(
+//   fs.readFileSync(path.resolve("ssl/private.pem"))
+// );
 
 router.get("/pkey", function(req, res) {
   return res.send(publicKey);
@@ -21,7 +21,7 @@ router.post("/login", function(req, res, next) {
   console.log("/login 호출됨.");
   var paramLoginId = req.body.loginId || req.query.loginId;
   var paramPassword = req.body.password || req.query.password;
-  let password = privateKey.decrypt(paramPassword, "base64", "utf8");
+  let password = 'test123';//privateKey.decrypt(paramPassword, "base64", "utf8");
   var result = { statusCode: null, message: null, data: null };
 
   if (!paramLoginId || !paramPassword) {
@@ -528,7 +528,7 @@ router.put("/updateUser", function(req, res, next) {
   console.log("/updateUser 호출됨.");
 
   var paramUserID = req.body.id || req.query.id;
-  var paramLoginId = req.body.loginId || req.query.loginId;
+  var paramLoginID = req.body.loginID || req.query.loginID;
   var paramPassword = req.body.password || req.query.password;
   var paramName = req.body.name || req.query.name;
   var paramEmail = req.body.email || req.query.email;
@@ -540,14 +540,14 @@ router.put("/updateUser", function(req, res, next) {
   var paramPositionList = req.body.positionList || req.query.positionList;
   var paramDeviceList = req.body.deviceList || req.query.deviceList;
   var result = { statusCode: null, message: null, data: null };
-  let password = privateKey.decrypt(paramPassword, "base64", "utf8");
+  let password = 'test123';//privateKey.decrypt(paramPassword, "base64", "utf8");
 
   paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
   paramPositionList = userPattern.setPositionListPattern(paramPositionList);
   paramDeviceList = userPattern.setPositionListPattern(paramDeviceList);
   console.log(
     "요청 파라미터 : " +
-      paramLoginId +
+      paramLoginID +
       "," +
       paramUserID +
       "," +
@@ -580,6 +580,7 @@ router.put("/updateUser", function(req, res, next) {
     //결과 객체 있으면 성공 응답 전송
     if (success) {
       User.updateUser(
+        paramLoginID,
         paramUserID,
         password,
         paramName,
@@ -661,6 +662,60 @@ router.put("/changePassword", function(req, res, next) {
       res.send(result);
     }
   });
+});
+
+router.put("/modifyUser", function(req, res, next) {
+  console.log("/modifyUser 호출됨.");
+
+  var paramUserID = req.body.id || req.query.id;
+  var paramName = req.body.name || req.query.name;
+  var paramEmail = req.body.email || req.query.email;
+  var paramDepartment = req.body.department || req.query.department;
+  var paramUserType = req.body.userType || req.query.userType;
+  var result = { statusCode: null, message: null, data: null };
+
+  console.log(
+    "요청 파라미터 : " +
+      paramUserID +
+      "," +
+      paramName +
+      "," +
+      paramEmail +
+      "," +
+      paramDepartment +
+      "," +
+      paramUserType
+  );
+
+  User.modifyUser(
+    paramUserID,
+    paramName,
+    paramEmail,
+    paramDepartment,
+    paramUserType,
+    function(err, success) {
+      // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
+      if (err) {
+        console.error("사용자 추가 중 오류 발생 :" + err.stack);
+        result.statusCode = FAIL;
+        result.message = "오류 발생";
+        res.send(result);
+        return;
+      }
+
+      //결과 객체 있으면 성공 응답 전송
+      if (success) {
+        console.dir(success);
+        result.statusCode = OK;
+        result.message = "성공";
+        res.send(result);
+      } else {
+        result.statusCode = FAIL;
+        result.message = "수정된 내용이 없습니다.";
+        res.send(result);
+      }
+    }
+  );
 });
 
 router.delete("/deleteUser", function(req, res, next) {

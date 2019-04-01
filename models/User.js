@@ -414,6 +414,7 @@ var User = {
   },
 
   updateUser: function(
+    loginID,
     userId,
     password,
     name,
@@ -443,6 +444,7 @@ var User = {
       // 데이터를 객체로 만듭니다.
       // TODO: Approval을 임시로 true 로 설정했습니다.
       var data = [
+        loginID,
         name,
         password,
         email,
@@ -458,7 +460,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set name=?, password=?, email=?, department=?, approval=?, userType=?, phone=?, buildingList=?, positionList=?, deviceList=? where id=?",
+        "update User set loginID=?, name=?, password=?, email=?, department=?, approval=?, userType=?, phone=?, buildingList=?, positionList=?, deviceList=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -477,6 +479,54 @@ var User = {
           callback(null, success);
         }
       );
+    });
+  },
+
+  modifyUser: function(
+    userId,
+    name,
+    email,
+    department,
+    userType,
+    callback
+  ) {
+    console.log("modifyUser 호출됨");
+
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      // 데이터를 객체로 만듭니다.
+      // TODO: Approval을 임시로 true 로 설정했습니다.
+      var data = [name, email, department, userType, userId];
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "update User set name=?, email=?, department=?, userType=? where id=?",
+        data, function(err,result
+      ) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
+
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
+
+          callback(err, null);
+          return;
+        }
+        var success = false;
+        if (result.changedRows > 0) success = true;
+
+        callback(null, success);
+      });
     });
   },
 
@@ -754,7 +804,7 @@ var User = {
           }
           console.dir(result);
           var success = false;
-          if (result.password === oldPassword) {
+          if (result[0].password === oldPassword) {
             success = true;
           }
           callback(null, success);

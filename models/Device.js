@@ -16,7 +16,7 @@ var Device = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       var queryString =
-        "select Building.Name as buildingName , Position.Name as positionName, Device.* from  Position, Building, Device, Product where Device.positionID in (" +
+        "select Building.Name as buildingName , Position.Name as positionName, Product.Name as productName, Product.period, Device.* from  Position, Building, Device, Product where Device.positionID in (" +
         positionId +
         ") and Device.productID = Product.id and Device.positionID = Position.id and Position.buildingID = Building.id order by buildingName, positionName desc";
 
