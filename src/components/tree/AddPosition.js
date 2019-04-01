@@ -11,6 +11,7 @@ class AddPosition extends Component {
     userID: this.props.authUser.id
   };
   addPosition = () => {
+    console.log("zzzzz .... ", this.state);
     if (!this.props.selectedNode.id) {
       alert("건물을 선택하세요");
     } else if (!this.state.name) {

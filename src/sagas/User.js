@@ -81,7 +81,6 @@ export function* userAddWatcher() {
 
 function* userUpdateWorker(action) {
   try {
-    console.log("action newpw: ", action.payload);
     let publicKey = forge.pki.publicKeyFromPem(
       forge.util.encodeUtf8(action.pkey)
     );
@@ -144,8 +143,6 @@ export function* userDeleteWatcher() {
 }
 
 function* userChangePasswordWorker(action) {
-  console.log("action.payload", action.payload);
-
   try {
     let oldPublicKey = forge.pki.publicKeyFromPem(
       forge.util.encodeUtf8(action.payload.pkey)
@@ -194,6 +191,7 @@ function* userFindUserWorker(action) {
     if (responseDataProcess(res.data)) {
       alert("로그인아이디 : " + res.data.data[0].loginID);
     }
+    yield put(push("/login"));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -206,9 +204,9 @@ function* userFindPasswordWorker(action) {
   try {
     const res = yield api.post(`user/findPassword`, action.payload);
     if (responseDataProcess(res.data)) {
-      console.log("res.data...", res.data);
       alert(res.data.message);
     }
+    yield put(push("/login"));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }

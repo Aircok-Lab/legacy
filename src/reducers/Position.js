@@ -1,7 +1,8 @@
 import {
   POSITION_LIST_REQUEST,
   POSITION_LIST_SUCCESS,
-  POSITION_LIST_FAIL
+  POSITION_LIST_FAIL,
+  POSITION_LIST_BY_BUILDING_ID_SUCCESS
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -11,19 +12,12 @@ const INIT_STATE = {
   // initURL: '',
   // authUser: localStorage.getItem('user_id'),
   // pkey:''
-  list: []
+  list: [],
+  listByBuildingId: []
 };
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case POSITION_LIST_REQUEST: {
-      // alert("REQUEST");
-      return {
-        ...state
-        // loader: false,
-        // authUser: action.payload
-      };
-    }
     case POSITION_LIST_SUCCESS: {
       const list = action.payload.map(item => {
         return {
@@ -35,6 +29,14 @@ export default (state = INIT_STATE, action) => {
         ...state,
         loader: false,
         list: list
+      };
+    }
+    //
+    case POSITION_LIST_BY_BUILDING_ID_SUCCESS: {
+      return {
+        ...state,
+        loader: false,
+        listByBuildingId: action.payload
       };
     }
     case POSITION_LIST_FAIL: {

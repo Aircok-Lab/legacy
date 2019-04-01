@@ -26,15 +26,18 @@ class Container extends React.Component {
         prevBuildingList: steps.prevBuildingList
       });
     } else {
-      this.setState({
+      const data = {
         step: 1,
         prevBuildingList: this.props.authUser.buildingList
-      });
+      };
+      localStorage.setItem("steps", JSON.stringify(data));
+      this.setState(data);
     }
   }
 
   componentWillUnmount() {
-    localStorage.removeItem("steps");
+    console.info("TODO: Restore after debug... ");
+    // localStorage.removeItem("steps");
   }
 
   // Proceed to next step
@@ -47,21 +50,26 @@ class Container extends React.Component {
     } else {
       nextStep = step;
     }
-    console.log(`step: ${step}, nextStep: `, nextStep);
+    // if (nextStep === 2) {
 
-    // const steps = JSON.parse(localStorage.getItem("steps"));
+    // }
+    let steps = JSON.parse(localStorage.getItem("steps"));
+    steps.step = nextStep;
+    this.setState(steps);
+    localStorage.setItem("steps", JSON.stringify(steps));
+
+    // console.log(`step: ${step}, nextStep: `, nextStep);
     // const nextStep = step ? step : this.state.step + 1;
-    const steps = {
-      step: nextStep,
-      prevBuildingList: this.props.authUser.prevBuildingList
-    };
-
-    if (nextStep === 2 && steps.prevBuildingList == "") {
-      alert("건물을 먼저 추가하여야 합니다.");
-    } else {
-      localStorage.setItem("steps", JSON.stringify(steps));
-      this.setState(steps);
-    }
+    // const steps = {
+    //   step: nextStep,
+    //   prevBuildingList: this.props.authUser.prevBuildingList
+    // };
+    // if (nextStep === 2 && steps.prevBuildingList == "") {
+    //   alert("건물을 먼저 추가하여야 합니다.");
+    // } else {
+    //   localStorage.setItem("steps", JSON.stringify(steps));
+    //   this.setState(steps);
+    // }
   };
 
   // // Proceed to next step
@@ -85,11 +93,27 @@ class Container extends React.Component {
   //   this.setState({ [input]: e.target.value });
   // };
 
+  isNextDisabled = () => {
+    console.log("this.state", this.step);
+    const steps = JSON.parse(localStorage.getItem("steps"));
+    if (
+      this.state.step === 1 &&
+      steps.prevBuildingList === this.props.authUser.buildingList
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   render() {
     // const { step } = this.state;
     // let prevBuildingList = this.props.authUser.prevBuildingList;
     // let oldBuildingList = prevBuildingList.substr(0, prevBuildingList.lastIndexOf(","));
     // console.log("111", prevBuildingList, oldBuildingList);
+    const steps = JSON.parse(localStorage.getItem("steps"));
+    if (!steps) {
+      return null;
+    }
 
     let stepData = null;
     if (this.state.step === 1) {
@@ -100,49 +124,20 @@ class Container extends React.Component {
         />
       );
     } else if (this.state.step === 2) {
-      stepData = (
-        <PositionContainer
-          prevBuildingList={this.state.prevBuildingList}
-          // nextStep={this.nextStep}
-        />
-      );
+      stepData = <PositionContainer />;
     } else if (this.state.step === 3) {
-      stepData = (
-        <DeviceContainer
-          prevBuildingList={this.state.prevBuildingList}
-          // nextStep={this.nextStep}
-        />
-      );
+      stepData = <DeviceContainer />;
     } else if (this.state.step === 4) {
-      stepData = (
-        <UserContainer
-          prevBuildingList={this.state.prevBuildingList}
-          // nextStep={this.nextStep}
-        />
-      );
+      stepData = <UserContainer />;
     } else if (this.state.step === 5) {
-      stepData = (
-        <DoneContainer
-        // prevBuildingList={this.state.prevBuildingList}
-        // nextStep={this.nextStep}
-        />
-      );
+      stepData = <DoneContainer />;
     }
 
     return (
       <div className="border-top">
         <Prompt
-          // when={!!this.state.name}
           when={true}
           message={location =>
-            // `Are you sure you want to go to ${location.pathname}`
-            // true
-
-            // if (localStorage.getItem("steps") === null) {
-            //   return true
-            // } else {
-            //   return
-            // }
             localStorage.getItem("steps") ? "페이지를 이동하시겠습니까?" : true
           }
         />
@@ -150,7 +145,7 @@ class Container extends React.Component {
         <div className="row border-top border-bottom py-4">
           <div className="col-2" />
           <div className="col-8 text-center">
-            <button
+            {/* <button
               type="button"
               className="btn btn-primary"
               style={{ width: "100px" }}
@@ -160,7 +155,7 @@ class Container extends React.Component {
               disabled={this.state.step === 1}
             >
               이전
-            </button>
+            </button> */}
             <button
               type="button"
               className="btn btn-primary"
@@ -168,31 +163,14 @@ class Container extends React.Component {
               onClick={e => {
                 this.handleStepChange("next");
               }}
-              disabled={this.state.step === 5}
+              // disabled={this.state.step === 5}
+              disabled={this.isNextDisabled()}
             >
               다음
             </button>
-            {/* <button
-              type="button"
-              className="btn btn-secondary"
-              style={{ width: "100px" }}
-              onClick={e => {
-                localStorage.removeItem("steps");
-                const steps = {
-                  step: 1,
-                  prevBuildingList: "" // this.props.authUser.prevBuildingList
-                };
-                this.setState(steps);
-              }}
-            >
-              리셋
-            </button> */}
           </div>
           <div className="col-2 text-right"> </div>
         </div>
-
-        <div>prevBuildingList: {this.state.prevBuildingList}</div>
-
         <div className="w3-row w3-margin">
           <div className="w3-col-12">
             <Steps size="small" current={this.state.step - 1}>

@@ -16,7 +16,10 @@ class BuildingContainer extends React.Component {
     // this.props.positionListRequest({ id: stepBuildingList });
     // this.props.positionListRequest({ id: this.props.authUser.positionList });
     // const stepBuildingList = "233";
-    // this.props.positionListByBuildingIdRequest({ id: stepBuildingList });
+    console.log("this.props.selectedNode", this.props.selectedNode);
+    this.props.positionListByBuildingIdRequest({
+      id: "" + this.props.selectedNode.id
+    });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -52,11 +55,9 @@ class BuildingContainer extends React.Component {
             </li>
           ))}
         </ul> */}
-        <h2 className="text-center">
-          위치 목록 name:{this.props.selectedNode.name}{" "}
-        </h2>
+        <h2 className="text-center">위치 목록</h2>
         <ul className="list-group list-group-flush">
-          {this.props.positionList.map(position => (
+          {this.props.listByBuildingId.map(position => (
             <li key={position.id} className="list-group-item">
               {position.name}
             </li>
@@ -69,7 +70,7 @@ class BuildingContainer extends React.Component {
 
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
-  positionList: state.position.list,
+  listByBuildingId: state.position.listByBuildingId,
   selectedNode: state.tree.selectedNode
 });
 

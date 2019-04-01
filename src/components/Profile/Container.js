@@ -9,30 +9,35 @@ class Container extends React.Component {
   }
 
   render() {
-    switch (this.props.viewMode) {
-      case "list":
-        return <List />;
-        break;
+    // switch (this.props.viewMode) {
+    //   case "list":
+    //     return <List />;
+    //     break;
 
-      case "add":
-        return (
-          <div className="col-6 mx-auto">
-            <Add />
-          </div>
-        );
-        break;
+    //   case "add":
+    //     return (
+    //       <div className="col-6 mx-auto">
+    //         <Add />
+    //       </div>
+    //     );
+    //     break;
 
-      case "update":
-        return (
-          <div className="col-6 mx-auto">
-            <Update />
-          </div>
-        );
-        break;
+    //   case "update":
+    //     return (
+    //       <div className="col-6 mx-auto">
+    //         <Update />
+    //       </div>
+    //     );
+    //     break;
 
-      default:
-        break;
-    }
+    //   default:
+    //     break;
+    // }
+    return (
+      <div className="col-6 mx-auto">
+        <Update />
+      </div>
+    );
   }
 }
 

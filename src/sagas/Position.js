@@ -2,8 +2,9 @@ import { push } from "react-router-redux";
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import {
   POSITION_LIST_REQUEST,
-  POSITION_LIST_BY_BUILDING_ID_REQUEST,
   POSITION_LIST_SUCCESS,
+  POSITION_LIST_BY_BUILDING_ID_REQUEST,
+  POSITION_LIST_BY_BUILDING_ID_SUCCESS,
   POSITION_ADD_REQUEST,
   POSITION_ADD_SUCCESS,
   POSITION_UPDATE_REQUEST,
@@ -42,7 +43,10 @@ function* positionListByBuildingIdWorker(action) {
     );
     console.log("AAAA res: ", res);
     if (responseDataProcess(res.data)) {
-      yield put({ type: POSITION_LIST_SUCCESS, payload: res.data.data });
+      yield put({
+        type: POSITION_LIST_BY_BUILDING_ID_SUCCESS,
+        payload: res.data.data
+      });
     }
   } catch (error) {
     console.log("[ERROR#####]", error);
@@ -57,6 +61,7 @@ export function* positionListByBuildingIdWatcher() {
 
 function* positionAddWorker(action) {
   try {
+    console.log("action.payload. 1111 :", action.payload);
     let res = yield api.post(`position/addPosition`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
@@ -66,6 +71,10 @@ function* positionAddWorker(action) {
       yield put({
         type: "POSITION_LIST_REQUEST",
         payload: { id: res.data.data.positionList }
+      });
+      yield put({
+        type: "POSITION_LIST_BY_BUILDING_ID_REQUEST",
+        payload: { id: action.payload.buildingID }
       });
     }
   } catch (error) {

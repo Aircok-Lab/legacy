@@ -26,7 +26,7 @@ Modal.setAppElement("#body");
 class Update extends Component {
   state = {
     postData: {
-      ...this.props.item,
+      ...this.props.authUser,
       password: "",
       oldPassword: "123456",
       newPassword: "123",
@@ -187,24 +187,6 @@ class Update extends Component {
                 placeholder=""
                 onChange={this.handleChange}
               />
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              권한
-            </div>
-            <div className="w3-rest">
-              <select
-                className="form-control"
-                name="userType"
-                value={this.state.postData.userType}
-                onChange={this.handleChange}
-              >
-                <option value="master">Master</option>
-                <option value="manager">Manager</option>
-                <option value="user">User</option>
-                <option value="monitoring">Monitoring</option>
-              </select>
             </div>
           </div>
           <div className="w3-right">
