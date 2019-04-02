@@ -256,7 +256,7 @@ var E3Core = {
       index: 0,
       score: 0
     };
-
+    console.log("buildingType : " + buildingType);
     switch (buildingType) {
       case NEW_KINDERGARTEN:
         result.score =
