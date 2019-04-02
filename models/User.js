@@ -414,7 +414,6 @@ var User = {
   },
 
   updateUser: function(
-    loginID,
     userId,
     password,
     name,
@@ -444,7 +443,6 @@ var User = {
       // 데이터를 객체로 만듭니다.
       // TODO: Approval을 임시로 true 로 설정했습니다.
       var data = [
-        loginID,
         name,
         password,
         email,
@@ -460,7 +458,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set loginID=?, name=?, password=?, email=?, department=?, approval=?, userType=?, phone=?, buildingList=?, positionList=?, deviceList=? where id=?",
+        "update User set name=?, password=?, email=?, department=?, approval=?, userType=?, phone=?, buildingList=?, positionList=?, deviceList=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
