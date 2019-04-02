@@ -188,6 +188,46 @@ var Building = {
         callback(null, success);
       });
     });
+  },
+  getBuildingType: function(deviceSN, callback) {
+    console.log("getBuildingType 호출됨 deviceSN : " + deviceSN);
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      var queryString =
+        "select Building.buildingType , Building.isPublicBuilding from  Position, Building, Device\
+        where Device.serialNumber = " +
+        deviceS +
+        " and Device.PositionID = Position.id and Position.BuildingID = Building.id";
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(queryString, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
+
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
+
+          callback(err, null);
+          return;
+        }
+        console.dir(result);
+        var returnVal = {};
+        returnVal.buildingType = result[0].buildingType;
+        returnVal.isPublicBuilding = result[0].isPublicBuilding;
+
+        callback(null, returnVal);
+      });
+    });
   }
 };
 module.exports = Building;

@@ -108,6 +108,7 @@ var Data = {
     temperature,
     humidity,
     noise,
+    //co,
     date,
     deviceSN,
     callback
@@ -136,6 +137,7 @@ var Data = {
       if (temperature) data.temperature = temperature;
       if (humidity) data.humidity = humidity;
       if (noise) data.noise = noise;
+      //if (co) data.co = co;
 
       // SQL문을 실행합니다.
       var exec = conn.query(
