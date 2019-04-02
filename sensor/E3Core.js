@@ -108,6 +108,8 @@ var E3Core = {
     result.score =
       ((sMax - sMin) / (cMax - cMin)) * (sensorValue - cMin) + sMin;
 
+    result.score = Math.floor(result.score);
+
     if (sensorValue > alarm) result.alarm = true;
 
     return result;
@@ -155,6 +157,7 @@ var E3Core = {
     }
     cOpt = (cMin + cMax) / 2;
     result.score = 100 * (Math.abs(temp - cOpt) / (cMax - cMin)) * 2;
+    result.score = Math.floor(result.score);
 
     if (result.score < score[1].min) {
       result.index = GOOD;
@@ -217,7 +220,7 @@ var E3Core = {
     }
 
     cOpt = (cMin + cMax) / 2;
-    result.score = 100 * (Math.abs(humidity - cOpt) / (cMax - cMin)) * 2;
+    result.score = Math.floor(result.score);
 
     if (result.score < score[1].min) {
       result.index = GOOD;
