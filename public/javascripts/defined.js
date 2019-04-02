@@ -22,6 +22,7 @@ export const HUMI_PUBLIC = "humidityPublic";
 export const NOISE = "noise";
 export const CO = "co";
 
+
 export const NEW_KINDERGARTEN = "NewKindergarten";
 export const KINDERGARTEN = "Kindergarten";
 export const NEW_POSTPARTUM = "NewPostpartum";

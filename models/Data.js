@@ -30,6 +30,7 @@ var Data = {
         sqlStr = sqlStr + "temperature FLOAT, ";
       if (productInfo.humidity === 1) sqlStr = sqlStr + "humidity FLOAT, ";
       if (productInfo.noise === 1) sqlStr = sqlStr + "noise INT NULL, ";
+      if (productInfo.co === 1) sqlStr = sqlStr + "co INT NULL, ";
       sqlStr =
         sqlStr +
         " PRIMARY KEY (`id`),\

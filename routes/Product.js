@@ -23,6 +23,7 @@ router.post('/addProduct', function(req, res, next) {
     var paramTemperature = req.body.temperature || req.query.temperature;
     var paramHumidity = req.body.humidity || req.query.humidity;
     var paramNoise = req.body.noise || req.query.noise;
+    var paramCo = req.body.co || req.query.co;
     var result = {statusCode : null, message : null, data : null};
 
     if (
@@ -36,10 +37,10 @@ router.post('/addProduct', function(req, res, next) {
     }
 
     console.log('요청 파라미터 : ' + paramName + ',' + paramVersion + ','+ paramIP + ',' + paramPeriod + ',' + paramIndoor + ',' + paramPM25 + ',' + 
-                paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise);
+                paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise + ',' + paramCo);
 
     Product.addProduct(paramName, paramVersion, paramIP, paramPeriod, paramIndoor, paramPM25, paramPM10, paramCO2, paramHCHO, 
-                        paramVOC, paramTemperature, paramHumidity, paramNoise, function(err, addedProduct){
+                        paramVOC, paramTemperature, paramHumidity, paramNoise, paramCo, function(err, addedProduct){
         // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
         if(err){
             console.error('제품 추가 중 오류 발생 :' + err.stack);
@@ -144,13 +145,14 @@ router.post('/getProductById', function(req, res, next) {
      var paramTemperature = req.body.temperature || req.query.temperature;
      var paramHumidity = req.body.humidity || req.query.humidity;
      var paramNoise = req.body.noise || req.query.noise;
+     var paramCo = req.body.co || req.query.co;
      var result = {statusCode : null, message : null, data : null};
 
      console.log('요청 파라미터 : ' + paramProductID + ',' + paramName + ',' + paramVersion + ',' + paramIP + ',' + paramPeriod + ',' + paramIndoor + ',' + paramPM25 + ',' + 
-                 paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise);
+                 paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise + ',' + paramCo);
 
      Product.updateProduct(paramProductID, paramName, paramVersion, paramIP, paramPeriod, paramIndoor, paramPM25, paramPM10, paramCO2, paramHCHO, 
-         paramVOC, paramTemperature, paramHumidity, paramNoise, function(err, success){
+         paramVOC, paramTemperature, paramHumidity, paramNoise, paramCo, function(err, success){
          if(err){
              console.error('제품 정보 수정 중 오류 발생 :' + err.stack);
              result.statusCode = FAIL;

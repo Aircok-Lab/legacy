@@ -88,6 +88,7 @@ var Product = {
     temperature,
     humidity,
     noise,
+    co,
     callback
   ) {
     console.log("addProduct 호출됨");
@@ -117,7 +118,8 @@ var Product = {
         voc: voc,
         temperature: temperature,
         humidity: humidity,
-        noise: noise
+        noise: noise,
+        co: co
       };
 
       // SQL문을 실행합니다.
@@ -155,6 +157,7 @@ var Product = {
     temperature,
     humidity,
     noise,
+    co,
     callback
   ) {
     console.log("updateProduct 호출됨");
@@ -185,12 +188,13 @@ var Product = {
         temperature,
         humidity,
         noise,
+        co,
         id
       ];
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Product set name=?, version=?, ip=?, period=?, indoor=?, pm25=?, pm10=?, co2=?, hcho=?, voc=?, temperature=?, humidity=?, noise=? where id=?",
+        "update Product set name=?, version=?, ip=?, period=?, indoor=?, pm25=?, pm10=?, co2=?, hcho=?, voc=?, temperature=?, humidity=?, noise=?, co=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
