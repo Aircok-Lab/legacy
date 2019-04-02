@@ -71,6 +71,12 @@ var Alarm = {
           "noiseIndex TINYINT(3) UNSIGNED NULL,\
                 noiseAlarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
+      if (productInfo.co === 1) {
+        sqlStr =
+          sqlStr +
+          "coIndex TINYINT(3) UNSIGNED NULL,\
+                coAlarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
+      }
       sqlStr =
         sqlStr +
         " PRIMARY KEY (`id`),\
