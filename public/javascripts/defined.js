@@ -17,7 +17,10 @@ export const HCHO = "hcho";
 export const VOC = "voc";
 export const TEMP = "temperature";
 export const HUMI = "humidity";
+export const TEMP_PUBLIC = "temperaturePublic";
+export const HUMI_PUBLIC = "humidityPublic";
 export const NOISE = "noise";
+export const CO = "co";
 
 export const NEW_KINDERGARTEN = "NewKindergarten";
 export const KINDERGARTEN = "Kindergarten";

@@ -389,7 +389,9 @@ var Device = {
       }
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
       var exec = conn.query(
-        "select buildingType, version, period, indoor from Device, Product where Device.productID = Product.id and Device.serialNumber=?",
+        "select Building.buildingType, version, period, indoor from Device, Product, Position, Building\
+         where Device.productID = Product.id and Device.PositionID = Position.id and Position.BuildingID = Building.id and \
+         Device.serialNumber=?",
         deviceSerialNumber,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.

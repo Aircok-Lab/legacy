@@ -88,6 +88,7 @@ var RecentData = {
     temperature,
     humidity,
     noise,
+    //co,
     totalScore,
     date,
     deviceSN,
@@ -116,6 +117,7 @@ var RecentData = {
         temperature: temperature.value,
         humidity: humidity.value,
         noise: noise.value,
+        //co: co.value,
         date: date,
         deviceSN: deviceSN,
         e3Index: totalScore,
@@ -127,6 +129,7 @@ var RecentData = {
         temperatureIndex: temperature.index,
         humidityIndex: humidity.index,
         noiseIndex: noise.index,
+        //coIndex: co.index,
         pm10Alarm: pm10.alarm,
         pm25Alarm: pm25.alarm,
         co2Alarm: co2.alarm,
@@ -134,7 +137,8 @@ var RecentData = {
         vocAlarm: voc.alarm,
         temperatureAlarm: temperature.alarm,
         humidityAlarm: humidity.alarm,
-        noiseAlarm: noise.alarm
+        noiseAlarm: noise.alarm /*,
+        coAlarm: co.alarm */
       };
 
       // SQL문을 실행합니다.
@@ -166,6 +170,7 @@ var RecentData = {
     temperature,
     humidity,
     noise,
+    //co,
     total,
     date,
     deviceSN,
@@ -194,6 +199,7 @@ var RecentData = {
         temperature: temperature.value,
         humidity: humidity.value,
         noise: noise.value,
+        //co:co.value,
         date: date,
         insertDate: new Date(),
         e3Index: total.index,
@@ -206,6 +212,7 @@ var RecentData = {
         temperatureIndex: temperature.index,
         humidityIndex: humidity.index,
         noiseIndex: noise.index,
+        //coIndex: co.index,
         pm10Alarm: pm10.alarm,
         pm25Alarm: pm25.alarm,
         co2Alarm: co2.alarm,
@@ -213,7 +220,8 @@ var RecentData = {
         vocAlarm: voc.alarm,
         temperatureAlarm: temperature.alarm,
         humidityAlarm: humidity.alarm,
-        noiseAlarm: noise.alarm
+        noiseAlarm: noise.alarm /*,
+        coAlarm:co.alarm*/
       };
 
       var data = [value, deviceSN];

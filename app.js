@@ -15,7 +15,10 @@ var hcho = require("./sensor/hcho");
 var voc = require("./sensor/voc");
 var temperature = require("./sensor/temperature");
 var humidity = require("./sensor/humidity");
+var temperaturePublic = require("./sensor/temperaturePublic");
+var humidityPublic = require("./sensor/humidityPublic");
 var noise = require("./sensor/noise");
+var co = require("./sensor/co");
 
 var app = express();
 
@@ -57,7 +60,10 @@ hcho.getHCHOScore();
 voc.getVOCScore();
 temperature.getTEMPScore();
 humidity.getHUMIScore();
+temperaturePublic.getTEMPScore();
+humidityPublic.getHUMIScore();
 noise.getNOISEScore();
+co.getCOScore();
 pm10.getPM10Alarm();
 pm25.getPM25Alarm();
 co2.getCO2Alarm();
@@ -65,6 +71,9 @@ hcho.getHCHOAlarm();
 voc.getVOCAlarm();
 temperature.getTEMPAlarm();
 humidity.getHUMIAlarm();
+temperaturePublic.getTEMPAlarm();
+humidityPublic.getHUMIAlarm();
 noise.getNOISEAlarm();
+co.getCOAlarm();
 
 module.exports = app;

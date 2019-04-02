@@ -4,6 +4,7 @@ import {
   CO2,
   HCHO,
   VOC,
+  //CO,
   NOISE
 } from "../public/javascripts/defined";
 
@@ -57,12 +58,14 @@ router.post("/", function(req, res, next) {
           var paramTemperature = (Number(arr[9]) - 1000) / 10;
           var paramHumidity = Number(arr[10]) / 10;
           var paramNoise = arr[7];
+          //var paramCo = ;
         } else {
           // 스마트 에어콕 실외형
           var paramCO2 = null;
           var paramHCHO = null;
           var paramVOC = null;
           var paramNoise = null;
+          //var paramCo = null;
           var paramPM10 = arr[3];
           var paramPM25 = arr[4];
           var paramTemperature = (Number(arr[9]) - 1000) / 10;
@@ -78,6 +81,7 @@ router.post("/", function(req, res, next) {
           paramTemperature,
           paramHumidity,
           paramNoise,
+          //paramCo,
           paramDate,
           paramDeviceSN,
           function(err, addedData) {
@@ -113,8 +117,15 @@ router.post("/", function(req, res, next) {
           status.hcho = E3Core.getSensorIndex(HCHO, Number(paramHCHO));
           status.voc = E3Core.getSensorIndex(VOC, Number(paramVOC));
           status.noise = E3Core.getSensorIndex(NOISE, Number(paramNoise));
-          status.temperature = E3Core.getTempIndex(paramTemperature);
-          status.humidity = E3Core.getHumidityIndex(paramHumidity);
+          //status.co = E3Core.getSensorIndex(CO, Number(paramCo));
+          status.temperature = E3Core.getTempIndex(
+            info.isPublicBuilding,
+            paramTemperature
+          );
+          status.humidity = E3Core.getHumidityIndex(
+            info.isPublicBuilding,
+            paramHumidity
+          );
           totalScore = E3Core.calTotalIndex(
             info.buildingType,
             status.pm10.score,
@@ -124,7 +135,8 @@ router.post("/", function(req, res, next) {
             status.voc.score,
             status.temperature.score,
             status.humidity.score,
-            status.noise.score
+            status.noise.score /*,
+            status.co.score */
           );
           RecentData.updateRecentData(
             status.pm10,
@@ -135,6 +147,7 @@ router.post("/", function(req, res, next) {
             status.temperature,
             status.humidity,
             status.noise,
+            //status.co2,
             totalScore,
             paramDate,
             paramDeviceSN,
@@ -157,6 +170,7 @@ router.post("/", function(req, res, next) {
             status.temperature,
             status.humidity,
             status.noise,
+            //status.co,
             totalScore,
             paramDate,
             paramDeviceSN,

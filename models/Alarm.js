@@ -149,6 +149,7 @@ var Alarm = {
     temperature,
     humidity,
     noise,
+    //co,
     total,
     date,
     deviceSN,
@@ -202,6 +203,10 @@ var Alarm = {
         data.noiseIndex = noise.index;
         data.noiseAlarm = noise.alarm;
       }
+      // if (co.value) {
+      //   data.coIndex = co.index;
+      //   data.coAlarm = co.alarm;
+      // }
 
       // SQL문을 실행합니다.
       var exec = conn.query(

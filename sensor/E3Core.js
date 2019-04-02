@@ -11,6 +11,7 @@ import {
   HCHO,
   VOC,
   NOISE,
+  CO,
   NEW_KINDERGARTEN,
   KINDERGARTEN,
   NEW_POSTPARTUM,
@@ -59,7 +60,10 @@ var E3Core = {
     } else if (sensorType === NOISE) {
       data = global.sensorTable.noise;
       alarm = global.alarm.noise;
-    } else {
+    } /*else if (sensorType === CO) {
+      data = global.sensorTable.co;
+      alarm = global.alarm.co;
+    } */ else {
       console.log("error sensor type");
     }
 
@@ -108,7 +112,7 @@ var E3Core = {
 
     return result;
   },
-  getTempIndex: function(temp) {
+  getTempIndex: function(isPublicBuilding, temp) {
     var d = new Date();
     var month = d.getMonth() + 1;
     var cMax = 0,
@@ -120,12 +124,21 @@ var E3Core = {
       score: 0,
       value: temp
     };
+    var data = 0,
+      alarm = 0,
+      score = 0;
 
     if (temp == null) return result;
 
-    var data = global.sensorTable.temperature;
-    var alarm = global.alarm.temperature;
-    var score = global.sensorTable.score;
+    if (isPublicBuilding) {
+      data = global.sensorTable.temperaturePublic;
+      alarm = global.alarm.temperaturePublic;
+      score = global.sensorTable.score;
+    } else {
+      data = global.sensorTable.temperature;
+      alarm = global.alarm.temperature;
+      score = global.sensorTable.score;
+    }
 
     if (month > 2 && month < 6) {
       cMin = data[0].min;
@@ -161,7 +174,7 @@ var E3Core = {
 
     return result;
   },
-  getHumidityIndex: function(humidity) {
+  getHumidityIndex: function(isPublicBuilding, humidity) {
     var d = new Date();
     var month = d.getMonth() + 1;
     var cMax = 0,
@@ -173,12 +186,21 @@ var E3Core = {
       score: 0,
       value: humidity
     };
+    var data = 0,
+      alarm = 0,
+      score = 0;
 
     if (humidity == null) return result;
 
-    var data = global.sensorTable.humidity;
-    var alarm = global.alarm.humidity;
-    var score = global.sensorTable.score;
+    if (isPublicBuilding) {
+      data = global.sensorTable.humidityPublic;
+      alarm = global.alarm.humidityPublic;
+      score = global.sensorTable.score;
+    } else {
+      data = global.sensorTable.humidity;
+      alarm = global.alarm.humidity;
+      score = global.sensorTable.score;
+    }
 
     if (month > 2 && month < 6) {
       cMin = data[0].min;
@@ -224,7 +246,8 @@ var E3Core = {
     voc,
     temp,
     humi,
-    noise
+    noise /*,
+    co*/
   ) {
     var d = new Date();
     var month = d.getMonth() + 1;
