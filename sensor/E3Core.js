@@ -257,6 +257,22 @@ var E3Core = {
       score: 0
     };
     console.log("buildingType : " + buildingType);
+    console.log(
+      "pm10 : " +
+        pm10 +
+        " pm25 : " +
+        pm25 +
+        " co2 : " +
+        co2 +
+        " hcho : " +
+        hcho +
+        " voc : " +
+        voc +
+        " temp : " +
+        temp +
+        " humi : " +
+        humi
+    );
     switch (buildingType) {
       case NEW_KINDERGARTEN:
         result.score =
