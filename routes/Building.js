@@ -14,6 +14,10 @@ router.post("/addBuilding", function(req, res, next) {
   var paramAddress = req.body.address || req.query.address || null;
   var paramLatitude = req.body.latitude || req.query.latitude || null;
   var paramLongitude = req.body.longitude || req.query.longitude || null;
+  var paramBuildingType =
+    req.body.buildingType || req.query.buildingType || null;
+  var paramIsPublicBuilding =
+    req.body.isPublicBuilding || req.query.isPublicBuilding || null;
   var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
 
@@ -34,6 +38,10 @@ router.post("/addBuilding", function(req, res, next) {
       "," +
       paramLongitude +
       "," +
+      paramBuildingType +
+      "," +
+      paramIsPublicBuilding +
+      "," +
       paramUserID
   );
 
@@ -42,6 +50,8 @@ router.post("/addBuilding", function(req, res, next) {
     paramAddress,
     paramLatitude,
     paramLongitude,
+    paramBuildingType,
+    paramIsPublicBuilding,
     function(err, addedBuilding) {
       // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
       if (err) {
@@ -155,6 +165,10 @@ router.put("/updateBuilding", function(req, res, next) {
   var paramAddress = req.body.address || req.query.address;
   var paramLatitude = req.body.latitude || req.query.latitude;
   var paramLongitude = req.body.longitude || req.query.longitude;
+  var paramBuildingType =
+    req.body.buildingType || req.query.buildingType || null;
+  var paramIsPublicBuilding =
+    req.body.isPublicBuilding || req.query.isPublicBuilding || null;
   var result = { statusCode: null, message: null, data: null };
 
   console.log(
@@ -167,7 +181,11 @@ router.put("/updateBuilding", function(req, res, next) {
       "," +
       paramLatitude +
       "," +
-      paramLongitude
+      paramLongitude +
+      "," +
+      paramBuildingType +
+      "," +
+      paramIsPublicBuilding
   );
 
   Building.updateBuilding(
@@ -176,6 +194,8 @@ router.put("/updateBuilding", function(req, res, next) {
     paramAddress,
     paramLatitude,
     paramLongitude,
+    paramBuildingType,
+    paramIsPublicBuilding,
     function(err, success) {
       if (err) {
         console.error("빌딩 정보 수정 중 오류 발생 :" + err.stack);

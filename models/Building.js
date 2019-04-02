@@ -74,7 +74,15 @@ var Building = {
       });
     });
   },
-  addBuilding: function(name, address, latitude, longitude, callback) {
+  addBuilding: function(
+    name,
+    address,
+    latitude,
+    longitude,
+    buildingType,
+    isPublicBuilding,
+    callback
+  ) {
     console.log("addBuilding 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -93,7 +101,9 @@ var Building = {
         name: name,
         address: address,
         latitude: latitude,
-        longitude: longitude
+        longitude: longitude,
+        buildingType: buildingType,
+        isPublicBuilding: isPublicBuilding
       };
 
       // SQL문을 실행합니다.
@@ -116,7 +126,16 @@ var Building = {
       });
     });
   },
-  updateBuilding: function(id, name, address, latitude, longitude, callback) {
+  updateBuilding: function(
+    id,
+    name,
+    address,
+    latitude,
+    longitude,
+    buildingType,
+    isPublicBuilding,
+    callback
+  ) {
     console.log("updateBuilding 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -131,11 +150,19 @@ var Building = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var data = [name, address, latitude, longitude, id];
+      var data = [
+        name,
+        address,
+        latitude,
+        longitude,
+        buildingType,
+        isPublicBuilding,
+        id
+      ];
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Building set name=?, address=?, latitude=?, longitude=? where id=?",
+        "update Building set name=?, address=?, latitude=?, longitude=?, buildingType=?, isPublicBuilding=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
