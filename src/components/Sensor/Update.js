@@ -19,7 +19,17 @@ const sensorTypes = [
   { sensorType: "voc", engName: "VOC", korName: "휘발성유기화합물" },
   { sensorType: "noise", engName: "Noise", korName: "소음" },
   { sensorType: "temperature", engName: "Temperature", korName: "온도" },
-  { sensorType: "humidity", engName: "Humidity", korName: "습도" }
+  {
+    sensorType: "temperaturePublic",
+    engName: "Temperature",
+    korName: "공공기관 온도"
+  },
+  { sensorType: "humidity", engName: "Humidity", korName: "습도" },
+  {
+    sensorType: "humidityPublic",
+    engName: "Humidity",
+    korName: "공공기관 습도"
+  }
 ];
 
 class Update extends Component {
@@ -187,18 +197,11 @@ class Update extends Component {
                                 e.target.select();
                               }}
                               onBlur={e => {
-                                console.log(
-                                  "onBlur .... ",
-                                  sensor.sensorType,
-                                  index + 1,
-                                  "min",
-                                  e.target.value
-                                );
                                 if (
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].min
                                 ) {
-                                  console.log("data 변경 ++++++");
+                                  // console.log("data 변경 ++++++");
                                   this.props.sensorMinUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
@@ -210,10 +213,13 @@ class Update extends Component {
                                         _sensor.sensorType !== sensor.sensorType
                                       )
                                         return _sensor;
-                                      return {
-                                        ..._sensor,
-                                        alarm: e.target.value
+                                      let data = {
+                                        ..._sensor
                                       };
+                                      data.grade[index + 1].min = Number(
+                                        e.target.value
+                                      );
+                                      return data;
                                     }
                                   );
                                   this.setState({ sensors: newSensors });
@@ -240,19 +246,11 @@ class Update extends Component {
                                 e.target.select();
                               }}
                               onBlur={e => {
-                                console.log(
-                                  "onBlur .... ",
-                                  sensor.sensorType,
-                                  index + 1,
-                                  "max",
-                                  e.target.value
-                                );
-
                                 if (
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].max
                                 ) {
-                                  console.log("data 변경 ++++++");
+                                  // console.log("data 변경 ++++++");
                                   this.props.sensorMaxUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
@@ -264,10 +262,13 @@ class Update extends Component {
                                         _sensor.sensorType !== sensor.sensorType
                                       )
                                         return _sensor;
-                                      return {
-                                        ..._sensor,
-                                        max: e.target.value
+                                      let data = {
+                                        ..._sensor
                                       };
+                                      data.grade[index + 1].max = Number(
+                                        e.target.value
+                                      );
+                                      return data;
                                     }
                                   );
                                   this.setState({ sensors: newSensors });
@@ -286,6 +287,7 @@ class Update extends Component {
                         </React.Fragment>
                       ))}
                       <td style={{ padding: "4px", verticalAlign: "middle" }}>
+                        {/* a{sensor.alarm} */}
                         <input
                           className="form-control"
                           type="text"
@@ -375,6 +377,7 @@ class Update extends Component {
                           <td
                             style={{ padding: "4px", verticalAlign: "middle" }}
                           >
+                            {/* b{sensor.grade["" + (index + 1)].min} */}
                             <input
                               className="form-control"
                               defaultValue={sensor.grade["" + (index + 1)].min}
@@ -383,36 +386,34 @@ class Update extends Component {
                                 e.target.select();
                               }}
                               onBlur={e => {
-                                console.log(
-                                  "onBlur .... ",
-                                  sensor.sensorType,
-                                  index + 1,
-                                  "min",
-                                  e.target.value
-                                );
                                 if (
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].min
                                 ) {
-                                  console.log("data 변경 ++++++");
+                                  // console.log("data 변경 ++++++");
                                   this.props.sensorMinUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
                                     min: e.target.value
                                   });
-                                  const newSensors = this.state.sensors.map(
+                                  const newSensors = this.state.sensors_temp_humi.map(
                                     _sensor => {
                                       if (
                                         _sensor.sensorType !== sensor.sensorType
                                       )
                                         return _sensor;
-                                      return {
-                                        ..._sensor,
-                                        min: e.target.value
+                                      let data = {
+                                        ..._sensor
                                       };
+                                      data.grade[index + 1].min = Number(
+                                        e.target.value
+                                      );
+                                      return data;
                                     }
                                   );
-                                  this.setState({ sensors: newSensors });
+                                  this.setState({
+                                    sensors_temp_humi: newSensors
+                                  });
                                 } else {
                                   console.log("변경 없음.");
                                 }
@@ -454,19 +455,24 @@ class Update extends Component {
                                     grade: index + 1,
                                     max: e.target.value
                                   });
-                                  const newSensors = this.state.sensors.map(
+                                  const newSensors = this.state.sensors_temp_humi.map(
                                     _sensor => {
                                       if (
                                         _sensor.sensorType !== sensor.sensorType
                                       )
                                         return _sensor;
-                                      return {
-                                        ..._sensor,
-                                        max: e.target.value
+                                      let data = {
+                                        ..._sensor
                                       };
+                                      data.grade[index + 1].max = Number(
+                                        e.target.value
+                                      );
+                                      return data;
                                     }
                                   );
-                                  this.setState({ sensors: newSensors });
+                                  this.setState({
+                                    sensors_temp_humi: newSensors
+                                  });
                                 } else {
                                   console.log("변경 없음.");
                                 }
@@ -495,7 +501,7 @@ class Update extends Component {
                                 sensorType: sensor.sensorType,
                                 alarmValue: e.target.value
                               });
-                              const newSensors = this.state.sensors.map(
+                              const newSensors = this.state.sensors_temp_humi.map(
                                 _sensor => {
                                   if (_sensor.sensorType !== sensor.sensorType)
                                     return _sensor;
@@ -505,7 +511,15 @@ class Update extends Component {
                                   };
                                 }
                               );
-                              this.setState({ sensors: newSensors });
+                              this.setState(
+                                { sensors_temp_humi: newSensors },
+                                () => {
+                                  console.log(
+                                    "zzz",
+                                    this.state.sensors_temp_humi
+                                  );
+                                }
+                              );
                             }
                           }}
                           style={{
