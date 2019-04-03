@@ -36,7 +36,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         loader: false,
-        listByBuildingId: action.payload
+        positionListByBuildingId: action.payload
       };
     }
     case POSITION_LIST_FAIL: {

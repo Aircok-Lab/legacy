@@ -14,6 +14,7 @@ class Add extends Component {
       pm25: "1",
       pm10: "1",
       co2: "1",
+      co: "1",
       hcho: "1",
       voc: "1",
       temperature: "1",
@@ -149,6 +150,25 @@ class Add extends Component {
                       </div>
                     </td>
                     <td>CO2</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="co"
+                            checked={
+                              this.state.postData.co === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>CO</td>
                   </tr>
                   <tr>
                     <td>

@@ -1,19 +1,10 @@
 import React, { cloneElement, Component } from "react";
 import { connect } from "react-redux";
-import {
-  deviceListByBuildingIdRequest,
-  deviceListByPositionIdRequest,
-  deviceDeleteRequest,
-  deviceSetItem,
-  deviceGetAllByPositionIdRequest
-} from "actions/Device";
+import { deviceGetAllByPositionIdRequest } from "actions/Device";
 import { userUpdateRequest } from "actions/User";
-import { setViewMode } from "actions/Setting";
 
 class List extends React.Component {
   state = {
-    // showModal: false,
-    // selectedNode: {},
     deviceList: []
   };
 
@@ -71,7 +62,6 @@ class List extends React.Component {
               </button>
             </div>
           </div>
-
           <table className="w3-table-all w3-centered">
             <thead>
               <tr>
@@ -107,7 +97,6 @@ class List extends React.Component {
                         checked={row.isChecked}
                         value={row.serialNumber}
                         onChange={event => {
-                          console.log("onChange checkbox....");
                           let deviceList = this.state.deviceList;
                           deviceList.forEach(device => {
                             if (device.serialNumber === event.target.value) {
@@ -143,11 +132,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  deviceListByBuildingIdRequest,
-  deviceListByPositionIdRequest,
-  deviceDeleteRequest,
-  setViewMode,
-  deviceSetItem,
   userUpdateRequest,
   deviceGetAllByPositionIdRequest
 };

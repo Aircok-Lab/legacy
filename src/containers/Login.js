@@ -20,7 +20,7 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: "linkit",
+      loginId: "linkit",
       password: "123456"
     };
   }
@@ -45,7 +45,7 @@ class Login extends React.Component {
   };
 
   render() {
-    const { email, password } = this.state;
+    const { loginId, password } = this.state;
     const { showMessage, loader, alertMessage, pkey } = this.props;
     return (
       <div className="app-login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
@@ -64,9 +64,9 @@ class Login extends React.Component {
                     label="아이디"
                     fullWidth
                     onChange={event =>
-                      this.setState({ email: event.target.value })
+                      this.setState({ loginId: event.target.value })
                     }
-                    defaultValue={email}
+                    defaultValue={loginId}
                     margin="normal"
                     className="mt-1 my-sm-3"
                   />
@@ -103,7 +103,8 @@ class Login extends React.Component {
                       className="text-center btn-block"
                       onClick={() => {
                         this.props.showAuthLoader();
-                        this.props.userSignIn({ email, password, pkey });
+                        // console.log(loginId, password, pkey);
+                        this.props.userSignIn({ loginId, password, pkey });
                       }}
                       variant="contained"
                       color="primary"

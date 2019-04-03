@@ -10,9 +10,25 @@ class AddPosition extends Component {
     // buildingID: this.props.selectedNode.id,
     userID: this.props.authUser.id
   };
+
+  static getDerivedStateFromProps(props, state) {
+    console.log(
+      "addPosition.js.... props.selectedNode.id : ",
+      props.selectedNode.id
+    );
+    if (state.buildingID !== String(props.selectedNode.id)) {
+      return {
+        buildingID: String(props.selectedNode.id)
+      };
+    }
+    return null;
+  }
   addPosition = () => {
-    console.log("zzzzz .... ", this.state);
-    if (!this.props.selectedNode.id) {
+    console.log("this.props.selectedNode .... ", this.props.selectedNode);
+    if (
+      !this.props.selectedNode.id ||
+      (this.props.selectedNode.id && this.props.selectedNode.buildingID)
+    ) {
       alert("건물을 선택하세요");
     } else if (!this.state.name) {
       alert("위치명을 입력하세요");

@@ -49,8 +49,7 @@ class BuildingPositionTree extends Component {
       id: "" + this.props.authUser.positionList
     });
     const selectedNode = JSON.parse(localStorage.getItem("selectedNode"));
-    const found = true;
-    if (selectedNode && found) {
+    if (selectedNode) {
       this.nodeClick(selectedNode);
     }
   }
@@ -147,9 +146,21 @@ class BuildingPositionTree extends Component {
   render() {
     // 중요 : Spread Operator는 Sharrow Copy만 하므로 JSON.stringify로 Deep Clone 해야 합니다.
     // let buildingPositionList = [...this.props.buildingList];
-    let buildingPositionList = JSON.parse(
-      JSON.stringify(this.props.buildingList)
-    );
+
+    const steps = JSON.parse(localStorage.getItem("steps"));
+
+    let buildingPositionList = null;
+    if (steps) {
+      buildingPositionList = this.props.buildingList.filter(building => {
+        return steps.prevBuildingList.indexOf("" + building.id) === -1;
+      });
+    } else {
+      // filterOutList = this.props.buildingList;
+      buildingPositionList = JSON.parse(
+        JSON.stringify(this.props.buildingList)
+      );
+    }
+
     buildingPositionList.map(building => {
       let positions = this.props.positionList.filter(
         position => position.buildingID == building.id

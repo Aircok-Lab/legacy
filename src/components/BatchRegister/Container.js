@@ -36,8 +36,8 @@ class Container extends React.Component {
   }
 
   componentWillUnmount() {
-    console.info("TODO: Restore after debug... ");
-    // localStorage.removeItem("steps");
+    // console.info("TODO: Restore after debug... ");
+    localStorage.removeItem("steps");
   }
 
   // Proceed to next step
@@ -94,14 +94,39 @@ class Container extends React.Component {
   // };
 
   isNextDisabled = () => {
-    console.log("this.state", this.step);
+    // console.log("this.props", this.props);
     const steps = JSON.parse(localStorage.getItem("steps"));
+    // if (
+    //   this.state.step === 1 &&
+    //   steps.prevBuildingList === this.props.authUser.buildingList
+    // ) {
+    //   return true;
+    // } else if (
+    //   this.state.step === 2 &&
+    //   this.props.positionListByBuildingId.length === 0
+    // ) {
+    //   return true;
+    // } else if (this.state.step === 5) {
+    //   return true;
+    // }
+
     if (
       this.state.step === 1 &&
       steps.prevBuildingList === this.props.authUser.buildingList
     ) {
       return true;
     }
+
+    if (
+      this.state.step === 2 &&
+      this.props.positionListByBuildingId &&
+      this.props.positionListByBuildingId.length === 0
+    ) {
+      return true;
+    }
+
+    if (steps.step == 5) return true;
+
     return false;
   };
 
@@ -171,6 +196,10 @@ class Container extends React.Component {
           </div>
           <div className="col-2 text-right"> </div>
         </div>
+        {/* <div>
+          this.props.positionListByBuildingId :{" "}
+          {this.props.positionListByBuildingId}
+        </div> */}
         <div className="w3-row w3-margin">
           <div className="w3-col-12">
             <Steps size="small" current={this.state.step - 1}>
@@ -188,7 +217,8 @@ class Container extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  authUser: state.auth.authUser
+  authUser: state.auth.authUser,
+  positionListByBuildingId: state.position.positionListByBuildingId
 });
 
 const mapDispatchToProps = {};

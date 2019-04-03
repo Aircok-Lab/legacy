@@ -7,6 +7,7 @@ import { setViewMode } from "actions/Setting";
 
 class Container extends React.Component {
   componentDidMount() {
+    localStorage.removeItem("steps");
     this.props.setViewMode("list");
   }
 

@@ -11,6 +11,7 @@ class Add extends Component {
       serialNumber: "" + new Date().getTime(),
       positionID: this.props.selectedNode.id,
       productID: 1,
+      reportType: 1,
       imei: "" + new Date().getTime(),
       networkType: "cellular", // cellular | ethernet
       phone: "" + new Date().getTime(),
@@ -148,6 +149,23 @@ class Add extends Component {
                   {product.name}
                 </option>
               ))}
+            </select>
+          </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            보고서
+          </div>
+          <div className="w3-rest">
+            <select
+              className="form-control"
+              name="reportType"
+              value={this.state.postData.reportType}
+              onChange={this.handleChange}
+            >
+              <option value="1">1주</option>
+              <option value="2">1달</option>
+              <option value="3">프리미엄</option>
             </select>
           </div>
         </div>

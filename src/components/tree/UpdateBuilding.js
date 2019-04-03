@@ -11,12 +11,21 @@ class UpdateBuilding extends Component {
   state = {
     id: this.props.selectedNode.id,
     name: this.props.selectedNode.name,
+    buildingType: this.props.selectedNode.buildingType,
+    isPublicBuilding: "" + this.props.selectedNode.isPublicBuilding,
     address: this.props.selectedNode.address,
     latitude: this.props.selectedNode.latitude,
     longitude: this.props.selectedNode.longitude,
     userID: this.props.authUser.id,
     buildingList: this.props.authUser.buildingList
   };
+
+  componentDidMount() {
+    const node = this.props.buildingList.filter(
+      building => building.id == this.props.selectedNode.id
+    );
+    this.setState(node[0]);
+  }
 
   updateBuilding = () => {
     if (!this.state.name) {
@@ -81,6 +90,11 @@ class UpdateBuilding extends Component {
     return (
       <form className="w3-text-blue w3-margin">
         <h2 className="w3-center">건물수정</h2>
+        {/* <div>
+          this.props.selectedNode.isPublicBuilding:{" "}
+          {this.props.selectedNode && this.props.selectedNode.isPublicBuilding}
+        </div> */}
+        {/* <div>this.state: {JSON.stringify(this.state)}</div> */}
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
             건물명
@@ -94,6 +108,61 @@ class UpdateBuilding extends Component {
               placeholder=""
               onChange={this.handleChange}
             />
+          </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            건물타입
+          </div>
+          <div className="w3-rest">
+            <select
+              className="form-control"
+              name="buildingType"
+              value={this.state.buildingType}
+              onChange={this.handleChange}
+            >
+              <option value="NewKindergarten">신축 어린이집</option>
+              <option value="Kindergarten">기축 어린이집</option>
+              <option value="NewPostpartum">신축 산후조리원</option>
+              <option value="Postpartum">기축 산후조리원</option>
+              <option value="NewOffice">신축 사무실</option>
+              <option value="Office">기축 사무실</option>
+              <option value="NewHouse">신축 하우스</option>
+              <option value="House">기축 하우스</option>
+            </select>
+          </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            공공기관
+          </div>
+          <div className="w3-rest pl-1">
+            <div className="form-check form-check-inline">
+              <label className="form-check-label">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="isPublicBuilding"
+                  value="0"
+                  checked={"" + this.state.isPublicBuilding === "0"}
+                  onChange={this.handleChange}
+                />
+                민간기관
+              </label>
+            </div>
+            <div className="form-check form-check-inline">
+              <label className="form-check-label">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="isPublicBuilding"
+                  value="1"
+                  checked={"" + this.state.isPublicBuilding === "1"}
+                  onChange={this.handleChange}
+                />
+                공공기관
+              </label>
+            </div>
           </div>
         </div>
         <div className="w3-row w3-section">
@@ -217,6 +286,7 @@ class UpdateBuilding extends Component {
 
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
+  buildingList: state.building.list,
   selectedNode: state.tree.selectedNode,
   address: state.building.address,
   location: state.building.location
