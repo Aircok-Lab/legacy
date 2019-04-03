@@ -14,10 +14,9 @@ router.post("/addBuilding", function(req, res, next) {
   var paramAddress = req.body.address || req.query.address || null;
   var paramLatitude = req.body.latitude || req.query.latitude || null;
   var paramLongitude = req.body.longitude || req.query.longitude || null;
-  var paramBuildingType =
-    req.body.buildingType || req.query.buildingType || null;
+  var paramBuildingType = req.body.buildingType || req.query.buildingType;
   var paramIsPublicBuilding =
-    req.body.isPublicBuilding || req.query.isPublicBuilding || null;
+    req.body.isPublicBuilding || req.query.isPublicBuilding;
   var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
 
@@ -165,10 +164,9 @@ router.put("/updateBuilding", function(req, res, next) {
   var paramAddress = req.body.address || req.query.address;
   var paramLatitude = req.body.latitude || req.query.latitude;
   var paramLongitude = req.body.longitude || req.query.longitude;
-  var paramBuildingType =
-    req.body.buildingType || req.query.buildingType || null;
+  var paramBuildingType = req.body.buildingType || req.query.buildingType;
   var paramIsPublicBuilding =
-    req.body.isPublicBuilding || req.query.isPublicBuilding || null;
+    req.body.isPublicBuilding || req.query.isPublicBuilding;
   var result = { statusCode: null, message: null, data: null };
 
   console.log(
