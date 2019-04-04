@@ -20,7 +20,7 @@ import MainApp from "app/index";
 import Login from "./Login";
 import Join from "./Join";
 import Forgot from "./Forgot";
-import { setInitUrl, setInitUser } from "../actions/Auth";
+import { setInitUrl, setInitUser, userSignOut } from "actions/Auth";
 import RTL from "util/RTL";
 import asyncComponent from "util/asyncComponent";
 
@@ -72,12 +72,19 @@ class App extends Component {
       isDirectionRTL
     } = this.props;
     if (location.pathname === "/") {
-      if (authUser === null) {
-        return <Redirect to={"/login"} />;
-      } else if (initURL === "" || initURL === "/" || initURL === "/login") {
-        return <Redirect to={"/login"} />;
+      const stayLogin = JSON.parse(localStorage.getItem("stayLogin"));
+      if (stayLogin) {
+        if (authUser === null) {
+          return <Redirect to={"/login"} />;
+        } else if (initURL === "" || initURL === "/" || initURL === "/login") {
+          return <Redirect to={"/login"} />;
+        } else {
+          return <Redirect to={initURL} />;
+        }
       } else {
-        return <Redirect to={initURL} />;
+        // localStorage.removeItem("user_id");
+
+        return <Redirect to={"/login"} />;
       }
     }
     let applyTheme = createMuiTheme(defaultTheme);
@@ -132,5 +139,5 @@ const mapStateToProps = ({ settings, auth }) => {
 
 export default connect(
   mapStateToProps,
-  { setInitUrl, setInitUser }
+  { setInitUrl, setInitUser, userSignOut }
 )(App);
