@@ -22,6 +22,7 @@ router.post("/addDevice", function(req, res, next) {
   var paramGateway = req.body.gateway || req.query.gateway || null;
   var paramSubnet = req.body.subnet || req.query.subnet || null;
   var paramNetworkType = req.body.networkType || req.query.networkType || 'cellular';
+  var paramReportType = req.body.reportType || req.query.reportType;
   var result = { statusCode: null, message: null, data: null };
 
   if (
@@ -57,7 +58,9 @@ router.post("/addDevice", function(req, res, next) {
       "," +
       paramSubnet +
       "," +
-      paramNetworkType
+      paramNetworkType + 
+      "," +
+      paramReportType
   );
 
   Device.addDevice(
@@ -71,6 +74,7 @@ router.post("/addDevice", function(req, res, next) {
     paramGateway,
     paramSubnet,
     paramNetworkType,
+    paramReportType,
     function(err, addedDevice) {
       // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
       if (err) {
@@ -278,6 +282,7 @@ router.put("/updateDevice", function(req, res, next) {
   var paramGateway = req.body.gateway || req.query.gateway;
   var paramSubnet = req.body.subnet || req.query.subnet;
   var paramNetworkType = req.body.networkType || req.query.networkType;
+  var paramReportType = req.body.reportType || req.query.reportType;
   var result = { statusCode: null, message: null, data: null };
 
   console.log(
@@ -301,7 +306,9 @@ router.put("/updateDevice", function(req, res, next) {
       "," +
       paramSubnet +
       "," +
-      paramNetworkType
+      paramNetworkType +
+      "," +
+      paramReportType
   );
 
   Device.updateDevice(
@@ -315,6 +322,7 @@ router.put("/updateDevice", function(req, res, next) {
     paramGateway,
     paramSubnet,
     paramNetworkType,
+    paramReportType,
     function(err, success) {
       if (err) {
         console.error("디바이스 정보 수정 중 오류 발생 :" + err.stack);
