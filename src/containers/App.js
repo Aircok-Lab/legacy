@@ -83,7 +83,7 @@ class App extends Component {
         }
       } else {
         // localStorage.removeItem("user_id");
-
+        this.props.userSignOut();
         return <Redirect to={"/login"} />;
       }
     }
