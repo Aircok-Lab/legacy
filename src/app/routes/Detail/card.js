@@ -32,14 +32,12 @@ const getClassText = grade => {
   else if (grade == 5) classText = " card-body text-white text-center bg-bad";
   else if (grade == 6)
     classText = " card-body text-white text-center bg-very-bad";
-  // console.log(classText);
   return classText;
 };
 
 class SensorCard extends React.Component {
   render() {
     const { title, sensorData, sensorIndex, sensorType } = this.props;
-    console.log("sensorIndex : " + sensorIndex);
     let icon = "assets/icons/" + sensorType + ".png";
 
     return (

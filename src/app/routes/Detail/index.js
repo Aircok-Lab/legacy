@@ -1,7 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { monitoringRecentDataRequest } from "actions/RecentData";
+import {
+  monitoringRecentDataRequest,
+  outdoorDataRequest
+} from "actions/RecentData";
 import { showAuthLoader } from "actions/Auth";
+import { systemListRequest } from "actions/System";
 import SensorCard from "./card.js";
 import DeviceInfo from "./deviceInfo.js";
 import AdviceInfo from "./adviceInfo.js";
@@ -9,36 +13,56 @@ import AdviceInfo from "./adviceInfo.js";
 class DetailPage extends React.Component {
   constructor(props) {
     super(props);
+    var latitude = this.props.allRecentData[0].latitude;
+    var longitude = this.props.allRecentData[0].longitude;
     this.props.showAuthLoader();
     this.props.monitoringRecentDataRequest(this.props.match.params.deviceList);
+    this.props.systemListRequest({ id: "1" });
+    this.props.outdoorDataRequest({ latitude, longitude });
     let device = this.props.match.params.deviceList.split(",");
     this.state = {
       index: 0,
       deviceCnt: device.length,
       deviceData: this.props.allRecentData[0]
     };
-    console.log(device.length);
     this.loadData = this.loadData.bind(this);
+    this.scrollDevice = this.scrollDevice.bind(this);
   }
 
   componentDidMount() {
-    this.intervalLoadDataHandle = setInterval(this.loadData, 10000);
+    this.intervalLoadDataHandle = setInterval(this.loadData, 60000);
+    this.intervalScrollHandle = setInterval(
+      this.scrollDevice,
+      this.props.data.monitoringTime * 1000
+    );
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalLoadDataHandle);
+    clearInterval(this.intervalScrollHandle);
   }
 
-  loadData() {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.data.monitoringTime !== nextProps.data.monitoringTime) {
+      if (this.intervalScrollHandle) clearInterval(this.intervalScrollHandle);
+      this.intervalScrollHandle = setInterval(
+        this.scrollDevice,
+        nextProps.data.monitoringTime * 1000
+      );
+    }
+  }
+
+  scrollDevice() {
     let i = this.state.index;
-    console.log(this.state.deviceCnt);
-    console.log(this.state.index);
     if (this.state.deviceCnt - 1 !== this.state.index) i++;
     else i = 0;
     this.setState({
       index: i,
       deviceData: this.props.allRecentData[i]
     });
+  }
+
+  loadData() {
     this.props.monitoringRecentDataRequest(this.props.match.params.deviceList);
   }
 
@@ -123,12 +147,18 @@ class DetailPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ auth, recentData }) => {
+const mapStateToProps = ({ auth, recentData, system }) => {
   const { authUser } = auth;
   const { allRecentData } = recentData;
-  return { authUser, allRecentData };
+  const { data } = system;
+  return { authUser, allRecentData, data };
 };
 export default connect(
   mapStateToProps,
-  { monitoringRecentDataRequest, showAuthLoader }
+  {
+    monitoringRecentDataRequest,
+    outdoorDataRequest,
+    showAuthLoader,
+    systemListRequest
+  }
 )(DetailPage);
