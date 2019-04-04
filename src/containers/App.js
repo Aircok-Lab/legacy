@@ -46,23 +46,16 @@ const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
 
 class App extends Component {
   componentWillMount() {
-    // console.log("componentDidMount");
     if (this.props.initURL === "") {
       this.props.setInitUrl(this.props.history.location.pathname);
     }
 
-    var retrievedObject = localStorage.getItem("user_id");
-
-    console.log("retrievedObject: ", JSON.parse(retrievedObject));
-    if (localStorage.getItem("user_id") !== null) {
-      this.props.setInitUser(JSON.parse(retrievedObject));
-    }
+    // var retrievedObject = JSON.parse(localStorage.getItem("user_id"));
+    // if (retrievedObject) {
+    //   this.props.setInitUser(retrievedObject);
+    // }
     this.props.alarmReferenceValueRequest();
     this.props.systemListRequest({ id: "1" });
-  }
-
-  componentDidMount() {
-    // console.log("componentDidMount");
   }
 
   render() {
@@ -74,20 +67,14 @@ class App extends Component {
       initURL,
       isDirectionRTL
     } = this.props;
+    console.log("authUser", authUser);
     if (location.pathname === "/") {
-      const stayLogin = JSON.parse(localStorage.getItem("stayLogin"));
-      if (stayLogin) {
-        if (authUser === null) {
-          return <Redirect to={"/login"} />;
-        } else if (initURL === "" || initURL === "/" || initURL === "/login") {
-          return <Redirect to={"/login"} />;
-        } else {
-          return <Redirect to={initURL} />;
-        }
-      } else {
-        // localStorage.removeItem("user_id");
-        this.props.userSignOut();
+      if (authUser === null) {
         return <Redirect to={"/login"} />;
+      } else if (initURL === "" || initURL === "/" || initURL === "/login") {
+        return <Redirect to={"/login"} />;
+      } else {
+        return <Redirect to={initURL} />;
       }
     }
     let applyTheme = createMuiTheme(defaultTheme);

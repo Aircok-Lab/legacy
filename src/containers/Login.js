@@ -28,6 +28,8 @@ class Login extends React.Component {
 
   componentDidMount() {
     this.props.publicKeyRequest();
+    // localStorage.removeItem("user_id");
+    console.log("this.props.initURL", this.props.initURL);
   }
 
   componentDidUpdate() {
@@ -36,13 +38,26 @@ class Login extends React.Component {
         this.props.hideMessage();
       }, 100);
     }
+
+    // const stayLogin = JSON.parse(localStorage.getItem("stayLogin"));
+    // console.log("app.js stayLogin : ", stayLogin);
+    // console.log(
+    //   "app.js this.props.location.pathname : ",
+    //   this.props.location.pathname
+    // );
+
     if (this.props.authUser !== null) {
       this.props.history.push("/");
     }
+    // const user_id = JSON.parse(localStorage.getItem("user_id"));
+    // console.log("login.js ... : ", user_id, this.props.authUser);
+    // if (user_id) {
+    //   this.props.history.push("/");
+    // }
   }
 
   handleChange = name => event => {
-    console.log(name, event.target.checked);
+    // console.log(name, event.target.checked);
     this.setState({ [name]: event.target.checked });
     localStorage.setItem("stayLogin", JSON.stringify(event.target.checked));
   };
@@ -105,8 +120,8 @@ class Login extends React.Component {
                     <Button
                       className="text-center btn-block"
                       onClick={() => {
+                        console.log("login 0000");
                         this.props.showAuthLoader();
-                        // console.log(loginId, password, pkey);
                         this.props.userSignIn({ loginId, password, pkey });
                       }}
                       variant="contained"
@@ -142,8 +157,8 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = ({ auth }) => {
-  const { loader, alertMessage, showMessage, authUser, pkey } = auth;
-  return { loader, alertMessage, showMessage, authUser, pkey };
+  const { loader, alertMessage, showMessage, authUser, pkey, initURL } = auth;
+  return { loader, alertMessage, showMessage, authUser, pkey, initURL };
 };
 
 export default connect(

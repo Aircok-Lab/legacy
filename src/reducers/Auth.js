@@ -16,9 +16,13 @@ const INIT_STATE = {
   alertMessage: "",
   showMessage: false,
   initURL: "/app/monitoring",
-  authUser: "", //localStorage.getItem("user_id"),
+  // authUser: null,
+  authUser: JSON.parse(localStorage.getItem("stayLogin"))
+    ? JSON.parse(localStorage.getItem("user_id"))
+    : null,
   pkey: ""
 };
+console.log("INIT_STATE", INIT_STATE);
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
@@ -43,6 +47,7 @@ export default (state = INIT_STATE, action) => {
       };
     }
     case INIT_USER: {
+      console.log("REDUCER INIT_USER", action.payload);
       return {
         ...state,
         authUser: action.payload
