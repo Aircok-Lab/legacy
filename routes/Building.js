@@ -16,7 +16,7 @@ router.post("/addBuilding", function(req, res, next) {
   var paramLongitude = req.body.longitude || req.query.longitude || null;
   var paramBuildingType = req.body.buildingType || req.query.buildingType;
   var paramIsPublicBuilding =
-    req.body.isPublicBuilding || req.query.isPublicBuilding;
+    req.body.isPublicBuilding || req.query.isPublicBuilding || 0;
   var paramUserID = req.body.userID || req.query.userID;
   var result = { statusCode: null, message: null, data: null };
 
