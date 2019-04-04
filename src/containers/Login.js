@@ -17,15 +17,18 @@ import {
 } from "actions/Auth";
 
 class Login extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      loginId: "linkit",
-      password: "123456"
-    };
-  }
+  // constructor() {
+  //   super();
+  // }
+  state = {
+    loginId: "linkit",
+    password: "123456",
+    stayLogin: false
+  };
 
   componentDidMount() {
+    const stayLogin = JSON.stringify(localStorage.getItem("stayLogin"));
+    this.setState({ stayLogin });
     this.props.publicKeyRequest();
   }
 
@@ -40,8 +43,10 @@ class Login extends React.Component {
     }
   }
 
-  handleChange = name => (event, checked) => {
-    //this.setState({[name]: checked});
+  handleChange = name => event => {
+    console.log(name, event.target.checked);
+    this.setState({ [name]: event.target.checked });
+    localStorage.setItem("stayLogin", JSON.stringify(event.target.checked));
   };
 
   render() {
@@ -88,9 +93,9 @@ class Login extends React.Component {
                         control={
                           <Checkbox
                             color="primary"
-                            checked={this.state.checkedB}
-                            onChange={this.handleChange("checkedB")}
-                            value="checkedB"
+                            checked={this.state.stayLogin}
+                            onChange={this.handleChange("stayLogin")}
+                            value="stayLogin"
                           />
                         }
                         label="로그인 상태 유지"
