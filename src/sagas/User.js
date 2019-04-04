@@ -10,10 +10,16 @@ import {
   USER_ADD_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_DELETE_REQUEST,
-  SET_VIEW_MODE
+  SET_VIEW_MODE,
+  USER_CHANGE_PASSWORD_REQUEST,
+  USER_CHANGE_PASSWORD_SUCCESS,
+  USER_FIND_USER_REQUEST,
+  USER_FIND_PASSWORD_REQUEST
 } from "constants/ActionTypes";
+import forge from "node-forge";
 import api from "api";
 import { userSignInSuccess } from "actions/Auth";
+import { setShowModal } from "actions/Setting";
 import responseDataProcess from "util/responseDataProcess";
 import toaster from "util/toaster";
 
@@ -75,6 +81,18 @@ export function* userAddWatcher() {
 
 function* userUpdateWorker(action) {
   try {
+    let publicKey = forge.pki.publicKeyFromPem(
+      forge.util.encodeUtf8(action.pkey)
+    );
+    let newpw = forge.util.encode64(
+      publicKey.encrypt(
+        forge.util.encodeUtf8(action.payload.password),
+        "RSA-OAEP"
+      )
+    );
+
+    action.payload.password = newpw;
+
     const res = yield api.put(`user/updateUser`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
@@ -86,10 +104,6 @@ function* userUpdateWorker(action) {
         type: SET_VIEW_MODE,
         payload: "list"
       });
-      // yield put({
-      //   type: USER_LIST_BY_POSITION_ID_REQUEST,
-      //   payload: { positionID: action.payload.positionList }
-      // });
     }
   } catch (error) {
     console.log("[ERROR#####]", error);
@@ -128,10 +142,86 @@ export function* userDeleteWatcher() {
   yield takeEvery(USER_DELETE_REQUEST, userDeleteWorker);
 }
 
+function* userChangePasswordWorker(action) {
+  try {
+    let oldPublicKey = forge.pki.publicKeyFromPem(
+      forge.util.encodeUtf8(action.payload.pkey)
+    );
+    let oldPassword = forge.util.encode64(
+      oldPublicKey.encrypt(
+        forge.util.encodeUtf8(action.payload.oldPassword),
+        "RSA-OAEP"
+      )
+    );
+    action.payload.oldPassword = oldPassword;
+
+    const newPasswordInput = action.payload.newPassword;
+
+    let newPublicKey = forge.pki.publicKeyFromPem(
+      forge.util.encodeUtf8(action.payload.pkey)
+    );
+    let newPassword = forge.util.encode64(
+      newPublicKey.encrypt(
+        forge.util.encodeUtf8(action.payload.newPassword),
+        "RSA-OAEP"
+      )
+    );
+    action.payload.newPassword = newPassword;
+
+    const res = yield api.put(`user/changePassword`, action.payload);
+    if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
+      yield put(setShowModal(false));
+      yield put({
+        type: USER_CHANGE_PASSWORD_SUCCESS,
+        payload: newPasswordInput
+      });
+    }
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* userChangePasswordWatcher() {
+  yield takeEvery(USER_CHANGE_PASSWORD_REQUEST, userChangePasswordWorker);
+}
+
+function* userFindUserWorker(action) {
+  try {
+    const res = yield api.post(`user/findUser`, action.payload);
+    if (responseDataProcess(res.data)) {
+      alert("로그인아이디 : " + res.data.data[0].loginID);
+    }
+    yield put(push("/login"));
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* userFindUserWatcher() {
+  yield takeEvery(USER_FIND_USER_REQUEST, userFindUserWorker);
+}
+
+function* userFindPasswordWorker(action) {
+  try {
+    const res = yield api.post(`user/findPassword`, action.payload);
+    if (responseDataProcess(res.data)) {
+      alert(res.data.message);
+    }
+    yield put(push("/login"));
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* userFindPasswordWatcher() {
+  yield takeEvery(USER_FIND_PASSWORD_REQUEST, userFindPasswordWorker);
+}
+
 export default function* rootSaga() {
   yield all([fork(userListByBuildingIdWatcher)]);
   yield all([fork(userListByPositionIdWatcher)]);
   yield all([fork(userAddWatcher)]);
   yield all([fork(userUpdateWatcher)]);
   yield all([fork(userDeleteWatcher)]);
+  yield all([fork(userChangePasswordWatcher)]);
+  yield all([fork(userFindUserWatcher)]);
+  yield all([fork(userFindPasswordWatcher)]);
 }

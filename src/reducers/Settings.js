@@ -5,7 +5,8 @@ import {
   TOGGLE_COLLAPSED_NAV,
   VERTICAL_NAVIGATION,
   WINDOW_WIDTH,
-  SET_VIEW_MODE
+  SET_VIEW_MODE,
+  SET_SHOW_MODAL
 } from "constants/ActionTypes";
 
 const rltLocale = ["ar"];
@@ -53,6 +54,11 @@ const settings = (state = initialSettings, action) => {
         ...state,
         viewMode: action.payload,
         item: action.item
+      };
+    case SET_SHOW_MODAL:
+      return {
+        ...state,
+        showModal: action.payload
       };
     default:
       return state;

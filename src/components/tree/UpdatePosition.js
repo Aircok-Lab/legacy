@@ -11,12 +11,18 @@ class UpdatePosition extends Component {
     positionList: this.props.authUser.positionList,
     userID: this.props.authUser.id
   };
+  componentDidMount() {
+    const node = this.props.positionList.filter(
+      position => position.id == this.props.selectedNode.id
+    );
+    this.setState(node[0]);
+  }
+
   updatePosition = () => {
     if (!this.state.name) {
       alert("위치를 입력하세요");
     } else {
       this.props.positionUpdateRequest(this.state);
-      this.props.closeModal();
     }
   };
   handleChange = e => {
@@ -67,7 +73,6 @@ class UpdatePosition extends Component {
             className="w3-button w3-blue w3-padding w3-margin-right"
             onClick={e => {
               this.deletePosition();
-              this.props.closeModal();
             }}
           >
             삭제
@@ -87,6 +92,8 @@ class UpdatePosition extends Component {
 
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
+  positionList: state.position.list,
+
   selectedNode: state.tree.selectedNode
 });
 

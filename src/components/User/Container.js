@@ -7,22 +7,9 @@ import { setViewMode } from "actions/Setting";
 
 class Container extends React.Component {
   componentDidMount() {
+    localStorage.removeItem("steps");
     this.props.setViewMode("list");
   }
-
-  // render() {
-  //   return (
-  //     <React.Fragment>
-  //       {
-  //         {
-  //           list: <List />,
-  //           add: <Add />,
-  //           update: <Update />
-  //         }[this.props.viewMode]
-  //       }
-  //     </React.Fragment>
-  //   );
-  // }
 
   render() {
     switch (this.props.viewMode) {

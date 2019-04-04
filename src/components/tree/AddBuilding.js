@@ -9,6 +9,8 @@ import {
 class AddBuilding extends Component {
   state = {
     name: "" + new Date().getTime(),
+    buildingType: "Office",
+    isPublicBuilding: "0",
     address: "",
     latitude: "",
     longitude: "",
@@ -31,11 +33,8 @@ class AddBuilding extends Component {
         latitude: "",
         longitude: ""
       });
-      this.props.buildingLocationReset();
+      // this.props.buildingLocationReset();
       this.props.buildingAddRequest(this.state);
-      if (typeof this.props.closeModal === "function") {
-        this.props.closeModal();
-      }
     }
   };
 
@@ -82,7 +81,6 @@ class AddBuilding extends Component {
   }
 
   render() {
-    console.log("typeof this.props.nextStep : ", typeof this.props.nextStep);
     return (
       <form className="w3-text-blue w3-margin">
         <h2 className="w3-center">건물등록</h2>
@@ -99,6 +97,61 @@ class AddBuilding extends Component {
               placeholder=""
               onChange={this.handleChange}
             />
+          </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            건물타입
+          </div>
+          <div className="w3-rest">
+            <select
+              className="form-control"
+              name="buildingType"
+              value={this.state.buildingType}
+              onChange={this.handleChange}
+            >
+              <option value="NewKindergarten">신축 어린이집</option>
+              <option value="Kindergarten">기축 어린이집</option>
+              <option value="NewPostpartum">신축 산후조리원</option>
+              <option value="Postpartum">기축 산후조리원</option>
+              <option value="NewOffice">신축 사무실</option>
+              <option value="Office">기축 사무실</option>
+              <option value="NewHouse">신축 하우스</option>
+              <option value="House">기축 하우스</option>
+            </select>
+          </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            공공기관
+          </div>
+          <div className="w3-rest pl-1">
+            <div className="form-check form-check-inline">
+              <label className="form-check-label">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="isPublicBuilding"
+                  value="0"
+                  checked={this.state.isPublicBuilding === "0"}
+                  onChange={this.handleChange}
+                />
+                민간기관
+              </label>
+            </div>
+            <div className="form-check form-check-inline">
+              <label className="form-check-label">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="isPublicBuilding"
+                  value="1"
+                  checked={this.state.isPublicBuilding === "1"}
+                  onChange={this.handleChange}
+                />
+                공공기관
+              </label>
+            </div>
           </div>
         </div>
         <div className="w3-row w3-section">
@@ -206,17 +259,6 @@ class AddBuilding extends Component {
             >
               추가
             </button>
-            {/* {typeof this.props.nextStep === "function" && (
-              <button
-                type="button"
-                className="ml-2 w3-button w3-blue w3-padding"
-                onClick={e => {
-                  this.props.nextStep();
-                }}
-              >
-                다음
-              </button>
-            )} */}
           </div>
         </div>
       </form>

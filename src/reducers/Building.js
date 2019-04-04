@@ -3,7 +3,8 @@ import {
   BUILDING_ADD_SUCCESS,
   BUILDING_DELETE_SUCCESS,
   BUILDING_LOCATION_SUCCESS,
-  BUILDING_LOCATION_RESET
+  BUILDING_LOCATION_RESET,
+  BUILDING_SELECT
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -47,6 +48,13 @@ export default (state = INIT_STATE, action) => {
       };
     }
 
+    case BUILDING_SELECT: {
+      return {
+        ...state,
+        selectedBuilding: action.payload
+      };
+    }
+    //
     default:
       return state;
   }

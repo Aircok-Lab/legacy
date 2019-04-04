@@ -10,8 +10,6 @@ import UpdatePosition from "components/Tree/UpdatePosition";
 import { selectTreeNode, toggleTreeNode } from "actions/Tree";
 import { buildingListRequest, buildingAddRequest } from "actions/Building";
 import { positionListRequest, positionAddRequest } from "actions/Position";
-import { setShowModal } from "actions/Setting";
-
 const customStyles = {
   content: {
     top: "50%",
@@ -32,14 +30,13 @@ Modal.setAppElement("#body");
 
 class BuildingPositionTree extends Component {
   state = {
-    // showModal: false,
+    showModal: false,
     // modalMode: "addBuilding",
     modalMode: "updateBuilding",
     selectedNodeId: "",
     // selectedNodeId: "31-25"
     selectedNode: {},
-    deviceList: [],
-    expandedNodes: []
+    deviceList: []
   };
   componentDidMount() {
     this.props.buildingListRequest({
@@ -49,7 +46,9 @@ class BuildingPositionTree extends Component {
       id: "" + this.props.authUser.positionList
     });
     const selectedNode = JSON.parse(localStorage.getItem("selectedNode"));
-    if (selectedNode) {
+    const found = true;
+    if (selectedNode && found) {
+      console.log("selectedNode", selectedNode);
       this.nodeClick(selectedNode);
     }
   }
@@ -70,26 +69,13 @@ class BuildingPositionTree extends Component {
     }
   }
 
-  static getDerivedStateFromProps(props, state) {
-    let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
-    if (arrayNodes && props.buildingList) {
-      const expandedObjects = props.buildingList.filter(building => {
-        return arrayNodes.indexOf(building.id) > -1;
-      });
-      const expandedNodes = expandedObjects.map(building => building.id);
-      return {
-        expandedNodes
-      };
-    }
-  }
-
-  openModal = modalMode => e => {
-    this.setState({ modalMode });
-    this.props.setShowModal(true);
+  openModal = param => e => {
+    let modalMode = param;
+    this.setState({ showModal: true, modalMode });
   };
 
   closeModal = () => {
-    this.props.setShowModal(false);
+    this.setState({ showModal: false });
   };
   addBuilding = () => {
     this.props.buildingAddRequest({
@@ -104,37 +90,17 @@ class BuildingPositionTree extends Component {
     this.props.selectTreeNode(item);
     localStorage.setItem("selectedNode", JSON.stringify(item));
   };
-  // handleExpand = (id, e) => {
-  //   e.stopPropagation();
-  //   console.log("TODO: toggle show/hide", this.props.expandedNodes, id, e);
-  //   let array = [...this.props.expandedNodes];
-  //   const index = array.indexOf(id);
-  //   index === -1 ? array.push(id) : array.splice(index, 1);
-  //   this.props.toggleTreeNode(array);
-  // };
-
-  // isExpanded = id => {
-  //   let array = [...this.props.expandedNodes];
-  //   const index = array.indexOf(id);
-  //   if (index === -1) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // };
-
   handleExpand = (id, e) => {
     e.stopPropagation();
-    console.log("TODO: toggle show/hide", this.state.expandedNodes, id, e);
-    let array = [...this.state.expandedNodes];
+    console.log("TODO: toggle show/hide", this.props.expandedNodes, id, e);
+    let array = [...this.props.expandedNodes];
     const index = array.indexOf(id);
     index === -1 ? array.push(id) : array.splice(index, 1);
-    this.setState({ expandedNodes: array });
-    localStorage.setItem("expandedNodes", JSON.stringify(array));
+    this.props.toggleTreeNode(array);
   };
 
   isExpanded = id => {
-    let array = [...this.state.expandedNodes];
+    let array = [...this.props.expandedNodes];
     const index = array.indexOf(id);
     if (index === -1) {
       return false;
@@ -146,21 +112,9 @@ class BuildingPositionTree extends Component {
   render() {
     // 중요 : Spread Operator는 Sharrow Copy만 하므로 JSON.stringify로 Deep Clone 해야 합니다.
     // let buildingPositionList = [...this.props.buildingList];
-
-    const steps = JSON.parse(localStorage.getItem("steps"));
-
-    let buildingPositionList = null;
-    if (steps) {
-      buildingPositionList = this.props.buildingList.filter(building => {
-        return steps.prevBuildingList.indexOf("" + building.id) === -1;
-      });
-    } else {
-      // filterOutList = this.props.buildingList;
-      buildingPositionList = JSON.parse(
-        JSON.stringify(this.props.buildingList)
-      );
-    }
-
+    let buildingPositionList = JSON.parse(
+      JSON.stringify(this.props.buildingList)
+    );
     buildingPositionList.map(building => {
       let positions = this.props.positionList.filter(
         position => position.buildingID == building.id
@@ -301,7 +255,7 @@ class BuildingPositionTree extends Component {
           </div>
         ))}
         <Modal
-          isOpen={this.props.showModal}
+          isOpen={this.state.showModal}
           // onRequestClose={this.closeModal}
           contentLabel="측정기 관리 Modal"
           style={customStyles}
@@ -316,10 +270,10 @@ class BuildingPositionTree extends Component {
           <div className="" style={{ minWidth: "400px" }} />
           {
             {
-              addBuilding: <AddBuilding />,
-              updateBuilding: <UpdateBuilding />,
-              addPosition: <AddPosition />,
-              updatePosition: <UpdatePosition />
+              addBuilding: <AddBuilding closeModal={this.closeModal} />,
+              updateBuilding: <UpdateBuilding closeModal={this.closeModal} />,
+              addPosition: <AddPosition closeModal={this.closeModal} />,
+              updatePosition: <UpdatePosition closeModal={this.closeModal} />
             }[this.state.modalMode]
           }
         </Modal>
@@ -333,8 +287,7 @@ const mapStateToProps = state => ({
   buildingList: state.building.list,
   positionList: state.position.list,
   selectedNode: state.tree.selectedNode,
-  expandedNodes: state.tree.expandedNodes,
-  showModal: state.settings.showModal
+  expandedNodes: state.tree.expandedNodes
 });
 
 const mapDispatchToProps = {
@@ -343,8 +296,7 @@ const mapDispatchToProps = {
   positionAddRequest,
   positionListRequest,
   selectTreeNode,
-  toggleTreeNode,
-  setShowModal
+  toggleTreeNode
 };
 
 export default connect(

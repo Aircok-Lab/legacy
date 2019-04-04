@@ -54,7 +54,8 @@ class List extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
       JSON.stringify(prevProps.selectedNode) !=
-      JSON.stringify(this.props.selectedNode)
+        JSON.stringify(this.props.selectedNode) &&
+      this.props.selectedNode.id
     ) {
       if (this.props.selectedNode.buildingID) {
         // 층

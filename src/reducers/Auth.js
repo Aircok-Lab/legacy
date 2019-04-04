@@ -30,7 +30,6 @@ export default (state = INIT_STATE, action) => {
       };
     }
     case SIGNIN_USER_SUCCESS: {
-      console.log("SIGNIN_USER_SUCCESS ****** ");
       return {
         ...state,
         loader: false,

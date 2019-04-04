@@ -4,7 +4,8 @@ import {
   BUILDING_UPDATE_REQUEST,
   BUILDING_DELETE_REQUEST,
   BUILDING_LOCATION_REQUEST,
-  BUILDING_LOCATION_RESET
+  BUILDING_LOCATION_RESET,
+  BUILDING_SELECT
 } from "constants/ActionTypes";
 
 export const buildingListRequest = payload => {
@@ -45,6 +46,13 @@ export const buildingLocationRequest = payload => {
 export const buildingLocationReset = payload => {
   return {
     type: BUILDING_LOCATION_RESET,
+    payload
+  };
+};
+
+export const buildingSelect = payload => {
+  return {
+    type: BUILDING_SELECT,
     payload
   };
 };

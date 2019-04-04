@@ -80,21 +80,6 @@ class List extends React.Component {
     }
   }
 
-  handleChange2 = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-    // userList: []
-    if (e.target.value) {
-      console.log(e.target.value);
-      let userList = [...this.state.userList];
-      userList = userList.filter(user => user.userType == e.target.value);
-      this.setState({ userList });
-    } else {
-      this.setState({ userList: this.props.userList });
-    }
-  };
-
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value

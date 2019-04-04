@@ -197,11 +197,18 @@ class Update extends Component {
                                 e.target.select();
                               }}
                               onBlur={e => {
+                                console.log(
+                                  "onBlur .... ",
+                                  sensor.sensorType,
+                                  index + 1,
+                                  "min",
+                                  e.target.value
+                                );
                                 if (
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].min
                                 ) {
-                                  // console.log("data 변경 ++++++");
+                                  console.log("data 변경 ++++++");
                                   this.props.sensorMinUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
@@ -213,13 +220,10 @@ class Update extends Component {
                                         _sensor.sensorType !== sensor.sensorType
                                       )
                                         return _sensor;
-                                      let data = {
-                                        ..._sensor
+                                      return {
+                                        ..._sensor,
+                                        alarm: e.target.value
                                       };
-                                      data.grade[index + 1].min = Number(
-                                        e.target.value
-                                      );
-                                      return data;
                                     }
                                   );
                                   this.setState({ sensors: newSensors });
@@ -246,11 +250,19 @@ class Update extends Component {
                                 e.target.select();
                               }}
                               onBlur={e => {
+                                console.log(
+                                  "onBlur .... ",
+                                  sensor.sensorType,
+                                  index + 1,
+                                  "max",
+                                  e.target.value
+                                );
+
                                 if (
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].max
                                 ) {
-                                  // console.log("data 변경 ++++++");
+                                  console.log("data 변경 ++++++");
                                   this.props.sensorMaxUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
@@ -262,13 +274,10 @@ class Update extends Component {
                                         _sensor.sensorType !== sensor.sensorType
                                       )
                                         return _sensor;
-                                      let data = {
-                                        ..._sensor
+                                      return {
+                                        ..._sensor,
+                                        max: e.target.value
                                       };
-                                      data.grade[index + 1].max = Number(
-                                        e.target.value
-                                      );
-                                      return data;
                                     }
                                   );
                                   this.setState({ sensors: newSensors });
@@ -287,7 +296,6 @@ class Update extends Component {
                         </React.Fragment>
                       ))}
                       <td style={{ padding: "4px", verticalAlign: "middle" }}>
-                        {/* a{sensor.alarm} */}
                         <input
                           className="form-control"
                           type="text"
@@ -377,7 +385,6 @@ class Update extends Component {
                           <td
                             style={{ padding: "4px", verticalAlign: "middle" }}
                           >
-                            {/* b{sensor.grade["" + (index + 1)].min} */}
                             <input
                               className="form-control"
                               defaultValue={sensor.grade["" + (index + 1)].min}
@@ -386,34 +393,36 @@ class Update extends Component {
                                 e.target.select();
                               }}
                               onBlur={e => {
+                                console.log(
+                                  "onBlur .... ",
+                                  sensor.sensorType,
+                                  index + 1,
+                                  "min",
+                                  e.target.value
+                                );
                                 if (
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].min
                                 ) {
-                                  // console.log("data 변경 ++++++");
+                                  console.log("data 변경 ++++++");
                                   this.props.sensorMinUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
                                     min: e.target.value
                                   });
-                                  const newSensors = this.state.sensors_temp_humi.map(
+                                  const newSensors = this.state.sensors.map(
                                     _sensor => {
                                       if (
                                         _sensor.sensorType !== sensor.sensorType
                                       )
                                         return _sensor;
-                                      let data = {
-                                        ..._sensor
+                                      return {
+                                        ..._sensor,
+                                        min: e.target.value
                                       };
-                                      data.grade[index + 1].min = Number(
-                                        e.target.value
-                                      );
-                                      return data;
                                     }
                                   );
-                                  this.setState({
-                                    sensors_temp_humi: newSensors
-                                  });
+                                  this.setState({ sensors: newSensors });
                                 } else {
                                   console.log("변경 없음.");
                                 }
@@ -455,24 +464,19 @@ class Update extends Component {
                                     grade: index + 1,
                                     max: e.target.value
                                   });
-                                  const newSensors = this.state.sensors_temp_humi.map(
+                                  const newSensors = this.state.sensors.map(
                                     _sensor => {
                                       if (
                                         _sensor.sensorType !== sensor.sensorType
                                       )
                                         return _sensor;
-                                      let data = {
-                                        ..._sensor
+                                      return {
+                                        ..._sensor,
+                                        max: e.target.value
                                       };
-                                      data.grade[index + 1].max = Number(
-                                        e.target.value
-                                      );
-                                      return data;
                                     }
                                   );
-                                  this.setState({
-                                    sensors_temp_humi: newSensors
-                                  });
+                                  this.setState({ sensors: newSensors });
                                 } else {
                                   console.log("변경 없음.");
                                 }
@@ -501,7 +505,7 @@ class Update extends Component {
                                 sensorType: sensor.sensorType,
                                 alarmValue: e.target.value
                               });
-                              const newSensors = this.state.sensors_temp_humi.map(
+                              const newSensors = this.state.sensors.map(
                                 _sensor => {
                                   if (_sensor.sensorType !== sensor.sensorType)
                                     return _sensor;
@@ -511,15 +515,7 @@ class Update extends Component {
                                   };
                                 }
                               );
-                              this.setState(
-                                { sensors_temp_humi: newSensors },
-                                () => {
-                                  console.log(
-                                    "zzz",
-                                    this.state.sensors_temp_humi
-                                  );
-                                }
-                              );
+                              this.setState({ sensors: newSensors });
                             }
                           }}
                           style={{

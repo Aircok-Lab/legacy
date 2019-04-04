@@ -59,7 +59,7 @@ const publicKeyRequest = async () =>
 // }
 
 function* signInUserWithEmailPassword({ payload }) {
-  const { email, password, pkey } = payload;
+  const { loginId, password, pkey } = payload;
   try {
     let publicKey = forge.pki.publicKeyFromPem(forge.util.encodeUtf8(pkey));
     let newpw = forge.util.encode64(
@@ -67,7 +67,7 @@ function* signInUserWithEmailPassword({ payload }) {
     );
     const signInUser = yield call(
       signInUserWithEmailPasswordRequest,
-      email,
+      loginId,
       newpw
     );
     if (signInUser.message) {

@@ -17,15 +17,18 @@ import {
 } from "actions/Auth";
 
 class Login extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      email: "linkit",
-      password: "123456"
-    };
-  }
+  // constructor() {
+  //   super();
+  // }
+  state = {
+    loginId: "linkit",
+    password: "123456",
+    stayLogin: false
+  };
 
   componentDidMount() {
+    const stayLogin = JSON.stringify(localStorage.getItem("stayLogin"));
+    this.setState({ stayLogin });
     this.props.publicKeyRequest();
   }
 
@@ -40,12 +43,14 @@ class Login extends React.Component {
     }
   }
 
-  handleChange = name => (event, checked) => {
-    //this.setState({[name]: checked});
+  handleChange = name => event => {
+    console.log(name, event.target.checked);
+    this.setState({ [name]: event.target.checked });
+    localStorage.setItem("stayLogin", JSON.stringify(event.target.checked));
   };
 
   render() {
-    const { email, password } = this.state;
+    const { loginId, password } = this.state;
     const { showMessage, loader, alertMessage, pkey } = this.props;
     return (
       <div className="app-login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
@@ -64,9 +69,9 @@ class Login extends React.Component {
                     label="아이디"
                     fullWidth
                     onChange={event =>
-                      this.setState({ email: event.target.value })
+                      this.setState({ loginId: event.target.value })
                     }
-                    defaultValue={email}
+                    defaultValue={loginId}
                     margin="normal"
                     className="mt-1 my-sm-3"
                   />
@@ -88,9 +93,9 @@ class Login extends React.Component {
                         control={
                           <Checkbox
                             color="primary"
-                            checked={this.state.checkedB}
-                            onChange={this.handleChange("checkedB")}
-                            value="checkedB"
+                            checked={this.state.stayLogin}
+                            onChange={this.handleChange("stayLogin")}
+                            value="stayLogin"
                           />
                         }
                         label="로그인 상태 유지"
@@ -103,7 +108,8 @@ class Login extends React.Component {
                       className="text-center btn-block"
                       onClick={() => {
                         this.props.showAuthLoader();
-                        this.props.userSignIn({ email, password, pkey });
+                        // console.log(loginId, password, pkey);
+                        this.props.userSignIn({ loginId, password, pkey });
                       }}
                       variant="contained"
                       color="primary"
@@ -113,9 +119,9 @@ class Login extends React.Component {
                   </div>
 
                   <div className="row mb-3 d-flex align-items-center justify-content-between">
-                    <div className="col text-center">
+                    {/* <div className="col text-center">
                       <Link to="/join">회원가입</Link>
-                    </div>
+                    </div> */}
                     <div className="col text-center">
                       <Link to="/forgot">아이디/비밀번호 찾기</Link>
                     </div>

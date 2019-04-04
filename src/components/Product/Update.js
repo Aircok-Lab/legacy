@@ -15,6 +15,7 @@ class Update extends Component {
       pm25: "" + this.props.item.pm25,
       pm10: "" + this.props.item.pm10,
       co2: "" + this.props.item.co2,
+      co: "" + this.props.item.co,
       hcho: "" + this.props.item.hcho,
       voc: "" + this.props.item.voc,
       temperature: "" + this.props.item.temperature,
@@ -152,6 +153,25 @@ class Update extends Component {
                       </div>
                     </td>
                     <td>CO2</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="form-check">
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            name="co"
+                            checked={
+                              this.state.postData.co === "1" ? true : false
+                            }
+                            onChange={this.handleChange}
+                          />
+                          &nbsp;
+                        </label>
+                      </div>
+                    </td>
+                    <td>CO</td>
                   </tr>
                   <tr>
                     <td>

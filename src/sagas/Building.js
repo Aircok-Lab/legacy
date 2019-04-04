@@ -18,6 +18,8 @@ import { userSignInSuccess } from "actions/Auth";
 import api from "api";
 import responseDataProcess from "util/responseDataProcess";
 import toaster from "util/toaster";
+import { setShowModal } from "actions/Setting";
+import { selectTreeNode } from "actions/Tree";
 
 function* buildingListWorker(action) {
   try {
@@ -38,6 +40,7 @@ function* buildingAddWorker(action) {
     let res = yield api.post(`building/addBuilding`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
+      yield put(setShowModal(false));
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({
@@ -59,7 +62,7 @@ function* buildingUpdateWorker(action) {
     let res = yield api.put(`building/updateBuilding`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
-      yield put({ type: BUILDING_UPDATE_SUCCESS, payload: res.data.data });
+      yield put(setShowModal(false));
       yield put({
         type: BUILDING_LIST_REQUEST,
         payload: { id: action.payload.buildingList }
@@ -83,6 +86,11 @@ function* buildingDeleteWorker(action) {
     );
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
+
+      yield put(selectTreeNode({}));
+      localStorage.removeItem("selectedNode");
+
+      yield put(setShowModal(false));
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
       yield put({
