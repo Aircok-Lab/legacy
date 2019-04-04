@@ -1,11 +1,21 @@
 var createError = require("http-errors");
 var express = require("express");
-var cors = require("cors");
 var path = require("path");
+
+var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
+var static = require("serve-static");
+var expressErrorHandler = require("express-error-handler");
+var expressSession = require("express-session");
+
+var cors = require("cors");
+
 var logger = require("morgan");
 //var mailer = require('express-mailer');
 
+// express 객체 생성
+var app = express();
+var fileRouter = require("./routes/FileUpload");
 var userRouter = require("./routes/User");
 var buildingRouter = require("./routes/Building");
 var positionRouter = require("./routes/Position");
@@ -29,20 +39,37 @@ var humidityPublic = require("./sensor/humidityPublic");
 var noise = require("./sensor/noise");
 var co = require("./sensor/co");
 
-var app = express();
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-// CORS 설정
+// body-parser를 사용해 application/x-www-form-urlencoded 파싱
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// body-parser를 사용해 application/json 파싱
+app.use(bodyParser.json());
+
+// public 폴더와 uploads 폴더 오픈
+app.use("/public", static(path.join(__dirname, "public")));
+app.use("/uploads", static(path.join(__dirname, "uploads")));
+
+// cookie-parser 설정
+app.use(cookieParser());
+
+// 세션 설정
+app.use(
+  expressSession({
+    secret: "my key",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+// 클라이언트에서 ajax로 요청했을 때 CORS(다중 서버 접속) 지원
 app.use(cors());
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/file", fileRouter);
 app.use("/user", userRouter);
 app.use("/building", buildingRouter);
 app.use("/position", positionRouter);
