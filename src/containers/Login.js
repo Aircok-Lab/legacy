@@ -23,12 +23,10 @@ class Login extends React.Component {
   state = {
     loginId: "linkit",
     password: "123456",
-    stayLogin: false
+    stayLogin: JSON.parse(localStorage.getItem("stayLogin"))
   };
 
   componentDidMount() {
-    const stayLogin = JSON.stringify(localStorage.getItem("stayLogin"));
-    this.setState({ stayLogin });
     this.props.publicKeyRequest();
   }
 
