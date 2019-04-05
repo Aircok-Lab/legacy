@@ -26,6 +26,7 @@ var Global = {
     noise: 0,
     co: 0
   },
-  setting: {}
+  setting: {},
+  filename: "eco_data.txt"
 };
 module.exports = Global;

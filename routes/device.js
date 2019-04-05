@@ -15,6 +15,7 @@ var Alarm = require("../models/Alarm");
 var Device = require("../models/Device");
 var RecentData = require("../models/RecentData");
 var E3Core = require("../sensor/E3Core");
+var global = require("../global");
 
 function dateFormat(dateStr) {
   var year = dateStr.substr(0, 4);
@@ -28,7 +29,7 @@ function dateFormat(dateStr) {
 
 router.post("/", function(req, res, next) {
   console.log("/ 호출됨.");
-  console.dir(req.body);
+  // console.dir(req.body);
   if (req.body) {
     var result = "";
     var arr = req.body.split("|");
@@ -48,6 +49,7 @@ router.post("/", function(req, res, next) {
       }
       if (info) {
         console.log(info.indoor);
+        //global.filename = info.firmware;
         if (info.indoor) {
           //  스마트 에어콕 실내형
           var paramPM10 = arr[3];
@@ -98,7 +100,8 @@ router.post("/", function(req, res, next) {
               // 펌웨어 확인
               if (info.version !== arr[12]) {
                 // 버젼 체크
-                result = "0|00060" + "|" + info.version + "|" + "700000|!=";
+                result =
+                  "0|00060" + "|" + info.version + "|" + info.filesize + "|!=";
               }
             }
             res.statusCode = 200;

@@ -62,7 +62,7 @@ export const getHUMIAlarm = () => {
     //결과 객체 있으면 성공 응답 전송
     if (sensorAlarmInfo) {
       global.alarm.humidity = sensorAlarmInfo;
-      console.dir(global);
+      // console.dir(global);
     } else {
       console.error("HUMI : sensorAlarmInfo 정보없음");
     }
