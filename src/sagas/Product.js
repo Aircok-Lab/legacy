@@ -33,12 +33,19 @@ export function* productListWatcher() {
 
 function* productAddWorker(action) {
   try {
+    const formData = new FormData();
+    if (action.payload.file) {
+      formData.append("firmware", action.payload.file);
+      const fileResult = yield api.post(`file/upload`, formData);
+      console.log("fileResult.data", fileResult.data);
+      action.payload.firmware = fileResult.data.data.filename;
+      action.payload.fileSize = fileResult.data.data.size;
+    }
     const res = yield api.post(`product/addProduct`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
       yield put({
         type: PRODUCT_LIST_REQUEST,
-        // payload: { positionID: action.payload.positionID }
         payload: { positionID: action.payload.positionList }
       });
       yield put({
@@ -56,12 +63,19 @@ export function* productAddWatcher() {
 
 function* productUpdateWorker(action) {
   try {
+    const formData = new FormData();
+    if (action.payload.file) {
+      formData.append("firmware", action.payload.file);
+      const fileResult = yield api.post(`file/upload`, formData);
+      console.log("fileResult.data", fileResult.data);
+      action.payload.firmware = fileResult.data.data.filename;
+      action.payload.fileSize = fileResult.data.data.size;
+    }
     const res = yield api.put(`product/updateProduct`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
       yield put({
         type: PRODUCT_LIST_REQUEST,
-        // payload: { positionID: action.payload.positionID }
         payload: { positionID: action.payload.positionList }
       });
       yield put({

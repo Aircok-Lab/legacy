@@ -8,7 +8,9 @@ class Add extends Component {
     postData: {
       name: "" + new Date().getTime(),
       version: "v2.0.0",
-      firmware: null,
+      file: null,
+      firmware: "",
+      fileSize: 0,
       period: "1",
       indoor: "1",
       pm25: "1",
@@ -33,15 +35,26 @@ class Add extends Component {
   };
   handleChange = e => {
     const target = e.target;
-    const value =
-      target.type === "checkbox" ? (target.checked ? "1" : "0") : target.value;
+    let value;
+    if (target.type === "checkbox") {
+      value = target.checked ? "1" : "0";
+    } else if (target.type === "file") {
+      value = e.target.files[0];
+    } else {
+      value = target.value;
+    }
     const name = target.name;
-    this.setState({
-      postData: {
-        ...this.state.postData,
-        [name]: value
+    this.setState(
+      {
+        postData: {
+          ...this.state.postData,
+          [name]: value
+        }
+      },
+      () => {
+        console.log("postData: ", this.state.postData);
       }
-    });
+    );
   };
 
   render() {
@@ -295,8 +308,7 @@ class Add extends Component {
             <div className="w3-rest">
               <input
                 className="form-control"
-                name="firmware"
-                // value={this.state.postData.firmware}
+                name="file"
                 type="file"
                 placeholder=""
                 onChange={this.handleChange}

@@ -9,7 +9,9 @@ class Update extends Component {
       id: this.props.item.id,
       name: this.props.item.name,
       version: this.props.item.version,
+      file: null,
       firmware: this.props.item.firmware,
+      fileSize: this.props.item.fileSize,
       period: this.props.item.period,
       indoor: this.props.item.indoor,
       pm25: "" + this.props.item.pm25,
@@ -35,9 +37,19 @@ class Update extends Component {
     }
   };
   handleChange = e => {
+    // const target = e.target;
+    // const value =
+    //   target.type === "checkbox" ? (target.checked ? "1" : "0") : target.value;
+    // const name = target.name;
     const target = e.target;
-    const value =
-      target.type === "checkbox" ? (target.checked ? "1" : "0") : target.value;
+    let value;
+    if (target.type === "checkbox") {
+      value = target.checked ? "1" : "0";
+    } else if (target.type === "file") {
+      value = e.target.files[0];
+    } else {
+      value = target.value;
+    }
     const name = target.name;
     this.setState({
       postData: {
@@ -298,8 +310,7 @@ class Update extends Component {
             <div className="w3-rest">
               <input
                 className="form-control"
-                name="firmware"
-                // value={this.state.postData.firmware}
+                name="file"
                 type="file"
                 placeholder=""
                 onChange={this.handleChange}
