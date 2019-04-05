@@ -15,6 +15,7 @@ router.post('/addProduct', function(req, res, next) {
     var paramIP = req.body.ip || req.query.ip || null;
     var paramPeriod = req.body.period || req.query.period;
     var paramIndoor = req.body.indoor || req.query.indoor;
+    var paramFilesize = req.body.filesize || req.query.filesize || null;
     var paramPM25 = req.body.pm25 || req.query.pm25;
     var paramPM10 = req.body.pm10 || req.query.pm10;
     var paramCO2 = req.body.co2 || req.query.co2;
@@ -36,10 +37,10 @@ router.post('/addProduct', function(req, res, next) {
       return;
     }
 
-    console.log('요청 파라미터 : ' + paramName + ',' + paramVersion + ','+ paramIP + ',' + paramPeriod + ',' + paramIndoor + ',' + paramPM25 + ',' + 
+    console.log('요청 파라미터 : ' + paramName + ',' + paramVersion + ','+ paramIP + ',' + paramPeriod + ',' + paramIndoor + ',' + paramFilesize + ',' + paramPM25 + ',' + 
                 paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise + ',' + paramCo);
 
-    Product.addProduct(paramName, paramVersion, paramIP, paramPeriod, paramIndoor, paramPM25, paramPM10, paramCO2, paramHCHO, 
+    Product.addProduct(paramName, paramVersion, paramIP, paramPeriod, paramIndoor, paramFilesize, paramPM25, paramPM10, paramCO2, paramHCHO, 
                         paramVOC, paramTemperature, paramHumidity, paramNoise, paramCo, function(err, addedProduct){
         // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
         if(err){
@@ -137,6 +138,7 @@ router.post('/getProductById', function(req, res, next) {
      var paramIP = req.body.ip || req.query.ip;
      var paramPeriod = req.body.period || req.query.period;
      var paramIndoor = req.body.indoor || req.query.indoor;
+     var paramFilesize = req.body.filesize || req.query.filesize;
      var paramPM25 = req.body.pm25 || req.query.pm25;
      var paramPM10 = req.body.pm10 || req.query.pm10;
      var paramCO2 = req.body.co2 || req.query.co2;
@@ -148,10 +150,10 @@ router.post('/getProductById', function(req, res, next) {
      var paramCo = req.body.co || req.query.co;
      var result = {statusCode : null, message : null, data : null};
 
-     console.log('요청 파라미터 : ' + paramProductID + ',' + paramName + ',' + paramVersion + ',' + paramIP + ',' + paramPeriod + ',' + paramIndoor + ',' + paramPM25 + ',' + 
-                 paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise + ',' + paramCo);
+     console.log('요청 파라미터 : ' + paramProductID + ',' + paramName + ',' + paramVersion + ',' + paramIP + ',' + paramPeriod + ',' + paramIndoor + ',' + paramFilesize + ',' + 
+                 paramPM25 + ',' + paramPM10 + ',' + paramCO2 + ',' + paramHCHO + ',' + paramVOC + ',' + paramTemperature + ',' + paramHumidity + ',' + paramNoise + ',' + paramCo);
 
-     Product.updateProduct(paramProductID, paramName, paramVersion, paramIP, paramPeriod, paramIndoor, paramPM25, paramPM10, paramCO2, paramHCHO, 
+     Product.updateProduct(paramProductID, paramName, paramVersion, paramIP, paramPeriod, paramIndoor, paramFilesize, paramPM25, paramPM10, paramCO2, paramHCHO, 
          paramVOC, paramTemperature, paramHumidity, paramNoise, paramCo, function(err, success){
          if(err){
              console.error('제품 정보 수정 중 오류 발생 :' + err.stack);
