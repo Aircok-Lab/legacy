@@ -3,7 +3,7 @@ var mysql = require("mysql");
 
 // MySQL 데이터베이스 연결 설정
 var pool = mysql.createPool({
-  connectionLimit: "2",
+  connectionLimit: "10",
   host: "192.168.0.105",
   user: "root",
   password: "ethree0310",
