@@ -60,10 +60,10 @@ var E3Core = {
     } else if (sensorType === NOISE) {
       data = global.sensorTable.noise;
       alarm = global.alarm.noise;
-    } /*else if (sensorType === CO) {
+    } else if (sensorType === CO) {
       data = global.sensorTable.co;
       alarm = global.alarm.co;
-    } */ else {
+    } else {
       console.log("error sensor type");
     }
 

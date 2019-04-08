@@ -4,7 +4,7 @@ import {
   CO2,
   HCHO,
   VOC,
-  //CO,
+  CO,
   NOISE
 } from "../public/javascripts/defined";
 
