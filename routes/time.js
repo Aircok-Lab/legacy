@@ -3,7 +3,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  var now = new Date()
+  var now = new Date();
+  var tz = now.getTime() + 9 * 3600000;
+  now.setTime(tz);
+  now = now
     .toISOString()
     .replace(/[^0-9]/g, "")
     .slice(0, -3);
