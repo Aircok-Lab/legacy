@@ -41,10 +41,10 @@ server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
 
-// var io = socketio.listen(server);
-// console.log("socket.io 요청을 받아들일 준비가 되었습니다.");
+var io = socketio.listen(server);
+console.log("socket.io 요청을 받아들일 준비가 되었습니다.");
 
-// io.sockets.on("connection", onConnection);
+io.sockets.on("connection", onConnection);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -106,38 +106,14 @@ function onListening() {
 var HEXfileData = [];
 
 // 펌웨어 파일 경로
-//var firmwareFilePath = "http://115.178.65.141:13701/uploads/";
-
-var firmwareFilePath = "./";
+var firmwareFilePath = "http://115.178.65.141:13701/uploads/";
 
 // 펌웨어 파일 이름
 var firmwareFileName = "eco_data.txt";
-// var file = null;
-// fs.exists(firmwareFilePath + firmwareFileName, function(exists) {
-//   if (exists) {
-//     console.log("기존 파일 읽음");
-//     fs.createReadStream(firmwareFilePath + firmwareFileName);
-//   } else {
-//     console.log("새로 파일 읽음");
-//     request("http://115.178.65.141:13701/uploads/eco_data.txt").pipe(
-//       fs.createWriteStream("eco_data.txt")
-//     );
-//   }
-// });
-
-// var file1 = request("http://115.178.65.141:13701/uploads/eco_data.txt").pipe(
-//   fs.createWriteStream("eco_data.txt")
-// );
-
-// var file2 = request("http://115.178.65.141:13701/uploads/eco_data.txt").pipe(
-//   fs.createReadStream("eco_data.txt")
-// );
-
-// // console.log(file);
 
 // 펌웨어 파일을 라인별로 읽기 처리
 var rl = readline.createInterface({
-  input: request("http://115.178.65.141:13701/uploads/" + firmwareFileName), //fs.createReadStream(firmwareFilePath + firmwareFileName), // 펌웨어 파일
+  input: request(firmwareFilePath + firmwareFileName), // 펌웨어 파일
   crlfDelay: Infinity
 });
 
@@ -151,35 +127,34 @@ rl.on("line", function(line) {
  * Event listener for socket server "Connection" event.
  */
 
-// function onConnection(socket) {
-//   console.dir("Connection info : ", socket.request.connetion._peername);
+function onConnection(socket) {
+  console.dir("Connection info : ", socket.request.connetion._peername);
 
-//   //소켓 객체에 클라이언트 Host, Port 정보 속성으로 추가
-//   socket.remoteAddress = socket.request.connection._peername.address;
-//   socket.remotePort = socket.request.connection._peername.port;
+  //소켓 객체에 클라이언트 Host, Port 정보 속성으로 추가
+  socket.remoteAddress = socket.request.connection._peername.address;
+  socket.remotePort = socket.request.connection._peername.port;
 
-//   console.log("Client connected", new Date().toString());
-//   //console.log('Firmware FileName : ' + firmwareFileName);
+  console.log("Client connected", new Date().toString());
 
-//   // 클라이언트로부터 데이터 수신
-//   socket.on("data", function(data) {
-//     console.log("Client sent " + data.toString(), new Date().toString());
+  // 클라이언트로부터 데이터 수신
+  socket.on("data", function(data) {
+    console.log("Client sent " + data.toString(), new Date().toString());
 
-//     // 클라이언트에서 4자리 숫자를 보내면 해당 숫자의 번호에 해당하는 HEX File 전송
-//     if (data.toString().length === 4) {
-//       var index = parseInt(data.toString(), 10);
-//       if (HEXfileData[index]) {
-//         client.write(HEXfileData[index]);
-//         console.log(
-//           "Client write " + HEXfileData[index].toString(),
-//           new Date().toString()
-//         );
-//       }
-//     }
-//   });
+    // 클라이언트에서 4자리 숫자를 보내면 해당 숫자의 번호에 해당하는 HEX File 전송
+    if (data.toString().length === 4) {
+      var index = parseInt(data.toString(), 10);
+      if (HEXfileData[index]) {
+        client.write(HEXfileData[index]);
+        console.log(
+          "Client write " + HEXfileData[index].toString(),
+          new Date().toString()
+        );
+      }
+    }
+  });
 
-//   // 클라이언트 접속 종료
-//   socket.on("end", function() {
-//     console.log("Client disconnected", new Date().toString());
-//   });
-// }
+  // 클라이언트 접속 종료
+  socket.on("end", function() {
+    console.log("Client disconnected", new Date().toString());
+  });
+}
