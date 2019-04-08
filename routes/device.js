@@ -39,6 +39,8 @@ router.post("/", function(req, res, next) {
     console.log(paramDeviceSN);
     var paramDate = dateFormat(arr[0]);
     console.log(paramDate);
+    var deviceType = arr[1].substring(2, 4);
+    var indoor = arr[1].substring(4, 6);
     Device.getDeviceInfo(paramDeviceSN, function(err, info) {
       // indoor, BuildingType, version 정보 얻어옴
       if (err) {
@@ -53,22 +55,36 @@ router.post("/", function(req, res, next) {
         //global.filename = info.firmware;
         if (info.indoor) {
           //  스마트 에어콕 실내형
-          var paramPM10 = arr[3];
-          var paramPM25 = arr[4];
-          var paramCO2 = arr[5];
-          var paramHCHO = arr[8];
-          var paramVOC = arr[6];
-          var paramTemperature = (Number(arr[9]) - 1000) / 10;
-          var paramHumidity = Number(arr[10]) / 10;
-          var paramNoise = arr[7];
-          //var paramCo = ;
+          if (deviceType == 1) {
+            // 에코나래
+            var paramPM10 = arr[3];
+            var paramPM25 = arr[4];
+            var paramCO2 = arr[5];
+            var paramHCHO = arr[8];
+            var paramVOC = arr[6];
+            var paramTemperature = (Number(arr[9]) - 1000) / 10;
+            var paramHumidity = Number(arr[10]) / 10;
+            var paramNoise = arr[7];
+            var paramCo = null;
+          } else if (deviceType == 3) {
+            // HMW
+            var paramPM10 = arr[3];
+            var paramPM25 = arr[4];
+            var paramCO2 = arr[5];
+            var paramHCHO = arr[8];
+            var paramVOC = arr[6];
+            var paramTemperature = (Number(arr[9]) - 1000) / 10;
+            var paramHumidity = Number(arr[10]) / 10;
+            var paramNoise = arr[7];
+            var paramCo = arr[11];
+          }
         } else {
           // 스마트 에어콕 실외형
           var paramCO2 = null;
           var paramHCHO = null;
           var paramVOC = null;
           var paramNoise = null;
-          //var paramCo = null;
+          var paramCo = null;
           var paramPM10 = arr[3];
           var paramPM25 = arr[4];
           var paramTemperature = (Number(arr[9]) - 1000) / 10;
@@ -84,7 +100,7 @@ router.post("/", function(req, res, next) {
           paramTemperature,
           paramHumidity,
           paramNoise,
-          //paramCo,
+          paramCo,
           paramDate,
           paramDeviceSN,
           function(err, addedData) {
@@ -95,14 +111,32 @@ router.post("/", function(req, res, next) {
               res.end(result);
               return;
             }
-
+            var urlInfo = "http://115.178.65.141:13703";
             //결과 객체 있으면 성공 응답 전송
             if (addedData) {
               // 펌웨어 확인
               if (info.version !== arr[12]) {
                 // 버젼 체크
-                result =
-                  "0|00060" + "|" + info.version + "|" + info.filesize + "|!=";
+                if (deviceType == 1) {
+                  result =
+                    "0|00060" +
+                    "|" +
+                    info.version +
+                    "|" +
+                    info.filesize +
+                    "|!=";
+                } else if (deviceType == 3) {
+                  result =
+                    "0|" +
+                    "00060" +
+                    "|" +
+                    info.version +
+                    "|" +
+                    info.filesize +
+                    "|" +
+                    urlInfo +
+                    "|!=";
+                }
               }
             }
             res.statusCode = 200;
@@ -121,7 +155,7 @@ router.post("/", function(req, res, next) {
           status.hcho = E3Core.getSensorIndex(HCHO, Number(paramHCHO));
           status.voc = E3Core.getSensorIndex(VOC, Number(paramVOC));
           status.noise = E3Core.getSensorIndex(NOISE, Number(paramNoise));
-          //status.co = E3Core.getSensorIndex(CO, Number(paramCo));
+          status.co = E3Core.getSensorIndex(CO, Number(paramCo));
           status.temperature = E3Core.getTempIndex(
             info.isPublicBuilding,
             paramTemperature
@@ -139,8 +173,8 @@ router.post("/", function(req, res, next) {
             status.voc.score,
             status.temperature.score,
             status.humidity.score,
-            status.noise.score /*,
-            status.co.score */
+            status.noise.score,
+            status.co.score
           );
           RecentData.updateRecentData(
             status.pm10,
@@ -151,7 +185,7 @@ router.post("/", function(req, res, next) {
             status.temperature,
             status.humidity,
             status.noise,
-            //status.co2,
+            status.co2,
             totalScore,
             paramDate,
             paramDeviceSN,
@@ -174,7 +208,7 @@ router.post("/", function(req, res, next) {
             status.temperature,
             status.humidity,
             status.noise,
-            //status.co,
+            status.co,
             totalScore,
             paramDate,
             paramDeviceSN,

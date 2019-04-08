@@ -249,8 +249,8 @@ var E3Core = {
     voc,
     temp,
     humi,
-    noise /*,
-    co*/
+    noise,
+    co
   ) {
     var d = new Date();
     var month = d.getMonth() + 1;
