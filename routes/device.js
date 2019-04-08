@@ -28,11 +28,12 @@ function dateFormat(dateStr) {
 }
 
 router.post("/", function(req, res, next) {
+  var paramData = req.body || req.query || null;
   console.log("/ 호출됨.");
   // console.dir(req.body);
-  if (req.body) {
+  if (paramData) {
     var result = "";
-    var arr = req.body.split("|");
+    var arr = paramData.split("|");
     console.log(arr[1]);
     var paramDeviceSN = arr[1].substring(6);
     console.log(paramDeviceSN);
