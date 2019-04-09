@@ -30,7 +30,7 @@ function dateFormat(dateStr) {
 router.post("/", function(req, res, next) {
   var paramData = req.body || req.query || null;
   console.log("/ 호출됨.");
-  // console.dir(req.body);
+  //console.dir(paramData);
   if (paramData) {
     var result = "";
     var arr = paramData.split("|");
