@@ -10,7 +10,7 @@ var HEXfileData = [];
 var firmwareFilePath = "http://115.178.65.141:13701/uploads/";
 
 // 펌웨어 파일 이름
-var firmwareFileName = "eco_data.txt";
+var firmwareFileName = "AIRCOK_APP_V3.1.0.hex";
 
 // 펌웨어 파일을 라인별로 읽기 처리
 var rl = readline.createInterface({
