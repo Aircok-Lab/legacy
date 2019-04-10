@@ -10,6 +10,7 @@ import sensorSagas from "./Sensor";
 import alarmSagas from "./Alarm";
 import alarmReferenceSagas from "./AlarmReference";
 import recentDataSagas from "./RecentData";
+import smsSagas from "./SMS";
 
 export default function* rootSaga(getState) {
   yield all([
@@ -23,6 +24,7 @@ export default function* rootSaga(getState) {
     sensorSagas(),
     alarmSagas(),
     alarmReferenceSagas(),
-    recentDataSagas()
+    recentDataSagas(),
+    smsSagas()
   ]);
 }

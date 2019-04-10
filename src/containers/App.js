@@ -23,6 +23,7 @@ import Forgot from "./Forgot";
 import { setInitUrl, setInitUser, userSignOut } from "actions/Auth";
 import { systemListRequest } from "actions/System";
 import { alarmReferenceValueRequest } from "actions/AlarmReference";
+import { smsTokenRequest } from "actions/SMS";
 import RTL from "util/RTL";
 import asyncComponent from "util/asyncComponent";
 
@@ -56,6 +57,7 @@ class App extends Component {
     // }
     this.props.alarmReferenceValueRequest();
     this.props.systemListRequest({ id: "1" });
+    this.props.smsTokenRequest();
   }
 
   render() {
@@ -134,6 +136,7 @@ export default connect(
     setInitUser,
     userSignOut,
     alarmReferenceValueRequest,
-    systemListRequest
+    systemListRequest,
+    smsTokenRequest
   }
 )(App);
