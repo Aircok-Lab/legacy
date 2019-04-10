@@ -16,6 +16,19 @@ router.post("/getToken", function(req, res, next) {
     }
   });
 
+  axios.interceptors.response.use(
+    response => {
+      return response;
+    },
+    function(error) {
+      // Do something with response error
+      if (error.response.status === 401) {
+        console.log("unauthorized, logging out ...");
+      }
+      return Promise.reject(error.response);
+    }
+  );
+
   api
     .post(`oauth/token`, {
       grant_type: "client_credentials"
@@ -29,6 +42,7 @@ router.post("/getToken", function(req, res, next) {
       res.send(result);
     })
     .catch(function(error) {
+      console.dir(error);
       var result = { statusCode: null, message: null, data: null };
       result.statusCode = FAIL;
       result.message = "실패";
