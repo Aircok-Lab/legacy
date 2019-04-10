@@ -15,16 +15,23 @@ router.post("/getToken", function(req, res, next) {
         "Basic YWlyY29rOmM3MjMwOWZkNjRjZGRlYzkyNmM5ZTM2N2Y0ODU1ZjAz"
     }
   });
+
   api
     .post(`oauth/token`, {
       grant_type: "client_credentials"
     })
-    .then(res => {
-      console.dir(res);
+    .then(function(response) {
+      console.dir(response);
       var result = { statusCode: null, message: null, data: null };
       result.statusCode = OK;
       result.message = "성공";
       result.data = res.data;
+      res.send(result);
+    })
+    .catch(function(error) {
+      var result = { statusCode: null, message: null, data: null };
+      result.statusCode = FAIL;
+      result.message = "실패";
       res.send(result);
     });
 });
