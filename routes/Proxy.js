@@ -14,7 +14,7 @@ router.post("/getToken", function(req, res, next) {
       var result = { statusCode: null, message: null, data: null };
       result.statusCode = OK;
       result.message = "성공";
-      result.data = response;
+      result.data = response.access_token;
       res.send(result);
     })
     .catch(function(err) {
