@@ -20,6 +20,7 @@ router.post("/getToken", function(req, res, next) {
       res.send(result);
     })
     .catch(function(err) {
+      console.dir(err);
       var result = { statusCode: null, message: null, data: null };
       result.statusCode = FAIL;
       result.message = "실패";
@@ -42,6 +43,7 @@ router.post("/sendSMS", function(req, res, next) {
       res.send(result);
     })
     .catch(function(err) {
+      console.dir(err);
       var result = { statusCode: null, message: null, data: null };
       result.statusCode = FAIL;
       result.message = "실패";
@@ -64,6 +66,7 @@ router.post("/sendLMS", function(req, res, next) {
       res.send(result);
     })
     .catch(function(err) {
+      console.dir(err);
       var result = { statusCode: null, message: null, data: null };
       result.statusCode = FAIL;
       result.message = "실패";
