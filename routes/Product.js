@@ -11,7 +11,7 @@ router.post("/addProduct", function(req, res, next) {
   var paramVersion = req.body.version || req.query.version || null;
   var paramIP = req.body.ip || req.query.ip || null;
   var paramPeriod = req.body.period || req.query.period;
-  var paramIndoor = req.body.indoor || req.query.indoor;
+  var paramIndoor = req.body.indoor || req.query.indoor || 0;
   var paramFirmware = req.body.firmware || req.query.firmware || null;
   var paramFilesize = req.body.filesize || req.query.filesize || null;
   var paramPM25 = req.body.pm25 || req.query.pm25;
@@ -181,7 +181,7 @@ router.put("/updateProduct", function(req, res, next) {
   var paramVersion = req.body.version || req.query.version;
   var paramIP = req.body.ip || req.query.ip;
   var paramPeriod = req.body.period || req.query.period;
-  var paramIndoor = req.body.indoor || req.query.indoor;
+  var paramIndoor = req.body.indoor || req.query.indoor || 0;
   var paramFirmware = req.body.firmware || req.query.firmware;
   var paramFilesize = req.body.filesize || req.query.filesize;
   var paramPM25 = req.body.pm25 || req.query.pm25;
