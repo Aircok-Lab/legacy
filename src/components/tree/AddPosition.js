@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { positionAddRequest, positionDeleteRequest } from "actions/Position";
+import setInitValue from "../../util/setInitValue";
 
 class AddPosition extends Component {
   state = {
-    name: "" + new Date().getTime(),
+    name: setInitValue("" + new Date().getTime()),
     position: "1",
     buildingID: "" + this.props.selectedNode.id,
     // buildingID: this.props.selectedNode.id,

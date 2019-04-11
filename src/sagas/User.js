@@ -81,17 +81,23 @@ export function* userAddWatcher() {
 
 function* userUpdateWorker(action) {
   try {
-    let publicKey = forge.pki.publicKeyFromPem(
-      forge.util.encodeUtf8(action.pkey)
-    );
-    let newpw = forge.util.encode64(
-      publicKey.encrypt(
-        forge.util.encodeUtf8(action.payload.password),
-        "RSA-OAEP"
-      )
-    );
+    // let publicKey = forge.pki.publicKeyFromPem(
+    //   forge.util.encodeUtf8(action.pkey)
+    // );
+    // let newpw = forge.util.encode64(
+    //   publicKey.encrypt(
+    //     forge.util.encodeUtf8(action.payload.password),
+    //     "RSA-OAEP"
+    //   )
+    // );
+    // const postData = JSON.parse(JSON.stringify(action.payload));
 
-    action.payload.password = newpw;
+    // // action.payload.password = newpw;
+    // postData.password = newpw;
+    // delete action.payload.password;
+    // delete action.payload.oldPassword;
+    // delete action.payload.newPassword;
+    // delete action.payload.newPasswordConfirm;
 
     const res = yield api.put(`user/updateUser`, action.payload);
     if (responseDataProcess(res.data)) {

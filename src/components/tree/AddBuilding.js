@@ -5,10 +5,11 @@ import {
   buildingLocationRequest,
   buildingLocationReset
 } from "actions/Building";
+import setInitValue from "../../util/setInitValue";
 
 class AddBuilding extends Component {
   state = {
-    name: "" + new Date().getTime(),
+    name: setInitValue("" + new Date().getTime()),
     buildingType: "Office",
     isPublicBuilding: "0",
     address: "",

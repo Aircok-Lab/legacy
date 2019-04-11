@@ -39,7 +39,7 @@ function* productAddWorker(action) {
       const fileResult = yield api.post(`file/upload`, formData);
       console.log("fileResult.data", fileResult.data);
       action.payload.firmware = fileResult.data.data.filename;
-      action.payload.fileSize = fileResult.data.data.size;
+      action.payload.filesize = fileResult.data.data.size;
     }
     const res = yield api.post(`product/addProduct`, action.payload);
     if (responseDataProcess(res.data)) {
@@ -69,7 +69,7 @@ function* productUpdateWorker(action) {
       const fileResult = yield api.post(`file/upload`, formData);
       console.log("fileResult.data", fileResult.data);
       action.payload.firmware = fileResult.data.data.filename;
-      action.payload.fileSize = fileResult.data.data.size;
+      action.payload.filesize = fileResult.data.data.size;
     }
     const res = yield api.put(`product/updateProduct`, action.payload);
     if (responseDataProcess(res.data)) {

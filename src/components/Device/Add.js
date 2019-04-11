@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { deviceAddRequest } from "actions/Device";
 import { productListRequest } from "actions/Product";
 import { setViewMode } from "actions/Setting";
+import setInitValue from "../../util/setInitValue";
 
 class Add extends Component {
   state = {

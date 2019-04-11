@@ -11,7 +11,7 @@ class Update extends Component {
       version: this.props.item.version,
       file: null,
       firmware: this.props.item.firmware,
-      fileSize: this.props.item.fileSize,
+      filesize: this.props.item.filesize,
       period: this.props.item.period,
       indoor: this.props.item.indoor,
       pm25: "" + this.props.item.pm25,

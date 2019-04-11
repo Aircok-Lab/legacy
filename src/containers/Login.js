@@ -15,14 +15,15 @@ import {
   userSignIn,
   publicKeyRequest
 } from "actions/Auth";
+import setInitValue from "../util/setInitValue";
 
 class Login extends React.Component {
   // constructor() {
   //   super();
   // }
   state = {
-    loginId: "linkit",
-    password: "123456",
+    loginId: setInitValue("linkit"),
+    password: setInitValue("123456"),
     stayLogin: JSON.parse(localStorage.getItem("stayLogin"))
   };
 

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { productAddRequest } from "actions/Product";
 import { setViewMode } from "actions/Setting";
+import setInitValue from "../../util/setInitValue";
 
 class Add extends Component {
   state = {
@@ -10,7 +11,7 @@ class Add extends Component {
       version: "v2.0.0",
       file: null,
       firmware: "",
-      fileSize: 0,
+      filesize: 0,
       period: "1",
       indoor: "1",
       pm25: "1",

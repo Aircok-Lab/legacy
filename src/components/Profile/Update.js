@@ -4,6 +4,7 @@ import { userUpdateRequest, userChangePasswordRequest } from "actions/User";
 import { setViewMode, setShowModal } from "actions/Setting";
 import { publicKeyRequest } from "actions/Auth";
 import Modal from "react-modal";
+import forge from "node-forge";
 
 const customStyles = {
   content: {
@@ -27,10 +28,13 @@ class Update extends Component {
   state = {
     postData: {
       ...this.props.authUser,
+      plainTextPassword: "",
       password: "",
-      oldPassword: "123456",
-      newPassword: "123",
-      newPasswordConfirm: "123"
+      oldPassword: "",
+      encryptedOldPassword: "",
+      newPassword: "",
+      encryptedNewPassword: "",
+      newPasswordConfirm: ""
     },
     showModal: false
   };
@@ -68,9 +72,11 @@ class Update extends Component {
   };
 
   update = () => {
-    console.log(this.state);
+    // console.log(this.state);
     if (!this.state.postData.name) {
       alert("사용자이름을 입력하세요");
+    } else if (!this.state.postData.plainTextPassword) {
+      alert("암호를 입력하세요");
     } else if (!this.state.postData.email) {
       alert("이메일을 입력하세요");
     } else if (!this.state.postData.department) {
@@ -80,11 +86,51 @@ class Update extends Component {
     } else if (!this.state.postData.userType) {
       alert("사용자권한을 선택하세요");
     } else {
-      this.props.userUpdateRequest(
-        this.state.postData,
-        this.props.authUser,
-        this.props.pkey
-      );
+      if (!this.state.postData.password) {
+        let publicKey = forge.pki.publicKeyFromPem(
+          forge.util.encodeUtf8(this.props.pkey)
+        );
+        let password = forge.util.encode64(
+          publicKey.encrypt(
+            forge.util.encodeUtf8(this.state.postData.plainTextPassword),
+            "RSA-OAEP"
+          )
+        );
+        this.setState(
+          {
+            postData: {
+              ...this.state.postData,
+              password
+            }
+          },
+          () => {
+            console.log(
+              "this.state.postData.password",
+              this.state.postData.password
+            );
+            this.props.userUpdateRequest(
+              this.state.postData,
+              this.props.authUser,
+              this.props.pkey
+            );
+          }
+        );
+      } else {
+        console.log(
+          "this.state.postData.password",
+          this.state.postData.password
+        );
+        this.props.userUpdateRequest(
+          this.state.postData,
+          this.props.authUser,
+          this.props.pkey
+        );
+      }
+
+      // const postData = JSON.parse(JSON.stringify(action.payload));
+
+      // // action.payload.password = encryptedOldPassword;
+      // postData.password = encryptedOldPassword;
     }
   };
   handleChange = e => {
@@ -104,7 +150,7 @@ class Update extends Component {
     return (
       <div className="">
         <form className="text-blue w3-margin">
-          <h2 className="text-center">사용자 수정</h2>
+          <h2 className="text-center">내정보 수정</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               아이디
@@ -127,8 +173,8 @@ class Update extends Component {
                   className="form-control"
                   aria-label="password"
                   aria-describedby="button-addon2"
-                  name="password"
-                  value={this.state.postData.password}
+                  name="plainTextPassword"
+                  value={this.state.postData.plainTextPassword}
                   onChange={this.handleChange}
                 />
                 <div className="input-group-append">
@@ -176,6 +222,21 @@ class Update extends Component {
           </div>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              전화
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="phone"
+                value={this.state.postData.phone}
+                type="text"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               소속(부서)
             </div>
             <div className="w3-rest">
@@ -190,15 +251,6 @@ class Update extends Component {
             </div>
           </div>
           <div className="w3-right">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={e => {
-                this.props.setViewMode("list");
-              }}
-            >
-              List
-            </button>
             <button
               type="button"
               className="btn btn-primary"

@@ -235,7 +235,10 @@ class BuildingPositionTree extends Component {
                 padding: "2px 10px",
                 marginBottom: "2px",
                 background:
-                  this.props.selectedNode.id === item.id ? "#bae7ff" : ""
+                  !this.props.selectedNode.buildingID &&
+                  this.props.selectedNode.id === item.id
+                    ? "#bae7ff"
+                    : ""
               }}
               className="w3-block"
               onClick={e => this.nodeClick(item)}
@@ -271,11 +274,12 @@ class BuildingPositionTree extends Component {
                         padding: "2px 10px 2px 25px",
                         margin: "0 0 2px 10px",
                         background:
+                          this.props.selectedNode.buildingID &&
                           "" +
                             this.props.selectedNode.buildingID +
                             "-" +
                             this.props.selectedNode.id ===
-                          "" + position.buildingID + "-" + position.id
+                            "" + position.buildingID + "-" + position.id
                             ? "#bae7ff"
                             : ""
                       }}

@@ -3,17 +3,18 @@ import { connect } from "react-redux";
 import { userAddRequest } from "actions/User";
 import { productListRequest } from "actions/Product";
 import { setViewMode } from "actions/Setting";
+import setInitValue from "../../util/setInitValue";
 
 class Add extends Component {
   state = {
     postData: {
-      loginId: "" + new Date().getTime(),
-      password: "" + new Date().getTime(),
-      name: "" + new Date().getTime(),
-      email: "test@test.com",
-      department: "Sales Department",
-      phone: "010-555-5555",
-      userType: "monitoring",
+      loginId: setInitValue("" + new Date().getTime()),
+      password: setInitValue("" + new Date().getTime()),
+      name: setInitValue("" + new Date().getTime()),
+      email: setInitValue("test@test.com"),
+      department: setInitValue("Sales Department"),
+      phone: setInitValue("010-555-5555"),
+      userType: setInitValue("monitoring"),
       buildingList: "" + this.props.selectedNode.buildingID,
       positionList: "" + this.props.selectedNode.id,
       deviceList: ""
@@ -127,6 +128,21 @@ class Add extends Component {
               className="form-control"
               name="email"
               value={this.state.postData.email}
+              type="text"
+              placeholder=""
+              onChange={this.handleChange}
+            />
+          </div>
+        </div>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            전화번호
+          </div>
+          <div className="w3-rest">
+            <input
+              className="form-control"
+              name="phone"
+              value={this.state.postData.phone}
               type="text"
               placeholder=""
               onChange={this.handleChange}

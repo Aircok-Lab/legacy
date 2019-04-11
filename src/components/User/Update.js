@@ -118,34 +118,6 @@ class Update extends Component {
           </div>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              암호
-            </div>
-            <div className="w3-rest">
-              <div className="input-group mb-3">
-                <input
-                  type="password"
-                  className="form-control"
-                  aria-label="password"
-                  aria-describedby="button-addon2"
-                  name="password"
-                  value={this.state.postData.password}
-                  onChange={this.handleChange}
-                />
-                <div className="input-group-append">
-                  <button
-                    className="form-control btn btn-primary mb-0"
-                    type="button"
-                    id="button-addon2"
-                    onClick={this.openModal()}
-                  >
-                    암호변경
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               이름
             </div>
             <div className="w3-rest">
@@ -200,7 +172,9 @@ class Update extends Component {
                 value={this.state.postData.userType}
                 onChange={this.handleChange}
               >
-                <option value="master">Master</option>
+                {this.props.authUser.userType === "master" && (
+                  <option value="master">Master</option>
+                )}
                 <option value="manager">Manager</option>
                 <option value="user">User</option>
                 <option value="monitoring">Monitoring</option>
