@@ -3,7 +3,7 @@ import { OK, FAIL } from "../public/javascripts/defined";
 var express = require("express");
 var router = express.Router();
 var Proxy = require("../models/Proxy");
-var global = requre("../global");
+var global = require("../global");
 
 /* INSERT setting */
 router.post("/getToken", function(req, res, next) {
