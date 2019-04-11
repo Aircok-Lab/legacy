@@ -185,13 +185,15 @@ class BuildingPositionTree extends Component {
           <div className="clearfix">
             {!this.props.hideButton && (
               <div className="float-right">
-                <button
-                  className="btn btn-primary"
-                  style={{ marginLeft: "2px" }}
-                  onClick={this.openModal("addBuilding")}
-                >
-                  건물등록
-                </button>
+                {this.props.authUser.userType === "master" && (
+                  <button
+                    className="btn btn-primary"
+                    style={{ marginLeft: "2px" }}
+                    onClick={this.openModal("addBuilding")}
+                  >
+                    건물등록
+                  </button>
+                )}
                 <button
                   className="btn btn-primary"
                   style={{ marginLeft: "2px" }}

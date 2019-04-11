@@ -12,12 +12,13 @@ class Update extends Component {
       serialNumber: this.props.item.serialNumber,
       positionID: "" + this.props.item.positionID,
       productID: "" + this.props.item.productID,
+      reportType: "" + this.props.item.reportType,
       imei: this.props.item.imei,
       networkType: this.props.item.networkType, // cellular | ethernet
-      phone: this.props.item.phone,
-      ip: this.props.item.ip,
-      gateway: this.props.item.gateway,
-      subnet: this.props.item.subnet
+      phone: this.props.item.phone || "",
+      ip: this.props.item.ip || "",
+      gateway: this.props.item.gateway || "",
+      subnet: this.props.item.subnet || ""
     }
   };
   update = () => {
@@ -30,10 +31,28 @@ class Update extends Component {
       alert("측정기명을 입력하세요");
     } else if (!this.state.postData.serialNumber) {
       alert("S/N을 입력하세요");
-    } else if (!this.state.postData.phone) {
-      alert("전화번호를 입력하세요");
     } else if (!this.state.postData.productID) {
       alert("제품군을 선택하세요");
+    } else if (
+      this.state.postData.networkType === "cellular" &&
+      !this.state.postData.phone
+    ) {
+      alert("전화번호를 입력하세요");
+    } else if (
+      this.state.postData.networkType === "ethernet" &&
+      !this.state.postData.ip
+    ) {
+      alert("IP address를 입력하세요");
+    } else if (
+      this.state.postData.networkType === "ethernet" &&
+      !this.state.postData.subnet
+    ) {
+      alert("Subnet mask를 입력하세요");
+    } else if (
+      this.state.postData.networkType === "ethernet" &&
+      !this.state.postData.gateway
+    ) {
+      alert("Gateway를 입력하세요");
     } else {
       let goAhed = true;
       if (positionId != this.state.postData.positionID) {
