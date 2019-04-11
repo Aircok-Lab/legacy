@@ -115,7 +115,7 @@ router.post("/", function(req, res, next) {
             //결과 객체 있으면 성공 응답 전송
             if (addedData) {
               // 펌웨어 확인
-              if (info.version !== arr[12]) {
+              if (info.version !== arr[13]) {
                 // 버젼 체크
                 if (deviceType == 1) {
                   result =
