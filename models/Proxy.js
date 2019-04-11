@@ -47,7 +47,7 @@ var Proxy = {
   sendLMS: function(url, token) {
     var options = {
       method: "POST",
-      url: "https://sms.gabia.com/api/send/lms",
+      url: url,
       headers: {
         "postman-token": "8b3b9c41-e302-02a0-625e-8f064633f604",
         "cache-control": "no-cache",

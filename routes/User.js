@@ -630,6 +630,7 @@ router.put("/changePassword", function(req, res, next) {
   var paramNewPassword = req.body.newPassword || req.query.newPassword;
   let oldPassword = privateKey.decrypt(paramOldPassword, "base64", "utf8");
   let newPassword = privateKey.decrypt(paramNewPassword, "base64", "utf8");
+  var result = { statusCode: null, message: null, data: null };
 
   console.log(
     "요청 파라미터 : " + paramUserID + "," + oldPassword + "," + newPassword
