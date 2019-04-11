@@ -30,7 +30,7 @@ var Proxy = {
       headers: {
         "postman-token": "4b376613-30b7-cd72-b227-b7c3c9936810",
         "cache-control": "no-cache",
-        authorization: token,
+        authorization: "Basic " + token,
         "content-type": "application/x-www-form-urlencoded"
       },
       form: {
@@ -51,7 +51,7 @@ var Proxy = {
       headers: {
         "postman-token": "8b3b9c41-e302-02a0-625e-8f064633f604",
         "cache-control": "no-cache",
-        authorization: token,
+        authorization: "Basic " + token,
         "content-type": "application/x-www-form-urlencoded"
       },
       form: {
