@@ -7,7 +7,7 @@ import setInitValue from "../../util/setInitValue";
 class Add extends Component {
   state = {
     postData: {
-      name: "" + new Date().getTime(),
+      name: setInitValue("" + new Date().getTime()),
       version: "v2.0.0",
       file: null,
       firmware: "",

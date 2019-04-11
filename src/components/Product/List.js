@@ -123,6 +123,8 @@ class List extends React.Component {
                   <th>번호</th>
                   <th>제품군명</th>
                   <th>펌웨어버전</th>
+                  <th>펌웨어파일</th>
+                  <th>파일사이즈</th>
                   <th>측정주기</th>
                 </tr>
               </thead>
@@ -149,6 +151,8 @@ class List extends React.Component {
                       <td style={{ width: "60px" }}>{index + 1}</td>
                       <td>{row.name}</td>
                       <td>{row.version}</td>
+                      <td>{row.firmware}</td>
+                      <td>{row.filesize}</td>
                       <td>{row.period} 분</td>
                     </tr>
                   ))}

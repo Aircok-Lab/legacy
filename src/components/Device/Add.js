@@ -8,17 +8,17 @@ import setInitValue from "../../util/setInitValue";
 class Add extends Component {
   state = {
     postData: {
-      name: "" + new Date().getTime(),
-      serialNumber: "" + new Date().getTime(),
+      name: setInitValue("" + new Date().getTime()),
+      serialNumber: setInitValue("" + new Date().getTime()),
       positionID: this.props.selectedNode.id,
       productID: 1,
       reportType: 1,
-      imei: "" + new Date().getTime(),
+      imei: setInitValue("" + new Date().getTime()),
       networkType: "cellular", // cellular | ethernet
-      phone: "" + new Date().getTime(),
-      ip: "" + new Date().getTime(),
-      gateway: "" + new Date().getTime(),
-      subnet: "" + new Date().getTime()
+      phone: setInitValue("" + new Date().getTime()),
+      ip: setInitValue("" + new Date().getTime()),
+      gateway: setInitValue("" + new Date().getTime()),
+      subnet: setInitValue("" + new Date().getTime())
     }
   };
   add = () => {
