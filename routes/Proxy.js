@@ -18,7 +18,7 @@ router.post("/getToken", function(req, res, next) {
       // result.data = response;
       // console.dir(response);
       var string = JSON.stringify(response);
-      var json = JSON.parse(response);
+      var json = JSON.parse(string);
       global.smsToken = json.access_token;
       result.data = global.smsToken;
       res.send(result);
