@@ -15,9 +15,12 @@ router.post("/getToken", function(req, res, next) {
       var result = { statusCode: null, message: null, data: null };
       result.statusCode = OK;
       result.message = "성공";
-      result.data = response;
-      console.dir(response);
-      global.smsToken = response;
+      // result.data = response;
+      // console.dir(response);
+      var string = JSON.stringify(response);
+      var json = JSON.parse(response);
+      global.smsToken = json.access_token;
+      result.data = global.smsToken;
       res.send(result);
     })
     .catch(function(err) {
