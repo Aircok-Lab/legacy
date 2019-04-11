@@ -111,7 +111,7 @@ router.post("/", function(req, res, next) {
               res.end(result);
               return;
             }
-            var urlInfo = "http://115.178.65.141:13703";
+            var urlInfo = "115.178.65.141:13704";
             //결과 객체 있으면 성공 응답 전송
             if (addedData) {
               // 펌웨어 확인
