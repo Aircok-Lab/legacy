@@ -5,6 +5,8 @@ import {
   MONITORING_RECENT_DATA_SUCCESS,
   OUTDOOR_DATA_REQUEST,
   OUTDOOR_DATA_SUCCESS,
+  USER_PHONE_REQUEST,
+  USER_PHONE_SUCCESS,
   RECENT_DATA_FAIL
 } from "constants/ActionTypes";
 
@@ -47,5 +49,19 @@ export const outdoorDataSuccess = outdoorData => {
   return {
     type: OUTDOOR_DATA_SUCCESS,
     payload: outdoorData
+  };
+};
+
+export const userPhoneRequest = deviceInfo => {
+  return {
+    type: USER_PHONE_REQUEST,
+    deviceInfo: deviceInfo
+  };
+};
+
+export const userPhoneSuccess = userPhone => {
+  return {
+    type: USER_PHONE_SUCCESS,
+    payload: userPhone
   };
 };

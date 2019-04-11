@@ -5,12 +5,15 @@ import {
   MONITORING_RECENT_DATA_SUCCESS,
   OUTDOOR_DATA_REQUEST,
   OUTDOOR_DATA_SUCCESS,
+  USER_PHONE_REQUEST,
+  USER_PHONE_SUCCESS,
   RECENT_DATA_FAIL
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
   allRecentData: [],
-  outdoorData: []
+  outdoorData: [],
+  userPhone: []
 };
 
 export default (state = INIT_STATE, action) => {
@@ -31,6 +34,12 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         outdoorData: action.payload
+      };
+    }
+    case USER_PHONE_SUCCESS: {
+      return {
+        ...state,
+        userPhone: action.payload
       };
     }
     default:

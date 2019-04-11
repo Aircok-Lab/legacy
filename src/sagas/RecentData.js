@@ -7,6 +7,8 @@ import {
   MONITORING_RECENT_DATA_SUCCESS,
   OUTDOOR_DATA_REQUEST,
   OUTDOOR_DATA_SUCCESS,
+  USER_PHONE_REQUEST,
+  USER_PHONE_SUCCESS,
   RECENT_DATA_FAIL
 } from "constants/ActionTypes";
 import {
@@ -16,12 +18,16 @@ import {
 } from "actions/RecentData";
 import { hideAuthLoader } from "actions/Auth";
 import api from "api";
+import _ from "lodash";
+
 proj4.defs(
   "EPSG:5181",
   "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=GRS80 +units=m +no_defs"
 );
 proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
 
+// 위경도를 기상청 grid x,y 로 변경 - http://werty.co.kr/blog/3011
+// LCC DFS 좌표변환 ( code : "toXY"(위경도->좌표, v1:위도, v2:경도), "toLL"(좌표->위경도,v1:x, v2:y) )
 function dfsXyConv(code, v1, v2) {
   // LCC DFS 좌표변환을 위한 기초 자료
   //
@@ -88,6 +94,54 @@ function dfsXyConv(code, v1, v2) {
   return rs;
 }
 
+// 기상청 온도, 습도 조회 URL 생성
+function getWeatherUrl(nx, ny, serviceKey) {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  var hours = today.getHours();
+  var minutes = today.getMinutes();
+
+  if (minutes < 30) {
+    // 30분보다 작으면 한시간 전 값
+    hours = hours - 1;
+    if (hours < 0) {
+      // 자정 이전은 전날로 계산
+      today.setDate(today.getDate() - 1);
+      dd = today.getDate();
+      mm = today.getMonth() + 1;
+      yyyy = today.getFullYear();
+      hours = 23;
+    }
+  }
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+
+  var _nx = nx,
+    _ny = ny,
+    apikey = serviceKey,
+    today = yyyy + "" + mm + "" + dd,
+    basetime = hours + "00",
+    fileName =
+      "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData";
+  fileName += "?ServiceKey=" + apikey;
+  fileName += "&base_date=" + today;
+  fileName += "&base_time=" + basetime;
+  fileName += "&nx=" + _nx + "&ny=" + _ny;
+  fileName += "&pageNo=1&numOfRows=100";
+  fileName += "&_type=json";
+
+  return fileName;
+}
+
 const getAllRecentDataRequest = async positionList =>
   await api
     .post("recentData/getRecentDataByPositionId", {
@@ -104,13 +158,26 @@ const getMonitoringRecentDataRequest = async deviceList =>
     .then(allRecentData => allRecentData)
     .catch(error => error);
 
-const getOutdoorDataRequest = async (latitude, longitude) =>
+const getOutdoorDustDataRequest = async url =>
   await api
-    .post("recentData/getRecentDataByDeviceSN", {
-      deviceSN: deviceList
-    })
-    .then(allRecentData => allRecentData)
+    .get("proxy/?url=" + url)
+    .then(outdoorDustData => outdoorDustData)
     .catch(error => error);
+
+const getOutdoorWeatherDataRequest = async url =>
+  await api
+    .get("proxy/?url=" + url)
+    .then(outdoorWeatherData => outdoorWeatherData)
+    .catch(error => error);
+
+// const getUserPhoneRequest = async (serialNumber, positionID) =>
+//     await api
+//       .post("user/getUserPhoneByDeviceSN", {
+//         deviceSN: deviceList
+//         positionID: positionID
+//       })
+//       .then(userPhone => userPhone)
+//       .catch(error => error);
 
 function* getAllRecentDataWorker(payload) {
   console.dir(payload);
@@ -140,19 +207,127 @@ function* getMonitoringRecentDataWorker(payload) {
 
 function* getOutdoorDataWorker(payload) {
   console.dir(payload);
-  const { latitude, longitude } = payload;
+  const { latitude, longitude } = payload.address;
   try {
-    //const res = yield call(getOutdoorDataRequest, latitude, longitude);
-    console.log("latitude : " + latitude);
-    console.log("longitude : " + longitude);
     let coords = proj4("EPSG:4326", "EPSG:5181", [latitude, longitude]);
-    console.log("coordX : " + coords[0]);
-    console.log("coordY : " + coords[1]);
+    const coordX = coords[0];
+    const coordY = coords[1];
+    const serviceKey =
+      "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
+    const dustURL = encodeURIComponent(
+      "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?tmX=" +
+        coordX +
+        "&tmY=" +
+        coordY +
+        "&pageNo=1&numOfRows=10&ServiceKey=" +
+        serviceKey +
+        "&_returnType=json"
+    );
+    console.log(dustURL);
+    const dustRes = yield call(getOutdoorDustDataRequest, dustURL);
+    console.dir(dustRes);
+
+    const kmaServiceKey =
+      "gv%2BRtk1AAsF%2FoktFHHGyBtBVdDD2gkRmrOFBRT%2BW07julujIwZQyjF0O%2FNtNqoWJ6LQq0GwDv%2BNSiUhhT07SRA%3D%3D";
     const kmaGrid = dfsXyConv("toXY", latitude, longitude); // 위도, 경도를 기상청 grid 로 변환
-    console.log("kmaGrid.nx : " + kmaGrid.nx);
-    console.log("kmaGrid.ny : " + kmaGrid.ny);
+    const kmaURL = encodeURIComponent(
+      getWeatherUrl(kmaGrid.nx, kmaGrid.ny, kmaServiceKey)
+    );
+    console.log(kmaURL);
+    const kmaRes = yield call(getOutdoorWeatherDataRequest, kmaURL);
+    console.dir(kmaRes);
+
+    // 응답할 데이터에 공공데이터 미세먼지 추가
+    // res.data.data[0].publicAirData = {};
+    // if (dustRes.data.list && dustRes.data.list.length) {
+    //   const stationName = dustRes.data.list[0].stationName;
+    //   const dustURL2 =
+    //     proxyURL +
+    //     "?url=" +
+    //     encodeURIComponent(
+    //       "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=" +
+    //         stationName +
+    //         "&dataTerm=month&pageNo=1&numOfRows=10&ServiceKey=" +
+    //         serviceKey +
+    //         "&ver=1.3&_returnType=json"
+    //     );
+
+    //   const dustRes2 = yield api.get(dustURL2);
+
+    //   res.data.data[0].publicAirData = dustRes2.data.list[0];
+    // } else {
+    //   res.data.data[0].publicAirData.pm10Value = "";
+    //   res.data.data[0].publicAirData.pm25Value = "";
+    // }
+
+    // // 응답할 데이터에 공공데이터 온도, 습도, 날씨 추가
+    // res.data.data[0].publicWeatherData = {};
+    // if (
+    //   kmaRes.data.response.body &&
+    //   kmaRes.data.response.body.items.item.length
+    // ) {
+    //   res.data.data[0].publicWeatherData.temperature = _.find(
+    //     kmaRes.data.response.body.items.item,
+    //     {
+    //       category: "T1H"
+    //     }
+    //   ).fcstValue;
+    //   res.data.data[0].publicWeatherData.humidity = _.find(
+    //     kmaRes.data.response.body.items.item,
+    //     {
+    //       category: "REH"
+    //     }
+    //   ).fcstValue;
+    //   res.data.data[0].publicWeatherData.sky = _.find(
+    //     kmaRes.data.response.body.items.item,
+    //     {
+    //       category: "SKY"
+    //     }
+    //   ).fcstValue;
+    //   res.data.data[0].publicWeatherData.pty = _.find(
+    //     kmaRes.data.response.body.items.item,
+    //     {
+    //       category: "PTY"
+    //     }
+    //   ).fcstValue;
+    // } else {
+    //   res.data.data[0].publicWeatherData.temperature = "";
+    //   res.data.data[0].publicWeatherData.humidity = "";
+    //   res.data.data[0].publicWeatherData.sky = "";
+    //   res.data.data[0].publicWeatherData.pty = "";
+    // }
+    // // 날씨
+    // if (res.data.data[0].publicWeatherData.pty == 3) {
+    //   res.data.data[0].publicWeatherData.weather = "snow"; // 눈
+    // } else if (res.data.data[0].publicWeatherData.pty == 2) {
+    //   res.data.data[0].publicWeatherData.weather = "rain_snow"; // 비/눈
+    // } else if (res.data.data[0].publicWeatherData.pty == 1) {
+    //   res.data.data[0].publicWeatherData.weather = "rain"; // 비
+    // } else if (res.data.data[0].publicWeatherData.sky == 4) {
+    //   res.data.data[0].publicWeatherData.weather = "blur"; // 흐림
+    // } else if (res.data.data[0].publicWeatherData.sky == 3) {
+    //   res.data.data[0].publicWeatherData.weather = "cloudy2"; // 구름많음
+    // } else if (res.data.data[0].publicWeatherData.sky == 2) {
+    //   res.data.data[0].publicWeatherData.weather = "cloudy1"; // 구름조금
+    // } else if (res.data.data[0].publicWeatherData.sky == 1) {
+    //   res.data.data[0].publicWeatherData.weather = "sunny"; // 맑음
+    // }
+
+    // yield put({ type: LIST_MEASURE_DEVICE_BASIC_SUCCESS, payload: res.data });
+
     //yield put(outdoorDataSuccess(res.data.data));
     //yield put(hideAuthLoader());
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+
+function* getUserPhoneWorker(payload) {
+  console.dir(payload);
+  const { serialNumber, positionID } = payload;
+  try {
+    //const res = yield call(getUserPhoneRequest, latitude, longitude);
+    yield put(userPhoneSuccess(res.data.data));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -173,10 +348,15 @@ export function* getOutdoorDataWatcher() {
   yield takeEvery(OUTDOOR_DATA_REQUEST, getOutdoorDataWorker);
 }
 
+export function* getUserPhoneWatcher() {
+  yield takeEvery(USER_PHONE_REQUEST, getUserPhoneWorker);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getAllRecentDataWatcher),
     fork(getMonitoringRecentDataWatcher),
-    fork(getOutdoorDataWatcher)
+    fork(getOutdoorDataWatcher),
+    fork(getUserPhoneWatcher)
   ]);
 }
