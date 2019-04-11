@@ -17,8 +17,8 @@ router.post("/getToken", function(req, res, next) {
       result.message = "성공";
       // result.data = response;
       // console.dir(response);
-      var string = JSON.stringify(response);
-      var json = JSON.parse(string);
+      // var string = JSON.stringify(response);
+      var json = JSON.parse(response);
       global.smsToken = json.access_token;
       result.data = global.smsToken;
       res.send(result);
