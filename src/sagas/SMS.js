@@ -1,28 +1,17 @@
 import { push } from "react-router-redux";
 import { delay } from "redux-saga";
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
-import {
-  SMS_TOKEN_REQUEST,
-  SMS_TOKEN_SUCCESS,
-  SEND_SMS,
-  SEND_LMS
-} from "constants/ActionTypes";
-// import forge from "node-forge";
-import api from "apiSMS";
-// import { userSignInSuccess } from "actions/SMS";
-// import { setShowModal } from "actions/Setting";
-// import responseDataProcess from "util/responseDataProcess";
-// import toaster from "util/toaster";
+import { SMS_TOKEN_REQUEST, SEND_SMS, SEND_LMS } from "constants/ActionTypes";
+import api from "api";
+import responseDataProcess from "util/responseDataProcess";
+import toaster from "util/toaster";
 
 function* smsTokenWorker(action) {
   try {
-    const res = yield api.post(`oauth/token`, {
-      grant_type: "client_credentials"
-    });
+    const res = yield api.post(`proxy/getToken`);
     if (responseDataProcess(res.data)) {
-      console.dir(res.data);
+      console.log("[SUCCESS#####]");
     }
-    //yield put(smsTokenSuccess("/login"));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -31,11 +20,10 @@ function* smsTokenWorker(action) {
 function* sendSMSWorker(action) {
   try {
     api.header;
-    const res = yield api.post(`user/findUser`, action.payload);
+    const res = yield api.post(`proxy/sendSMS`);
     if (responseDataProcess(res.data)) {
-      alert("로그인아이디 : " + res.data.data[0].loginID);
+      toaster("SMS를 전송하였습니다.", 3000, "bg-success");
     }
-    yield put(push("/login"));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -43,11 +31,10 @@ function* sendSMSWorker(action) {
 
 function* sendLMSWorker(action) {
   try {
-    const res = yield api.post(`user/findUser`, action.payload);
+    const res = yield api.post(`proxy/sendLMS`);
     if (responseDataProcess(res.data)) {
-      alert("로그인아이디 : " + res.data.data[0].loginID);
+      toaster("SMS를 전송하였습니다.", 3000, "bg-success");
     }
-    yield put(push("/login"));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }

@@ -13,7 +13,6 @@ import Sensor from "./Sensor";
 import Alarm from "./Alarm";
 import AlarmReference from "./AlarmReference";
 import RecentData from "./RecentData";
-import SMS from "./SMS";
 
 const reducers = combineReducers({
   routing: routerReducer,
@@ -29,8 +28,7 @@ const reducers = combineReducers({
   sensor: Sensor,
   alarm: Alarm,
   alarmReference: AlarmReference,
-  recentData: RecentData,
-  sms: SMS
+  recentData: RecentData
 });
 
 export default reducers;

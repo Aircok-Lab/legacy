@@ -268,6 +268,5 @@ export const ALARM_UPDATE_SUCCESS = "ALARM_UPDATE_SUCCESS";
 
 //// SMS
 export const SMS_TOKEN_REQUEST = "SMS_TOKEN_REQUEST";
-export const SMS_TOKEN_SUCCESS = "SMS_TOKEN_SUCCESS";
 export const SEND_SMS = "SEND_SMS";
 export const SEND_LMS = "SEND_LMS";
