@@ -81,30 +81,19 @@ export function* userAddWatcher() {
 
 function* userUpdateWorker(action) {
   try {
-    // let publicKey = forge.pki.publicKeyFromPem(
-    //   forge.util.encodeUtf8(action.pkey)
-    // );
-    // let newpw = forge.util.encode64(
-    //   publicKey.encrypt(
-    //     forge.util.encodeUtf8(action.payload.password),
-    //     "RSA-OAEP"
-    //   )
-    // );
-    // const postData = JSON.parse(JSON.stringify(action.payload));
+    const postData = JSON.parse(JSON.stringify(action.payload));
+    delete postData.plainTextPassword;
+    delete postData.oldPassword;
+    delete postData.newPassword;
+    delete postData.newPasswordConfirm;
 
-    // // action.payload.password = newpw;
-    // postData.password = newpw;
-    // delete action.payload.password;
-    // delete action.payload.oldPassword;
-    // delete action.payload.newPassword;
-    // delete action.payload.newPasswordConfirm;
-
-    const res = yield api.put(`user/updateUser`, action.payload);
+    const res = yield api.put(`user/updateUser`, postData);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
-      if (action.payload.id === action.authUser.id) {
-        localStorage.setItem("user_id", JSON.stringify(action.payload));
-        yield put(userSignInSuccess(action.payload));
+      delete postData.password;
+      if (postData.id === action.authUser.id) {
+        localStorage.setItem("user_id", JSON.stringify(postData));
+        yield put(userSignInSuccess(postData));
       }
       yield put({
         type: SET_VIEW_MODE,

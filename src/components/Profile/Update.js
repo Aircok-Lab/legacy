@@ -31,9 +31,7 @@ class Update extends Component {
       plainTextPassword: "",
       password: "",
       oldPassword: "",
-      encryptedOldPassword: "",
       newPassword: "",
-      encryptedNewPassword: "",
       newPasswordConfirm: ""
     },
     showModal: false
@@ -48,12 +46,22 @@ class Update extends Component {
       state
     );
     if (props.newPassword) {
-      return { postData: { ...state.postData, password: props.newPassword } };
+      return {
+        postData: { ...state.postData, plainTextPassword: props.newPassword }
+      };
     }
     return null;
   }
 
   openModal = param => e => {
+    this.setState({
+      postData: {
+        ...this.state.postData,
+        oldPassword: "",
+        newPassword: "",
+        newPasswordConfirm: ""
+      }
+    });
     this.props.setShowModal(true);
   };
 
@@ -86,51 +94,34 @@ class Update extends Component {
     } else if (!this.state.postData.userType) {
       alert("사용자권한을 선택하세요");
     } else {
-      if (!this.state.postData.password) {
-        let publicKey = forge.pki.publicKeyFromPem(
-          forge.util.encodeUtf8(this.props.pkey)
-        );
-        let password = forge.util.encode64(
-          publicKey.encrypt(
-            forge.util.encodeUtf8(this.state.postData.plainTextPassword),
-            "RSA-OAEP"
-          )
-        );
-        this.setState(
-          {
-            postData: {
-              ...this.state.postData,
-              password
-            }
-          },
-          () => {
-            console.log(
-              "this.state.postData.password",
-              this.state.postData.password
-            );
-            this.props.userUpdateRequest(
-              this.state.postData,
-              this.props.authUser,
-              this.props.pkey
-            );
+      let publicKey = forge.pki.publicKeyFromPem(
+        forge.util.encodeUtf8(this.props.pkey)
+      );
+      let password = forge.util.encode64(
+        publicKey.encrypt(
+          forge.util.encodeUtf8(this.state.postData.plainTextPassword),
+          "RSA-OAEP"
+        )
+      );
+      this.setState(
+        {
+          postData: {
+            ...this.state.postData,
+            password
           }
-        );
-      } else {
-        console.log(
-          "this.state.postData.password",
-          this.state.postData.password
-        );
-        this.props.userUpdateRequest(
-          this.state.postData,
-          this.props.authUser,
-          this.props.pkey
-        );
-      }
-
-      // const postData = JSON.parse(JSON.stringify(action.payload));
-
-      // // action.payload.password = encryptedOldPassword;
-      // postData.password = encryptedOldPassword;
+        },
+        () => {
+          console.log(
+            "this.state.postData.password",
+            this.state.postData.password
+          );
+          this.props.userUpdateRequest(
+            this.state.postData,
+            this.props.authUser,
+            this.props.pkey
+          );
+        }
+      );
     }
   };
   handleChange = e => {
