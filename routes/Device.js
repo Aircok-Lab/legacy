@@ -18,7 +18,7 @@ router.post("/addDevice", function(req, res, next) {
   var paramIP = req.body.ip || req.query.ip || null;
   var paramPositionID = req.body.positionID || req.query.positionID;
   var paramProductID = req.body.productID || req.query.productID;
-  var paramIMEI = req.body.imei || req.query.imei || null;
+  var paramIMEI = req.body.imei || req.query.imei;
   var paramGateway = req.body.gateway || req.query.gateway || null;
   var paramSubnet = req.body.subnet || req.query.subnet || null;
   var paramNetworkType = req.body.networkType || req.query.networkType || 'cellular';
@@ -28,6 +28,7 @@ router.post("/addDevice", function(req, res, next) {
   if (
     !paramName ||
     !paramSerialNumber ||
+    !paramIMEI ||
     !paramPositionID ||
     !paramProductID
   ) {
