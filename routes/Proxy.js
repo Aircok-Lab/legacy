@@ -1,17 +1,9 @@
 import { OK, FAIL } from "../public/javascripts/defined";
 // import axios from "axios";
 var express = require("express");
-var proj4 = require("proj4");
 var router = express.Router();
 var Proxy = require("../models/Proxy");
 var global = require("../global");
-import _ from "lodash";
-
-proj4.defs(
-  "EPSG:5181",
-  "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=GRS80 +units=m +no_defs"
-);
-proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
 
 // 위경도를 기상청 grid x,y 로 변경 - http://werty.co.kr/blog/3011
 // LCC DFS 좌표변환 ( code : "toXY"(위경도->좌표, v1:위도, v2:경도), "toLL"(좌표->위경도,v1:x, v2:y) )
@@ -36,9 +28,7 @@ function dfsXyConv(code, v1, v2) {
   var olon = OLON * DEGRAD;
   var olat = OLAT * DEGRAD;
 
-  var sn =
-    Math.tan(Math.PI * 0.25 + slat2 * 0.5) /
-    Math.tan(Math.PI * 0.25 + slat1 * 0.5);
+  var sn = Math.tan(Math.PI * 0.25 + slat2 * 0.5) / Math.tan(Math.PI * 0.25 + slat1 * 0.5);
   sn = Math.log(Math.cos(slat1) / Math.cos(slat2)) / Math.log(sn);
   var sf = Math.tan(Math.PI * 0.25 + slat1 * 0.5);
   sf = (Math.pow(sf, sn) * Math.cos(slat1)) / sn;
@@ -117,8 +107,7 @@ function getWeatherUrl(nx, ny, serviceKey) {
     apikey = serviceKey,
     today = yyyy + "" + mm + "" + dd,
     basetime = hours + "00",
-    fileName =
-      "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData";
+    fileName = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData";
   fileName += "?ServiceKey=" + apikey;
   fileName += "&base_date=" + today;
   fileName += "&base_time=" + basetime;
@@ -130,37 +119,72 @@ function getWeatherUrl(nx, ny, serviceKey) {
 }
 
 router.get("/getDust", function(req, res, next) {
-  console.log("/ getDust 호출됨.");
-  var latitude = req.query.latitude || req.body.latitude;
-  var longitude = req.query.longitude || req.body.longitude;
+  console.log("/getDust 호출됨.");
+  const latitude = req.query.latitude || req.body.latitude;
+  const longitude = req.query.longitude || req.body.longitude;
   console.log("latitude : " + latitude + " longitude : " + longitude);
 
-  let coords = proj4("EPSG:4326", "EPSG:5181", [latitude, longitude]);
-  const coordX = coords[0];
-  const coordY = coords[1];
-  const serviceKey =
-    "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
+  // let coords = proj4("EPSG:4326", "EPSG:5181", [latitude, longitude]);
+  // const coordX = coords[0];
+  // const coordY = coords[1];
+  // console.log("coordX : " + coordX + " coordY : " + coordY);
+  const serviceKey = "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
   const dustURL =
     "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?tmX=" +
-    coordX +
+    latitude +
     "&tmY=" +
-    coordY +
+    longitude +
     "&pageNo=1&numOfRows=10&ServiceKey=" +
     serviceKey +
     "&_returnType=json";
+  console.log(dustURL);
 
   var promise = Proxy.get(dustURL);
   promise
     .then(function(response) {
+      var dustRes = JSON.parse(response);
+      console.log(dustRes);
+      // console.log(json);
+      // result.data = json;
       // res.send(result);
-      var result = { statusCode: null, message: null, data: null };
-      result.statusCode = OK;
-      result.message = "성공";
-      var json = JSON.parse(response);
-      console.log(response);
-      console.log(json);
-      result.data = json;
-      res.send(result);
+
+      // 응답할 데이터에 공공데이터 미세먼지 추가
+      // res.data.data[0].publicAirData = {};
+      if (dustRes.data.list && dustRes.data.list.length) {
+        const stationName = dustRes.data.list[0].stationName;
+        const dustURL2 =
+          "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=" +
+          stationName +
+          "&dataTerm=month&pageNo=1&numOfRows=10&ServiceKey=" +
+          serviceKey +
+          "&ver=1.3&_returnType=json";
+        var promise2 = Proxy.get(dustURL2);
+        promise2
+          .then(function(response) {
+            var result = { statusCode: null, message: null, data: null };
+            var dustData = { pm10Value: "", pm25Value: "" };
+            var dustRes2 = JSON.parse(response);
+            dustData = dustRes2.data.list[0];
+            result.statusCode = OK;
+            result.message = "성공";
+            result.data = dustData;
+            res.send(result);
+          })
+          .catch(function(err) {
+            console.dir(err);
+            var result = { statusCode: null, message: null, data: null };
+            result.statusCode = FAIL;
+            result.message = "실패";
+            res.send(result);
+          });
+      } else {
+        var result = { statusCode: null, message: null, data: null };
+        var dustData = { pm10Value: "", pm25Value: "" };
+        result.statusCode = OK;
+        result.message = "성공";
+        result.data = dustData;
+        res.send(result);
+      }
     })
     .catch(function(err) {
       console.dir(err);
@@ -177,8 +201,7 @@ router.get("/getWeather", function(req, res, next) {
   var longitude = req.query.longitude || req.body.longitude;
   console.log("latitude : " + latitude + " longitude : " + longitude);
 
-  const kmaServiceKey =
-    "gv%2BRtk1AAsF%2FoktFHHGyBtBVdDD2gkRmrOFBRT%2BW07julujIwZQyjF0O%2FNtNqoWJ6LQq0GwDv%2BNSiUhhT07SRA%3D%3D";
+  const kmaServiceKey = "gv%2BRtk1AAsF%2FoktFHHGyBtBVdDD2gkRmrOFBRT%2BW07julujIwZQyjF0O%2FNtNqoWJ6LQq0GwDv%2BNSiUhhT07SRA%3D%3D";
   const kmaGrid = dfsXyConv("toXY", latitude, longitude); // 위도, 경도를 기상청 grid 로 변환
   const kmaURL = getWeatherUrl(kmaGrid.nx, kmaGrid.ny, kmaServiceKey);
   console.log(kmaURL);
@@ -230,10 +253,7 @@ router.post("/getToken", function(req, res, next) {
 router.post("/sendSMS", function(req, res, next) {
   console.log("/sendSMS 호출됨.");
 
-  var promise = Proxy.sendSMS(
-    "https://sms.gabia.com/api/send/sms",
-    global.smsToken
-  );
+  var promise = Proxy.sendSMS("https://sms.gabia.com/api/send/sms", global.smsToken);
   promise
     .then(function(response) {
       var result = { statusCode: null, message: null, data: null };
@@ -253,10 +273,7 @@ router.post("/sendSMS", function(req, res, next) {
 router.post("/sendLMS", function(req, res, next) {
   console.log("/sendLMS 호출됨.");
 
-  var promise = Proxy.sendLMS(
-    "https://sms.gabia.com/api/send/lms",
-    global.smsToken
-  );
+  var promise = Proxy.sendLMS("https://sms.gabia.com/api/send/lms", global.smsToken);
   promise
     .then(function(response) {
       var result = { statusCode: null, message: null, data: null };
