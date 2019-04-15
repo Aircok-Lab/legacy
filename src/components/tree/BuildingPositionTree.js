@@ -316,6 +316,7 @@ class BuildingPositionTree extends Component {
                           checked={position.isChecked}
                           value={position.id}
                           defaultChecked={
+                            this.props.selectedItem &&
                             this.props.selectedItem.positionList.indexOf(
                               "" + position.id
                             ) > -1
