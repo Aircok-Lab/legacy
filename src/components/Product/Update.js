@@ -6,23 +6,23 @@ import { setViewMode } from "actions/Setting";
 class Update extends Component {
   state = {
     postData: {
-      id: this.props.item.id,
-      name: this.props.item.name,
-      version: this.props.item.version,
+      id: this.props.selectedItem.id,
+      name: this.props.selectedItem.name,
+      version: this.props.selectedItem.version,
       file: null,
-      firmware: this.props.item.firmware,
-      filesize: this.props.item.filesize,
-      period: this.props.item.period,
-      indoor: this.props.item.indoor,
-      pm25: "" + this.props.item.pm25,
-      pm10: "" + this.props.item.pm10,
-      co2: "" + this.props.item.co2,
-      co: "" + this.props.item.co,
-      hcho: "" + this.props.item.hcho,
-      voc: "" + this.props.item.voc,
-      temperature: "" + this.props.item.temperature,
-      humidity: "" + this.props.item.humidity,
-      noise: "" + this.props.item.noise
+      firmware: this.props.selectedItem.firmware,
+      filesize: this.props.selectedItem.filesize,
+      period: this.props.selectedItem.period,
+      indoor: this.props.selectedItem.indoor,
+      pm25: "" + this.props.selectedItem.pm25,
+      pm10: "" + this.props.selectedItem.pm10,
+      co2: "" + this.props.selectedItem.co2,
+      co: "" + this.props.selectedItem.co,
+      hcho: "" + this.props.selectedItem.hcho,
+      voc: "" + this.props.selectedItem.voc,
+      temperature: "" + this.props.selectedItem.temperature,
+      humidity: "" + this.props.selectedItem.humidity,
+      noise: "" + this.props.selectedItem.noise
     }
   };
   update = () => {
@@ -363,7 +363,7 @@ class Update extends Component {
 }
 
 const mapStateToProps = state => ({
-  item: state.settings.item
+  selectedItem: state.settings.selectedItem
 });
 
 const mapDispatchToProps = {

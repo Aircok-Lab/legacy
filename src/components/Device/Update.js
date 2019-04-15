@@ -6,19 +6,19 @@ import { setViewMode } from "actions/Setting";
 
 class Update extends Component {
   state = {
-    oldPositionId: this.props.item.positionID,
+    oldPositionId: this.props.selectedItem.positionID,
     postData: {
-      name: this.props.item.name,
-      serialNumber: this.props.item.serialNumber,
-      positionID: "" + this.props.item.positionID,
-      productID: "" + this.props.item.productID,
-      reportType: "" + this.props.item.reportType,
-      imei: this.props.item.imei,
-      networkType: this.props.item.networkType, // cellular | ethernet
-      phone: this.props.item.phone || "",
-      ip: this.props.item.ip || "",
-      gateway: this.props.item.gateway || "",
-      subnet: this.props.item.subnet || ""
+      name: this.props.selectedItem.name,
+      serialNumber: this.props.selectedItem.serialNumber,
+      positionID: "" + this.props.selectedItem.positionID,
+      productID: "" + this.props.selectedItem.productID,
+      reportType: "" + this.props.selectedItem.reportType,
+      imei: this.props.selectedItem.imei,
+      networkType: this.props.selectedItem.networkType, // cellular | ethernet
+      phone: this.props.selectedItem.phone || "",
+      ip: this.props.selectedItem.ip || "",
+      gateway: this.props.selectedItem.gateway || "",
+      subnet: this.props.selectedItem.subnet || ""
     }
   };
   update = () => {
@@ -327,7 +327,7 @@ const mapStateToProps = state => ({
   selectedNode: state.tree.selectedNode,
   productList: state.product.list,
   viewMode: state.settings.viewMode,
-  item: state.settings.item
+  selectedItem: state.settings.selectedItem
 });
 
 const mapDispatchToProps = {

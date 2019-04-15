@@ -9,6 +9,7 @@ import {
   USER_ADD_REQUEST,
   USER_ADD_SUCCESS,
   USER_UPDATE_REQUEST,
+  USER_PROFILE_REQUEST,
   USER_DELETE_REQUEST,
   SET_VIEW_MODE,
   USER_CHANGE_PASSWORD_REQUEST,
@@ -79,7 +80,38 @@ export function* userAddWatcher() {
   yield takeEvery(USER_ADD_REQUEST, userAddWorker);
 }
 
+// 다른 사용자정보 변경
 function* userUpdateWorker(action) {
+  try {
+    const postData = JSON.parse(JSON.stringify(action.payload));
+    delete postData.plainTextPassword;
+    delete postData.oldPassword;
+    delete postData.newPassword;
+    delete postData.newPasswordConfirm;
+
+    const res = yield api.put(`user/modifyUser`, postData);
+    if (responseDataProcess(res.data)) {
+      toaster("적용하였습니다.", 3000, "bg-success");
+      delete postData.password;
+      if (postData.id === action.authUser.id) {
+        localStorage.setItem("user_id", JSON.stringify(postData));
+        yield put(userSignInSuccess(postData));
+      }
+      yield put({
+        type: SET_VIEW_MODE,
+        payload: "list"
+      });
+    }
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* userUpdateWatcher() {
+  yield takeEvery(USER_UPDATE_REQUEST, userUpdateWorker);
+}
+
+// 내정보 변경
+function* userProfileWorker(action) {
   try {
     const postData = JSON.parse(JSON.stringify(action.payload));
     delete postData.plainTextPassword;
@@ -104,8 +136,8 @@ function* userUpdateWorker(action) {
     console.log("[ERROR#####]", error);
   }
 }
-export function* userUpdateWatcher() {
-  yield takeEvery(USER_UPDATE_REQUEST, userUpdateWorker);
+export function* userProfileWatcher() {
+  yield takeEvery(USER_PROFILE_REQUEST, userProfileWorker);
 }
 
 function* userDeleteWorker(action) {
@@ -215,6 +247,7 @@ export default function* rootSaga() {
   yield all([fork(userListByPositionIdWatcher)]);
   yield all([fork(userAddWatcher)]);
   yield all([fork(userUpdateWatcher)]);
+  yield all([fork(userProfileWatcher)]);
   yield all([fork(userDeleteWatcher)]);
   yield all([fork(userChangePasswordWatcher)]);
   yield all([fork(userFindUserWatcher)]);

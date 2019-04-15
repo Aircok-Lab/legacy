@@ -41,25 +41,26 @@ class List extends React.Component {
         buildingID: "" + this.props.selectedNode.id
       });
     }
-
-    this.setState({ userList: this.props.userList });
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   if (JSON.stringify(state.userList) != JSON.stringify(props.userList)) {
-  //     console.log("1111...");
-  //     return {
-  //       userList: props.userList
-  //     };
-  //   }
-  //   return null;
-  // }
+  static getDerivedStateFromProps(props, state) {
+    if (JSON.stringify(state.userList) != JSON.stringify(props.userList)) {
+      const userList = props.userList.filter(user => {
+        if (user.userType === "master") return false;
+        if (user.loginID === props.authUser.loginID) return false;
+        return true;
+      });
+      return {
+        userList
+      };
+    }
+    return null;
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
       JSON.stringify(prevProps.userList) != JSON.stringify(this.props.userList)
     ) {
-      this.setState({ userList: this.props.userList });
     }
 
     if (
@@ -89,7 +90,11 @@ class List extends React.Component {
       userList = userList.filter(user => user.userType == e.target.value);
       this.setState({ userList });
     } else {
-      this.setState({ userList: this.props.userList });
+      // this.setState({ userList: this.props.userList });
+      const userList = this.props.userList.filter(
+        user => user.userType !== "master"
+      );
+      this.setState({ userList });
     }
   };
 

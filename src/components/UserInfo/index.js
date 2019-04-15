@@ -6,6 +6,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import IntlMessages from "util/IntlMessages";
 import { userSignOut } from "actions/Auth";
 import { NavLink, withRouter } from "react-router-dom";
+import { selectTreeNode } from "actions/Tree";
+import { userLogout } from "actions/User";
 
 class UserInfo extends React.Component {
   state = {
@@ -20,6 +22,8 @@ class UserInfo extends React.Component {
   handleLogout = () => {
     this.props.userSignOut();
     this.setState({ open: false });
+    this.props.selectTreeNode({});
+    localStorage.removeItem("selectedNode");
   };
 
   handleRequestClose = () => {
@@ -71,5 +75,5 @@ const mapStateToProps = ({ settings, auth }) => {
 };
 export default connect(
   mapStateToProps,
-  { userSignOut }
+  { userSignOut, selectTreeNode, userLogout }
 )(UserInfo);

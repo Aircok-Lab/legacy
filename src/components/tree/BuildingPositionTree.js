@@ -55,6 +55,15 @@ class BuildingPositionTree extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("prevProps.buildingList ###### ", prevProps.buildingList);
+    console.log("prevState.selectedNode.id &&&&&& ", prevState.selectedNode.id);
+    if (!prevState.selectedNode.id && prevProps.buildingList.length) {
+      const selectedNode = prevProps.buildingList[0];
+      this.setState({ selectedNode }, () => {
+        this.nodeClick(selectedNode);
+      });
+    }
+
     // 건물 추가/삭제시 건물데이터 요청
     if (this.props.authUser.buildingList != prevProps.authUser.buildingList) {
       this.props.buildingListRequest({
@@ -71,6 +80,7 @@ class BuildingPositionTree extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    console.log("props.buildingList", props.buildingList);
     let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
     if (arrayNodes && props.buildingList) {
       const expandedObjects = props.buildingList.filter(building => {

@@ -23,14 +23,12 @@ class Login extends React.Component {
   // }
   state = {
     loginId: setInitValue("linkit"),
-    password: setInitValue("123456"),
+    password: setInitValue("1"),
     stayLogin: JSON.parse(localStorage.getItem("stayLogin"))
   };
 
   componentDidMount() {
     this.props.publicKeyRequest();
-    // localStorage.removeItem("user_id");
-    console.log("this.props.initURL", this.props.initURL);
   }
 
   componentDidUpdate() {
@@ -39,22 +37,9 @@ class Login extends React.Component {
         this.props.hideMessage();
       }, 100);
     }
-
-    // const stayLogin = JSON.parse(localStorage.getItem("stayLogin"));
-    // console.log("app.js stayLogin : ", stayLogin);
-    // console.log(
-    //   "app.js this.props.location.pathname : ",
-    //   this.props.location.pathname
-    // );
-
     if (this.props.authUser !== null) {
       this.props.history.push("/");
     }
-    // const user_id = JSON.parse(localStorage.getItem("user_id"));
-    // console.log("login.js ... : ", user_id, this.props.authUser);
-    // if (user_id) {
-    //   this.props.history.push("/");
-    // }
   }
 
   handleChange = name => event => {

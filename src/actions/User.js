@@ -3,6 +3,7 @@ import {
   USER_LIST_BY_POSITION_ID_REQUEST,
   USER_ADD_REQUEST,
   USER_UPDATE_REQUEST,
+  USER_PROFILE_REQUEST,
   USER_DELETE_REQUEST,
   USER_SET_ITEM,
   USER_CHANGE_PASSWORD_REQUEST,
@@ -34,6 +35,15 @@ export const userAddRequest = payload => {
 export const userUpdateRequest = (payload, authUser, pkey) => {
   return {
     type: USER_UPDATE_REQUEST,
+    payload,
+    authUser,
+    pkey
+  };
+};
+
+export const userProfileRequest = (payload, authUser, pkey) => {
+  return {
+    type: USER_PROFILE_REQUEST,
     payload,
     authUser,
     pkey

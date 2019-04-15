@@ -13,8 +13,9 @@ import Sensor from "./Sensor";
 import Alarm from "./Alarm";
 import AlarmReference from "./AlarmReference";
 import RecentData from "./RecentData";
+import { SIGNOUT_USER } from "constants/ActionTypes";
 
-const reducers = combineReducers({
+const appReducer = combineReducers({
   routing: routerReducer,
   settings: Settings,
   auth: Auth,
@@ -31,4 +32,12 @@ const reducers = combineReducers({
   recentData: RecentData
 });
 
-export default reducers;
+const rootReducer = (state, action) => {
+  if (action.type === SIGNOUT_USER) {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
+
+export default rootReducer;

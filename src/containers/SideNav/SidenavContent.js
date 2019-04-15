@@ -128,7 +128,7 @@ class SidenavContent extends Component {
                 </NavLink>
                 <NavLink to="/app/profile">
                   <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
-                  <span className="nav-text">내 정보 관리 </span>
+                  <span className="nav-text">프로파일 관리 </span>
                 </NavLink>
               </li>
             </ul>
@@ -159,7 +159,7 @@ class SidenavContent extends Component {
                 </NavLink>
                 <NavLink to="/app/profile">
                   <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
-                  <span className="nav-text">내 정보 관리 </span>
+                  <span className="nav-text">프로파일 관리 </span>
                 </NavLink>
               </li>
             </ul>
@@ -183,7 +183,7 @@ class SidenavContent extends Component {
 
                 <NavLink to="/app/profile">
                   <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
-                  <span className="nav-text">내 정보 관리 </span>
+                  <span className="nav-text">프로파일 관리 </span>
                 </NavLink>
               </li>
             </ul>
@@ -210,7 +210,7 @@ class SidenavContent extends Component {
                 </NavLink>
                 <NavLink to="/app/profile">
                   <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
-                  <span className="nav-text">내 정보 관리 </span>
+                  <span className="nav-text">프로파일 관리 </span>
                 </NavLink>
               </li>
             </ul>
@@ -264,7 +264,7 @@ class SidenavContent extends Component {
             </NavLink>
             <NavLink to="/app/profile">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
-              <span className="nav-text">내 정보 관리 </span>
+              <span className="nav-text">프로파일 관리 </span>
             </NavLink>
           </li>
         </ul>

@@ -53,7 +53,7 @@ const settings = (state = initialSettings, action) => {
       return {
         ...state,
         viewMode: action.payload,
-        item: action.item
+        selectedItem: action.selectedItem
       };
     case SET_SHOW_MODAL:
       return {

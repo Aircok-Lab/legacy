@@ -21,6 +21,9 @@ class Add extends Component {
     }
   };
   add = () => {
+    const buildingList = "" + this.props.selectedNode.buildingID;
+    const positionList = "" + this.props.selectedNode.id;
+
     if (!this.state.postData.loginId) {
       alert("로그인ID를 입력하세요");
     } else if (!this.state.postData.name) {
@@ -36,12 +39,13 @@ class Add extends Component {
     } else if (!this.state.postData.userType) {
       alert("사용자권한을 선택하세요");
     } else {
-      console.log("bbb");
       // 변경된 포지션을 저장
       this.setState(
         {
           postData: {
-            ...this.state.postData
+            ...this.state.postData,
+            buildingList,
+            positionList
             // positionID: positionId
           }
         },

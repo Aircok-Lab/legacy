@@ -21,11 +21,11 @@ export function switchLanguage(locale) {
   };
 }
 
-export function setViewMode(viewMode, item) {
+export function setViewMode(viewMode, selectedItem) {
   return {
     type: SET_VIEW_MODE,
     payload: viewMode,
-    item: item
+    selectedItem: selectedItem
   };
 }
 

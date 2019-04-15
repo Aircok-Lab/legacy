@@ -26,7 +26,7 @@ Modal.setAppElement("#body");
 class Update extends Component {
   state = {
     postData: {
-      ...this.props.item,
+      ...this.props.selectedItem,
       password: "",
       oldPassword: "123456",
       newPassword: "123",
@@ -68,6 +68,7 @@ class Update extends Component {
   };
 
   update = () => {
+    console.log();
     console.log(this.state);
     if (!this.state.postData.name) {
       alert("사용자이름을 입력하세요");
@@ -87,6 +88,7 @@ class Update extends Component {
       );
     }
   };
+
   handleChange = e => {
     this.setState({
       postData: {
@@ -213,7 +215,7 @@ const mapStateToProps = state => ({
   selectedNode: state.tree.selectedNode,
   productList: state.product.list,
   viewMode: state.settings.viewMode,
-  item: state.settings.item,
+  selectedItem: state.settings.selectedItem,
   showModal: state.settings.showModal,
   newPassword: state.user.newPassword
 });

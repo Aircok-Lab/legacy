@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userUpdateRequest, userChangePasswordRequest } from "actions/User";
+import { userProfileRequest, userChangePasswordRequest } from "actions/User";
 import { setViewMode, setShowModal } from "actions/Setting";
 import { publicKeyRequest } from "actions/Auth";
 import Modal from "react-modal";
@@ -115,7 +115,7 @@ class Update extends Component {
             "this.state.postData.password",
             this.state.postData.password
           );
-          this.props.userUpdateRequest(
+          this.props.userProfileRequest(
             this.state.postData,
             this.props.authUser,
             this.props.pkey
@@ -141,7 +141,7 @@ class Update extends Component {
     return (
       <div className="">
         <form className="text-blue w3-margin">
-          <h2 className="text-center">내정보 수정</h2>
+          <h2 className="text-center">프로파일 수정</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               아이디
@@ -362,14 +362,13 @@ const mapStateToProps = state => ({
   selectedNode: state.tree.selectedNode,
   productList: state.product.list,
   viewMode: state.settings.viewMode,
-  item: state.settings.item,
   showModal: state.settings.showModal,
   newPassword: state.user.newPassword
 });
 
 const mapDispatchToProps = {
   publicKeyRequest,
-  userUpdateRequest,
+  userProfileRequest,
   setViewMode,
   userChangePasswordRequest,
   setShowModal
