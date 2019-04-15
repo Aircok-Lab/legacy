@@ -23,7 +23,7 @@ class UserContainer extends React.Component {
       <div className="row">
         <div className="col-2 py-3">
           <h2 className="text-center">건물 목록</h2>
-          <BuildingPositionTree hideButton={true} />{" "}
+          <BuildingPositionTree hideButton={true} checkable={true} />{" "}
         </div>
         <div className="col-4 border-left border-right">
           <Add hideButton={true} />

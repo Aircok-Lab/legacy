@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { userAddRequest } from "actions/User";
 import { productListRequest } from "actions/Product";
+import { positionClearChecked } from "actions/Position";
 import { setViewMode } from "actions/Setting";
 import setInitValue from "../../util/setInitValue";
 
@@ -21,10 +22,20 @@ class Add extends Component {
     }
   };
   add = () => {
-    const buildingList = "" + this.props.selectedNode.buildingID;
-    const positionList = "" + this.props.selectedNode.id;
+    let arr = this.props.checked.map(position => position.buildingID);
+    const bildingIds = arr.filter(
+      (value, idx, arr) => arr.indexOf(value) === idx
+    );
+    let positionIds = this.props.checked.map(position => position.id);
+    const buildingList = bildingIds.join();
+    const positionList = positionIds.join();
+    console.log(positionIds, bildingIds, this.props.checked);
 
-    if (!this.state.postData.loginId) {
+    // return;
+
+    if (!this.props.checked.length) {
+      alert("위치를 선택하세요");
+    } else if (!this.state.postData.loginId) {
       alert("로그인ID를 입력하세요");
     } else if (!this.state.postData.name) {
       alert("사용자이름을 입력하세요");
@@ -46,7 +57,6 @@ class Add extends Component {
             ...this.state.postData,
             buildingList,
             positionList
-            // positionID: positionId
           }
         },
         () => {
@@ -72,6 +82,7 @@ class Add extends Component {
 
   componentDidMount() {
     this.props.productListRequest();
+    this.props.positionClearChecked();
   }
 
   render() {
@@ -219,13 +230,15 @@ const mapStateToProps = state => ({
   authUser: state.auth.authUser,
   selectedNode: state.tree.selectedNode,
   productList: state.product.list,
-  viewMode: state.settings.viewMode
+  viewMode: state.settings.viewMode,
+  checked: state.position.checked
 });
 
 const mapDispatchToProps = {
   userAddRequest,
   productListRequest,
-  setViewMode
+  setViewMode,
+  positionClearChecked
 };
 
 export default connect(

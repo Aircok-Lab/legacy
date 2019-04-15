@@ -124,7 +124,7 @@ class List extends React.Component {
                   className="btn btn-primary"
                   onClick={e => this.props.setViewMode("add")}
                   style={{ marginLeft: "2px" }}
-                  disabled={!this.props.selectedNode.buildingID}
+                  // disabled={!this.props.selectedNode.buildingID}
                 >
                   등록
                 </button>

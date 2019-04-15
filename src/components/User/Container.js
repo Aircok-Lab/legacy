@@ -9,6 +9,7 @@ class Container extends React.Component {
   componentDidMount() {
     localStorage.removeItem("steps");
     this.props.setViewMode("list");
+    // this.props.setViewMode("add");
   }
 
   render() {
@@ -20,7 +21,7 @@ class Container extends React.Component {
       case "add":
         return (
           <div className="col-6 mx-auto">
-            <Add />
+            <Add checkable={true} />
           </div>
         );
         break;
@@ -28,7 +29,7 @@ class Container extends React.Component {
       case "update":
         return (
           <div className="col-6 mx-auto">
-            <Update />
+            <Update checkable={true} />
           </div>
         );
         break;

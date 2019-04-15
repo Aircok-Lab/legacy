@@ -9,7 +9,11 @@ import UpdatePosition from "components/Tree/UpdatePosition";
 // import UpdateDevice from "components/UpdateDevice";
 import { selectTreeNode, toggleTreeNode } from "actions/Tree";
 import { buildingListRequest, buildingAddRequest } from "actions/Building";
-import { positionListRequest, positionAddRequest } from "actions/Position";
+import {
+  positionListRequest,
+  positionAddRequest,
+  positionToggleChecked
+} from "actions/Position";
 import { setShowModal } from "actions/Setting";
 
 const customStyles = {
@@ -42,6 +46,7 @@ class BuildingPositionTree extends Component {
     expandedNodes: []
   };
   componentDidMount() {
+    console.log("this.props ....", this.props);
     this.props.buildingListRequest({
       id: "" + this.props.authUser.buildingList
     });
@@ -153,6 +158,11 @@ class BuildingPositionTree extends Component {
     }
   };
 
+  toggleChecked = item => {
+    console.log("checked .... ", item);
+    this.props.positionToggleChecked(item);
+  };
+
   render() {
     // 중요 : Spread Operator는 Sharrow Copy만 하므로 JSON.stringify로 Deep Clone 해야 합니다.
     // let buildingPositionList = [...this.props.buildingList];
@@ -239,6 +249,8 @@ class BuildingPositionTree extends Component {
           </div>
         </div>
 
+        <div>checkable_aa: {JSON.stringify(this.props.checkable)}</div>
+
         {buildingPositionList.map(item => (
           <div key={item.id}>
             <div
@@ -301,10 +313,18 @@ class BuildingPositionTree extends Component {
                       {this.props.checkable && (
                         <input
                           type="checkbox"
-                          checked={item.isChecked}
-                          value={item.id}
+                          checked={position.isChecked}
+                          value={position.id}
+                          defaultChecked={
+                            this.props.selectedItem.positionList.indexOf(
+                              "" + position.id
+                            ) > -1
+                              ? true
+                              : false
+                          }
                           onClick={e => {
                             e.stopPropagation();
+                            this.toggleChecked(position);
                           }}
                         />
                       )}
@@ -350,6 +370,7 @@ const mapStateToProps = state => ({
   positionList: state.position.list,
   selectedNode: state.tree.selectedNode,
   expandedNodes: state.tree.expandedNodes,
+  selectedItem: state.settings.selectedItem,
   showModal: state.settings.showModal
 });
 
@@ -358,6 +379,7 @@ const mapDispatchToProps = {
   buildingListRequest,
   positionAddRequest,
   positionListRequest,
+  positionToggleChecked,
   selectTreeNode,
   toggleTreeNode,
   setShowModal

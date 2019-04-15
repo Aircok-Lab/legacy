@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { userUpdateRequest, userChangePasswordRequest } from "actions/User";
 import { setViewMode, setShowModal } from "actions/Setting";
 import { publicKeyRequest } from "actions/Auth";
+import { positionClearChecked, positionToggleChecked } from "actions/Position";
 import Modal from "react-modal";
 
 const customStyles = {
@@ -70,7 +71,22 @@ class Update extends Component {
   update = () => {
     console.log();
     console.log(this.state);
-    if (!this.state.postData.name) {
+    let arr = this.props.checked.map(position => position.buildingID);
+    const bildingIds = arr.filter(
+      (value, idx, arr) => arr.indexOf(value) === idx
+    );
+    let positionIds = this.props.checked.map(position => position.id);
+    const buildingList = bildingIds.join();
+    const positionList = positionIds.join();
+    console.log(positionIds, bildingIds, this.props.checked);
+
+    // return;
+
+    if (!this.props.checked.length) {
+      alert("위치를 선택하세요");
+      // } else if (!this.state.postData.loginId) {
+      //   alert("로그인ID를 입력하세요");
+    } else if (!this.state.postData.name) {
       alert("사용자이름을 입력하세요");
     } else if (!this.state.postData.email) {
       alert("이메일을 입력하세요");
@@ -81,10 +97,25 @@ class Update extends Component {
     } else if (!this.state.postData.userType) {
       alert("사용자권한을 선택하세요");
     } else {
-      this.props.userUpdateRequest(
-        this.state.postData,
-        this.props.authUser,
-        this.props.pkey
+      // this.props.userUpdateRequest(
+      //   this.state.postData,
+      //   this.props.authUser,
+      //   this.props.pkey
+      // );
+
+      // 변경된 포지션을 저장
+      this.setState(
+        {
+          postData: {
+            ...this.state.postData,
+            buildingList,
+            positionList
+          }
+        },
+        () => {
+          //포지션 저장완료 후, 서버에 데이터 전송
+          this.props.userUpdateRequest(this.state.postData);
+        }
       );
     }
   };
@@ -100,6 +131,20 @@ class Update extends Component {
 
   componentDidMount() {
     this.props.publicKeyRequest();
+    //positionClearChecked, positionToggleChecked
+    this.props.positionClearChecked();
+    console.log(
+      "aaaa",
+      this.state.postData.positionList,
+      this.props.positionList
+    );
+    this.props.positionList.map(p => {
+      console.log("bbb", this.state.postData.positionList, p.id);
+      if (this.state.postData.positionList.indexOf("" + p.id) > -1) {
+        console.log("cccc", p);
+        this.props.positionToggleChecked(p);
+      }
+    });
   }
 
   render() {
@@ -107,6 +152,7 @@ class Update extends Component {
       <div className="">
         <form className="text-blue w3-margin">
           <h2 className="text-center">사용자 수정</h2>
+
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               아이디
@@ -214,6 +260,9 @@ const mapStateToProps = state => ({
   authUser: state.auth.authUser,
   selectedNode: state.tree.selectedNode,
   productList: state.product.list,
+
+  checked: state.position.checked,
+  positionList: state.position.list,
   viewMode: state.settings.viewMode,
   selectedItem: state.settings.selectedItem,
   showModal: state.settings.showModal,
@@ -225,7 +274,9 @@ const mapDispatchToProps = {
   userUpdateRequest,
   setViewMode,
   userChangePasswordRequest,
-  setShowModal
+  setShowModal,
+  positionClearChecked,
+  positionToggleChecked
 };
 
 export default connect(
