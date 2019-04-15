@@ -23,21 +23,9 @@ router.post("/addPosition", function(req, res, next) {
     return;
   }
 
-  console.log(
-    "요청 파라미터 : " +
-      paramName +
-      "," +
-      paramPosition +
-      "," +
-      paramBuildingID +
-      "," +
-      paramUserID
-  );
+  console.log("요청 파라미터 : " + paramName + "," + paramPosition + "," + paramBuildingID + "," + paramUserID);
 
-  Position.addPosition(paramName, paramPosition, paramBuildingID, function(
-    err,
-    addedPosition
-  ) {
+  Position.addPosition(paramName, paramPosition, paramBuildingID, function(err, addedPosition) {
     // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
     if (err) {
       console.error("층 추가 중 오류 발생 :" + err.stack);
@@ -57,18 +45,34 @@ router.post("/addPosition", function(req, res, next) {
           return;
         }
         if (users) {
-          users.map(user => {
-            let positionList =
-              user.positionList + addedPosition.insertId + ",/";
-
-            User.updateUserPositionList(user.id, positionList);
-            if (user.id == paramUserID) {
-              user.positionList = positionList;
-              let userData = userPattern.deletePattern(user);
-              result.statusCode = OK;
-              result.message = "성공";
-              result.data = userData;
-              res.send(result);
+          var userData = users.find(function(user) {
+            return user.id == paramUserID;
+          });
+          if (userData) {
+            let positionList = userData.positionList + addedPosition.insertId + ",/";
+            User.updateUserPositionList(userData.id, positionList);
+            userData.positionList = positionList;
+            userData = userPattern.deletePattern(userData);
+            result.statusCode = OK;
+            result.message = "성공";
+            result.data = userData;
+            res.send(result);
+          }
+          var ids = userData.positionList.split(",");
+          console.log(ids);
+          users.map((user) => {
+            let positionList = user.positionList + addedPosition.insertId + ",/";
+            console.log(positionList);
+            console.log(ids.length);
+            for (let i = 0; i < ids.length; i++) {
+              let idStr = "/" + ids[i] + ",/";
+              console.log(idStr);
+              if (i === ids.length - 1) {
+                if (user.userType === "manager" || user.userType === "master") {
+                  User.updateUserPositionList(user.id, positionList);
+                }
+              } else if (positionList.indexOf(idStr) !== -1) continue;
+              else break;
             }
           });
         }
@@ -185,44 +189,29 @@ router.put("/updatePosition", function(req, res, next) {
   var paramBuildingID = req.body.buildingID || req.query.buildingID;
   var result = { statusCode: null, message: null, data: null };
 
-  console.log(
-    "요청 파라미터 : " +
-      paramPositionID +
-      "," +
-      paramName +
-      "," +
-      paramPosition +
-      "," +
-      paramBuildingID
-  );
+  console.log("요청 파라미터 : " + paramPositionID + "," + paramName + "," + paramPosition + "," + paramBuildingID);
 
-  Position.updatePosition(
-    paramPositionID,
-    paramName,
-    paramPosition,
-    paramBuildingID,
-    function(err, success) {
-      if (err) {
-        console.error("층 정보 수정 중 오류 발생 :" + err.stack);
-        result.statusCode = FAIL;
-        result.message = "오류 발생";
-        res.send(result);
-        return;
-      }
-
-      //결과 객체 있으면 성공 응답 전송
-      if (success) {
-        console.dir(success);
-        result.statusCode = OK;
-        result.message = "성공";
-        res.send(result);
-      } else {
-        result.statusCode = FAIL;
-        result.message = "수정된 내용이 없습니다.";
-        res.send(result);
-      }
+  Position.updatePosition(paramPositionID, paramName, paramPosition, paramBuildingID, function(err, success) {
+    if (err) {
+      console.error("층 정보 수정 중 오류 발생 :" + err.stack);
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
     }
-  );
+
+    //결과 객체 있으면 성공 응답 전송
+    if (success) {
+      console.dir(success);
+      result.statusCode = OK;
+      result.message = "성공";
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "수정된 내용이 없습니다.";
+      res.send(result);
+    }
+  });
 });
 
 router.delete("/deletePosition", function(req, res, next) {
@@ -234,10 +223,7 @@ router.delete("/deletePosition", function(req, res, next) {
 
   console.log("요청 파라미터 : " + paramPositionID + paramUserID);
 
-  Device.getDeviceCountByPositionId(paramPositionID, function(
-    err,
-    deviceCount
-  ) {
+  Device.getDeviceCountByPositionId(paramPositionID, function(err, deviceCount) {
     if (err) {
       console.error("오류 발생 :" + err.stack);
       return;
@@ -259,7 +245,7 @@ router.delete("/deletePosition", function(req, res, next) {
 
           User.getUserByPositionId(paramPositionID, function(err, users) {
             if (users) {
-              users.map(user => {
+              users.map((user) => {
                 let delStr = "/" + paramPositionID + ",/";
                 let inStr = "/";
                 let positionList = user.positionList.replace(delStr, inStr);
@@ -284,8 +270,7 @@ router.delete("/deletePosition", function(req, res, next) {
       });
     } else {
       result.statusCode = FAIL;
-      result.message =
-        "디바이스가 존재합니다. 디바이스를 삭제 후 삭제 바랍니다.";
+      result.message = "디바이스가 존재합니다. 디바이스를 삭제 후 삭제 바랍니다.";
       res.send(result);
     }
   });
