@@ -11,7 +11,7 @@ var Proxy = {
     var id = "aircok";
     var key = "c72309fd64cddec926c9e367f4855f03";
     var encode = id + ":" + key;
-    var keyStr = btoa(encode);
+    var keyStr = new Buffer(encode, "base64").toString();
     var options = {
       method: "POST",
       url: url,
@@ -29,7 +29,7 @@ var Proxy = {
   sendSMS: function(url, token) {
     var id = "aircok";
     var encode = id + ":" + token;
-    var keyStr = btoa(encode);
+    var keyStr = new Buffer(encode, "base64").toString();
     var options = {
       method: "POST",
       url: url,
@@ -53,7 +53,7 @@ var Proxy = {
   sendLMS: function(url, token) {
     var id = "aircok";
     var encode = id + ":" + token;
-    var keyStr = btoa(encode);
+    var keyStr = new Buffer(encode, "base64").toString();
     var options = {
       method: "POST",
       url: url,
