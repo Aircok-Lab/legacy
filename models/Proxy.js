@@ -11,6 +11,7 @@ var Proxy = {
     var id = "aircok";
     var key = "c72309fd64cddec926c9e367f4855f03";
     var encode = id + ":" + key;
+    var keyStr = btoa(encode);
     var options = {
       method: "POST",
       url: url,
@@ -18,7 +19,7 @@ var Proxy = {
         "postman-token": "2c7e8d5e-6022-3ef3-a3b3-b9d69799db9c",
         "cache-control": "no-cache",
         "content-type": "application/x-www-form-urlencoded",
-        authorization: "Basic " + btoa(encode)
+        authorization: "Basic " + keyStr
       },
       form: { grant_type: "client_credentials" }
     };
@@ -28,13 +29,14 @@ var Proxy = {
   sendSMS: function(url, token) {
     var id = "aircok";
     var encode = id + ":" + token;
+    var keyStr = btoa(encode);
     var options = {
       method: "POST",
       url: url,
       headers: {
         "postman-token": "4b376613-30b7-cd72-b227-b7c3c9936810",
         "cache-control": "no-cache",
-        authorization: "Basic " + btoa(encode),
+        authorization: "Basic " + keyStr,
         "content-type": "application/x-www-form-urlencoded"
       },
       form: {
@@ -51,13 +53,14 @@ var Proxy = {
   sendLMS: function(url, token) {
     var id = "aircok";
     var encode = id + ":" + token;
+    var keyStr = btoa(encode);
     var options = {
       method: "POST",
       url: url,
       headers: {
         "postman-token": "8b3b9c41-e302-02a0-625e-8f064633f604",
         "cache-control": "no-cache",
-        authorization: "Basic " + btoa(encode),
+        authorization: "Basic " + keyStr,
         "content-type": "application/x-www-form-urlencoded"
       },
       form: {
