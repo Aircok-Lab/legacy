@@ -23,14 +23,14 @@ import Forgot from "./Forgot";
 import { setInitUrl, setInitUser, userSignOut } from "actions/Auth";
 import { systemListRequest } from "actions/System";
 import { alarmReferenceValueRequest } from "actions/AlarmReference";
-import { smsTokenRequest, sendSMS, sendLMS } from "actions/SMS";
+import { smsTokenRequest } from "actions/SMS";
 import RTL from "util/RTL";
 import asyncComponent from "util/asyncComponent";
 
 const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
+    render={(props) =>
       authUser ? (
         <Component {...props} />
       ) : (
@@ -58,19 +58,10 @@ class App extends Component {
     this.props.alarmReferenceValueRequest();
     this.props.systemListRequest({ id: "1" });
     this.props.smsTokenRequest();
-    this.props.sendSMS();
-    this.props.sendLMS();
   }
 
   render() {
-    const {
-      match,
-      location,
-      locale,
-      authUser,
-      initURL,
-      isDirectionRTL
-    } = this.props;
+    const { match, location, locale, authUser, initURL, isDirectionRTL } = this.props;
     console.log("authUser", authUser);
     if (location.pathname === "/") {
       if (authUser === null) {
@@ -94,27 +85,16 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={applyTheme}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <IntlProvider
-            locale={currentAppLocale.locale}
-            messages={currentAppLocale.messages}
-          >
+          <IntlProvider locale={currentAppLocale.locale} messages={currentAppLocale.messages}>
             <RTL>
               <div className="app-main">
                 <Switch>
-                  <RestrictedRoute
-                    path={`${match.url}app`}
-                    authUser={authUser}
-                    component={MainApp}
-                  />
+                  <RestrictedRoute path={`${match.url}app`} authUser={authUser} component={MainApp} />
                   {/* <Route path={`${match.url}app`} authUser={authUser} component={MainApp}/> */}
                   <Route path="/login" component={Login} />
                   <Route path="/join" component={Join} />
                   <Route path="/forgot" component={Forgot} />
-                  <Route
-                    component={asyncComponent(() =>
-                      import("components/Error404")
-                    )}
-                  />
+                  <Route component={asyncComponent(() => import("components/Error404"))} />
                 </Switch>
               </div>
             </RTL>
@@ -139,8 +119,6 @@ export default connect(
     userSignOut,
     alarmReferenceValueRequest,
     systemListRequest,
-    smsTokenRequest,
-    sendSMS,
-    sendLMS
+    smsTokenRequest
   }
 )(App);
