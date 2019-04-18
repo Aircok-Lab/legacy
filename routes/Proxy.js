@@ -118,16 +118,12 @@ function getWeatherUrl(nx, ny, serviceKey) {
   return fileName;
 }
 
-router.get("/getDust", function(req, res, next) {
+router.post("/getDust", function(req, res, next) {
   console.log("/getDust 호출됨.");
   const latitude = req.query.latitude || req.body.latitude;
   const longitude = req.query.longitude || req.body.longitude;
   console.log("latitude : " + latitude + " longitude : " + longitude);
 
-  // let coords = proj4("EPSG:4326", "EPSG:5181", [latitude, longitude]);
-  // const coordX = coords[0];
-  // const coordY = coords[1];
-  // console.log("coordX : " + coordX + " coordY : " + coordY);
   const serviceKey = "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
   const dustURL =
     "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?tmX=" +
@@ -137,58 +133,55 @@ router.get("/getDust", function(req, res, next) {
     "&pageNo=1&numOfRows=10&ServiceKey=" +
     serviceKey +
     "&_returnType=json";
-  console.log(dustURL);
 
   var promise = Proxy.get(dustURL);
   promise
     .then(function(response) {
       var dustRes = JSON.parse(response);
-      console.log(dustRes);
-      // console.log(json);
-      // result.data = json;
-      // res.send(result);
+      const serviceKey = "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
+      console.log(dustRes.list);
 
-      // 응답할 데이터에 공공데이터 미세먼지 추가
-      // res.data.data[0].publicAirData = {};
-      if (dustRes.data.list && dustRes.data.list.length) {
-        const stationName = dustRes.data.list[0].stationName;
+      if (dustRes.list && dustRes.list.length) {
+        const stationName = dustRes.list[0].stationName;
+        console.log(stationName);
         const dustURL2 =
           "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=" +
           stationName +
           "&dataTerm=month&pageNo=1&numOfRows=10&ServiceKey=" +
           serviceKey +
           "&ver=1.3&_returnType=json";
+        console.log(dustURL2);
         var promise2 = Proxy.get(dustURL2);
         promise2
           .then(function(response) {
             var result = { statusCode: null, message: null, data: null };
             var dustData = { pm10Value: "", pm25Value: "" };
             var dustRes2 = JSON.parse(response);
-            dustData = dustRes2.data.list[0];
+            console.log(dustRes2);
+            dustData = dustRes2.list;
+            console.log(dustData);
             result.statusCode = OK;
             result.message = "성공";
             result.data = dustData;
             res.send(result);
           })
           .catch(function(err) {
-            console.dir(err);
             var result = { statusCode: null, message: null, data: null };
+            console.dir(err);
             result.statusCode = FAIL;
-            result.message = "실패";
+            result.message = "측정 데이터가 없음";
             res.send(result);
           });
       } else {
         var result = { statusCode: null, message: null, data: null };
-        var dustData = { pm10Value: "", pm25Value: "" };
-        result.statusCode = OK;
-        result.message = "성공";
-        result.data = dustData;
+        result.statusCode = FAIL;
+        result.message = "근처 측정기 리스트 로딩 실패";
         res.send(result);
       }
     })
     .catch(function(err) {
-      console.dir(err);
       var result = { statusCode: null, message: null, data: null };
+      console.dir(err);
       result.statusCode = FAIL;
       result.message = "실패";
       res.send(result);
