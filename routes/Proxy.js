@@ -62,7 +62,7 @@ router.post("/getStation", function(req, res, next) {
 
   const serviceKey =
     "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
-  const dustURL =
+  const stationURL =
     "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?tmX=" +
     latitude +
     "&tmY=" +
@@ -71,18 +71,17 @@ router.post("/getStation", function(req, res, next) {
     serviceKey +
     "&_returnType=json";
 
-  var promise = Proxy.get(dustURL);
+  var promise = Proxy.get(stationURL);
   promise
     .then(function(response) {
-      var dustRes = JSON.parse(response);
-      console.log(dustRes.list);
+      var stationRes = JSON.parse(response);
+      console.log(stationRes.list);
 
-      if (dustRes.list && dustRes.list.length) {
+      if (stationRes.list && stationRes.list.length) {
         var result = { statusCode: null, message: null, data: null };
-        var dustData = dustRes.list;
         result.statusCode = OK;
         result.message = "성공";
-        result.data = dustData;
+        result.data = stationRes.list;
         res.send(result);
       } else {
         var result = { statusCode: null, message: null, data: null };
@@ -108,67 +107,28 @@ router.post("/getDust", function(req, res, next) {
   const serviceKey =
     "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
   const dustURL =
-    "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?tmX=" +
-    latitude +
-    "&tmY=" +
-    longitude +
-    "&pageNo=1&numOfRows=10&ServiceKey=" +
+    "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=" +
+    stationName +
+    "&dataTerm=month&pageNo=1&numOfRows=10&ServiceKey=" +
     serviceKey +
-    "&_returnType=json";
+    "&ver=1.3&_returnType=json";
 
   var promise = Proxy.get(dustURL);
   promise
     .then(function(response) {
       var dustRes = JSON.parse(response);
-      // const serviceKey = "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
       console.log(dustRes.list);
 
       if (dustRes.list && dustRes.list.length) {
-        // const stationName = dustRes.list[0].stationName;
-        console.log(stationName);
         var result = { statusCode: null, message: null, data: null };
-        // var dustData = { pm10Value: "", pm25Value: "" };
-        // var dustRes2 = JSON.parse(response);
-        // console.log(dustRes2);
-        var dustData = dustRes.list;
-        // console.log(dustData);
         result.statusCode = OK;
         result.message = "성공";
-        result.data = dustData;
+        result.data = dustRes.list;
         res.send(result);
-
-        // const dustURL2 =
-        //   "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=" +
-        //   stationName +
-        //   "&dataTerm=month&pageNo=1&numOfRows=10&ServiceKey=" +
-        //   serviceKey +
-        //   "&ver=1.3&_returnType=json";
-        // console.log(dustURL2);
-        // var promise2 = Proxy.get(dustURL2);
-        // promise2
-        //   .then(function(response) {
-        //     var result = { statusCode: null, message: null, data: null };
-        //     var dustData = { pm10Value: "", pm25Value: "" };
-        //     var dustRes2 = JSON.parse(response);
-        //     console.log(dustRes2);
-        //     dustData = dustRes2.list;
-        //     console.log(dustData);
-        //     result.statusCode = OK;
-        //     result.message = "성공";
-        //     result.data = dustData;
-        //     res.send(result);
-        //   })
-        //   .catch(function(err) {
-        //     var result = { statusCode: null, message: null, data: null };
-        //     console.dir(err);
-        //     result.statusCode = FAIL;
-        //     result.message = "측정 데이터가 없음";
-        //     res.send(result);
-        //   });
       } else {
         var result = { statusCode: null, message: null, data: null };
         result.statusCode = FAIL;
-        result.message = "근처 측정기 리스트 로딩 실패";
+        result.message = "근처 측정 데이터 로딩 실패";
         res.send(result);
       }
     })
