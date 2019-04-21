@@ -6,16 +6,18 @@ export const smsTokenRequest = () => {
   };
 };
 
-export const sendSMS = payload => {
+export const sendSMS = (deviceSN, positionID) => {
   return {
     type: SEND_SMS,
-    payload
+    deviceSN,
+    positionID
   };
 };
 
-export const sendLMS = payload => {
+export const sendLMS = (deviceSN, positionID) => {
   return {
     type: SEND_LMS,
-    payload
+    deviceSN,
+    positionID
   };
 };

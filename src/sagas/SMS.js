@@ -20,7 +20,10 @@ function* smsTokenWorker(action) {
 function* sendSMSWorker(action) {
   try {
     api.header;
-    const res = yield api.post(`proxy/sendSMS`);
+    const res = yield api.post(`proxy/sendSMS`, {
+      serialNumber: action.serialNumber,
+      positionID: action.positionID
+    });
     if (responseDataProcess(res.data)) {
       toaster("SMS를 전송하였습니다.", 3000, "bg-success");
     }
@@ -31,9 +34,12 @@ function* sendSMSWorker(action) {
 
 function* sendLMSWorker(action) {
   try {
-    const res = yield api.post(`proxy/sendLMS`);
+    const res = yield api.post(`proxy/sendLMS`, {
+      serialNumber: action.serialNumber,
+      positionID: action.positionID
+    });
     if (responseDataProcess(res.data)) {
-      toaster("SMS를 전송하였습니다.", 3000, "bg-success");
+      toaster("LMS를 전송하였습니다.", 3000, "bg-success");
     }
   } catch (error) {
     console.log("[ERROR#####]", error);
