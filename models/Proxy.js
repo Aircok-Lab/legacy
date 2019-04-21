@@ -1,4 +1,5 @@
 var rpn = require("request-promise-native");
+var global = require("../global");
 
 var Proxy = {
   get: function(url) {
@@ -25,22 +26,22 @@ var Proxy = {
 
     return rpn(options);
   },
-  sendSMS: function(url, token) {
+  sendSMS: function(phone, message) {
     var id = "aircok";
-    var encode = id + ":" + token;
+    var encode = id + ":" + global.smsToken;
     var keyStr = Buffer.from(encode).toString("base64");
     var options = {
       method: "POST",
-      url: url,
+      url: "https://sms.gabia.com/api/send/sms",
       headers: {
         "cache-control": "no-cache",
         authorization: "Basic " + keyStr,
         "content-type": "application/x-www-form-urlencoded"
       },
       form: {
-        phone: "01029724066",
+        phone: phone,
         callback: "025521947",
-        message: "test2 문자 발송입니다.",
+        message: message,
         reqdate: "0",
         refkey: "1212"
       }
@@ -48,24 +49,24 @@ var Proxy = {
 
     return rpn(options);
   },
-  sendLMS: function(url, token) {
+  sendLMS: function(phone, message) {
     var id = "aircok";
-    var encode = id + ":" + token;
+    var encode = id + ":" + global.smsToken;
     var keyStr = Buffer.from(encode).toString("base64");
     var options = {
       method: "POST",
-      url: url,
+      url: "https://sms.gabia.com/api/send/lms",
       headers: {
         "cache-control": "no-cache",
         authorization: "Basic " + keyStr,
         "content-type": "application/x-www-form-urlencoded"
       },
       form: {
-        phone: "01029724066",
+        phone: phone,
         callback: "025521947",
-        message: "장문 문자 메세지 테스트입니다.",
+        message: message,
         subject: "",
-        reqdate: "",
+        reqdate: "0",
         refkey: "1212"
       }
     };
