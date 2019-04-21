@@ -3,8 +3,10 @@ import {
   ALL_RECENT_DATA_SUCCESS,
   MONITORING_RECENT_DATA_REQUEST,
   MONITORING_RECENT_DATA_SUCCESS,
-  OUTDOOR_DATA_REQUEST,
-  OUTDOOR_DATA_SUCCESS,
+  OUTDOOR_DUST_DATA_REQUEST,
+  OUTDOOR_DUST_DATA_SUCCESS,
+  OUTDOOR_WEATHER_DATA_REQUEST,
+  OUTDOOR_WEATHER_DATA_SUCCESS,
   USER_PHONE_REQUEST,
   USER_PHONE_SUCCESS,
   RECENT_DATA_FAIL
@@ -12,7 +14,8 @@ import {
 
 const INIT_STATE = {
   allRecentData: [],
-  outdoorData: [],
+  outdoorDustData: [],
+  outdoorWeatherData: [],
   userPhone: []
 };
 
@@ -30,10 +33,16 @@ export default (state = INIT_STATE, action) => {
         allRecentData: action.payload
       };
     }
-    case OUTDOOR_DATA_SUCCESS: {
+    case OUTDOOR_DUST_DATA_SUCCESS: {
       return {
         ...state,
-        outdoorData: action.payload
+        outdoorDustData: action.payload
+      };
+    }
+    case OUTDOOR_WEATHER_DATA_SUCCESS: {
+      return {
+        ...state,
+        outdoorWeatherData: action.payload
       };
     }
     case USER_PHONE_SUCCESS: {

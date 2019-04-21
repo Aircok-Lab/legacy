@@ -3,8 +3,10 @@ import {
   ALL_RECENT_DATA_SUCCESS,
   MONITORING_RECENT_DATA_REQUEST,
   MONITORING_RECENT_DATA_SUCCESS,
-  OUTDOOR_DATA_REQUEST,
-  OUTDOOR_DATA_SUCCESS,
+  OUTDOOR_DUST_DATA_REQUEST,
+  OUTDOOR_DUST_DATA_SUCCESS,
+  OUTDOOR_WEATHER_DATA_REQUEST,
+  OUTDOOR_WEATHER_DATA_SUCCESS,
   USER_PHONE_REQUEST,
   USER_PHONE_SUCCESS,
   RECENT_DATA_FAIL
@@ -38,17 +40,31 @@ export const monitoringRecentDataSuccess = allRecentData => {
   };
 };
 
-export const outdoorDataRequest = address => {
+export const outdoorDustDataRequest = address => {
   return {
-    type: OUTDOOR_DATA_REQUEST,
+    type: OUTDOOR_DUST_DATA_REQUEST,
     address: address
   };
 };
 
-export const outdoorDataSuccess = outdoorData => {
+export const outdoorDustDataSuccess = outdoorDustData => {
   return {
-    type: OUTDOOR_DATA_SUCCESS,
-    payload: outdoorData
+    type: OUTDOOR_DUST_DATA_SUCCESS,
+    payload: outdoorDustData
+  };
+};
+
+export const outdoorWeatherDataRequest = address => {
+  return {
+    type: OUTDOOR_WEATHER_DATA_REQUEST,
+    address: address
+  };
+};
+
+export const outdoorWeatherDataSuccess = outdoorWeatherData => {
+  return {
+    type: OUTDOOR_WEATHER_DATA_SUCCESS,
+    payload: outdoorWeatherData
   };
 };
 
