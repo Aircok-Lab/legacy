@@ -30,7 +30,8 @@ var Proxy = {
     var id = "aircok";
     var encode = id + ":" + global.smsToken;
     var keyStr = Buffer.from(encode).toString("base64");
-    if (phone.endsWith("-")) phone = phone.replace("-", "");
+    phone = phone.replace(/\-/g, "");
+    phone = phone.slice(0, -1);
     var options = {
       method: "POST",
       url: "https://sms.gabia.com/api/send/sms",
@@ -54,7 +55,8 @@ var Proxy = {
     var id = "aircok";
     var encode = id + ":" + global.smsToken;
     var keyStr = Buffer.from(encode).toString("base64");
-    if (phone.endsWith("-")) phone = phone.replace("-", "");
+    phone = phone.replace(/\-/g, "");
+    phone = phone.slice(0, -1);
     var options = {
       method: "POST",
       url: "https://sms.gabia.com/api/send/lms",

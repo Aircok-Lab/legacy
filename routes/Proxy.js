@@ -205,12 +205,24 @@ router.post("/sendSMS", function(req, res, next) {
     }
 
     if (smsInfo.length) {
+      var phoneNumber = "";
       for (var i = 0; i < smsInfo.length; i++) {
-        Proxy.sendSMS(smsInfo[i].phone, smsInfo.message);
+        phoneNumber += smsInfo[i].phone + ",";
       }
-      result.statusCode = OK;
-      result.data = result.message = "SMS 전송 " + i + "건 성공";
-      res.send(result);
+
+      var promise = Proxy.sendSMS(phoneNumber, smsInfo.message);
+      promise
+        .then(function(response) {
+          result.statusCode = OK;
+          result.data = result.message = "SMS 전송 " + i + "건 성공";
+          res.send(result);
+        })
+        .catch(function(err) {
+          console.dir(err);
+          result.statusCode = FAIL;
+          result.message = "SMS 전송 " + i + "건 실패";
+          res.send(result);
+        });
     } else {
       result.statusCode = FAIL;
       result.message = "SMS 전송 실패";
@@ -235,13 +247,24 @@ router.post("/sendLMS", function(req, res, next) {
     }
 
     if (smsInfo.length) {
-      console.log(smsInfo.message);
+      var phoneNumber = "";
       for (var i = 0; i < smsInfo.length; i++) {
-        Proxy.sendSMS(smsInfo[i].phone, smsInfo.message);
+        phoneNumber += smsInfo[i].phone + ",";
       }
-      result.statusCode = OK;
-      result.data = result.message = "LMS 전송 " + i + "건 성공";
-      res.send(result);
+
+      var promise = Proxy.sendLMS(phoneNumber, smsInfo.message);
+      promise
+        .then(function(response) {
+          result.statusCode = OK;
+          result.data = result.message = "LMS 전송 " + i + "건 성공";
+          res.send(result);
+        })
+        .catch(function(err) {
+          console.dir(err);
+          result.statusCode = FAIL;
+          result.message = "LMS 전송 " + i + "건 실패";
+          res.send(result);
+        });
     } else {
       result.statusCode = FAIL;
       result.message = "LMS 전송 실패";
