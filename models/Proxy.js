@@ -46,7 +46,7 @@ var Proxy = {
         refkey: "1212"
       }
     };
-
+    if (phone.endsWith("-")) phone = phone.replace("-", "");
     return rpn(options);
   },
   sendLMS: function(phone, message) {
@@ -70,7 +70,7 @@ var Proxy = {
         refkey: "1212"
       }
     };
-
+    if (phone.endsWith("-")) phone = phone.replace("-", "");
     return rpn(options);
   }
 };

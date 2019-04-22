@@ -42,8 +42,7 @@ function getWeatherUrl(nx, ny, serviceKey) {
     apikey = serviceKey,
     today = yyyy + "" + mm + "" + dd,
     basetime = hours + "00",
-    fileName =
-      "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData";
+    fileName = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData";
   fileName += "?ServiceKey=" + apikey;
   fileName += "&base_date=" + today;
   fileName += "&base_time=" + basetime;
@@ -60,8 +59,7 @@ router.post("/getStation", function(req, res, next) {
   const longitude = req.query.longitude || req.body.longitude;
   console.log("latitude : " + latitude + " longitude : " + longitude);
 
-  const serviceKey =
-    "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
+  const serviceKey = "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
   const stationURL =
     "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?tmX=" +
     latitude +
@@ -104,8 +102,7 @@ router.post("/getDust", function(req, res, next) {
   const stationName = req.query.stationName || req.body.stationName;
   console.log("stationName : " + stationName);
 
-  const serviceKey =
-    "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
+  const serviceKey = "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
   const dustURL =
     "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=" +
     stationName +
@@ -147,8 +144,7 @@ router.get("/getWeather", function(req, res, next) {
   var ny = req.query.ny || req.body.ny;
   console.log("nx : " + nx + " ny : " + ny);
 
-  const serviceKey =
-    "gv%2BRtk1AAsF%2FoktFHHGyBtBVdDD2gkRmrOFBRT%2BW07julujIwZQyjF0O%2FNtNqoWJ6LQq0GwDv%2BNSiUhhT07SRA%3D%3D";
+  const serviceKey = "gv%2BRtk1AAsF%2FoktFHHGyBtBVdDD2gkRmrOFBRT%2BW07julujIwZQyjF0O%2FNtNqoWJ6LQq0GwDv%2BNSiUhhT07SRA%3D%3D";
   const kmaURL = getWeatherUrl(nx, ny, serviceKey);
   console.log(kmaURL);
   var promise = Proxy.get(kmaURL);
@@ -209,20 +205,12 @@ router.post("/sendSMS", function(req, res, next) {
     }
 
     if (smsInfo) {
-      console.dir(smsInfo);
-      var message = "SMS 테스트 문자 발송입니다.";
-      var promise = Proxy.sendSMS(smsInfo.phone, message);
-      promise
-        .then(function(response) {
-          result.statusCode = OK;
-          result.message = "SMS 전송 1건 성공";
-          // res.send(result);
-        })
-        .catch(function(err) {
-          console.dir(err);
-          result.message = "SMS 전송 1건 실패";
-          //res.send(result);
-        });
+      for (var i = 0; i < smsInfo.length; i++) {
+        Proxy.sendSMS(smsInfo[i].phone, smsInfo.message);
+      }
+      result.statusCode = OK;
+      result.message = "SMS 전송 " + i + "건 성공";
+      res.send(result);
     }
   });
 });
@@ -243,22 +231,13 @@ router.post("/sendLMS", function(req, res, next) {
     }
 
     if (smsInfo) {
-      var message = "SML 테스트 문자 발송입니다.";
-      var promise = Proxy.sendLMS(smsInfo.phone, message);
-      promise
-        .then(function(response) {
-          var result = { statusCode: null, message: null, data: null };
-          result.statusCode = OK;
-          result.message = "LMS 전송 1건 성공";
-          //res.send(result);
-        })
-        .catch(function(err) {
-          console.dir(err);
-          var result = { statusCode: null, message: null, data: null };
-          result.statusCode = FAIL;
-          result.message = "LMS 전송 1건 실패";
-          //res.send(result);
-        });
+      console.log(smsInfo.message);
+      for (var i = 0; i < smsInfo.length; i++) {
+        Proxy.sendSMS(smsInfo[i].phone, smsInfo.message);
+      }
+      result.statusCode = OK;
+      result.message = "LMS 전송 " + i + "건 성공";
+      res.send(result);
     }
   });
 });
