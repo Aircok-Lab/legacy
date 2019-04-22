@@ -30,6 +30,7 @@ var Proxy = {
     var id = "aircok";
     var encode = id + ":" + global.smsToken;
     var keyStr = Buffer.from(encode).toString("base64");
+    if (phone.endsWith("-")) phone = phone.replace("-", "");
     var options = {
       method: "POST",
       url: "https://sms.gabia.com/api/send/sms",
@@ -46,13 +47,14 @@ var Proxy = {
         refkey: "1212"
       }
     };
-    if (phone.endsWith("-")) phone = phone.replace("-", "");
+
     return rpn(options);
   },
   sendLMS: function(phone, message) {
     var id = "aircok";
     var encode = id + ":" + global.smsToken;
     var keyStr = Buffer.from(encode).toString("base64");
+    if (phone.endsWith("-")) phone = phone.replace("-", "");
     var options = {
       method: "POST",
       url: "https://sms.gabia.com/api/send/lms",
@@ -70,7 +72,7 @@ var Proxy = {
         refkey: "1212"
       }
     };
-    if (phone.endsWith("-")) phone = phone.replace("-", "");
+
     return rpn(options);
   }
 };
