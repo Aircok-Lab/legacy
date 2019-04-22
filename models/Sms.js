@@ -43,7 +43,7 @@ var SmsMesage = {
         let alarmCnt = 0;
         let message = "";
 
-        if (smsInfo) {
+        if (smsInfo.lengh) {
           var deviceInfo = json[0];
           message = deviceInfo.deviceName + " 측정기는";
           if (deviceInfo.phone) {

@@ -138,7 +138,7 @@ router.post("/getDust", function(req, res, next) {
     });
 });
 
-router.get("/getWeather", function(req, res, next) {
+router.post("/getWeather", function(req, res, next) {
   console.log("/ getWeather 호출됨.");
   var nx = req.query.nx || req.body.nx;
   var ny = req.query.ny || req.body.ny;
@@ -204,12 +204,16 @@ router.post("/sendSMS", function(req, res, next) {
       return;
     }
 
-    if (smsInfo) {
+    if (smsInfo.length) {
       for (var i = 0; i < smsInfo.length; i++) {
         Proxy.sendSMS(smsInfo[i].phone, smsInfo.message);
       }
       result.statusCode = OK;
-      result.message = "SMS 전송 " + i + "건 성공";
+      result.data = result.message = "SMS 전송 " + i + "건 성공";
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "SMS 전송 실패";
       res.send(result);
     }
   });
@@ -230,13 +234,17 @@ router.post("/sendLMS", function(req, res, next) {
       return;
     }
 
-    if (smsInfo) {
+    if (smsInfo.length) {
       console.log(smsInfo.message);
       for (var i = 0; i < smsInfo.length; i++) {
         Proxy.sendSMS(smsInfo[i].phone, smsInfo.message);
       }
       result.statusCode = OK;
-      result.message = "LMS 전송 " + i + "건 성공";
+      result.data = result.message = "LMS 전송 " + i + "건 성공";
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "LMS 전송 실패";
       res.send(result);
     }
   });
