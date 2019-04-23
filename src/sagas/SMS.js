@@ -19,9 +19,8 @@ function* smsTokenWorker(action) {
 
 function* sendSMSWorker(action) {
   try {
-    api.header;
     const res = yield api.post(`proxy/sendSMS`, {
-      serialNumber: action.serialNumber,
+      serialNumber: action.deviceSN,
       positionID: action.positionID
     });
     if (responseDataProcess(res.data)) {
@@ -35,7 +34,7 @@ function* sendSMSWorker(action) {
 function* sendLMSWorker(action) {
   try {
     const res = yield api.post(`proxy/sendLMS`, {
-      serialNumber: action.serialNumber,
+      serialNumber: action.deviceSN,
       positionID: action.positionID
     });
     if (responseDataProcess(res.data)) {
