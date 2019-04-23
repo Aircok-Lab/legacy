@@ -73,7 +73,6 @@ router.post("/getStation", function(req, res, next) {
   promise
     .then(function(response) {
       var stationRes = JSON.parse(response);
-      console.log(stationRes.list);
 
       if (stationRes.list && stationRes.list.length) {
         var result = { statusCode: null, message: null, data: null };
@@ -102,10 +101,10 @@ router.post("/getDust", function(req, res, next) {
   const stationName = req.query.stationName || req.body.stationName;
   console.log("stationName : " + stationName);
 
-  const serviceKey = "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
+  let serviceKey = "2swHUoM3iFAky78x2Ljh%2BZBtTvcoy%2Fe7fxxtAYd8Mwa6Lc85ITizobiNA3zVg78ZIbubA2W3Eu%2FWnGxvGQz22g%3D%3D";
   const dustURL =
     "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=" +
-    stationName +
+    encodeURI(stationName) +
     "&dataTerm=month&pageNo=1&numOfRows=10&ServiceKey=" +
     serviceKey +
     "&ver=1.3&_returnType=json";
@@ -114,7 +113,6 @@ router.post("/getDust", function(req, res, next) {
   promise
     .then(function(response) {
       var dustRes = JSON.parse(response);
-      console.log(dustRes.list);
 
       if (dustRes.list && dustRes.list.length) {
         var result = { statusCode: null, message: null, data: null };
@@ -146,14 +144,12 @@ router.post("/getWeather", function(req, res, next) {
 
   const serviceKey = "gv%2BRtk1AAsF%2FoktFHHGyBtBVdDD2gkRmrOFBRT%2BW07julujIwZQyjF0O%2FNtNqoWJ6LQq0GwDv%2BNSiUhhT07SRA%3D%3D";
   const kmaURL = getWeatherUrl(nx, ny, serviceKey);
-  console.log(kmaURL);
   var promise = Proxy.get(kmaURL);
   promise
     .then(function(response) {
       var result = { statusCode: null, message: null, data: null };
       result.statusCode = OK;
       result.message = "성공";
-      console.log(response);
       result.data = response;
       res.send(result);
     })
