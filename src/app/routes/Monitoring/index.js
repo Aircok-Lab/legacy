@@ -2,10 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { alarmReferenceValueRequest } from "actions/AlarmReference";
 import { showAuthLoader } from "actions/Auth";
-import {
-  allRecentDataRequest,
-  monitoringRecentDataRequest
-} from "actions/RecentData";
+import { allRecentDataRequest, monitoringRecentDataRequest } from "actions/RecentData";
 import { systemListRequest } from "actions/System";
 import { sendSMS, sendLMS } from "actions/SMS";
 import MainTableHead from "../Monitoring/mainTableHead";
@@ -26,8 +23,7 @@ class SamplePage extends React.Component {
     this.props.showAuthLoader();
     this.props.alarmReferenceValueRequest();
     this.props.systemListRequest({ id: "1" });
-    if (this.props.authUser.userType === "monitoring")
-      this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
+    if (this.props.authUser.userType === "monitoring") this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
     else this.props.allRecentDataRequest(this.props.authUser.positionList);
     this.pageScroll = this.pageScroll.bind(this);
     this.loadData = this.loadData.bind(this);
@@ -35,10 +31,7 @@ class SamplePage extends React.Component {
 
   componentDidMount() {
     this.loadDataintervalLoadDataHandle = setInterval(this.loadData, 60000);
-    this.intervalScrollHandle = setInterval(
-      this.pageScroll,
-      this.props.data.scrollTime * 1000
-    );
+    this.intervalScrollHandle = setInterval(this.pageScroll, this.props.data.scrollTime * 1000);
   }
 
   componentWillUnmount() {
@@ -49,32 +42,23 @@ class SamplePage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.data.scrollTime !== nextProps.data.scrollTime) {
       if (this.intervalScrollHandle) clearInterval(this.intervalScrollHandle);
-      this.intervalScrollHandle = setInterval(
-        this.pageScroll,
-        nextProps.data.scrollTime * 1000
-      );
+      this.intervalScrollHandle = setInterval(this.pageScroll, nextProps.data.scrollTime * 1000);
     }
   }
 
   pageScroll() {
     var objDiv = document.getElementById("contain");
     var scrollHeight = 55 * this.props.data.scrollRow; // tableHeight
-    if (
-      objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight >
-      scrollHeight
-    )
-      objDiv.scrollTop = objDiv.scrollTop + scrollHeight;
+    if (objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight > scrollHeight) objDiv.scrollTop = objDiv.scrollTop + scrollHeight;
     else if (objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight > 0)
-      objDiv.scrollTop =
-        objDiv.scrollTop + (objDiv.scrollHeight - objDiv.clientHeight);
+      objDiv.scrollTop = objDiv.scrollTop + (objDiv.scrollHeight - objDiv.clientHeight);
     else if (objDiv.scrollTop == objDiv.scrollHeight - objDiv.clientHeight) {
       objDiv.scrollTop = 0;
     }
   }
 
   loadData() {
-    if (this.props.authUser.userType === "monitoring")
-      this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
+    if (this.props.authUser.userType === "monitoring") this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
     else this.props.allRecentDataRequest(this.props.authUser.positionList);
   }
 
@@ -82,7 +66,7 @@ class SamplePage extends React.Component {
     const nameTabWidth = "170px";
     const indexTabWidth = "120px";
 
-    const getClassText = grade => {
+    const getClassText = (grade) => {
       let classText = "text-good";
       if (grade == 1) classText = "text-good";
       else if (grade == 2) classText = "text-normal";
@@ -100,18 +84,13 @@ class SamplePage extends React.Component {
             {this.props.allRecentData &&
               this.props.allRecentData.map((contact, i) => {
                 let deviceList = null;
-                if (this.props.authUser.userType === "monitoring")
-                  deviceList = this.props.authUser.deviceList;
+                if (this.props.authUser.userType === "monitoring") deviceList = this.props.authUser.deviceList;
                 else deviceList = contact.deviceSN;
                 return (
                   <tr key={i}>
+                    <td style={{ width: `${nameTabWidth}` }}>{contact.buildingName}</td>
                     <td style={{ width: `${nameTabWidth}` }}>
-                      {contact.buildingName}
-                    </td>
-                    <td style={{ width: `${nameTabWidth}` }}>
-                      <a href={"#/app/device-detail/" + deviceList}>
-                        {contact.positionName}
-                      </a>
+                      <a href={"#/app/device-detail/" + deviceList}>{contact.positionName}</a>
                     </td>
                     <td style={{ width: `${indexTabWidth}` }}>
                       <span className={getClassText(contact.e3Index)}>
@@ -119,17 +98,13 @@ class SamplePage extends React.Component {
                       </span>
                     </td>
                     <SensorData
-                      alarmReferenceValue={
-                        this.props.alarmReferenceValue.temperature
-                      }
+                      alarmReferenceValue={this.props.alarmReferenceValue.temperature}
                       sensorData={contact.temperature}
                       sensorIndex={contact.temperatureIndex}
                       sensorAlarm={contact.temperatureAlarm}
                     />
                     <SensorData
-                      alarmReferenceValue={
-                        this.props.alarmReferenceValue.humidity
-                      }
+                      alarmReferenceValue={this.props.alarmReferenceValue.humidity}
                       sensorData={contact.humidity}
                       sensorIndex={contact.humidityIndex}
                       sensorAlarm={contact.humidityAlarm}
@@ -173,15 +148,12 @@ class SamplePage extends React.Component {
                     <td style={{ width: "60px" }}>
                       <div>
                         <img
-                          src="/assets/images/sms.jpg"
+                          src="assets/icons/sms.jpg"
                           style={{ width: "30px", height: "30px" }}
                           alt="sms"
                           title="SMS Icon"
-                          onClick={e => {
-                            this.props.sendSMS(
-                              contact.deviceSN,
-                              contact.positionID
-                            );
+                          onClick={(e) => {
+                            this.props.sendSMS(contact.deviceSN, contact.positionID);
                           }}
                         />
                       </div>

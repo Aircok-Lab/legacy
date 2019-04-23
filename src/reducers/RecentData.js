@@ -7,16 +7,13 @@ import {
   OUTDOOR_DUST_DATA_SUCCESS,
   OUTDOOR_WEATHER_DATA_REQUEST,
   OUTDOOR_WEATHER_DATA_SUCCESS,
-  USER_PHONE_REQUEST,
-  USER_PHONE_SUCCESS,
   RECENT_DATA_FAIL
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
   allRecentData: [],
   outdoorDustData: [],
-  outdoorWeatherData: [],
-  userPhone: []
+  outdoorWeatherData: []
 };
 
 export default (state = INIT_STATE, action) => {
@@ -43,12 +40,6 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         outdoorWeatherData: action.payload
-      };
-    }
-    case USER_PHONE_SUCCESS: {
-      return {
-        ...state,
-        userPhone: action.payload
       };
     }
     default:
