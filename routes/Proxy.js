@@ -150,7 +150,7 @@ router.post("/getWeather", function(req, res, next) {
       var result = { statusCode: null, message: null, data: null };
       result.statusCode = OK;
       result.message = "성공";
-      result.data = response;
+      result.data = JSON.parse(response).response.body.items;
       res.send(result);
     })
     .catch(function(err) {
