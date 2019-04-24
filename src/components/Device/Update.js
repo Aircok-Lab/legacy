@@ -26,7 +26,7 @@ class Update extends Component {
       ? this.props.selectedNode.id
       : "";
     if (!positionId) {
-      alert("위치를 선택하세요");
+      alert("측정기관리 목록에서 위치를 선택하세요");
     } else if (!this.state.postData.name) {
       alert("측정기명을 입력하세요");
     } else if (!this.state.postData.serialNumber) {
@@ -37,7 +37,7 @@ class Update extends Component {
       this.state.postData.networkType === "cellular" &&
       !this.state.postData.phone
     ) {
-      alert("전화번호를 입력하세요");
+      alert("개통번호를 입력하세요");
     } else if (
       this.state.postData.networkType === "ethernet" &&
       !this.state.postData.ip
@@ -56,7 +56,8 @@ class Update extends Component {
     } else {
       let goAhed = true;
       if (positionId != this.state.postData.positionID) {
-        if (!confirm("위치가 변경되었습니다. 이동하시겠습니까?")) {
+        // if (!confirm("위치가 변경되었습니다. 이동하시겠습니까?")) {
+        if (!confirm("계속을 누르시면 위치가 변경됩니다.")) {
           goAhed = false;
         }
       }
@@ -120,6 +121,7 @@ class Update extends Component {
                 : ""}{" "}
               &nbsp;
             </div>
+            <div className="small">건물목록에서 위치를 변경할 수 있습니다.</div>
           </div>
         </div>
         <div className="w3-row w3-section">
@@ -225,7 +227,7 @@ class Update extends Component {
         {this.state.postData.networkType === "cellular" && (
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              전화 번호
+              개통 번호
             </div>
             <div className="w3-rest">
               <input

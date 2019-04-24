@@ -46,8 +46,10 @@ class List extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (JSON.stringify(state.userList) != JSON.stringify(props.userList)) {
       const userList = props.userList.filter(user => {
-        if (user.userType === "master") return false;
-        if (user.loginID === props.authUser.loginID) return false;
+        if (props.authUser.userType === "manager" && user.userType === "master")
+          return false;
+        // if (user.userType === "master") return false;
+        // if (user.loginID === props.authUser.loginID) return false;
         return true;
       });
       return {

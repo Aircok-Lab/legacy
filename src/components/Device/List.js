@@ -143,7 +143,8 @@ class List extends React.Component {
                   <th>측정주기</th>
                   <th>S/N</th>
                   <th>제품군</th>
-                  <th>전화번호</th>
+                  <th>개통번호</th>
+                  <th>IP주소</th>
                 </tr>
               </thead>
               <tbody>
@@ -176,7 +177,10 @@ class List extends React.Component {
                       <td>{row.period} 분</td>
                       <td>{row.serialNumber}</td>
                       <td>{row.productName}</td>
-                      <td>{row.phone}</td>
+                      <td>
+                        {row.networkType === "cellular" && row.phone}&nbsp;
+                      </td>
+                      <td>{row.networkType !== "cellular" && row.ip}&nbsp;</td>
                     </tr>
                   ))}
               </tbody>

@@ -249,7 +249,7 @@ class BuildingPositionTree extends Component {
           </div>
         </div>
 
-        <div>checkable_aa: {JSON.stringify(this.props.checkable)}</div>
+        {/* <div>checkable_aa: {JSON.stringify(this.props.checkable)}</div> */}
 
         {buildingPositionList.map(item => (
           <div key={item.id}>

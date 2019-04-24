@@ -22,7 +22,7 @@ class List extends React.Component {
       id: this.props.authUser.positionList,
       deviceList: this.props.authUser.deviceList
     });
-    this.setState({ deviceList: this.props.deviceList });
+    // this.setState({ deviceList: this.props.deviceList });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -30,14 +30,15 @@ class List extends React.Component {
       JSON.stringify(prevProps.deviceList) !=
       JSON.stringify(this.props.deviceList)
     ) {
+      console.log("data changed ....", this.props.deviceList);
       this.setState({ deviceList: this.props.deviceList });
     }
 
-    if (
-      JSON.stringify(prevProps.selectedNode) !=
-      JSON.stringify(this.props.selectedNode)
-    ) {
-    }
+    // if (
+    //   JSON.stringify(prevProps.selectedNode) !=
+    //   JSON.stringify(this.props.selectedNode)
+    // ) {
+    // }
   }
 
   render() {

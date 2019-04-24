@@ -36,6 +36,7 @@ class Container extends React.Component {
   }
 
   componentWillUnmount() {
+    // return false;
     // console.info("TODO: Restore after debug... ");
     localStorage.removeItem("steps");
   }
@@ -160,12 +161,17 @@ class Container extends React.Component {
 
     return (
       <div className="border-top">
-        <Prompt
+        {/* <Prompt
+          // when={false}
+          // message={location =>
+          //   localStorage.getItem("steps") ? "페이지를 이동하시겠습니까?" : false
+          // }
           when={true}
+          // message={location => "페이지를 이동하시겠습니까?")
           message={location =>
-            localStorage.getItem("steps") ? "페이지를 이동하시겠습니까?" : true
+            `Are you sure you want to go to ${location.pathname}`
           }
-        />
+        /> */}
         <div className="">{stepData}</div>
         <div className="row border-top border-bottom py-4">
           <div className="col-2" />

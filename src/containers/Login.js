@@ -48,9 +48,22 @@ class Login extends React.Component {
     localStorage.setItem("stayLogin", JSON.stringify(event.target.checked));
   };
 
+  login(e) {
+    // console.log("222", this.props);
+    if (e.keyCode == 13) {
+      this.props.showAuthLoader();
+      this.props.userSignIn({
+        loginId: this.state.loginId,
+        password: this.state.password,
+        pkey: this.props.pkey
+      });
+    }
+  }
+
   render() {
     const { loginId, password } = this.state;
     const { showMessage, loader, alertMessage, pkey } = this.props;
+    console.log("111", this.props);
     return (
       <div className="app-login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
         <div className="app-login-main-content">
@@ -73,6 +86,7 @@ class Login extends React.Component {
                     defaultValue={loginId}
                     margin="normal"
                     className="mt-1 my-sm-3"
+                    onKeyDown={e => this.login(e)}
                   />
                   <TextField
                     type="password"
@@ -84,6 +98,7 @@ class Login extends React.Component {
                     defaultValue={password}
                     margin="normal"
                     className="mt-1 my-sm-3"
+                    onKeyDown={e => this.login(e)}
                   />
 
                   <div className="mb-3 d-flex align-items-center justify-content-between">
@@ -106,7 +121,6 @@ class Login extends React.Component {
                     <Button
                       className="text-center btn-block"
                       onClick={() => {
-                        console.log("login 0000");
                         this.props.showAuthLoader();
                         this.props.userSignIn({ loginId, password, pkey });
                       }}

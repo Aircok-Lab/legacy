@@ -30,7 +30,7 @@ class Add extends Component {
       ? this.props.selectedNode.id
       : "";
     if (!positionId) {
-      alert("위치를 선택하세요");
+      alert("건물목록에서 위치를 선택하세요");
     } else if (!this.state.postData.name) {
       alert("측정기명을 입력하세요");
     } else if (!this.state.postData.serialNumber) {
@@ -41,7 +41,7 @@ class Add extends Component {
       this.state.postData.networkType === "cellular" &&
       !this.state.postData.phone
     ) {
-      alert("전화번호를 입력하세요");
+      alert("개통번호를 입력하세요");
     } else if (
       this.state.postData.networkType === "ethernet" &&
       !this.state.postData.ip
@@ -225,7 +225,7 @@ class Add extends Component {
         {this.state.postData.networkType === "cellular" && (
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              전화 번호
+              개통 번호
             </div>
             <div className="w3-rest">
               <input
