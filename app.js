@@ -53,7 +53,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // public 폴더와 uploads 폴더 오픈
-app.use("/public", static(path.join(__dirname, "public")));
+app.use(static(path.join(__dirname, "public")));
 app.use("/uploads", static(path.join(__dirname, "uploads")));
 
 // cookie-parser 설정
