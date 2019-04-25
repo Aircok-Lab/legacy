@@ -9,10 +9,19 @@ import {
   OUTDOOR_DUST_DATA_SUCCESS,
   OUTDOOR_WEATHER_DATA_REQUEST,
   OUTDOOR_WEATHER_DATA_SUCCESS,
+  CHART_DATA_REQUEST,
+  CHART_DATA_SUCCESS,
   RECENT_DATA_FAIL
 } from "constants/ActionTypes";
-import { allRecentDataSuccess, monitoringRecentDataSuccess, outdoorDustDataSuccess, outdoorWeatherDataSuccess } from "actions/RecentData";
+import {
+  allRecentDataSuccess,
+  monitoringRecentDataSuccess,
+  outdoorDustDataSuccess,
+  outdoorWeatherDataSuccess,
+  chartDataSuccess
+} from "actions/RecentData";
 import { hideAuthLoader } from "actions/Auth";
+import moment from "moment-timezone";
 import api from "api";
 import _ from "lodash";
 
@@ -117,6 +126,12 @@ const getOutdoorWeatherDataRequest = async (nx, ny) =>
   await api
     .post("proxy/getWeather", { nx: nx, ny: ny })
     .then((outdoorWeatherData) => outdoorWeatherData)
+    .catch((error) => error);
+
+const getChartDataRequest = async (serialNumber, startDate, endDate) =>
+  await api
+    .post("report/getChartDataByDate", { serialNumber: serialNumber, startDate: startDate, endDate: endDate })
+    .then((chartData) => chartData)
     .catch((error) => error);
 
 function* getAllRecentDataWorker(payload) {
@@ -250,6 +265,26 @@ function* getOutdoorWeatherDataWorker(payload) {
   }
 }
 
+function* getChartDataWorker(payload) {
+  var today = Date.now();
+  var startDate = moment(today)
+    .tz("Asia/Seoul")
+    .format("YYYY-MM-DD");
+  var endDate = moment(today)
+    .add(1, "days")
+    .tz("Asia/Seoul")
+    .format("YYYY-MM-DD");
+  const { serialNumber } = payload;
+
+  try {
+    const chartData = yield call(getChartDataRequest, serialNumber, startDate, endDate);
+
+    yield put(chartDataSuccess(chartData.data.data));
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+
 export function* getAllRecentDataWatcher() {
   yield takeEvery(ALL_RECENT_DATA_REQUEST, getAllRecentDataWorker);
 }
@@ -266,11 +301,16 @@ export function* getOutdoorWeatherDataWatcher() {
   yield takeEvery(OUTDOOR_WEATHER_DATA_REQUEST, getOutdoorWeatherDataWorker);
 }
 
+export function* getChartDataWatcher() {
+  yield takeEvery(CHART_DATA_REQUEST, getChartDataWorker);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getAllRecentDataWatcher),
     fork(getMonitoringRecentDataWatcher),
     fork(getOutdoorDustDataWatcher),
-    fork(getOutdoorWeatherDataWatcher)
+    fork(getOutdoorWeatherDataWatcher),
+    fork(getChartDataWatcher)
   ]);
 }

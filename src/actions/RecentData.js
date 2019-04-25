@@ -7,6 +7,8 @@ import {
   OUTDOOR_DUST_DATA_SUCCESS,
   OUTDOOR_WEATHER_DATA_REQUEST,
   OUTDOOR_WEATHER_DATA_SUCCESS,
+  CHART_DATA_REQUEST,
+  CHART_DATA_SUCCESS,
   RECENT_DATA_FAIL
 } from "constants/ActionTypes";
 
@@ -63,5 +65,19 @@ export const outdoorWeatherDataSuccess = (outdoorWeatherData) => {
   return {
     type: OUTDOOR_WEATHER_DATA_SUCCESS,
     payload: outdoorWeatherData
+  };
+};
+
+export const chartDataRequest = (serialNumber) => {
+  return {
+    type: CHART_DATA_REQUEST,
+    serialNumber: serialNumber
+  };
+};
+
+export const chartDataSuccess = (chartData) => {
+  return {
+    type: CHART_DATA_SUCCESS,
+    payload: chartData
   };
 };
