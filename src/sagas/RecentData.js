@@ -159,6 +159,44 @@ function* getOutdoorDustDataWorker(payload) {
       let outdoorDustData = dustList.data.data.find(function(item) {
         return item.pm10Value !== "-" && item.pm25Value !== "-";
       });
+      if (outdoorDustData) {
+        if (outdoorDustData.pm10Grade === "1") {
+          outdoorDustData.pm10GradeStr = "좋음";
+          outdoorDustData.pm10ImageName = "good";
+          outdoorDustData.pm10Color = "#32a1ff";
+        } else if (outdoorDustData.pm10Grade === "2") {
+          outdoorDustData.pm10GradeStr = "보통";
+          outdoorDustData.pm10ImageName = "normal";
+          outdoorDustData.pm10Color = "#00c73c";
+        } else if (outdoorDustData.pm10Grade === "3") {
+          outdoorDustData.pm10GradeStr = "나쁨";
+          outdoorDustData.pm10ImageName = "bad";
+          outdoorDustData.pm10Color = "#fda60e";
+        } else if (outdoorDustData.pm10Grade === "4") {
+          outdoorDustData.pm10GradeStr = "매우나쁨";
+          outdoorDustData.pm10ImageName = "vert_bad";
+          outdoorDustData.pm10Color = "#e64747";
+        }
+
+        if (outdoorDustData.pm25Grade === "1") {
+          outdoorDustData.pm25GradeStr = "좋음";
+          outdoorDustData.pm25ImageName = "good";
+          outdoorDustData.pm25Color = "#32a1ff";
+        } else if (outdoorDustData.pm25Grade === "2") {
+          outdoorDustData.pm25GradeStr = "보통";
+          outdoorDustData.pm25ImageName = "normal";
+          outdoorDustData.pm25Color = "#00c73c";
+        } else if (outdoorDustData.pm25Grade === "3") {
+          outdoorDustData.pm25GradeStr = "나쁨";
+          outdoorDustData.pm25ImageName = "bad";
+          outdoorDustData.pm25Color = "#fda60e";
+        } else if (outdoorDustData.pm25Grade === "4") {
+          outdoorDustData.pm25GradeStr = "매우나쁨";
+          outdoorDustData.pm25ImageName = "vert_bad";
+          outdoorDustData.pm25Color = "#e64747";
+        }
+      }
+
       yield put(outdoorDustDataSuccess(outdoorDustData));
     }
   } catch (error) {
@@ -172,7 +210,41 @@ function* getOutdoorWeatherDataWorker(payload) {
   try {
     const kmaGrid = dfsXyConv("toXY", latitude, longitude); // 위도, 경도를 기상청 grid 로 변환
     const weatherList = yield call(getOutdoorWeatherDataRequest, kmaGrid.nx, kmaGrid.ny);
-    yield put(outdoorWeatherDataSuccess(weatherList.data.data.item));
+    var kmaData = {};
+    if (weatherList.data.data && weatherList.data.data.item) {
+      var list = weatherList.data.data.item;
+
+      kmaData.temperature = list.find(function(item) {
+        return item.category === "T1H";
+      });
+      kmaData.humidity = list.find(function(item) {
+        return item.category === "REH";
+      });
+      kmaData.sky = list.find(function(item) {
+        return item.category === "SKY";
+      });
+      kmaData.pty = list.find(function(item) {
+        return item.category === "PTY";
+      });
+
+      if (kmaData.pty.fcstValue == 3) {
+        kmaData.weather = "snow"; // 눈
+      } else if (kmaData.pty.fcstValue == 2) {
+        kmaData.weather = "rain_snow"; // 비/눈
+      } else if (kmaData.pty.fcstValue == 1) {
+        kmaData.weather = "rain"; // 비
+      } else if (kmaData.sky.fcstValue == 4) {
+        kmaData.weather = "blur"; // 흐림
+      } else if (kmaData.sky.fcstValue == 3) {
+        kmaData.weather = "cloudy2"; // 구름많음
+      } else if (kmaData.sky.fcstValue == 2) {
+        kmaData.weather = "cloudy1"; // 구름조금
+      } else if (kmaData.sky.fcstValue == 1) {
+        kmaData.weather = "sunny"; // 맑음
+      }
+    }
+
+    yield put(outdoorWeatherDataSuccess(kmaData));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }

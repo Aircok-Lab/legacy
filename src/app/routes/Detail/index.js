@@ -112,6 +112,8 @@ class DetailPage extends React.Component {
                   positionName={contact.positionName}
                   deviceName={contact.deviceName}
                   serialNumber={contact.deviceSN}
+                  outdoorDustData={this.props.outdoorDustData}
+                  outdoorWeatherData={this.props.outdoorWeatherData}
                 />
               ) : null}
               {contact ? <AdviceInfo deviceData={contact} /> : null}
@@ -125,9 +127,9 @@ class DetailPage extends React.Component {
 
 const mapStateToProps = ({ auth, recentData, system }) => {
   const { authUser } = auth;
-  const { allRecentData } = recentData;
+  const { allRecentData, outdoorDustData, outdoorWeatherData } = recentData;
   const { data } = system;
-  return { authUser, allRecentData, data };
+  return { authUser, allRecentData, data, outdoorDustData, outdoorWeatherData };
 };
 export default connect(
   mapStateToProps,
