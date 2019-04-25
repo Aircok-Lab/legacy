@@ -13,13 +13,9 @@ router.post("/getAVGe3ScoreByDate", function(req, res, next) {
 
   console.log("요청 파라미터 : " + paramSerialNumber + "," + paramStartDate + "," + paramEndDate);
 
-  report.getAVGe3ScoreByDate(
-    paramSerialNumber,
-    paramStartDate,
-    paramEndDate,
-    function(err, addedAverage) {
+  report.getAVGe3ScoreByDate(paramSerialNumber, paramStartDate, paramEndDate, function(err, addedAverage) {
     // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
-    
+
     if (err) {
       console.error("스코어 추가 중 오류 발생 :" + err.stack);
       result.statusCode = FAIL;
@@ -54,14 +50,9 @@ router.post("/getCountE3Index", function(req, res, next) {
 
   console.log("요청 파라미터 : " + paramSerialNumber + "," + paramStartDate + "," + paramEndDate + "," + paramE3Index);
 
-  report.getCountE3Index(
-    paramSerialNumber,
-    paramStartDate,
-    paramEndDate,
-    paramE3Index,
-    function(err, countedIndex) {
+  report.getCountE3Index(paramSerialNumber, paramStartDate, paramEndDate, paramE3Index, function(err, countedIndex) {
     // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
-    
+
     if (err) {
       console.error("인덱스 카운트 중 오류 발생 :" + err.stack);
       result.statusCode = FAIL;
@@ -77,6 +68,41 @@ router.post("/getCountE3Index", function(req, res, next) {
       result.statusCode = OK;
       result.message = "성공";
       result.data = countedIndex;
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "실패";
+      res.send(result);
+    }
+  });
+});
+
+router.post("/getChartDataByDate", function(req, res, next) {
+  console.log("/getChartDataByDate 호출됨.");
+
+  var paramSerialNumber = req.body.serialNumber || req.query.serialNumber;
+  var paramStartDate = req.body.startDate || req.query.startDate;
+  var paramEndDate = req.body.endDate || req.query.endDate;
+  var result = { statusCode: null, message: null, data: null };
+
+  console.log("요청 파라미터 : " + paramSerialNumber + "," + paramStartDate + "," + paramEndDate);
+
+  report.getChartDataByDate(paramSerialNumber, paramStartDate, paramEndDate, function(err, chartData) {
+    // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
+
+    if (err) {
+      console.error("데이터 로드중 오류 발생 :" + err.stack);
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
+    }
+
+    //결과 객체 있으면 성공 응답 전송
+    if (chartData) {
+      result.statusCode = OK;
+      result.message = "성공";
+      result.data = chartData;
       res.send(result);
     } else {
       result.statusCode = FAIL;
