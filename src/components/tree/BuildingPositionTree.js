@@ -14,6 +14,7 @@ import {
   positionAddRequest,
   positionToggleChecked
 } from "actions/Position";
+import { userListByBuildingIdRequest } from "actions/User";
 import { setShowModal } from "actions/Setting";
 
 const customStyles = {
@@ -338,20 +339,17 @@ class BuildingPositionTree extends Component {
             )}
           </div>
         ))}
-        <div>
+        {/* <div>
           <div
             style={{
               cursor: "pointer",
               padding: "2px 10px 2px 6px",
               marginBottom: "2px"
-              // background:
-              //   !this.props.selectedNode.buildingID &&
-              //   this.props.selectedNode.id === item.id
-              //     ? "#bae7ff"
-              //     : ""
             }}
             className="w3-block"
-            // onClick={e => this.nodeClick(null)}
+            onClick={e =>
+              this.props.userListByBuildingIdRequest({ buildingID: "null" })
+            }
           >
             <i
               className="p-1 fa fa-cog"
@@ -363,7 +361,7 @@ class BuildingPositionTree extends Component {
             />
             <span>기타폴더</span>
           </div>
-        </div>
+        </div> */}
         <Modal
           isOpen={this.props.showModal}
           // onRequestClose={this.closeModal}
@@ -410,7 +408,8 @@ const mapDispatchToProps = {
   positionToggleChecked,
   selectTreeNode,
   toggleTreeNode,
-  setShowModal
+  setShowModal,
+  userListByBuildingIdRequest
 };
 
 export default connect(

@@ -107,16 +107,30 @@ export function* buildingDeleteWatcher() {
 }
 
 function* buildingLocationWorker(action) {
-  const res = yield fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAGuzyxaRGQvhdMnjtxjdImEWO4zWOYKAE&language=ko&region=KR&address=${
-      action.payload
-    }`
-  ).then(response => response.json());
-  yield put({
-    type: BUILDING_LOCATION_SUCCESS,
-    payload: res.results[0]
-  });
   try {
+    // const res = yield api.post(`building/getBuildingById`, action.payload);
+    // if (responseDataProcess(res.data)) {
+    //   yield put({ type: BUILDING_LIST_SUCCESS, payload: res.data.data });
+    // }
+
+    // const res = yield fetch(
+    //   `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAGuzyxaRGQvhdMnjtxjdImEWO4zWOYKAE&language=ko&region=KR&address=${
+    //     action.payload
+    //   }`
+    // ).then(response => response.json());
+    // yield put({
+    //   type: BUILDING_LOCATION_SUCCESS,
+    //   payload: res.results[0]
+    // });
+
+    const res = yield api.get(
+      `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAGuzyxaRGQvhdMnjtxjdImEWO4zWOYKAE&language=ko&region=KR&address=${
+        action.payload
+      }`
+    );
+    if (responseDataProcess(res.data)) {
+      yield put({ type: BUILDING_LOCATION_SUCCESS, payload: res.results[0] });
+    }
   } catch (e) {
     console.log("Error at fetching googlemaps location.");
     return;
