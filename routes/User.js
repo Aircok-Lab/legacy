@@ -8,9 +8,7 @@ var path = require("path");
 var userPattern = require("../utils/UserPattern");
 
 const publicKey = fs.readFileSync(path.resolve("ssl/public.pem"));
-const privateKey = ursa.createPrivateKey(
-  fs.readFileSync(path.resolve("ssl/private.pem"))
-);
+const privateKey = ursa.createPrivateKey(fs.readFileSync(path.resolve("ssl/private.pem")));
 
 router.get("/pkey", function(req, res) {
   return res.send(publicKey);
@@ -102,13 +100,7 @@ router.post("/addUser", function(req, res, next) {
   var paramDeviceList = req.body.deviceList || req.query.deviceList || null;
   var result = { statusCode: null, message: null, data: null };
 
-  if (
-    !paramLoginId ||
-    !paramPassword ||
-    !paramName ||
-    !paramBuildingList ||
-    !paramPositionList
-  ) {
+  if (!paramLoginId || !paramPassword || !paramName || !paramBuildingList || !paramPositionList) {
     result.statusCode = FAIL;
     result.message = "입력 값을 확인하세요";
     res.send(result);
@@ -284,7 +276,7 @@ router.get("/allUser", function(req, res, next) {
     if (allUsers) {
       console.dir(allUsers);
       var users = [];
-      allUsers.map(user => {
+      allUsers.map((user) => {
         users.push(userPattern.deletePattern(user));
       });
 
@@ -342,7 +334,8 @@ router.post("/getUserByBuildingId", function(req, res, next) {
   var paramBuildingID = req.body.buildingID || req.query.buildingID;
   var result = { statusCode: null, message: null, data: null };
 
-  paramBuildingID = paramBuildingID.replace(/(\s*)/gi, "");
+  if (paramBuildingID === "null") paramBuildingID = "/";
+  else paramBuildingID = paramBuildingID.replace(/(\s*)/gi, "");
   console.log("요청 파라미터 : " + paramBuildingID);
 
   User.getUserByBuildingId(paramBuildingID, function(err, users) {
@@ -358,7 +351,7 @@ router.post("/getUserByBuildingId", function(req, res, next) {
     if (users) {
       console.dir(users);
       var retUsers = [];
-      users.map(user => {
+      users.map((user) => {
         retUsers.push(userPattern.deletePattern(user));
       });
       result.statusCode = OK;
@@ -395,7 +388,7 @@ router.post("/getUserByPositionId", function(req, res, next) {
     if (users) {
       console.dir(users);
       var retUsers = [];
-      users.map(user => {
+      users.map((user) => {
         retUsers.push(userPattern.deletePattern(user));
       });
       result.statusCode = OK;
@@ -461,7 +454,7 @@ router.get("/approvalUser", function(req, res, next) {
     if (success) {
       console.dir(users);
       var retUsers = [];
-      users.map(user => {
+      users.map((user) => {
         retUsers.push(userPattern.deletePattern(user));
       });
       result.statusCode = OK;
@@ -483,12 +476,7 @@ router.get("/getUserByUserType", function(req, res, next) {
   var result = { statusCode: null, message: null, data: null };
 
   //입력값이 master, manager, monitoring, user가 맞는지 판단
-  if (
-    type == "master" ||
-    type == "manager" ||
-    type == "monitoring" ||
-    type == "user"
-  ) {
+  if (type == "master" || type == "manager" || type == "monitoring" || type == "user") {
     User.getUserByUserType(type, function(err, users) {
       if (err) {
         console.error("오류 발생 :" + err.stack);
@@ -503,7 +491,7 @@ router.get("/getUserByUserType", function(req, res, next) {
       if (users) {
         console.dir(users);
         var retUsers = [];
-        users.map(user => {
+        users.map((user) => {
           retUsers.push(userPattern.deletePattern(user));
         });
         result.statusCode = OK;
@@ -632,9 +620,7 @@ router.put("/changePassword", function(req, res, next) {
   let newPassword = privateKey.decrypt(paramNewPassword, "base64", "utf8");
   var result = { statusCode: null, message: null, data: null };
 
-  console.log(
-    "요청 파라미터 : " + paramUserID + "," + oldPassword + "," + newPassword
-  );
+  console.log("요청 파라미터 : " + paramUserID + "," + oldPassword + "," + newPassword);
 
   User.checkPassword(paramUserID, oldPassword, function(err, success) {
     // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
@@ -674,48 +660,30 @@ router.put("/modifyUser", function(req, res, next) {
   var paramUserType = req.body.userType || req.query.userType;
   var result = { statusCode: null, message: null, data: null };
 
-  console.log(
-    "요청 파라미터 : " +
-      paramUserID +
-      "," +
-      paramName +
-      "," +
-      paramEmail +
-      "," +
-      paramDepartment +
-      "," +
-      paramUserType
-  );
+  console.log("요청 파라미터 : " + paramUserID + "," + paramName + "," + paramEmail + "," + paramDepartment + "," + paramUserType);
 
-  User.modifyUser(
-    paramUserID,
-    paramName,
-    paramEmail,
-    paramDepartment,
-    paramUserType,
-    function(err, success) {
-      // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
-      if (err) {
-        console.error("사용자 추가 중 오류 발생 :" + err.stack);
-        result.statusCode = FAIL;
-        result.message = "오류 발생";
-        res.send(result);
-        return;
-      }
-
-      //결과 객체 있으면 성공 응답 전송
-      if (success) {
-        console.dir(success);
-        result.statusCode = OK;
-        result.message = "성공";
-        res.send(result);
-      } else {
-        result.statusCode = FAIL;
-        result.message = "수정된 내용이 없습니다.";
-        res.send(result);
-      }
+  User.modifyUser(paramUserID, paramName, paramEmail, paramDepartment, paramUserType, function(err, success) {
+    // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
+    if (err) {
+      console.error("사용자 추가 중 오류 발생 :" + err.stack);
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
     }
-  );
+
+    //결과 객체 있으면 성공 응답 전송
+    if (success) {
+      console.dir(success);
+      result.statusCode = OK;
+      result.message = "성공";
+      res.send(result);
+    } else {
+      result.statusCode = FAIL;
+      result.message = "수정된 내용이 없습니다.";
+      res.send(result);
+    }
+  });
 });
 
 router.delete("/deleteUser", function(req, res, next) {

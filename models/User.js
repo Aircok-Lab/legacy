@@ -54,14 +54,18 @@ var User = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var ids = buildingId.split(",");
-      console.log(ids);
-      var queryString = "select * from User where ";
-      for (i in ids) {
-        let idStr = "/" + ids[i] + ",/";
-        let str = "instr(buildingList,'" + idStr + "') > 0";
-        queryString = queryString + str;
-        if (i < ids.length - 1) queryString = queryString + " or ";
+      if (buildingId === "/") {
+        var queryString = "select * from User where buildingList = '/'";
+      } else {
+        var ids = buildingId.split(",");
+        console.log(ids);
+        var queryString = "select * from User where ";
+        for (i in ids) {
+          let idStr = "/" + ids[i] + ",/";
+          let str = "instr(buildingList,'" + idStr + "') > 0";
+          queryString = queryString + str;
+          if (i < ids.length - 1) queryString = queryString + " or ";
+        }
       }
 
       // SQL문을 실행합니다.
@@ -194,26 +198,22 @@ var User = {
       var findPassword = null;
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "select password from User where loginID =? and email = ?",
-        data,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("select password from User where loginID =? and email = ?", data, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-
-          findPassword = result[0].password;
-
-          callback(null, findPassword);
+          callback(err, null);
+          return;
         }
-      );
+
+        findPassword = result[0].password;
+
+        callback(null, findPassword);
+      });
     });
   },
 
@@ -236,29 +236,25 @@ var User = {
       var findLoginID = [];
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "select loginID from User where name =? and email = ?",
-        data,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("select loginID from User where name =? and email = ?", data, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-
-          var string = JSON.stringify(result);
-          var json = JSON.parse(string);
-          console.log(">> json: ", json);
-          findLoginID = json;
-
-          callback(null, findLoginID);
+          callback(err, null);
+          return;
         }
-      );
+
+        var string = JSON.stringify(result);
+        var json = JSON.parse(string);
+        console.log(">> json: ", json);
+        findLoginID = json;
+
+        callback(null, findLoginID);
+      });
     });
   },
 
@@ -280,31 +276,27 @@ var User = {
       var approvalUsers = [];
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "select * from User where approval=? ",
-        state,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("select * from User where approval=? ", state, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-
-          // console.log('>> result: ', result );
-          var string = JSON.stringify(result);
-          // console.log('>> string: ', string );
-          var json = JSON.parse(string);
-          console.log(">> json: ", json);
-          users = json;
-
-          callback(null, users);
+          callback(err, null);
+          return;
         }
-      );
+
+        // console.log('>> result: ', result );
+        var string = JSON.stringify(result);
+        // console.log('>> string: ', string );
+        var json = JSON.parse(string);
+        console.log(">> json: ", json);
+        users = json;
+
+        callback(null, users);
+      });
     });
   },
 
@@ -325,46 +317,29 @@ var User = {
       // 데이터를 객체로 만듭니다.
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "select * from User where userType=? ",
-        type,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("select * from User where userType=? ", type, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-
-          var string = JSON.stringify(result);
-          var json = JSON.parse(string);
-          console.log(">> json: ", json);
-          var users = json;
-
-          callback(null, users);
+          callback(err, null);
+          return;
         }
-      );
+
+        var string = JSON.stringify(result);
+        var json = JSON.parse(string);
+        console.log(">> json: ", json);
+        var users = json;
+
+        callback(null, users);
+      });
     });
   },
 
-  addUser: function(
-    loginId,
-    password,
-    name,
-    email,
-    department,
-    approval,
-    userType,
-    phone,
-    buildingList,
-    positionList,
-    deviceList,
-    callback
-  ) {
+  addUser: function(loginId, password, name, email, department, approval, userType, phone, buildingList, positionList, deviceList, callback) {
     console.log("addUser 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -394,10 +369,7 @@ var User = {
       };
 
       // SQL문을 실행합니다.
-      var exec = conn.query("insert into User set ?", data, function(
-        err,
-        result
-      ) {
+      var exec = conn.query("insert into User set ?", data, function(err, result) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
 
@@ -413,20 +385,7 @@ var User = {
     });
   },
 
-  updateUser: function(
-    userId,
-    password,
-    name,
-    email,
-    department,
-    approval,
-    userType,
-    phone,
-    buildingList,
-    positionList,
-    deviceList,
-    callback
-  ) {
+  updateUser: function(userId, password, name, email, department, approval, userType, phone, buildingList, positionList, deviceList, callback) {
     console.log("updateUser 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -442,19 +401,7 @@ var User = {
 
       // 데이터를 객체로 만듭니다.
       // TODO: Approval을 임시로 true 로 설정했습니다.
-      var data = [
-        name,
-        password,
-        email,
-        department,
-        approval,
-        userType,
-        phone,
-        buildingList,
-        positionList,
-        deviceList,
-        userId
-      ];
+      var data = [name, password, email, department, approval, userType, phone, buildingList, positionList, deviceList, userId];
 
       // SQL문을 실행합니다.
       var exec = conn.query(
@@ -480,14 +427,7 @@ var User = {
     });
   },
 
-  modifyUser: function(
-    userId,
-    name,
-    email,
-    department,
-    userType,
-    callback
-  ) {
+  modifyUser: function(userId, name, email, department, userType, callback) {
     console.log("modifyUser 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -506,10 +446,7 @@ var User = {
       var data = [name, email, department, userType, userId];
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "update User set name=?, email=?, department=?, userType=? where id=?",
-        data, function(err,result
-      ) {
+      var exec = conn.query("update User set name=?, email=?, department=?, userType=? where id=?", data, function(err, result) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
 
@@ -547,25 +484,21 @@ var User = {
       var data = [buildingList, userId];
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "update User set buildingList=? where id=?",
-        data,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("update User set buildingList=? where id=?", data, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            //callback(err, null);
-            return;
-          }
-          var success = true;
-
-          //callback(null, success);
+          //callback(err, null);
+          return;
         }
-      );
+        var success = true;
+
+        //callback(null, success);
+      });
     });
   },
 
@@ -588,25 +521,21 @@ var User = {
       var data = [positionList, userId];
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "update User set positionList=? where id=?",
-        data,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("update User set positionList=? where id=?", data, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            //callback(err, null);
-            return;
-          }
-          var success = true;
-
-          //callback(null, success);
+          //callback(err, null);
+          return;
         }
-      );
+        var success = true;
+
+        //callback(null, success);
+      });
     });
   },
 
@@ -629,25 +558,21 @@ var User = {
       var loginUser = null;
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "select * from User where loginID=? and password=?",
-        data,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("select * from User where loginID=? and password=?", data, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-          console.dir(result);
-          loginUser = result[0];
-          callback(null, loginUser);
+          callback(err, null);
+          return;
         }
-      );
+        console.dir(result);
+        loginUser = result[0];
+        callback(null, loginUser);
+      });
     });
   },
 
@@ -749,10 +674,7 @@ var User = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // SQL문을 실행합니다.
-      var exec = conn.query("select * from User where id=?", userId, function(
-        err,
-        result
-      ) {
+      var exec = conn.query("select * from User where id=?", userId, function(err, result) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
 
@@ -786,28 +708,24 @@ var User = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "select password from User where id=?",
-        id,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("select password from User where id=?", id, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-          console.dir(result);
-          var success = false;
-          if (result[0].password === oldPassword) {
-            success = true;
-          }
-          callback(null, success);
+          callback(err, null);
+          return;
         }
-      );
+        console.dir(result);
+        var success = false;
+        if (result[0].password === oldPassword) {
+          success = true;
+        }
+        callback(null, success);
+      });
     });
   },
   changePassword: function(id, newPassword, callback) {
@@ -828,27 +746,23 @@ var User = {
       var data = [newPassword, id];
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "update User set password=? where id=?",
-        data,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("update User set password=? where id=?", data, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-          var success = false;
-          if (result.changedRows > 0) {
-            success = true;
-          }
-          callback(null, success);
+          callback(err, null);
+          return;
         }
-      );
+        var success = false;
+        if (result.changedRows > 0) {
+          success = true;
+        }
+        callback(null, success);
+      });
     });
   }
 };
