@@ -8,6 +8,7 @@ import DeviceContainer from "./DeviceContainer";
 import UserContainer from "./UserContainer";
 import DoneContainer from "./DoneContainer";
 import { Prompt } from "react-router-dom";
+import { selectTreeNode, toggleTreeNode } from "actions/Tree";
 
 const Step = Steps.Step;
 
@@ -18,6 +19,9 @@ class Container extends React.Component {
   };
 
   componentDidMount() {
+    this.props.selectTreeNode(null);
+    localStorage.removeItem("selectedNode");
+
     const steps = JSON.parse(localStorage.getItem("steps"));
     // console.log("steps : ", steps);
     if (steps) {
@@ -227,7 +231,7 @@ const mapStateToProps = state => ({
   positionListByBuildingId: state.position.positionListByBuildingId
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { selectTreeNode };
 
 export default connect(
   mapStateToProps,

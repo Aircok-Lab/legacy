@@ -39,6 +39,11 @@ class Update extends Component {
     ) {
       alert("개통번호를 입력하세요");
     } else if (
+      this.state.postData.networkType === "cellular" &&
+      !this.state.postData.imei
+    ) {
+      alert("IMEI 번호를 입력하세요");
+    } else if (
       this.state.postData.networkType === "ethernet" &&
       !this.state.postData.ip
     ) {
@@ -57,7 +62,7 @@ class Update extends Component {
       let goAhed = true;
       if (positionId != this.state.postData.positionID) {
         // if (!confirm("위치가 변경되었습니다. 이동하시겠습니까?")) {
-        if (!confirm("계속을 누르시면 위치가 변경됩니다.")) {
+        if (!confirm("확인을 누르시면 위치가 변경됩니다.")) {
           goAhed = false;
         }
       }
@@ -150,7 +155,6 @@ class Update extends Component {
               value={this.state.postData.productID}
               onChange={this.handleChange}
             >
-              <option value="" />
               {this.props.productList.map(product => (
                 <option key={product.id} value={product.id}>
                   {product.name}
@@ -225,21 +229,44 @@ class Update extends Component {
           </div>
         </div>
         {this.state.postData.networkType === "cellular" && (
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              개통 번호
+          <React.Fragment>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                개통 번호
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="form-control"
+                  name="phone"
+                  value={this.state.postData.phone}
+                  type="text"
+                  placeholder=""
+                  onChange={this.handleChange}
+                />
+              </div>
             </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="phone"
-                value={this.state.postData.phone}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                IMEI 번호
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="form-control"
+                  name="imei"
+                  value={this.state.postData.imei}
+                  type="text"
+                  placeholder=""
+                  onChange={this.handleChange}
+                />
+              </div>
             </div>
-          </div>
+          </React.Fragment>
         )}
         {this.state.postData.networkType === "ethernet" && (
           <React.Fragment>

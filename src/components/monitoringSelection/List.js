@@ -18,9 +18,15 @@ class List extends React.Component {
   };
 
   componentDidMount() {
+    console.log(
+      "this.props.authUser.deviceList",
+      this.props.authUser.deviceList
+    );
     this.props.deviceGetAllByPositionIdRequest({
       id: this.props.authUser.positionList,
       deviceList: this.props.authUser.deviceList
+        ? this.props.authUser.deviceList
+        : []
     });
     // this.setState({ deviceList: this.props.deviceList });
   }

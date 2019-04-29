@@ -85,10 +85,10 @@ function* deviceUpdateWorker(action) {
     const res = yield api.put(`device/updateDevice`, action.payload);
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
-      yield put({
-        type: DEVICE_LIST_BY_POSITION_ID_REQUEST,
-        payload: { id: action.payload.positionID }
-      });
+      // yield put({
+      //   type: DEVICE_LIST_BY_POSITION_ID_REQUEST,
+      //   payload: { id: action.payload.positionID }
+      // });
       yield put({
         type: SET_VIEW_MODE,
         payload: "list"
@@ -134,7 +134,7 @@ function* deviceGetAllByPositionIdWorker(action) {
     const res = yield api.get(
       `device/getAllDeviceByPositionId?positionID=${action.payload.id}`
     );
-    console.log("sagas... action: ", action);
+    console.log("sagas... : ", action, res);
     if (responseDataProcess(res.data)) {
       yield put({
         type: "DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS",

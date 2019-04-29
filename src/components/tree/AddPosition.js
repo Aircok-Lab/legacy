@@ -7,30 +7,33 @@ class AddPosition extends Component {
   state = {
     name: setInitValue("" + new Date().getTime()),
     position: "1",
-    buildingID: "" + this.props.selectedNode.id,
+    buildingID: this.props.selectedNode ? "" + this.props.selectedNode.id : "",
     // buildingID: this.props.selectedNode.id,
     userID: this.props.authUser.id
   };
 
   static getDerivedStateFromProps(props, state) {
-    console.log(
-      "addPosition.js.... props.selectedNode.id : ",
-      props.selectedNode.id
-    );
-    if (state.buildingID !== String(props.selectedNode.id)) {
+    if (
+      props.selectedNode &&
+      state.buildingID !== String(props.selectedNode.id)
+    ) {
       return {
         buildingID: String(props.selectedNode.id)
       };
     }
     return null;
   }
+
   addPosition = () => {
-    console.log("this.props.selectedNode .... ", this.props.selectedNode);
+    // console.log("this.props.selectedNode .... ", this.props.selectedNode);
     if (
-      !this.props.selectedNode.id ||
-      (this.props.selectedNode.id && this.props.selectedNode.buildingID)
+      !this.props.selectedNode ||
+      (this.props.selectedNode && !this.props.selectedNode.id) ||
+      (this.props.selectedNode &&
+        this.props.selectedNode.id &&
+        this.props.selectedNode.buildingID)
     ) {
-      alert("건물을 선택하세요");
+      alert("건물목록에서 건물을 선택하세요");
     } else if (!this.state.name) {
       alert("위치명을 입력하세요");
     } else {
@@ -54,7 +57,7 @@ class AddPosition extends Component {
           <div className="w3-rest">
             <div className="w3-rest">
               <div className="form-control" style={{ background: "#eee" }}>
-                {this.props.selectedNode.name} &nbsp;
+                {this.props.selectedNode && this.props.selectedNode.name} &nbsp;
               </div>
             </div>
           </div>
@@ -110,7 +113,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  positionAddRequest: positionAddRequest
+  positionAddRequest
 };
 
 export default connect(

@@ -18,9 +18,11 @@ class BuildingContainer extends React.Component {
     // const stepBuildingList = "233";
 
     // console.log("this.props.selectedNode", this.props.selectedNode);
-    this.props.positionListByBuildingIdRequest({
-      id: "" + this.props.selectedNode.id
-    });
+    if (this.props.selectedNode) {
+      this.props.positionListByBuildingIdRequest({
+        id: "" + this.props.selectedNode.id
+      });
+    }
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -45,9 +47,10 @@ class BuildingContainer extends React.Component {
     // let stepBuildingList = this.props.authUser.buildingList;
     // stepBuildingList.replace(this.props.buildingList, "");
     // console.log("stepBuildingList", stepBuildingList);
-    if (!this.props.positionListByBuildingId) {
-      return null;
-    }
+
+    // if (!this.props.positionListByBuildingId) {
+    //   return null;
+    // }
 
     return (
       <React.Fragment>
@@ -60,13 +63,15 @@ class BuildingContainer extends React.Component {
           ))}
         </ul> */}
         <h2 className="text-center">위치 목록</h2>
-        <ul className="list-group list-group-flush">
-          {this.props.positionListByBuildingId.map(position => (
-            <li key={position.id} className="list-group-item">
-              {position.name}
-            </li>
-          ))}
-        </ul>
+        {this.props.positionListByBuildingId ? (
+          <ul className="list-group list-group-flush">
+            {this.props.positionListByBuildingId.map(position => (
+              <li key={position.id} className="list-group-item">
+                {position.name}
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </React.Fragment>
     );
   }

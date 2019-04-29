@@ -10,16 +10,16 @@ class Add extends Component {
     postData: {
       name: setInitValue("" + new Date().getTime()),
       serialNumber: setInitValue("" + new Date().getTime()),
-      positionID: this.props.selectedNode.id,
+      positionID: this.props.selectedNode ? this.props.selectedNode.id : "",
       productID: 1,
       reportType: 1,
       imei: setInitValue("" + new Date().getTime()),
       networkType: "cellular", // cellular | ethernet
-      // phone: setInitValue("" + new Date().getTime()),
+      phone: setInitValue("" + new Date().getTime()),
       // ip: setInitValue("" + new Date().getTime()),
       // gateway: setInitValue("" + new Date().getTime()),
       // subnet: setInitValue("" + new Date().getTime())
-      phone: "",
+      // phone: "",
       ip: "",
       gateway: "",
       subnet: ""
@@ -42,6 +42,11 @@ class Add extends Component {
       !this.state.postData.phone
     ) {
       alert("개통번호를 입력하세요");
+    } else if (
+      this.state.postData.networkType === "cellular" &&
+      !this.state.postData.imei
+    ) {
+      alert("IMEI 번호를 입력하세요");
     } else if (
       this.state.postData.networkType === "ethernet" &&
       !this.state.postData.ip
@@ -223,21 +228,44 @@ class Add extends Component {
           </div>
         </div>
         {this.state.postData.networkType === "cellular" && (
-          <div className="w3-row w3-section">
-            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-              개통 번호
+          <React.Fragment>
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                개통 번호
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="form-control"
+                  name="phone"
+                  value={this.state.postData.phone}
+                  type="text"
+                  placeholder=""
+                  onChange={this.handleChange}
+                />
+              </div>
             </div>
-            <div className="w3-rest">
-              <input
-                className="form-control"
-                name="phone"
-                value={this.state.postData.phone}
-                type="text"
-                placeholder=""
-                onChange={this.handleChange}
-              />
+            <div className="w3-row w3-section">
+              <div
+                className="w3-col w3-padding-right"
+                style={{ width: "80px" }}
+              >
+                IMEI 번호
+              </div>
+              <div className="w3-rest">
+                <input
+                  className="form-control"
+                  name="imei"
+                  value={this.state.postData.imei}
+                  type="text"
+                  placeholder=""
+                  onChange={this.handleChange}
+                />
+              </div>
             </div>
-          </div>
+          </React.Fragment>
         )}
 
         {this.state.postData.networkType === "ethernet" && (

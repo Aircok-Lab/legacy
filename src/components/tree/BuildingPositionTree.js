@@ -219,8 +219,9 @@ class BuildingPositionTree extends Component {
                   style={{ marginLeft: "2px" }}
                   onClick={this.openModal("addPosition")}
                   disabled={
-                    this.props.selectedNode.buildingID ||
-                    !this.props.selectedNode.id
+                    (this.props.selectedNode &&
+                      this.props.selectedNode.buildingID) ||
+                    (this.props.selectedNode && !this.props.selectedNode.id)
                   }
                 >
                   위치등록
@@ -337,6 +338,32 @@ class BuildingPositionTree extends Component {
             )}
           </div>
         ))}
+        <div>
+          <div
+            style={{
+              cursor: "pointer",
+              padding: "2px 10px 2px 6px",
+              marginBottom: "2px"
+              // background:
+              //   !this.props.selectedNode.buildingID &&
+              //   this.props.selectedNode.id === item.id
+              //     ? "#bae7ff"
+              //     : ""
+            }}
+            className="w3-block"
+            // onClick={e => this.nodeClick(null)}
+          >
+            <i
+              className="p-1 fa fa-cog"
+              aria-hidden="true"
+              style={{
+                cursor: "pointer",
+                width: "24px"
+              }}
+            />
+            <span>기타폴더</span>
+          </div>
+        </div>
         <Modal
           isOpen={this.props.showModal}
           // onRequestClose={this.closeModal}

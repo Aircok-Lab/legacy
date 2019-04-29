@@ -42,16 +42,27 @@ class List extends React.Component {
     }
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (JSON.stringify(state.deviceList) != JSON.stringify(props.deviceList)) {
-      return {
-        deviceList: props.deviceList
-      };
-    }
-    return null;
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   if (JSON.stringify(state.deviceList) != JSON.stringify(props.deviceList)) {
+  //     return {
+  //       deviceList: props.deviceList
+  //     };
+  //   }
+  //   return null;
+  // }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("DidUpdate .... ");
+    if (
+      JSON.stringify(this.state.deviceList) !=
+      JSON.stringify(this.props.deviceList)
+    ) {
+      // return {
+      //   deviceList: props.deviceList
+      // };
+      this.setState({ deviceList: this.props.deviceList });
+    }
+
     if (
       JSON.stringify(prevProps.selectedNode) !=
         JSON.stringify(this.props.selectedNode) &&
@@ -121,6 +132,7 @@ class List extends React.Component {
           )}
 
           <div className="table-responsive">
+            {/* <div>list: {JSON.stringify(this.state.deviceList)}</div> */}
             <table className="table table-bordered text-center text-nowrap">
               <thead>
                 <tr>
@@ -151,26 +163,23 @@ class List extends React.Component {
                 {this.state.deviceList &&
                   this.state.deviceList.map((row, index) => (
                     <tr key={row.serialNumber}>
-                      {!this.props.hideButton && (
-                        <td>
-                          <input
-                            type="checkbox"
-                            checked={row.isChecked}
-                            value={row.serialNumber}
-                            onChange={event => {
-                              let deviceList = this.state.deviceList;
-                              deviceList.forEach(device => {
-                                if (
-                                  device.serialNumber === event.target.value
-                                ) {
-                                  device.isChecked = event.target.checked;
-                                }
-                              });
-                              this.setState({ deviceList: deviceList });
-                            }}
-                          />
-                        </td>
-                      )}
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={row.isChecked}
+                          value={row.serialNumber}
+                          onChange={event => {
+                            console.log("onChange checkbox....");
+                            let deviceList = this.state.deviceList;
+                            deviceList.forEach(device => {
+                              if (device.serialNumber === event.target.value) {
+                                device.isChecked = event.target.checked;
+                              }
+                            });
+                            this.setState({ deviceList: deviceList });
+                          }}
+                        />
+                      </td>
 
                       <td>{index + 1}</td>
                       <td>{row.name}</td>

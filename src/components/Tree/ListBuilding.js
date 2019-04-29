@@ -64,7 +64,10 @@ class BuildingContainer extends React.Component {
                 padding: "2px 10px",
                 marginBottom: "2px",
                 background:
-                  this.props.selectedNode.id === building.id ? "#bae7ff" : ""
+                  this.props.selectedNode &&
+                  this.props.selectedNode.id === building.id
+                    ? "#bae7ff"
+                    : ""
               }}
               onClick={e => this.nodeClick(building)}
             >

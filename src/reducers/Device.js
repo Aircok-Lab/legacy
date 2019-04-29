@@ -26,7 +26,7 @@ export default (state = INIT_STATE, action) => {
       };
     }
     case DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS: {
-      console.log("action.deviceList: ", action.deviceList);
+      // console.log("action.deviceList: ", action.deviceList);
       const list = action.payload.map(item => {
         console.log("item", item);
         const checked =
