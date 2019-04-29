@@ -22,6 +22,7 @@ class UserPage extends React.Component {
               // checkable={false}
               checkable={this.props.viewMode === "list" ? false : true}
               selectable={false}
+              isUserMenu={true}
             />
           </div>
           <div className="col-md-9">

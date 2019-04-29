@@ -25,7 +25,11 @@ function* buildingListWorker(action) {
   try {
     const res = yield api.post(`building/getBuildingById`, action.payload);
     if (responseDataProcess(res.data)) {
-      yield put({ type: BUILDING_LIST_SUCCESS, payload: res.data.data });
+      yield put({
+        type: BUILDING_LIST_SUCCESS,
+        payload: res.data.data,
+        showExtraNode: action.payload.showExtraNode
+      });
     }
   } catch (error) {
     console.log("[ERROR#####]", error);

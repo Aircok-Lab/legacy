@@ -49,7 +49,11 @@ class BuildingPositionTree extends Component {
   componentDidMount() {
     console.log("this.props ....", this.props);
     this.props.buildingListRequest({
-      id: "" + this.props.authUser.buildingList
+      id: "" + this.props.authUser.buildingList,
+      showExtraNode:
+        this.props.isUserMenu && this.props.authUser.userType === "master"
+          ? true
+          : false
     });
     this.props.positionListRequest({
       id: "" + this.props.authUser.positionList
