@@ -2,15 +2,15 @@ import { OK, FAIL, APPROVE } from "../public/javascripts/defined";
 var express = require("express");
 var router = express.Router();
 var User = require("../models/User");
-// var ursa = require("ursa");
+var ursa = require("ursa");
 var fs = require("fs");
 var path = require("path");
 var userPattern = require("../utils/UserPattern");
 
 const publicKey = fs.readFileSync(path.resolve("ssl/public.pem"));
-// const privateKey = ursa.createPrivateKey(
-//   fs.readFileSync(path.resolve("ssl/private.pem"))
-// );
+const privateKey = ursa.createPrivateKey(
+  fs.readFileSync(path.resolve("ssl/private.pem"))
+);
 
 router.get("/pkey", function(req, res) {
   return res.send(publicKey);
@@ -21,7 +21,7 @@ router.post("/login", function(req, res, next) {
   console.log("/login 호출됨.");
   var paramLoginId = req.body.loginId || req.query.loginId;
   var paramPassword = req.body.password || req.query.password;
-  let password = 'test123';//privateKey.decrypt(paramPassword, "base64", "utf8");
+  let password = privateKey.decrypt(paramPassword, "base64", "utf8");
   var result = { statusCode: null, message: null, data: null };
 
   if (!paramLoginId || !paramPassword) {
@@ -530,7 +530,7 @@ router.put("/updateUser", function(req, res, next) {
   var paramPositionList = req.body.positionList || req.query.positionList;
   var paramDeviceList = req.body.deviceList || req.query.deviceList;
   var result = { statusCode: null, message: null, data: null };
-  let password = 'test123';//privateKey.decrypt(paramPassword, "base64", "utf8");
+  let password = privateKey.decrypt(paramPassword, "base64", "utf8");
 
   paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
   paramPositionList = userPattern.setPositionListPattern(paramPositionList);
