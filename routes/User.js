@@ -2,15 +2,13 @@ import { OK, FAIL, APPROVE } from "../public/javascripts/defined";
 var express = require("express");
 var router = express.Router();
 var User = require("../models/User");
-// var ursa = require("ursa");
+var ursa = require("ursa");
 var fs = require("fs");
 var path = require("path");
 var userPattern = require("../utils/UserPattern");
 
 const publicKey = fs.readFileSync(path.resolve("ssl/public.pem"));
-// const privateKey = ursa.createPrivateKey(
-//   fs.readFileSync(path.resolve("ssl/private.pem"))
-// );
+const privateKey = ursa.createPrivateKey(fs.readFileSync(path.resolve("ssl/private.pem")));
 
 router.get("/pkey", function(req, res) {
   return res.send(publicKey);
@@ -21,7 +19,7 @@ router.post("/login", function(req, res, next) {
   console.log("/login 호출됨.");
   var paramLoginId = req.body.loginId || req.query.loginId;
   var paramPassword = req.body.password || req.query.password;
-  let password = 'test123';//privateKey.decrypt(paramPassword, "base64", "utf8");
+  let password = privateKey.decrypt(paramPassword, "base64", "utf8");
   var result = { statusCode: null, message: null, data: null };
 
   if (!paramLoginId || !paramPassword) {
@@ -530,7 +528,7 @@ router.put("/updateUser", function(req, res, next) {
   var paramPositionList = req.body.positionList || req.query.positionList;
   var paramDeviceList = req.body.deviceList || req.query.deviceList;
   var result = { statusCode: null, message: null, data: null };
-  let password = 'test123';//privateKey.decrypt(paramPassword, "base64", "utf8");
+  let password = privateKey.decrypt(paramPassword, "base64", "utf8");
 
   paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
   paramPositionList = userPattern.setPositionListPattern(paramPositionList);
@@ -660,35 +658,11 @@ router.put("/modifyUser", function(req, res, next) {
   var paramEmail = req.body.email || req.query.email;
   var paramDepartment = req.body.department || req.query.department;
   var paramUserType = req.body.userType || req.query.userType;
-  var paramBuildingList = req.body.buildingList || req.query.buildingList;
-  var paramPositionList = req.body.positionList || req.query.positionList;
-  var paramDeviceList = req.body.deviceList || req.query.deviceList;
   var result = { statusCode: null, message: null, data: null };
 
-  paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
-  paramPositionList = userPattern.setPositionListPattern(paramPositionList);
-  paramDeviceList = userPattern.setPositionListPattern(paramDeviceList);
-  console.log("요청 파라미터 : " + 
-  paramUserID +
-  "," +
-  paramName +
-  "," +
-  paramEmail +
-  "," +
-  paramDepartment +
-  "," +
-  paramUserType +
-  "," +
-  paramBuildingList +
-  "," +
-  paramBuildingList +
-  "," +
-  paramPositionList +
-  "," +
-  paramDeviceList
-   );
+  console.log("요청 파라미터 : " + paramUserID + "," + paramName + "," + paramEmail + "," + paramDepartment + "," + paramUserType);
 
-  User.modifyUser(paramUserID, paramName, paramEmail, paramDepartment, paramUserType, paramBuildingList, paramPositionList, paramDeviceList, function(err, success) {
+  User.modifyUser(paramUserID, paramName, paramEmail, paramDepartment, paramUserType, function(err, success) {
     // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
     if (err) {
       console.error("사용자 추가 중 오류 발생 :" + err.stack);

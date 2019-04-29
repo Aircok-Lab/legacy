@@ -427,7 +427,7 @@ var User = {
     });
   },
 
-  modifyUser: function(userId, name, email, department, userType, buildingList, positionList, deviceList, callback) {
+  modifyUser: function(userId, name, email, department, userType, callback) {
     console.log("modifyUser 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -443,10 +443,10 @@ var User = {
 
       // 데이터를 객체로 만듭니다.
       // TODO: Approval을 임시로 true 로 설정했습니다.
-      var data = [name, email, department, userType, buildingList, positionList, deviceList, userId];
+      var data = [name, email, department, userType, userId];
 
       // SQL문을 실행합니다.
-      var exec = conn.query("update User set name=?, email=?, department=?, userType=?, buildingList=?, positionList=?, deviceList=? where id=?", data, function(err, result) {
+      var exec = conn.query("update User set name=?, email=?, department=?, userType=? where id=?", data, function(err, result) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
 
