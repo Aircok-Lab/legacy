@@ -681,8 +681,6 @@ router.put("/modifyUser", function(req, res, next) {
   "," +
   paramBuildingList +
   "," +
-  paramBuildingList +
-  "," +
   paramPositionList +
   "," +
   paramDeviceList
