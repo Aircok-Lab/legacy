@@ -90,12 +90,17 @@ var RecentData = {
       }
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-      // SQL문을 실행합니다.
+      var device = deviceSN.split(",");
       var queryString =
         "select Building.name as buildingName , Position.name as positionName, Device.name as deviceName, Building.latitude as latitude, Building.longitude as longitude, RecentData.* from RecentData, Position, Building, Device\
-        where RecentData.deviceSN = Device.serialNumber and  Device.positionID = Position.id and Position.buildingID = Building.id and RecentData.deviceSN in('" +
-        deviceSN +
-        "')";
+      where RecentData.deviceSN = Device.serialNumber and  Device.positionID = Position.id and Position.buildingID = Building.id and RecentData.deviceSN in( ";
+      for (i in device) {
+        let str = "'" + device[i] + "'";
+        queryString = queryString + str + ",";
+      }
+      if (queryString.endsWith(",")) queryString = queryString.slice(0, -1);
+      queryString = queryString + ")";
+      // SQL문을 실행합니다.
       var exec = conn.query(queryString, function(err, result) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
