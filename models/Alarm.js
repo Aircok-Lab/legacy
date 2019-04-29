@@ -20,70 +20,47 @@ var Alarm = {
         tableName +
         "  (\
                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,\
-                Date DATETIME NULL,\
+                date DATETIME NULL,\
                 e3Index TINYINT(3) UNSIGNED NULL,\
                 e3Score TINYINT(3) UNSIGNED NULL, ";
       if (productInfo.pm10 === 1) {
-        sqlStr =
-          sqlStr +
-          "pm10Index TINYINT(3) UNSIGNED NULL,\
+        sqlStr = sqlStr + "pm10Index TINYINT(3) UNSIGNED NULL,\
                 pm10Alarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
       if (productInfo.pm25 === 1) {
-        sqlStr =
-          sqlStr +
-          "pm25Index TINYINT(3) UNSIGNED NULL,\
+        sqlStr = sqlStr + "pm25Index TINYINT(3) UNSIGNED NULL,\
                 pm25Alarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
       if (productInfo.co2 === 1) {
-        sqlStr =
-          sqlStr +
-          "co2Index TINYINT(3) UNSIGNED NULL,\
+        sqlStr = sqlStr + "co2Index TINYINT(3) UNSIGNED NULL,\
                 co2Alarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
       if (productInfo.hcho === 1) {
-        sqlStr =
-          sqlStr +
-          "hchoIndex TINYINT(3) UNSIGNED NULL,\
+        sqlStr = sqlStr + "hchoIndex TINYINT(3) UNSIGNED NULL,\
                 hchoAlarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
       if (productInfo.voc === 1) {
-        sqlStr =
-          sqlStr +
-          "vocIndex TINYINT(3) UNSIGNED NULL,\
+        sqlStr = sqlStr + "vocIndex TINYINT(3) UNSIGNED NULL,\
                 vocAlarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
       if (productInfo.temperature === 1) {
-        sqlStr =
-          sqlStr +
-          "temperatureIndex TINYINT(3) UNSIGNED NULL,\
+        sqlStr = sqlStr + "temperatureIndex TINYINT(3) UNSIGNED NULL,\
                 temperatureAlarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
       if (productInfo.humidity === 1) {
-        sqlStr =
-          sqlStr +
-          "humidityIndex TINYINT(3) UNSIGNED NULL,\
+        sqlStr = sqlStr + "humidityIndex TINYINT(3) UNSIGNED NULL,\
                 humidityAlarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
       if (productInfo.noise === 1) {
-        sqlStr =
-          sqlStr +
-          "noiseIndex TINYINT(3) UNSIGNED NULL,\
+        sqlStr = sqlStr + "noiseIndex TINYINT(3) UNSIGNED NULL,\
                 noiseAlarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
       if (productInfo.co === 1) {
-        sqlStr =
-          sqlStr +
-          "coIndex TINYINT(3) UNSIGNED NULL,\
+        sqlStr = sqlStr + "coIndex TINYINT(3) UNSIGNED NULL,\
                 coAlarm TINYINT(4) UNSIGNED NULL DEFAULT 0, ";
       }
-      sqlStr =
-        sqlStr +
-        " PRIMARY KEY (`id`),\
-                INDEX " +
-        "index_" +
-        tableName +
-        " (Date ASC))";
+      sqlStr = sqlStr + " PRIMARY KEY (`id`),\
+                INDEX " + "index_" + tableName + " (date ASC))";
 
       // SQL문을 실행합니다.
       var exec = conn.query(sqlStr, function(err, result) {
@@ -122,45 +99,27 @@ var Alarm = {
 
       // SQL문을 실행합니다.
       var tableName = "Alarm_" + deviceSN;
-      var exec = conn.query(
-        "Select * from " + tableName + " where id=?",
-        id,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("Select * from " + tableName + " where id=?", id, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-          var string = JSON.stringify(result);
-          var json = JSON.parse(string);
-          console.log(">> json: ", json);
-          var dataInfo = json;
-
-          callback(null, dataInfo);
+          callback(err, null);
+          return;
         }
-      );
+        var string = JSON.stringify(result);
+        var json = JSON.parse(string);
+        console.log(">> json: ", json);
+        var dataInfo = json;
+
+        callback(null, dataInfo);
+      });
     });
   },
-  addAlarm: function(
-    pm10,
-    pm25,
-    co2,
-    hcho,
-    voc,
-    temperature,
-    humidity,
-    noise,
-    co,
-    total,
-    date,
-    deviceSN,
-    callback
-  ) {
+  addAlarm: function(pm10, pm25, co2, hcho, voc, temperature, humidity, noise, co, total, date, deviceSN, callback) {
     console.log("addAlarm 호출됨");
 
     pool.getConnection(function(err, conn) {
@@ -176,7 +135,7 @@ var Alarm = {
 
       // 데이터를 객체로 만듭니다.
       var tableName = "Alarm_" + deviceSN;
-      var data = { Date: date, e3Index: total.index, e3Score: total.score };
+      var data = { date: date, e3Index: total.index, e3Score: total.score };
       if (pm10.value) {
         data.pm10Index = pm10.index;
         data.pm10Alarm = pm10.alarm;
@@ -215,25 +174,21 @@ var Alarm = {
       }
 
       // SQL문을 실행합니다.
-      var exec = conn.query(
-        "insert into " + tableName + " set ?",
-        data,
-        function(err, result) {
-          conn.release(); // 반드시 해제해야 합니다.
-          console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query("insert into " + tableName + " set ?", data, function(err, result) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 SQL : " + exec.sql);
 
-          if (err) {
-            console.log("SQL 실행 시 오류 발생함");
-            console.dir(err);
+        if (err) {
+          console.log("SQL 실행 시 오류 발생함");
+          console.dir(err);
 
-            callback(err, null);
-            return;
-          }
-          var success = true;
-
-          callback(null, success);
+          callback(err, null);
+          return;
         }
-      );
+        var success = true;
+
+        callback(null, success);
+      });
     });
   },
   deleteAlarm: function(deviceSN, dataId, callback) {
@@ -251,8 +206,7 @@ var Alarm = {
 
       // 데이터를 객체로 만듭니다.
       var tableName = "Alarm_" + deviceSN;
-      var queryString =
-        "delete from " + tableName + " where id in(" + dataId + ")";
+      var queryString = "delete from " + tableName + " where id in(" + dataId + ")";
       var exec = conn.query(queryString, function(err, result) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
@@ -294,11 +248,7 @@ var Alarm = {
           .replace(/-/g, "");
         var oldTableName = "Alarm_" + serials[i];
         var newTableName = "Alarm_" + serials[i] + "_backup_" + date;
-        var queryString =
-          "ALTER TABLE monitoring." +
-          oldTableName +
-          " RENAME TO  monitoring." +
-          newTableName;
+        var queryString = "ALTER TABLE monitoring." + oldTableName + " RENAME TO  monitoring." + newTableName;
 
         conn.query(queryString);
       }
