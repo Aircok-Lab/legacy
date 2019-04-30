@@ -97,7 +97,7 @@ class App extends React.Component {
                 />
               </Switch>
             </div>
-            <Footer />
+            {/* <Footer /> */}
           </main>
         </div>
       </div>

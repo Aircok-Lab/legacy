@@ -1273,11 +1273,11 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bootstrap-v4-rtl@^4.0.0-0:
-  version "4.0.0-0"
-  resolved "https://registry.yarnpkg.com/bootstrap-v4-rtl/-/bootstrap-v4-rtl-4.0.0-0.tgz#a4aff5499234b2bc6e9351f4ac54e851bd1aa1f0"
+bootstrap-v4-rtl@^4.3.1-2:
+  version "4.3.1-2"
+  resolved "https://registry.yarnpkg.com/bootstrap-v4-rtl/-/bootstrap-v4-rtl-4.3.1-2.tgz#f44f3516dc827ee1a693338aa7774b66ff01a444"
 
-bootstrap@^4.1.1:
+bootstrap@4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
 
@@ -2616,6 +2616,10 @@ es6-map@^0.1.3:
     es6-set "~0.1.5"
     es6-symbol "~3.1.1"
     event-emitter "~0.3.5"
+
+es6-promise@^4.2.6:
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.6.tgz#b685edd8258886365ea62b57d30de28fadcd974f"
 
 es6-set@~0.1.5:
   version "0.1.5"

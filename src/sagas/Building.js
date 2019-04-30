@@ -21,6 +21,7 @@ import toaster from "util/toaster";
 import { setShowModal } from "actions/Setting";
 import { selectTreeNode } from "actions/Tree";
 // import superagent from "superagent";
+import "isomorphic-fetch";
 
 function* buildingListWorker(action) {
   try {
@@ -113,32 +114,32 @@ export function* buildingDeleteWatcher() {
 
 function* buildingLocationWorker(action) {
   try {
-    // const res = yield fetch(
-    //   `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAGuzyxaRGQvhdMnjtxjdImEWO4zWOYKAE&language=ko&region=KR&address=${
-    //     action.payload
-    //   }`
-    // ).then(response => response.json());
-    // yield put({
-    //   type: BUILDING_LOCATION_SUCCESS,
-    //   payload: res.results[0]
-    // });
-
-    let axiosConfig = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Access-Control-Allow-Origin": "*"
-      }
-    };
-
-    const res = yield api.get(
+    const res = yield fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAGuzyxaRGQvhdMnjtxjdImEWO4zWOYKAE&language=ko&region=KR&address=${
         action.payload
-      }`,
-      axiosConfig
-    );
-    if (responseDataProcess(res.data)) {
-      yield put({ type: BUILDING_LOCATION_SUCCESS, payload: res.results[0] });
-    }
+      }`
+    ).then(response => response.json());
+    yield put({
+      type: BUILDING_LOCATION_SUCCESS,
+      payload: res.results[0]
+    });
+
+    // let axiosConfig = {
+    //   headers: {
+    //     "Content-Type": "application/x-www-form-urlencoded",
+    //     "Access-Control-Allow-Origin": "*"
+    //   }
+    // };
+
+    // const res = yield api.get(
+    //   `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAGuzyxaRGQvhdMnjtxjdImEWO4zWOYKAE&language=ko&region=KR&address=${
+    //     action.payload
+    //   }`,
+    //   axiosConfig
+    // );
+    // if (responseDataProcess(res.data)) {
+    //   yield put({ type: BUILDING_LOCATION_SUCCESS, payload: res.results[0] });
+    // }
   } catch (e) {
     console.log("Error at fetching googlemaps location.");
     return;

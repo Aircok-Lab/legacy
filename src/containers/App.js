@@ -7,6 +7,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { IntlProvider } from "react-intl";
 import "w3-css/w3.css";
+import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "react-big-calendar/lib/less/styles.less";
 import "styles/bootstrap.scss";
@@ -30,7 +31,7 @@ import asyncComponent from "util/asyncComponent";
 const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
   <Route
     {...rest}
-    render={(props) =>
+    render={props =>
       authUser ? (
         <Component {...props} />
       ) : (
@@ -61,7 +62,14 @@ class App extends Component {
   }
 
   render() {
-    const { match, location, locale, authUser, initURL, isDirectionRTL } = this.props;
+    const {
+      match,
+      location,
+      locale,
+      authUser,
+      initURL,
+      isDirectionRTL
+    } = this.props;
     console.log("authUser", authUser);
     if (location.pathname === "/") {
       if (authUser === null) {
@@ -85,16 +93,27 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={applyTheme}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <IntlProvider locale={currentAppLocale.locale} messages={currentAppLocale.messages}>
+          <IntlProvider
+            locale={currentAppLocale.locale}
+            messages={currentAppLocale.messages}
+          >
             <RTL>
               <div className="app-main">
                 <Switch>
-                  <RestrictedRoute path={`${match.url}app`} authUser={authUser} component={MainApp} />
+                  <RestrictedRoute
+                    path={`${match.url}app`}
+                    authUser={authUser}
+                    component={MainApp}
+                  />
                   {/* <Route path={`${match.url}app`} authUser={authUser} component={MainApp}/> */}
                   <Route path="/login" component={Login} />
                   <Route path="/join" component={Join} />
                   <Route path="/forgot" component={Forgot} />
-                  <Route component={asyncComponent(() => import("components/Error404"))} />
+                  <Route
+                    component={asyncComponent(() =>
+                      import("components/Error404")
+                    )}
+                  />
                 </Switch>
               </div>
             </RTL>
