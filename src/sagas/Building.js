@@ -20,7 +20,7 @@ import responseDataProcess from "util/responseDataProcess";
 import toaster from "util/toaster";
 import { setShowModal } from "actions/Setting";
 import { selectTreeNode } from "actions/Tree";
-import superagent from "superagent";
+// import superagent from "superagent";
 
 function* buildingListWorker(action) {
   try {
