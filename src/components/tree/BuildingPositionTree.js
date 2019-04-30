@@ -231,7 +231,7 @@ class BuildingPositionTree extends Component {
                 >
                   위치등록
                 </button>
-                {this.props.selectedNode.buildingID && (
+                {this.props.selectedNode && this.props.selectedNode.buildingID && (
                   <button
                     className="btn btn-primary"
                     style={{ marginLeft: "2px" }}
