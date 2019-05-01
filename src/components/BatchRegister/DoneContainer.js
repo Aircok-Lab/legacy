@@ -4,11 +4,6 @@ import { connect } from "react-redux";
 class DoneContainer extends React.Component {
   componentDidMount() {
     localStorage.removeItem("steps");
-    // const steps = {
-    //   step: 1,
-    //   prevBuildingList: "" // this.props.authUser.prevBuildingList
-    // };
-    // this.setState(steps);
   }
 
   render() {

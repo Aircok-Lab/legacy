@@ -75,11 +75,27 @@ class Container extends React.Component {
     ) {
       return true;
     }
-
+    console.log("1111", this.props);
     if (
       this.state.step === 2 &&
       this.props.positionListByBuildingId &&
       this.props.positionListByBuildingId.length === 0
+    ) {
+      return true;
+    }
+
+    if (
+      this.state.step === 3 &&
+      this.props.deviceList &&
+      this.props.deviceList.length === 0
+    ) {
+      return true;
+    }
+
+    if (
+      this.state.step === 4 &&
+      this.props.userList &&
+      this.props.userList.length === 1
     ) {
       return true;
     }
@@ -98,9 +114,7 @@ class Container extends React.Component {
     let stepData = null;
     if (this.state.step === 1) {
       stepData = (
-        <BuildingContainer
-          prevBuildingList={this.state.prevBuildingList}
-        />
+        <BuildingContainer prevBuildingList={this.state.prevBuildingList} />
       );
     } else if (this.state.step === 2) {
       stepData = <PositionContainer />;
@@ -127,8 +141,10 @@ class Container extends React.Component {
                 onClick={e => {
                   this.handleStepChange("next");
                 }}
-                // disabled={this.state.step === 5}
                 disabled={this.isNextDisabled()}
+                style={{
+                  cursor: this.isNextDisabled() ? "not-allowed" : "pointer"
+                }}
               >
                 다음
               </button>
@@ -154,7 +170,9 @@ class Container extends React.Component {
 
 const mapStateToProps = state => ({
   authUser: state.auth.authUser,
-  positionListByBuildingId: state.position.positionListByBuildingId
+  positionListByBuildingId: state.position.positionListByBuildingId,
+  deviceList: state.device.list,
+  userList: state.user.list
 });
 
 const mapDispatchToProps = {

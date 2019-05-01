@@ -152,22 +152,26 @@ class List extends React.Component {
                 {this.state.deviceList &&
                   this.state.deviceList.map((row, index) => (
                     <tr key={row.serialNumber}>
-                      <td>
-                        <input
-                          type="checkbox"
-                          checked={row.isChecked}
-                          value={row.serialNumber}
-                          onChange={event => {
-                            let deviceList = this.state.deviceList;
-                            deviceList.forEach(device => {
-                              if (device.serialNumber === event.target.value) {
-                                device.isChecked = event.target.checked;
-                              }
-                            });
-                            this.setState({ deviceList: deviceList });
-                          }}
-                        />
-                      </td>
+                      {!this.props.hideButton && (
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={row.isChecked}
+                            value={row.serialNumber}
+                            onChange={event => {
+                              let deviceList = this.state.deviceList;
+                              deviceList.forEach(device => {
+                                if (
+                                  device.serialNumber === event.target.value
+                                ) {
+                                  device.isChecked = event.target.checked;
+                                }
+                              });
+                              this.setState({ deviceList: deviceList });
+                            }}
+                          />
+                        </td>
+                      )}
 
                       <td>{index + 1}</td>
                       <td>{row.name}</td>

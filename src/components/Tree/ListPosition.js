@@ -9,11 +9,20 @@ class BuildingContainer extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.selectedNode) {
-      this.props.positionListByBuildingIdRequest({
-        id: "" + this.props.selectedNode.id
-      });
-    }
+    // if (this.props.selectedNode) {
+    //   this.props.positionListByBuildingIdRequest({
+    //     id: "" + this.props.selectedNode.id
+    //   });
+    // } else {
+    //   this.props.positionListByBuildingIdRequest({
+    //     id: "-1"
+    //   });
+    // }
+
+    console.log("2222", this.props.selectedNode);
+    this.props.positionListByBuildingIdRequest({
+      id: this.props.selectedNode ? "" + this.props.selectedNode.id : "-1"
+    });
   }
 
   static getDerivedStateFromProps(props, state) {
