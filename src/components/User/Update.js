@@ -37,13 +37,6 @@ class Update extends Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    console.log(
-      "getDerivedStateFromProps",
-      props.newPassword,
-      props.showModal,
-      props,
-      state
-    );
     if (props.newPassword) {
       return { postData: { ...state.postData, password: props.newPassword } };
     }
@@ -69,8 +62,6 @@ class Update extends Component {
   };
 
   update = () => {
-    console.log();
-    console.log(this.state);
     let arr = this.props.checked.map(position => position.buildingID);
     const bildingIds = arr.filter(
       (value, idx, arr) => arr.indexOf(value) === idx
@@ -78,14 +69,9 @@ class Update extends Component {
     let positionIds = this.props.checked.map(position => position.id);
     const buildingList = bildingIds.join();
     const positionList = positionIds.join();
-    console.log(positionIds, bildingIds, this.props.checked);
-
-    // return;
 
     if (!this.props.checked.length) {
       alert("위치를 선택하세요");
-      // } else if (!this.state.postData.loginId) {
-      //   alert("로그인ID를 입력하세요");
     } else if (!this.state.postData.name) {
       alert("사용자이름을 입력하세요");
     } else if (!this.state.postData.email) {
@@ -97,12 +83,6 @@ class Update extends Component {
     } else if (!this.state.postData.userType) {
       alert("사용자권한을 선택하세요");
     } else {
-      // this.props.userUpdateRequest(
-      //   this.state.postData,
-      //   this.props.authUser,
-      //   this.props.pkey
-      // );
-
       // 변경된 포지션을 저장
       this.setState(
         {
@@ -131,17 +111,9 @@ class Update extends Component {
 
   componentDidMount() {
     this.props.publicKeyRequest();
-    //positionClearChecked, positionToggleChecked
     this.props.positionClearChecked();
-    console.log(
-      "aaaa",
-      this.state.postData.positionList,
-      this.props.positionList
-    );
     this.props.positionList.map(p => {
-      console.log("bbb", this.state.postData.positionList, p.id);
       if (this.state.postData.positionList.indexOf("" + p.id) > -1) {
-        console.log("cccc", p);
         this.props.positionToggleChecked(p);
       }
     });

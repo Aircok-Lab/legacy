@@ -48,8 +48,6 @@ class List extends React.Component {
       const userList = props.userList.filter(user => {
         if (props.authUser.userType === "manager" && user.userType === "master")
           return false;
-        // if (user.userType === "master") return false;
-        // if (user.loginID === props.authUser.loginID) return false;
         return true;
       });
       return {
@@ -92,7 +90,6 @@ class List extends React.Component {
       userList = userList.filter(user => user.userType == e.target.value);
       this.setState({ userList });
     } else {
-      // this.setState({ userList: this.props.userList });
       const userList = this.props.userList.filter(
         user => user.userType !== "master"
       );
@@ -126,7 +123,6 @@ class List extends React.Component {
                   className="btn btn-primary"
                   onClick={e => this.props.setViewMode("add")}
                   style={{ marginLeft: "2px" }}
-                  // disabled={!this.props.selectedNode.buildingID}
                 >
                   등록
                 </button>
@@ -200,7 +196,6 @@ class List extends React.Component {
                           checked={row.isChecked}
                           value={row.id}
                           onChange={event => {
-                            console.log("onChange checkbox....");
                             let userList = this.state.userList;
                             userList.forEach(user => {
                               if (user.id === Number(event.target.value)) {

@@ -59,7 +59,6 @@ const publicKeyRequest = async () =>
 // }
 
 function* signInUserWithEmailPassword({ payload }) {
-  console.log("payload", payload);
   const { loginId, password, pkey } = payload;
   try {
     let publicKey = forge.pki.publicKeyFromPem(forge.util.encodeUtf8(pkey));

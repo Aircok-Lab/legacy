@@ -13,7 +13,6 @@ class UserContainer extends React.Component {
       this.props.oldBuildingList + ",",
       ""
     );
-    console.log("stepBuildingList", stepBuildingList);
     this.props.buildingListRequest({ id: stepBuildingList });
     this.props.positionListByBuildingIdRequest({ id: stepBuildingList });
   }

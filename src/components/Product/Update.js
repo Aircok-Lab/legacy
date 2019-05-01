@@ -26,21 +26,15 @@ class Update extends Component {
     }
   };
   update = () => {
-    console.log("1111");
     if (!this.state.postData.name) {
       alert("제품군명을 입력하세요");
     } else if (!this.state.postData.version) {
       alert("펌웨어버전을 입력하세요");
     } else {
-      console.log("2222");
       this.props.productUpdateRequest(this.state.postData);
     }
   };
   handleChange = e => {
-    // const target = e.target;
-    // const value =
-    //   target.type === "checkbox" ? (target.checked ? "1" : "0") : target.value;
-    // const name = target.name;
     const target = e.target;
     let value;
     if (target.type === "checkbox") {

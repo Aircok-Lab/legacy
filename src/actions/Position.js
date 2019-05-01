@@ -1,5 +1,6 @@
 import {
   POSITION_LIST_REQUEST,
+  POSITION_LIST_SUCCESS,
   POSITION_LIST_BY_BUILDING_ID_REQUEST,
   POSITION_ADD_REQUEST,
   POSITION_UPDATE_REQUEST,
@@ -25,6 +26,13 @@ export const positionToggleChecked = payload => {
 export const positionListRequest = payload => {
   return {
     type: POSITION_LIST_REQUEST,
+    payload
+  };
+};
+
+export const positionListSuccess = payload => {
+  return {
+    type: POSITION_LIST_SUCCESS,
     payload
   };
 };

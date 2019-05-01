@@ -1,6 +1,7 @@
 import {
   DEVICE_LIST_BY_BUILDING_ID_SUCCESS,
   DEVICE_LIST_BY_POSITION_ID_SUCCESS,
+  DEVICE_LIST_SET,
   DEVICE_ADD_SUCCESS,
   DEVICE_SET_ITEM,
   DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS
@@ -25,10 +26,22 @@ export default (state = INIT_STATE, action) => {
         list
       };
     }
+    case DEVICE_LIST_SET: {
+      const list = action.payload
+        ? action.payload.map(item => {
+            return {
+              ...item,
+              isChecked: false
+            };
+          })
+        : [];
+      return {
+        ...state,
+        list
+      };
+    }
     case DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS: {
-      // console.log("action.deviceList: ", action.deviceList);
       const list = action.payload.map(item => {
-        console.log("item", item);
         const checked =
           action.deviceList.indexOf(item.serialNumber) > -1 ? true : false;
         return {

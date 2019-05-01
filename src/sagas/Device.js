@@ -134,25 +134,12 @@ function* deviceGetAllByPositionIdWorker(action) {
     const res = yield api.get(
       `device/getAllDeviceByPositionId?positionID=${action.payload.id}`
     );
-    console.log("sagas... : ", action, res);
     if (responseDataProcess(res.data)) {
       yield put({
         type: "DEVICE_GET_ALL_BY_POSITION_ID_SUCCESS",
         payload: res.data.data,
         deviceList: action.payload.deviceList
       });
-
-      // if (action.payload.node.buildingID) {
-      //   yield put({
-      //     type: "DEVICE_LIST_BY_POSITION_ID_REQUEST",
-      //     payload: { id: action.payload.node.id }
-      //   });
-      // } else {
-      //   yield put({
-      //     type: "DEVICE_LIST_BY_BUILDING_ID_REQUEST",
-      //     payload: { id: action.payload.node.id }
-      //   });
-      // }
     }
   } catch (error) {
     console.log("[ERROR#####]", error);

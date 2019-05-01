@@ -67,7 +67,6 @@ function* productUpdateWorker(action) {
     if (action.payload.file) {
       formData.append("firmware", action.payload.file);
       const fileResult = yield api.post(`file/upload`, formData);
-      console.log("fileResult.data", fileResult.data);
       action.payload.firmware = fileResult.data.data.filename;
       action.payload.filesize = fileResult.data.data.size;
     }

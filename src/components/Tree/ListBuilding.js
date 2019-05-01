@@ -8,37 +8,26 @@ class BuildingContainer extends React.Component {
     selectedNode: this.props.selectedNode
   };
   componentDidMount() {
-    this.props.buildingListRequest({ id: this.props.authUser.buildingList });
+    const steps = JSON.parse(localStorage.getItem("steps"));
+    this.props.buildingListRequest({
+      id: this.props.authUser.buildingList.replace(
+        steps.prevBuildingList + ",",
+        ""
+      )
+    });
     const selectedNode = JSON.parse(localStorage.getItem("selectedNode"));
     if (selectedNode) {
       this.nodeClick(selectedNode);
     }
-
-    // const steps = JSON.parse(localStorage.getItem("steps"));
-    // console.log(
-    //   "#### ",
-    //   this.props.authUser.buildingList,
-    //   steps.prevBuildingList,
-    //   selectedNode.id
-    // );
-
-    // const found = true;
-    // if (selectedNode && found) {
-    //   this.nodeClick(selectedNode);
-    // }
   }
 
   static getDerivedStateFromProps(props, state) {
-    // console.log(props, state);
     return null;
   }
 
   nodeClick = item => {
     this.props.selectTreeNode(item);
     localStorage.setItem("selectedNode", JSON.stringify(item));
-
-    // this.props.buildingSelect(item);
-    // localStorage.setItem("selectedBuilding", JSON.stringify(item));
   };
   render() {
     const steps = JSON.parse(localStorage.getItem("steps"));
@@ -84,7 +73,6 @@ const mapStateToProps = state => ({
   authUser: state.auth.authUser,
   buildingList: state.building.list,
   selectedNode: state.tree.selectedNode
-  // selectedBuilding: state.building.selectedBuilding
 });
 
 const mapDispatchToProps = {

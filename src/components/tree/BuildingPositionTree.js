@@ -47,9 +47,15 @@ class BuildingPositionTree extends Component {
     expandedNodes: []
   };
   componentDidMount() {
-    console.log("this.props ....", this.props);
+    const steps = JSON.parse(localStorage.getItem("steps"));
     this.props.buildingListRequest({
-      id: "" + this.props.authUser.buildingList,
+      // 일괄등록이면, 추가된 buildingList로 호출
+      id: steps
+        ? this.props.authUser.buildingList.replace(
+            steps.prevBuildingList + ",",
+            ""
+          )
+        : "" + this.props.authUser.buildingList,
       showExtraNode:
         this.props.isUserMenu && this.props.authUser.userType === "master"
           ? true
@@ -65,8 +71,6 @@ class BuildingPositionTree extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("prevProps.buildingList ###### ", prevProps.buildingList);
-    console.log("prevState.selectedNode.id &&&&&& ", prevState.selectedNode.id);
     if (!prevState.selectedNode.id && prevProps.buildingList.length) {
       const selectedNode = prevProps.buildingList[0];
       this.setState({ selectedNode }, () => {
@@ -90,7 +94,6 @@ class BuildingPositionTree extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log("props.buildingList", props.buildingList);
     let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
     if (arrayNodes && props.buildingList) {
       const expandedObjects = props.buildingList.filter(building => {
@@ -124,28 +127,9 @@ class BuildingPositionTree extends Component {
     this.props.selectTreeNode(item);
     localStorage.setItem("selectedNode", JSON.stringify(item));
   };
-  // handleExpand = (id, e) => {
-  //   e.stopPropagation();
-  //   console.log("TODO: toggle show/hide", this.props.expandedNodes, id, e);
-  //   let array = [...this.props.expandedNodes];
-  //   const index = array.indexOf(id);
-  //   index === -1 ? array.push(id) : array.splice(index, 1);
-  //   this.props.toggleTreeNode(array);
-  // };
-
-  // isExpanded = id => {
-  //   let array = [...this.props.expandedNodes];
-  //   const index = array.indexOf(id);
-  //   if (index === -1) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // };
 
   handleExpand = (id, e) => {
     e.stopPropagation();
-    console.log("TODO: toggle show/hide", this.state.expandedNodes, id, e);
     let array = [...this.state.expandedNodes];
     const index = array.indexOf(id);
     index === -1 ? array.push(id) : array.splice(index, 1);
@@ -164,7 +148,6 @@ class BuildingPositionTree extends Component {
   };
 
   toggleChecked = item => {
-    console.log("checked .... ", item);
     this.props.positionToggleChecked(item);
   };
 
@@ -240,7 +223,8 @@ class BuildingPositionTree extends Component {
                     수정
                   </button>
                 )}
-                {this.props.selectedNode.id &&
+                {this.props.selectedNode &&
+                  this.props.selectedNode.id &&
                   !this.props.selectedNode.buildingID && (
                     <button
                       className="btn btn-primary"
@@ -265,6 +249,7 @@ class BuildingPositionTree extends Component {
                 padding: "2px 10px",
                 marginBottom: "2px",
                 background:
+                  this.props.selectedNode &&
                   !this.props.selectedNode.buildingID &&
                   this.props.selectedNode.id === item.id
                     ? "#bae7ff"

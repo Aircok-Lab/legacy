@@ -1,6 +1,7 @@
 import {
   DEVICE_LIST_BY_BUILDING_ID_REQUEST,
   DEVICE_LIST_BY_POSITION_ID_REQUEST,
+  DEVICE_LIST_SET,
   DEVICE_ADD_REQUEST,
   DEVICE_UPDATE_REQUEST,
   DEVICE_DELETE_REQUEST,
@@ -18,6 +19,13 @@ export const deviceListByBuildingIdRequest = payload => {
 export const deviceListByPositionIdRequest = payload => {
   return {
     type: DEVICE_LIST_BY_POSITION_ID_REQUEST,
+    payload
+  };
+};
+
+export const deviceListSet = payload => {
+  return {
+    type: DEVICE_LIST_SET,
     payload
   };
 };

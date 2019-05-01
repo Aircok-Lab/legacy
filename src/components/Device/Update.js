@@ -85,7 +85,6 @@ class Update extends Component {
     }
   };
   handleChange = e => {
-    console.log("handleChange", e.target.value);
     this.setState({
       postData: {
         ...this.state.postData,

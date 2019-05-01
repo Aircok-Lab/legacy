@@ -14,7 +14,6 @@ const INIT_STATE = {
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
     case BUILDING_LIST_SUCCESS: {
-      console.log("state &&&& ", state, action);
       if (action.showExtraNode) {
         return {
           ...state,

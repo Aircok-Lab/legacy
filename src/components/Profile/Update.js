@@ -38,13 +38,6 @@ class Update extends Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    console.log(
-      "getDerivedStateFromProps",
-      props.newPassword,
-      props.showModal,
-      props,
-      state
-    );
     if (props.newPassword) {
       return {
         postData: { ...state.postData, plainTextPassword: props.newPassword }
@@ -80,7 +73,6 @@ class Update extends Component {
   };
 
   update = () => {
-    // console.log(this.state);
     if (!this.state.postData.name) {
       alert("사용자이름을 입력하세요");
     } else if (!this.state.postData.plainTextPassword) {
@@ -111,10 +103,6 @@ class Update extends Component {
           }
         },
         () => {
-          console.log(
-            "this.state.postData.password",
-            this.state.postData.password
-          );
           this.props.userProfileRequest(
             this.state.postData,
             this.props.authUser,

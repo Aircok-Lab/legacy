@@ -68,18 +68,12 @@ class Update extends Component {
     }
   };
   handleChange = e => {
-    console.log("handleChange", e.target.value);
-    this.setState(
-      {
-        postData: {
-          ...this.state.postData,
-          [e.target.name]: e.target.value
-        }
-      },
-      () => {
-        console.log("this.state", this.state);
+    this.setState({
+      postData: {
+        ...this.state.postData,
+        [e.target.name]: e.target.value
       }
-    );
+    });
   };
 
   componentDidMount() {
@@ -91,8 +85,6 @@ class Update extends Component {
     if (!props.sensorData || !props.alarmData || state.sensors.length) {
       return null;
     }
-    console.log("getDerivedStateFromProps", props, state);
-
     let sensors = [];
 
     sensorTypes.map(sensorType => {
@@ -112,18 +104,10 @@ class Update extends Component {
         };
       });
 
-      // console.log("sernsors: ", sensors);
       sensor.alarm = props.alarmData[sensor.sensorType];
-
-      //   return {
-      //     sensors_temp_humi,
-      //     sensors
-      // });
     });
 
-    //   });
     const sensors_temp_humi = sensors.splice(6);
-    // return null;
     return {
       sensors,
       sensors_temp_humi
@@ -134,9 +118,6 @@ class Update extends Component {
     if (!this.props.sensorData || !this.props.alarmData) {
       return null;
     }
-
-    console.log("this.state @#@#@#@ ", this.state);
-
     return (
       <div className="col-12 mx-auto">
         <form className="w3-margin">
@@ -201,7 +182,6 @@ class Update extends Component {
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].min
                                 ) {
-                                  // console.log("data 변경 ++++++");
                                   this.props.sensorMinUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
@@ -223,8 +203,6 @@ class Update extends Component {
                                     }
                                   );
                                   this.setState({ sensors: newSensors });
-                                } else {
-                                  console.log("변경 없음.");
                                 }
                               }}
                               style={{
@@ -250,7 +228,6 @@ class Update extends Component {
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].max
                                 ) {
-                                  // console.log("data 변경 ++++++");
                                   this.props.sensorMaxUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
@@ -272,8 +249,6 @@ class Update extends Component {
                                     }
                                   );
                                   this.setState({ sensors: newSensors });
-                                } else {
-                                  console.log("변경 없음.");
                                 }
                               }}
                               style={{
@@ -287,7 +262,6 @@ class Update extends Component {
                         </React.Fragment>
                       ))}
                       <td style={{ padding: "4px", verticalAlign: "middle" }}>
-                        {/* a{sensor.alarm} */}
                         <input
                           className="form-control"
                           type="text"
@@ -377,7 +351,6 @@ class Update extends Component {
                           <td
                             style={{ padding: "4px", verticalAlign: "middle" }}
                           >
-                            {/* b{sensor.grade["" + (index + 1)].min} */}
                             <input
                               className="form-control"
                               defaultValue={sensor.grade["" + (index + 1)].min}
@@ -390,7 +363,6 @@ class Update extends Component {
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].min
                                 ) {
-                                  // console.log("data 변경 ++++++");
                                   this.props.sensorMinUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
@@ -414,9 +386,7 @@ class Update extends Component {
                                   this.setState({
                                     sensors_temp_humi: newSensors
                                   });
-                                } else {
-                                  console.log("변경 없음.");
-                                }
+                                } 
                               }}
                               style={{
                                 fontSize: "1rem",
@@ -437,19 +407,10 @@ class Update extends Component {
                                 e.target.select();
                               }}
                               onBlur={e => {
-                                console.log(
-                                  "onBlur .... ",
-                                  sensor.sensorType,
-                                  index + 1,
-                                  "max",
-                                  e.target.value
-                                );
-
                                 if (
                                   e.target.value !==
                                   "" + sensor.grade["" + (index + 1)].max
                                 ) {
-                                  console.log("data 변경 ++++++");
                                   this.props.sensorMaxUpdateRequest({
                                     sensorType: sensor.sensorType,
                                     grade: index + 1,
@@ -473,8 +434,6 @@ class Update extends Component {
                                   this.setState({
                                     sensors_temp_humi: newSensors
                                   });
-                                } else {
-                                  console.log("변경 없음.");
                                 }
                               }}
                               style={{
@@ -511,15 +470,7 @@ class Update extends Component {
                                   };
                                 }
                               );
-                              this.setState(
-                                { sensors_temp_humi: newSensors },
-                                () => {
-                                  console.log(
-                                    "zzz",
-                                    this.state.sensors_temp_humi
-                                  );
-                                }
-                              );
+                              this.setState({ sensors_temp_humi: newSensors });
                             }
                           }}
                           style={{

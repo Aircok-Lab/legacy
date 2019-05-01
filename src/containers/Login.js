@@ -18,9 +18,6 @@ import {
 import setInitValue from "../util/setInitValue";
 
 class Login extends React.Component {
-  // constructor() {
-  //   super();
-  // }
   state = {
     loginId: setInitValue("linkit"),
     password: setInitValue("1"),
@@ -43,13 +40,11 @@ class Login extends React.Component {
   }
 
   handleChange = name => event => {
-    // console.log(name, event.target.checked);
     this.setState({ [name]: event.target.checked });
     localStorage.setItem("stayLogin", JSON.stringify(event.target.checked));
   };
 
   login(e) {
-    // console.log("222", this.props);
     if (e.keyCode == 13) {
       this.props.showAuthLoader();
       this.props.userSignIn({
@@ -63,7 +58,6 @@ class Login extends React.Component {
   render() {
     const { loginId, password } = this.state;
     const { showMessage, loader, alertMessage, pkey } = this.props;
-    console.log("111", this.props);
     return (
       <div className="app-login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
         <div className="app-login-main-content">
@@ -132,9 +126,6 @@ class Login extends React.Component {
                   </div>
 
                   <div className="row mb-3 d-flex align-items-center justify-content-between">
-                    {/* <div className="col text-center">
-                      <Link to="/join">회원가입</Link>
-                    </div> */}
                     <div className="col text-center">
                       <Link to="/forgot">아이디/비밀번호 찾기</Link>
                     </div>
@@ -150,7 +141,6 @@ class Login extends React.Component {
           </div>
         )}
         {showMessage && console.log(alertMessage)}
-        {/*<NotificationContainer/>*/}
       </div>
     );
   }

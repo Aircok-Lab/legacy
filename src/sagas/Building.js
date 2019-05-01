@@ -49,9 +49,17 @@ function* buildingAddWorker(action) {
       yield put(setShowModal(false));
       localStorage.setItem("user_id", JSON.stringify(res.data.data));
       yield put(userSignInSuccess(res.data.data));
+      const steps = JSON.parse(localStorage.getItem("steps"));
       yield put({
         type: BUILDING_LIST_REQUEST,
-        payload: { id: res.data.data.buildingList }
+        payload: {
+          id: steps
+            ? res.data.data.buildingList.replace(
+                steps.prevBuildingList + ",",
+                ""
+              )
+            : res.data.data.buildingList
+        }
       });
     }
   } catch (error) {

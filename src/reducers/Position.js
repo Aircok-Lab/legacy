@@ -43,7 +43,6 @@ export default (state = INIT_STATE, action) => {
       } else {
         checked = state.checked.concat(action.payload);
       }
-      console.log("33", found.length, checked);
       return {
         ...state,
         checked
@@ -51,12 +50,14 @@ export default (state = INIT_STATE, action) => {
     }
 
     case POSITION_LIST_SUCCESS: {
-      const list = action.payload.map(item => {
-        return {
-          ...item,
-          nodeId: "" + item.buildingID + "-" + item.id
-        };
-      });
+      const list = action.payload
+        ? action.payload.map(item => {
+            return {
+              ...item,
+              nodeId: "" + item.buildingID + "-" + item.id
+            };
+          })
+        : [];
       return {
         ...state,
         loader: false,

@@ -29,12 +29,12 @@ class List extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.selectedNode.buildingID) {
+    if (this.props.selectedNode && this.props.selectedNode.buildingID) {
       // 층
       this.props.deviceListByPositionIdRequest({
         id: this.props.selectedNode.id
       });
-    } else if (this.props.selectedNode.id) {
+    } else if (this.props.selectedNode && this.props.selectedNode.id) {
       // 건물
       this.props.deviceListByBuildingIdRequest({
         id: this.props.selectedNode.id
@@ -42,24 +42,11 @@ class List extends React.Component {
     }
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   if (JSON.stringify(state.deviceList) != JSON.stringify(props.deviceList)) {
-  //     return {
-  //       deviceList: props.deviceList
-  //     };
-  //   }
-  //   return null;
-  // }
-
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("DidUpdate .... ");
     if (
       JSON.stringify(this.state.deviceList) !=
       JSON.stringify(this.props.deviceList)
     ) {
-      // return {
-      //   deviceList: props.deviceList
-      // };
       this.setState({ deviceList: this.props.deviceList });
     }
 
@@ -94,7 +81,10 @@ class List extends React.Component {
                   className="btn btn-primary"
                   onClick={e => this.props.setViewMode("add")}
                   style={{ marginLeft: "2px" }}
-                  disabled={!this.props.selectedNode.buildingID}
+                  disabled={
+                    this.props.selectedNode &&
+                    !this.props.selectedNode.buildingID
+                  }
                 >
                   등록
                 </button>
@@ -132,7 +122,6 @@ class List extends React.Component {
           )}
 
           <div className="table-responsive">
-            {/* <div>list: {JSON.stringify(this.state.deviceList)}</div> */}
             <table className="table table-bordered text-center text-nowrap">
               <thead>
                 <tr>
@@ -169,7 +158,6 @@ class List extends React.Component {
                           checked={row.isChecked}
                           value={row.serialNumber}
                           onChange={event => {
-                            console.log("onChange checkbox....");
                             let deviceList = this.state.deviceList;
                             deviceList.forEach(device => {
                               if (device.serialNumber === event.target.value) {

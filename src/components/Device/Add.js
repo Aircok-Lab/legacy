@@ -63,7 +63,6 @@ class Add extends Component {
     ) {
       alert("Gateway를 입력하세요");
     } else {
-      console.log("bbb");
       // 변경된 포지션을 저장
       this.setState(
         {
@@ -82,9 +81,6 @@ class Add extends Component {
   handleChange = e => {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
-    // const name = target.name;
-    console.log("value: ", target, value);
-
     this.setState({
       postData: {
         ...this.state.postData,

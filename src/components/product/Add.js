@@ -51,9 +51,6 @@ class Add extends Component {
           ...this.state.postData,
           [name]: value
         }
-      },
-      () => {
-        console.log("postData: ", this.state.postData);
       }
     );
   };

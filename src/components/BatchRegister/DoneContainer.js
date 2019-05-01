@@ -13,8 +13,8 @@ class DoneContainer extends React.Component {
 
   render() {
     return (
-      <div className="jumbotron">
-        <h2 className="text-center">일괄등록 작업을 완료했습니다.</h2>
+      <div className="m-4">
+        <h2 className="text-center">완료했습니다.</h2>
       </div>
     );
   }

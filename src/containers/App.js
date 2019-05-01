@@ -52,10 +52,6 @@ class App extends Component {
       this.props.setInitUrl(this.props.history.location.pathname);
     }
 
-    // var retrievedObject = JSON.parse(localStorage.getItem("user_id"));
-    // if (retrievedObject) {
-    //   this.props.setInitUser(retrievedObject);
-    // }
     this.props.alarmReferenceValueRequest();
     this.props.systemListRequest({ id: "1" });
     this.props.smsTokenRequest();
@@ -70,7 +66,6 @@ class App extends Component {
       initURL,
       isDirectionRTL
     } = this.props;
-    console.log("authUser", authUser);
     if (location.pathname === "/") {
       if (authUser === null) {
         return <Redirect to={"/login"} />;
@@ -105,7 +100,6 @@ class App extends Component {
                     authUser={authUser}
                     component={MainApp}
                   />
-                  {/* <Route path={`${match.url}app`} authUser={authUser} component={MainApp}/> */}
                   <Route path="/login" component={Login} />
                   <Route path="/join" component={Join} />
                   <Route path="/forgot" component={Forgot} />

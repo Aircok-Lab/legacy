@@ -81,10 +81,8 @@ class SidenavContent extends Component {
 
   handleLogout = e => {
     alert("logout");
-    console.log("e: ", e);
     e.preventDefault();
     this.props.userSignOut();
-    // this.setState({ open: false });
   };
 
   render() {

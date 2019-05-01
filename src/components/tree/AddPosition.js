@@ -25,7 +25,6 @@ class AddPosition extends Component {
   }
 
   addPosition = () => {
-    // console.log("this.props.selectedNode .... ", this.props.selectedNode);
     if (
       !this.props.selectedNode ||
       (this.props.selectedNode && !this.props.selectedNode.id) ||

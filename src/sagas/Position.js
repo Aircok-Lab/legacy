@@ -34,14 +34,12 @@ export function* positionListWatcher() {
   yield takeEvery(POSITION_LIST_REQUEST, positionListWorker);
 }
 
-//http://115.178.65.141:13701/position/getPositionByBuildingId
 function* positionListByBuildingIdWorker(action) {
   try {
     const res = yield api.post(
       `position/getPositionByBuildingId`,
       action.payload
     );
-    console.log("AAAA res: ", res);
     if (responseDataProcess(res.data)) {
       yield put({
         type: POSITION_LIST_BY_BUILDING_ID_SUCCESS,

@@ -29,9 +29,6 @@ class Add extends Component {
     let positionIds = this.props.checked.map(position => position.id);
     const buildingList = bildingIds.join();
     const positionList = positionIds.join();
-    console.log(positionIds, bildingIds, this.props.checked);
-
-    // return;
 
     if (!this.props.checked.length) {
       alert("위치를 선택하세요");
@@ -69,9 +66,6 @@ class Add extends Component {
   handleChange = e => {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
-    // const name = target.name;
-    console.log("value: ", target, value);
-
     this.setState({
       postData: {
         ...this.state.postData,
