@@ -7,6 +7,7 @@ import Footer from "components/Footer";
 import Monitoring from "./routes/Monitoring";
 import MonitoringSelection from "./routes/MonitoringSelection";
 import DetailPage from "./routes/Detail";
+import ChartPage from "./routes/Chart";
 import Device from "./routes/Device";
 import Product from "./routes/Product";
 import User from "./routes/User";
@@ -79,6 +80,10 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/device-detail/:deviceList`}
                   component={DetailPage}
+                />
+                <Route
+                  path={`${match.url}/device-chart/:deviceList`}
+                  component={ChartPage}
                 />
                 <Route path={`${match.url}/device`} component={Device} />
                 <Route path={`${match.url}/product`} component={Product} />

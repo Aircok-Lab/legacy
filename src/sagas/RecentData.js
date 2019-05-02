@@ -25,7 +25,10 @@ import moment from "moment-timezone";
 import api from "api";
 import _ from "lodash";
 
-proj4.defs("EPSG:5181", "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=GRS80 +units=m +no_defs");
+proj4.defs(
+  "EPSG:5181",
+  "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=GRS80 +units=m +no_defs"
+);
 proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
 
 // 위경도를 기상청 grid x,y 로 변경 - http://werty.co.kr/blog/3011
@@ -51,7 +54,9 @@ function dfsXyConv(code, v1, v2) {
   var olon = OLON * DEGRAD;
   var olat = OLAT * DEGRAD;
 
-  var sn = Math.tan(Math.PI * 0.25 + slat2 * 0.5) / Math.tan(Math.PI * 0.25 + slat1 * 0.5);
+  var sn =
+    Math.tan(Math.PI * 0.25 + slat2 * 0.5) /
+    Math.tan(Math.PI * 0.25 + slat1 * 0.5);
   sn = Math.log(Math.cos(slat1) / Math.cos(slat2)) / Math.log(sn);
   var sf = Math.tan(Math.PI * 0.25 + slat1 * 0.5);
   sf = (Math.pow(sf, sn) * Math.cos(slat1)) / sn;
@@ -94,45 +99,49 @@ function dfsXyConv(code, v1, v2) {
   return rs;
 }
 
-const getAllRecentDataRequest = async (positionList) =>
+const getAllRecentDataRequest = async positionList =>
   await api
     .post("recentData/getRecentDataByPositionId", {
       positionID: positionList
     })
-    .then((allRecentData) => allRecentData)
-    .catch((error) => error);
+    .then(allRecentData => allRecentData)
+    .catch(error => error);
 
-const getMonitoringRecentDataRequest = async (deviceList) =>
+const getMonitoringRecentDataRequest = async deviceList =>
   await api
     .post("recentData/getRecentDataByDeviceSN", {
       deviceSN: deviceList
     })
-    .then((allRecentData) => allRecentData)
-    .catch((error) => error);
+    .then(allRecentData => allRecentData)
+    .catch(error => error);
 
 const getOutdoorStationRequest = async (coordX, coordY) =>
   await api
     .post("proxy/getStation", { latitude: coordX, longitude: coordY })
-    .then((stationList) => stationList)
-    .catch((error) => error);
+    .then(stationList => stationList)
+    .catch(error => error);
 
-const getOutdoorDustRequest = async (stationName) =>
+const getOutdoorDustRequest = async stationName =>
   await api
     .post("proxy/getDust", { stationName: stationName })
-    .then((dustList) => dustList)
-    .catch((error) => error);
+    .then(dustList => dustList)
+    .catch(error => error);
 
 const getOutdoorWeatherDataRequest = async (nx, ny) =>
   await api
     .post("proxy/getWeather", { nx: nx, ny: ny })
-    .then((outdoorWeatherData) => outdoorWeatherData)
-    .catch((error) => error);
+    .then(outdoorWeatherData => outdoorWeatherData)
+    .catch(error => error);
 
 const getChartDataRequest = async (serialNumber, startDate, endDate) =>
   await api
-    .post("report/getChartDataByDate", { serialNumber: serialNumber, startDate: startDate, endDate: endDate })
-    .then((chartData) => chartData)
-    .catch((error) => error);
+    .post("report/getChartDataByDate", {
+      serialNumber: serialNumber,
+      startDate: startDate,
+      endDate: endDate
+    })
+    .then(chartData => chartData)
+    .catch(error => error);
 
 function* getAllRecentDataWorker(payload) {
   console.dir(payload);
@@ -169,7 +178,10 @@ function* getOutdoorDustDataWorker(payload) {
     const coordY = coords[1];
     const stationList = yield call(getOutdoorStationRequest, coordX, coordY);
     if (stationList.data.data && stationList.data.data.length) {
-      const dustList = yield call(getOutdoorDustRequest, stationList.data.data[0].stationName);
+      const dustList = yield call(
+        getOutdoorDustRequest,
+        stationList.data.data[0].stationName
+      );
       // dustList 배열에서 pm10Value 또는 pm25Value 가 - 인 것을 제외한 것 중에서 첫 번째를 return
       let outdoorDustData = dustList.data.data.find(function(item) {
         return item.pm10Value !== "-" && item.pm25Value !== "-";
@@ -224,7 +236,11 @@ function* getOutdoorWeatherDataWorker(payload) {
   const { latitude, longitude } = payload.address;
   try {
     const kmaGrid = dfsXyConv("toXY", latitude, longitude); // 위도, 경도를 기상청 grid 로 변환
-    const weatherList = yield call(getOutdoorWeatherDataRequest, kmaGrid.nx, kmaGrid.ny);
+    const weatherList = yield call(
+      getOutdoorWeatherDataRequest,
+      kmaGrid.nx,
+      kmaGrid.ny
+    );
     var kmaData = {};
     if (weatherList.data.data && weatherList.data.data.item) {
       var list = weatherList.data.data.item;
@@ -277,9 +293,39 @@ function* getChartDataWorker(payload) {
   const { serialNumber } = payload;
 
   try {
-    const chartData = yield call(getChartDataRequest, serialNumber, startDate, endDate);
+    const chartData = yield call(
+      getChartDataRequest,
+      serialNumber,
+      startDate,
+      endDate
+    );
+    var sensorData = {
+      labels: [],
+      pm10: [],
+      pm25: [],
+      co2: [],
+      hcho: [],
+      voc: [],
+      temperature: [],
+      humidity: [],
+      noise: []
+    };
+    chartData.data.data.forEach(function(data, index) {
+      var date = moment(data.Date)
+        .tz("Asia/Seoul")
+        .format("HH:mm");
+      sensorData.labels[index] = date; //data.Date; //data.Date.substr(11, 5);
+      sensorData.pm10[index] = data.pm10;
+      sensorData.pm25[index] = data.pm25;
+      sensorData.co2[index] = data.co2;
+      sensorData.hcho[index] = data.hcho;
+      sensorData.voc[index] = data.voc;
+      sensorData.temperature[index] = data.temperature;
+      sensorData.humidity[index] = data.humidity;
+      sensorData.noise[index] = data.noise;
+    });
 
-    yield put(chartDataSuccess(chartData.data.data));
+    yield put(chartDataSuccess(sensorData));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }
@@ -290,7 +336,10 @@ export function* getAllRecentDataWatcher() {
 }
 
 export function* getMonitoringRecentDataWatcher() {
-  yield takeEvery(MONITORING_RECENT_DATA_REQUEST, getMonitoringRecentDataWorker);
+  yield takeEvery(
+    MONITORING_RECENT_DATA_REQUEST,
+    getMonitoringRecentDataWorker
+  );
 }
 
 export function* getOutdoorDustDataWatcher() {

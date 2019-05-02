@@ -2,7 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { alarmReferenceValueRequest } from "actions/AlarmReference";
 import { showAuthLoader } from "actions/Auth";
-import { allRecentDataRequest, monitoringRecentDataRequest } from "actions/RecentData";
+import {
+  allRecentDataRequest,
+  monitoringRecentDataRequest
+} from "actions/RecentData";
 import { systemListRequest } from "actions/System";
 import { sendSMS, sendLMS } from "actions/SMS";
 import MainTableHead from "../Monitoring/mainTableHead";
@@ -23,15 +26,24 @@ class SamplePage extends React.Component {
     this.props.showAuthLoader();
     this.props.alarmReferenceValueRequest();
     this.props.systemListRequest({ id: "1" });
-    if (this.props.authUser.userType === "monitoring") this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
+    if (this.props.authUser.userType === "monitoring")
+      this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
     else this.props.allRecentDataRequest(this.props.authUser.positionList);
     this.pageScroll = this.pageScroll.bind(this);
     this.loadData = this.loadData.bind(this);
+    this.handleSortingChange = this.handleSortingChange.bind(this);
+    this.state = {
+      uniqBuildingName: [],
+      sorting: "all"
+    };
   }
 
   componentDidMount() {
     this.loadDataintervalLoadDataHandle = setInterval(this.loadData, 60000);
-    this.intervalScrollHandle = setInterval(this.pageScroll, this.props.data.scrollTime * 1000);
+    this.intervalScrollHandle = setInterval(
+      this.pageScroll,
+      this.props.data.scrollTime * 1000
+    );
   }
 
   componentWillUnmount() {
@@ -42,23 +54,48 @@ class SamplePage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.data.scrollTime !== nextProps.data.scrollTime) {
       if (this.intervalScrollHandle) clearInterval(this.intervalScrollHandle);
-      this.intervalScrollHandle = setInterval(this.pageScroll, nextProps.data.scrollTime * 1000);
+      this.intervalScrollHandle = setInterval(
+        this.pageScroll,
+        nextProps.data.scrollTime * 1000
+      );
     }
+
+    if (this.props.allRecentData !== nextProps.allRecentData) {
+      var uniqBuildingName = nextProps.allRecentData.reduce(function(a, b) {
+        if (a.indexOf(b.buildingName) < 0) a.push(b.buildingName);
+        return a;
+      }, []);
+
+      console.log(uniqBuildingName);
+      this.setState({ uniqBuildingName: uniqBuildingName });
+    }
+  }
+
+  handleSortingChange(event) {
+    console.log(event.target.name);
+    console.log(event.target.value);
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   pageScroll() {
     var objDiv = document.getElementById("contain");
     var scrollHeight = 55 * this.props.data.scrollRow; // tableHeight
-    if (objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight > scrollHeight) objDiv.scrollTop = objDiv.scrollTop + scrollHeight;
+    if (
+      objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight >
+      scrollHeight
+    )
+      objDiv.scrollTop = objDiv.scrollTop + scrollHeight;
     else if (objDiv.scrollHeight - objDiv.scrollTop - objDiv.clientHeight > 0)
-      objDiv.scrollTop = objDiv.scrollTop + (objDiv.scrollHeight - objDiv.clientHeight);
+      objDiv.scrollTop =
+        objDiv.scrollTop + (objDiv.scrollHeight - objDiv.clientHeight);
     else if (objDiv.scrollTop == objDiv.scrollHeight - objDiv.clientHeight) {
       objDiv.scrollTop = 0;
     }
   }
 
   loadData() {
-    if (this.props.authUser.userType === "monitoring") this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
+    if (this.props.authUser.userType === "monitoring")
+      this.props.monitoringRecentDataRequest(this.props.authUser.deviceList);
     else this.props.allRecentDataRequest(this.props.authUser.positionList);
   }
 
@@ -66,7 +103,7 @@ class SamplePage extends React.Component {
     const nameTabWidth = "170px";
     const indexTabWidth = "120px";
 
-    const getClassText = (grade) => {
+    const getClassText = grade => {
       let classText = "text-good";
       if (grade == 1) classText = "text-good";
       else if (grade == 2) classText = "text-normal";
@@ -78,88 +115,128 @@ class SamplePage extends React.Component {
     };
     return (
       <div className="app-wrapper" style={{ overflowX: "auto" }}>
+        <div className="col-2 pl-0">
+          {this.state.uniqBuildingName.length ? (
+            <form>
+              <select
+                className="form-control"
+                name="sorting"
+                value={this.state.sorting}
+                onChange={this.handleSortingChange}
+              >
+                <option value="all">all</option>
+                {this.state.uniqBuildingName.map(name => {
+                  return <option value={name}>{name}</option>;
+                })}
+              </select>
+            </form>
+          ) : null}
+        </div>
         <table className="table table-fixed">
           <MainTableHead />
           <tbody id="contain" ref="contain">
             {this.props.allRecentData &&
               this.props.allRecentData.map((contact, i) => {
-                let deviceList = null;
-                if (this.props.authUser.userType === "monitoring") deviceList = this.props.authUser.deviceList;
-                else deviceList = contact.deviceSN;
-                return (
-                  <tr key={i}>
-                    <td style={{ width: `${nameTabWidth}` }}>{contact.buildingName}</td>
-                    <td style={{ width: `${nameTabWidth}` }}>
-                      <a href={"#/app/device-detail/" + deviceList}>{contact.positionName}</a>
-                    </td>
-                    <td style={{ width: `${indexTabWidth}` }}>
-                      <span className={getClassText(contact.e3Index)}>
-                        {qualityType[`${contact.e3Index}`]}({contact.e3Score})
-                      </span>
-                    </td>
-                    <SensorData
-                      alarmReferenceValue={this.props.alarmReferenceValue.temperature}
-                      sensorData={contact.temperature}
-                      sensorIndex={contact.temperatureIndex}
-                      sensorAlarm={contact.temperatureAlarm}
-                    />
-                    <SensorData
-                      alarmReferenceValue={this.props.alarmReferenceValue.humidity}
-                      sensorData={contact.humidity}
-                      sensorIndex={contact.humidityIndex}
-                      sensorAlarm={contact.humidityAlarm}
-                    />
-                    <SensorData
-                      alarmReferenceValue={this.props.alarmReferenceValue.pm10}
-                      sensorData={contact.pm10}
-                      sensorIndex={contact.pm10Index}
-                      sensorAlarm={contact.pm10Alarm}
-                    />
-                    <SensorData
-                      alarmReferenceValue={this.props.alarmReferenceValue.pm25}
-                      sensorData={contact.pm25}
-                      sensorIndex={contact.pm25Index}
-                      sensorAlarm={contact.pm25Alarm}
-                    />
-                    <SensorData
-                      alarmReferenceValue={this.props.alarmReferenceValue.co2}
-                      sensorData={contact.co2}
-                      sensorIndex={contact.co2Index}
-                      sensorAlarm={contact.co2Alarm}
-                    />
-                    <SensorData
-                      alarmReferenceValue={this.props.alarmReferenceValue.hcho}
-                      sensorData={contact.hcho}
-                      sensorIndex={contact.hchoIndex}
-                      sensorAlarm={contact.hchoAlarm}
-                    />
-                    <SensorData
-                      alarmReferenceValue={this.props.alarmReferenceValue.voc}
-                      sensorData={contact.voc}
-                      sensorIndex={contact.vocIndex}
-                      sensorAlarm={contact.vocAlarm}
-                    />
-                    <SensorData
-                      alarmReferenceValue={this.props.alarmReferenceValue.voc}
-                      sensorData={contact.noise}
-                      sensorIndex={contact.noiseIndex}
-                      sensorAlarm={contact.noiseAlarm}
-                    />
-                    <td style={{ width: "60px" }}>
-                      <div>
-                        <img
-                          src="assets/icons/sms.jpg"
-                          style={{ width: "30px", height: "30px" }}
-                          alt="sms"
-                          title="SMS Icon"
-                          onClick={(e) => {
-                            this.props.sendSMS(contact.deviceSN, contact.positionID);
-                          }}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                );
+                if (
+                  this.state.sorting === "all" ||
+                  this.state.sorting === contact.buildingName
+                ) {
+                  let deviceList = null;
+                  if (this.props.authUser.userType === "monitoring")
+                    deviceList = this.props.authUser.deviceList;
+                  else deviceList = contact.deviceSN;
+                  return (
+                    <tr key={i}>
+                      <td style={{ width: `${nameTabWidth}` }}>
+                        {contact.buildingName}
+                      </td>
+                      <td style={{ width: `${nameTabWidth}` }}>
+                        <a href={"#/app/device-detail/" + deviceList}>
+                          {contact.deviceName}
+                        </a>
+                      </td>
+                      <td style={{ width: `${indexTabWidth}` }}>
+                        <span className={getClassText(contact.e3Index)}>
+                          {qualityType[`${contact.e3Index}`]}({contact.e3Score})
+                        </span>
+                      </td>
+                      <SensorData
+                        alarmReferenceValue={
+                          this.props.alarmReferenceValue.temperature
+                        }
+                        sensorData={contact.temperature}
+                        sensorIndex={contact.temperatureIndex}
+                        sensorAlarm={contact.temperatureAlarm}
+                      />
+                      <SensorData
+                        alarmReferenceValue={
+                          this.props.alarmReferenceValue.humidity
+                        }
+                        sensorData={contact.humidity}
+                        sensorIndex={contact.humidityIndex}
+                        sensorAlarm={contact.humidityAlarm}
+                      />
+                      <SensorData
+                        alarmReferenceValue={
+                          this.props.alarmReferenceValue.pm10
+                        }
+                        sensorData={contact.pm10}
+                        sensorIndex={contact.pm10Index}
+                        sensorAlarm={contact.pm10Alarm}
+                      />
+                      <SensorData
+                        alarmReferenceValue={
+                          this.props.alarmReferenceValue.pm25
+                        }
+                        sensorData={contact.pm25}
+                        sensorIndex={contact.pm25Index}
+                        sensorAlarm={contact.pm25Alarm}
+                      />
+                      <SensorData
+                        alarmReferenceValue={this.props.alarmReferenceValue.co2}
+                        sensorData={contact.co2}
+                        sensorIndex={contact.co2Index}
+                        sensorAlarm={contact.co2Alarm}
+                      />
+                      <SensorData
+                        alarmReferenceValue={
+                          this.props.alarmReferenceValue.hcho
+                        }
+                        sensorData={contact.hcho}
+                        sensorIndex={contact.hchoIndex}
+                        sensorAlarm={contact.hchoAlarm}
+                      />
+                      <SensorData
+                        alarmReferenceValue={this.props.alarmReferenceValue.voc}
+                        sensorData={contact.voc}
+                        sensorIndex={contact.vocIndex}
+                        sensorAlarm={contact.vocAlarm}
+                      />
+                      <SensorData
+                        alarmReferenceValue={this.props.alarmReferenceValue.voc}
+                        sensorData={contact.noise}
+                        sensorIndex={contact.noiseIndex}
+                        sensorAlarm={contact.noiseAlarm}
+                      />
+                      <td style={{ width: "60px" }}>
+                        <div>
+                          <img
+                            src="assets/icons/sms.jpg"
+                            style={{ width: "30px", height: "30px" }}
+                            alt="sms"
+                            title="SMS Icon"
+                            onClick={e => {
+                              this.props.sendSMS(
+                                contact.deviceSN,
+                                contact.positionID
+                              );
+                            }}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                }
               })}
           </tbody>
         </table>

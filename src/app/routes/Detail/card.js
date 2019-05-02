@@ -37,7 +37,13 @@ const getClassText = grade => {
 
 class SensorCard extends React.Component {
   render() {
-    const { title, sensorData, sensorIndex, sensorType } = this.props;
+    const {
+      title,
+      sensorData,
+      sensorIndex,
+      sensorType,
+      deviceList
+    } = this.props;
     let icon = "assets/icons/" + sensorType + ".png";
 
     return (
@@ -51,7 +57,7 @@ class SensorCard extends React.Component {
             fontSize: "1.4em"
           }}
         >
-          {title}
+          <a href={"#/app/device-chart/" + deviceList}>{title}</a>
         </div>
         <div
           className={getClassText(sensorIndex)}
