@@ -126,7 +126,11 @@ class SamplePage extends React.Component {
               >
                 <option value="all">all</option>
                 {this.state.uniqBuildingName.map(name => {
-                  return <option value={name}>{name}</option>;
+                  return (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  );
                 })}
               </select>
             </form>
@@ -142,18 +146,30 @@ class SamplePage extends React.Component {
                   this.state.sorting === contact.buildingName
                 ) {
                   let deviceList = null;
+                  let today = new Date(Date.now());
+                  let deviceTime = new Date(contact.date);
+
+                  var days =
+                    (today.getTime() - deviceTime.getTime()) /
+                    (1000 * 60 * 60 * 24);
+
                   if (this.props.authUser.userType === "monitoring")
                     deviceList = this.props.authUser.deviceList;
                   else deviceList = contact.deviceSN;
+
                   return (
                     <tr key={i}>
                       <td style={{ width: `${nameTabWidth}` }}>
                         {contact.buildingName}
                       </td>
                       <td style={{ width: `${nameTabWidth}` }}>
-                        <a href={"#/app/device-detail/" + deviceList}>
-                          {contact.deviceName}
-                        </a>
+                        {days > 1 ? (
+                          contact.deviceName
+                        ) : (
+                          <a href={"#/app/device-detail/" + deviceList}>
+                            {contact.deviceName}
+                          </a>
+                        )}
                       </td>
                       <td style={{ width: `${indexTabWidth}` }}>
                         <span className={getClassText(contact.e3Index)}>
