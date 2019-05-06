@@ -30,6 +30,9 @@ class List extends React.Component {
   };
 
   componentDidMount() {
+    // const steps = JSON.parse(localStorage.getItem("steps"));
+    // if (!steps) {
+    // }
     if (this.props.selectedNode && this.props.selectedNode.buildingID) {
       // 층
       this.props.userListByPositionIdRequest({

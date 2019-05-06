@@ -16,10 +16,6 @@ class Add extends Component {
       imei: setInitValue("" + new Date().getTime()),
       networkType: "cellular", // cellular | ethernet
       phone: setInitValue("" + new Date().getTime()),
-      // ip: setInitValue("" + new Date().getTime()),
-      // gateway: setInitValue("" + new Date().getTime()),
-      // subnet: setInitValue("" + new Date().getTime())
-      // phone: "",
       ip: "",
       gateway: "",
       subnet: ""

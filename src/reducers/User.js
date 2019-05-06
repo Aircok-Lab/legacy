@@ -3,7 +3,8 @@ import {
   USER_LIST_BY_POSITION_ID_SUCCESS,
   USER_ADD_SUCCESS,
   USER_SET_ITEM,
-  USER_CHANGE_PASSWORD_SUCCESS
+  USER_CHANGE_PASSWORD_SUCCESS,
+  USER_LIST_SET
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -26,6 +27,21 @@ export default (state = INIT_STATE, action) => {
         list
       };
     }
+    case USER_LIST_SET: {
+      const list = action.payload
+        ? action.payload.map(item => {
+            return {
+              ...item,
+              isChecked: false
+            };
+          })
+        : [];
+      return {
+        ...state,
+        list
+      };
+    }
+
     case USER_ADD_SUCCESS: {
       return {
         ...state,

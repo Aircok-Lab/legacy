@@ -322,32 +322,7 @@ class BuildingPositionTree extends Component {
               )}
             </div>
           ))}
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>aaa</h1>
-          <h1>bbb1</h1>
-          <h1>bbb2</h1>
-          <h1>bbb3</h1>
+
           <div>&nbsp;</div>
           <div>&nbsp;</div>
           <div>&nbsp;</div>
