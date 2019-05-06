@@ -192,7 +192,10 @@ class AddBuilding extends Component {
             </div>
             <div className="w3-rest">
               <div className="w3-text-grey">
-                <div className="form-control" style={{ background: "#eee" }}>
+                <div
+                  className="p-2 border-round"
+                  style={{ background: "#eee" }}
+                >
                   <div>주소 : {this.props.address}</div>
                   <div>위도 : {this.props.location.lat}</div>
                   <div>경도 : {this.props.location.lng}</div>

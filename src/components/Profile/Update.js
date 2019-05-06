@@ -325,6 +325,10 @@ class Update extends Component {
                 />
               </div>
             </div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
 
             <div className="w3-right">
               <button

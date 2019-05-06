@@ -4,16 +4,12 @@ import Container from "components/Product/Container";
 
 const UserPage = () => {
   return (
-    <div className="app-wrapper">
-      <div className="row w3-white shadow-sm p-2 mb-3">
-        <h2 className="mb-0">제품군 관리</h2>
+    <div className="container-fluid h-100 flex-fill d-flex flex-column">
+      <div className="row flex-shrink-0 w3-white shadow-sm">
+        <h2 className="pt-2 pl-2">제품군 관리</h2>
       </div>
-      <div className="row">
-        <div className="col-md-12">
-          <div className="animated slideInUpTiny animation-duration-3">
-            <Container />
-          </div>
-        </div>
+      <div className="row flex-fill d-flex flex-column overflow-auto">
+        <Container />
       </div>
     </div>
   );

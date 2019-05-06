@@ -71,124 +71,121 @@ class List extends React.Component {
 
   render() {
     return (
-      <div className="">
-        <div className="animated slideInUpTiny animation-duration-3">
-          {!this.props.hideButton && (
-            <div className="clearfix pb-1">
-              <div className="float-left" />
-              <div className="float-right">
-                <button
-                  className="btn btn-primary"
-                  onClick={e => this.props.setViewMode("add")}
-                  style={{ marginLeft: "2px" }}
-                  disabled={
-                    this.props.selectedNode &&
-                    !this.props.selectedNode.buildingID
-                  }
-                >
-                  등록
-                </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={e => {
-                    const selectedDevices = this.state.deviceList.filter(
-                      device => device.isChecked
-                    );
-                    this.props.setViewMode("update", selectedDevices[0]);
-                  }}
-                  style={{ marginLeft: "2px" }}
-                  disabled={
-                    this.state.deviceList.filter(device => device.isChecked)
-                      .length != 1
-                  }
-                >
-                  수정
-                </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={e => {
-                    this.delete();
-                  }}
-                  style={{ marginLeft: "2px" }}
-                  disabled={
-                    this.state.deviceList.filter(device => device.isChecked)
-                      .length == 0
-                  }
-                >
-                  삭제
-                </button>
-              </div>
+      <React.Fragment>
+        {!this.props.hideButton && (
+          <div className="clearfix flex-shrink-0 pb-1 pt-2">
+            <div className="float-left" />
+            <div className="float-right">
+              <button
+                className="btn btn-primary"
+                onClick={e => this.props.setViewMode("add")}
+                style={{ marginLeft: "2px" }}
+                disabled={
+                  this.props.selectedNode && !this.props.selectedNode.buildingID
+                }
+              >
+                등록
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={e => {
+                  const selectedDevices = this.state.deviceList.filter(
+                    device => device.isChecked
+                  );
+                  this.props.setViewMode("update", selectedDevices[0]);
+                }}
+                style={{ marginLeft: "2px" }}
+                disabled={
+                  this.state.deviceList.filter(device => device.isChecked)
+                    .length != 1
+                }
+              >
+                수정
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={e => {
+                  this.delete();
+                }}
+                style={{ marginLeft: "2px" }}
+                disabled={
+                  this.state.deviceList.filter(device => device.isChecked)
+                    .length == 0
+                }
+              >
+                삭제
+              </button>
             </div>
-          )}
-
-          <div className="table-responsive">
-            <table className="table table-bordered text-center text-nowrap">
-              <thead>
-                <tr>
-                  {!this.props.hideButton && (
-                    <th>
-                      <input
-                        type="checkbox"
-                        onChange={event => {
-                          let deviceList = this.state.deviceList;
-                          deviceList.forEach(device => {
-                            device.isChecked = event.target.checked;
-                          });
-                          this.setState({ deviceList: deviceList });
-                        }}
-                      />
-                    </th>
-                  )}
-                  <th>번호</th>
-                  <th>측정기명</th>
-                  <th>측정주기</th>
-                  <th>S/N</th>
-                  <th>제품군</th>
-                  <th>개통번호</th>
-                  <th>IP주소</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.deviceList &&
-                  this.state.deviceList.map((row, index) => (
-                    <tr key={row.serialNumber}>
-                      {!this.props.hideButton && (
-                        <td>
-                          <input
-                            type="checkbox"
-                            checked={row.isChecked}
-                            value={row.serialNumber}
-                            onChange={event => {
-                              let deviceList = this.state.deviceList;
-                              deviceList.forEach(device => {
-                                if (
-                                  device.serialNumber === event.target.value
-                                ) {
-                                  device.isChecked = event.target.checked;
-                                }
-                              });
-                              this.setState({ deviceList: deviceList });
-                            }}
-                          />
-                        </td>
-                      )}
-
-                      <td>{index + 1}</td>
-                      <td>{row.name}</td>
-                      <td>{row.period} 분</td>
-                      <td>{row.serialNumber}</td>
-                      <td>{row.productName}</td>
-                      <td>
-                        {row.networkType === "cellular" && row.phone}&nbsp;
-                      </td>
-                      <td>{row.networkType !== "cellular" && row.ip}&nbsp;</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
           </div>
+        )}
+
+        <div className="flex-fill overflow-auto table-responsive">
+          <table className="table table-bordered text-center text-nowrap">
+            <thead>
+              <tr>
+                {!this.props.hideButton && (
+                  <th>
+                    <input
+                      type="checkbox"
+                      onChange={event => {
+                        let deviceList = this.state.deviceList;
+                        deviceList.forEach(device => {
+                          device.isChecked = event.target.checked;
+                        });
+                        this.setState({ deviceList: deviceList });
+                      }}
+                    />
+                  </th>
+                )}
+                <th>번호</th>
+                <th>측정기명</th>
+                <th>측정주기</th>
+                <th>S/N</th>
+                <th>제품군</th>
+                <th>개통번호</th>
+                <th>IP주소</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.deviceList &&
+                this.state.deviceList.map((row, index) => (
+                  <tr key={row.serialNumber}>
+                    {!this.props.hideButton && (
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={row.isChecked}
+                          value={row.serialNumber}
+                          onChange={event => {
+                            let deviceList = this.state.deviceList;
+                            deviceList.forEach(device => {
+                              if (device.serialNumber === event.target.value) {
+                                device.isChecked = event.target.checked;
+                              }
+                            });
+                            this.setState({ deviceList: deviceList });
+                          }}
+                        />
+                      </td>
+                    )}
+
+                    <td>{index + 1}</td>
+                    <td>{row.name}</td>
+                    <td>{row.period} 분</td>
+                    <td>{row.serialNumber}</td>
+                    <td>{row.productName}</td>
+                    <td>{row.networkType === "cellular" && row.phone}&nbsp;</td>
+                    <td>{row.networkType !== "cellular" && row.ip}&nbsp;</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+      </React.Fragment>
     );
   }
 }
