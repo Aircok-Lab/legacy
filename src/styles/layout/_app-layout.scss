@@ -34,7 +34,7 @@
   @include display-flex(flex, column, nowrap);
   width: 100%;
   overflow-x: hidden;
-  //overflow-y: auto;
+  overflow-y: auto;
 }
 
 .app-container {

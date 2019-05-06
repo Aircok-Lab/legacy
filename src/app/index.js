@@ -66,8 +66,8 @@ class App extends React.Component {
               horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
           </div>
 
-          <main className="app-main-content-wrapper">
-            <div className="app-main-content">
+          <main className="h-100">
+            <div className="app-main-content h-100">
               <Switch>
                 <Route
                   path={`${match.url}/monitoring`}

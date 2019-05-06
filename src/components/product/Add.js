@@ -45,14 +45,12 @@ class Add extends Component {
       value = target.value;
     }
     const name = target.name;
-    this.setState(
-      {
-        postData: {
-          ...this.state.postData,
-          [name]: value
-        }
+    this.setState({
+      postData: {
+        ...this.state.postData,
+        [name]: value
       }
-    );
+    });
   };
 
   render() {
@@ -353,6 +351,11 @@ class Add extends Component {
             </button>
           </div>
         </form>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
       </div>
     );
   }

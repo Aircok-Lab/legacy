@@ -4,12 +4,12 @@ import Container from "components/Device/Container";
 
 const DevicePage = () => {
   return (
-    <div className="app-wrapper h-100">
-      <div className="row w3-white shadow-sm p-2 mb-3">
-        <h2 className="mb-0">측정기 관리</h2>
+    <div className="container-fluid h-100 d-flex flex-fill flex-column">
+      <div className="row flex-shrink-0 w3-white shadow-sm">
+        <h2 className="pt-2 pl-2">측정기 관리</h2>
       </div>
-      <div className="row" style={{ height: "90%" }}>
-        <div className="col-md-3 bg-white shadow-sm">
+      <div className="row flex-fill d-flex">
+        <div className="col-3 h-100 d-flex flex-column shadow-sm">
           <BuildingPositionTree
             hideButton={false}
             hidePosition={false}
@@ -17,10 +17,8 @@ const DevicePage = () => {
             selectable={false}
           />
         </div>
-        <div className="col-md-9">
-          <div className="animated slideInUpTiny animation-duration-3">
-            <Container />
-          </div>
+        <div className="col-9 h-100 d-flex flex-column shadow-sm">
+          <Container />
         </div>
       </div>
     </div>

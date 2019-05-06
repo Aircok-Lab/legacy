@@ -386,7 +386,7 @@ class Update extends Component {
                                   this.setState({
                                     sensors_temp_humi: newSensors
                                   });
-                                } 
+                                }
                               }}
                               style={{
                                 fontSize: "1rem",
@@ -486,6 +486,10 @@ class Update extends Component {
                   ))}
               </tbody>
             </table>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
           </div>
         </form>
       </div>

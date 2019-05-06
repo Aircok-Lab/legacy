@@ -60,52 +60,116 @@ class List extends React.Component {
 
   render() {
     return (
-      <div className="">
-        <div className="animated slideInUpTiny animation-duration-3">
-          <div className="clearfix pb-1">
-            <div className="float-left" />
-            <div className="float-right">
-              <button
-                className="btn btn-primary"
-                onClick={e => this.props.setViewMode("add")}
-                style={{ marginLeft: "2px" }}
-              >
-                등록
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={e => {
-                  const selectedProducts = this.state.productList.filter(
-                    product => product.isChecked
-                  );
-                  this.props.setViewMode("update", selectedProducts[0]);
-                }}
-                style={{ marginLeft: "2px" }}
-                disabled={
-                  this.state.productList.filter(product => product.isChecked)
-                    .length != 1
-                }
-              >
-                수정
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={e => {
-                  this.delete();
-                }}
-                style={{ marginLeft: "2px" }}
-                disabled={
-                  this.state.productList.filter(product => product.isChecked)
-                    .length == 0
-                }
-              >
-                삭제
-              </button>
+      <React.Fragment>
+        {!this.props.hideButton && (
+          <div className="row px-2">
+            <div className="col-12">
+              <div className="clearfix pb-1 pt-2">
+                <div className="float-left" />
+                <div className="float-right">
+                  <button
+                    className="btn btn-primary"
+                    onClick={e => this.props.setViewMode("add")}
+                    style={{ marginLeft: "2px" }}
+                  >
+                    등록
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={e => {
+                      const selectedProducts = this.state.productList.filter(
+                        product => product.isChecked
+                      );
+                      this.props.setViewMode("update", selectedProducts[0]);
+                    }}
+                    style={{ marginLeft: "2px" }}
+                    disabled={
+                      this.state.productList.filter(
+                        product => product.isChecked
+                      ).length != 1
+                    }
+                  >
+                    수정
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={e => {
+                      this.delete();
+                    }}
+                    style={{ marginLeft: "2px" }}
+                    disabled={
+                      this.state.productList.filter(
+                        product => product.isChecked
+                      ).length == 0
+                    }
+                  >
+                    삭제
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
+        )}
 
-          <div className="w3-responsive">
-            <table className="w3-table-all w3-centered">
+        <div className="px-2">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    onChange={event => {
+                      let productList = [...this.state.productList];
+                      productList.forEach(product => {
+                        product.isChecked = event.target.checked;
+                      });
+                      this.setState({ productList: productList });
+                    }}
+                  />
+                </th>
+                <th>번호</th>
+                <th>제품군명</th>
+                <th>펌웨어버전</th>
+                <th>펌웨어파일</th>
+                <th>파일사이즈</th>
+                <th>측정주기</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.productList &&
+                this.state.productList.map((row, index) => (
+                  <tr key={row.id}>
+                    <td style={{ width: "60px" }}>
+                      <input
+                        type="checkbox"
+                        checked={row.isChecked}
+                        value={row.id}
+                        onChange={event => {
+                          let productList = [...this.state.productList];
+                          productList.forEach(product => {
+                            if (product.id === Number(event.target.value)) {
+                              product.isChecked = event.target.checked;
+                            }
+                          });
+                          this.setState({ productList: productList });
+                        }}
+                      />
+                    </td>
+                    <td style={{ width: "60px" }}>{index + 1}</td>
+                    <td>{row.name}</td>
+                    <td>{row.version}</td>
+                    <td>{row.firmware}</td>
+                    <td>{row.filesize}</td>
+                    <td>{row.period} 분</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>{" "}
+        </div>
+
+        {/* <div className="row">
+          <div className="col-12">
+            <table className="table">
               <thead>
                 <tr>
                   <th>
@@ -158,9 +222,35 @@ class List extends React.Component {
                   ))}
               </tbody>
             </table>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
+            <h1>aaa</h1>
           </div>
-        </div>
-      </div>
+        </div> */}
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+      </React.Fragment>
     );
   }
 }
