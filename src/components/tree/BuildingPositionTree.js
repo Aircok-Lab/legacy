@@ -184,12 +184,8 @@ class BuildingPositionTree extends Component {
     });
 
     return (
-      <div>
-        {/* <div>{JSON.stringify(this.props.buildingList)}</div>
-        <hr />
-        <div>{JSON.stringify(this.props.buildingList2)}</div> */}
-        {/* <div>{JSON.stringify(this.props.expandedNodes)}</div> */}
-        <div className="py-2">
+      <React.Fragment>
+        <div className="flex-shrink-0 pt-2">
           <div className="clearfix">
             {!this.props.hideButton && (
               <div className="float-right">
@@ -238,143 +234,123 @@ class BuildingPositionTree extends Component {
             )}
           </div>
         </div>
-
-        {/* <div>checkable_aa: {JSON.stringify(this.props.checkable)}</div> */}
-
-        {buildingPositionList.map(item => (
-          <div key={item.id}>
-            <div
-              style={{
-                cursor: "pointer",
-                padding: "2px 10px",
-                marginBottom: "2px",
-                background:
-                  this.props.selectedNode &&
-                  !this.props.selectedNode.buildingID &&
-                  this.props.selectedNode.id === item.id
-                    ? "#bae7ff"
-                    : ""
-              }}
-              className="w3-block"
-              onClick={e => this.nodeClick(item)}
-            >
-              {item.positions ? (
-                <i
-                  className={
-                    this.isExpanded(item.id)
-                      ? "p-1 fa fa-caret-down"
-                      : "p-1 fa fa-caret-right"
-                  }
-                  aria-hidden="true"
-                  style={{
-                    cursor: "pointer",
-                    width: "16px"
-                  }}
-                  onClick={this.handleExpand.bind(this, item.id)}
-                />
-              ) : (
-                <span style={{ paddingLeft: "20px" }} />
-              )}
-              <span> {item.name}</span>
-            </div>
-
-            {item.positions && this.isExpanded(item.id) && (
-              <div className="">
-                <ul className="w3-ul">
-                  {item.positions.map(position => (
-                    <li
-                      key={position.id}
-                      style={{
-                        cursor: "pointer",
-                        padding: "2px 10px 2px 25px",
-                        margin: "0 0 2px 10px",
-                        background:
-                          this.props.selectedNode.buildingID &&
-                          "" +
-                            this.props.selectedNode.buildingID +
-                            "-" +
-                            this.props.selectedNode.id ===
-                            "" + position.buildingID + "-" + position.id
-                            ? "#bae7ff"
-                            : ""
-                      }}
-                      className="font-weight-light font-italic w3-border-0 w3-padding-left"
-                      onClick={e => this.nodeClick(position)}
-                    >
-                      {this.props.checkable && (
-                        <input
-                          type="checkbox"
-                          checked={position.isChecked}
-                          value={position.id}
-                          defaultChecked={
-                            this.props.selectedItem &&
-                            this.props.selectedItem.positionList.indexOf(
-                              "" + position.id
-                            ) > -1
-                              ? true
-                              : false
-                          }
-                          onClick={e => {
-                            e.stopPropagation();
-                            this.toggleChecked(position);
-                          }}
-                        />
-                      )}
-                      {position.name}
-                    </li>
-                  ))}
-                </ul>
+        <div className="flex-fill overflow-auto">
+          {buildingPositionList.map(item => (
+            <div key={item.id}>
+              <div
+                style={{
+                  cursor: "pointer",
+                  padding: "2px 10px",
+                  marginBottom: "2px",
+                  background:
+                    this.props.selectedNode &&
+                    !this.props.selectedNode.buildingID &&
+                    this.props.selectedNode.id === item.id
+                      ? "#bae7ff"
+                      : ""
+                }}
+                className="w3-block"
+                onClick={e => this.nodeClick(item)}
+              >
+                {item.positions ? (
+                  <i
+                    className={
+                      this.isExpanded(item.id)
+                        ? "p-1 fa fa-caret-down"
+                        : "p-1 fa fa-caret-right"
+                    }
+                    aria-hidden="true"
+                    style={{
+                      cursor: "pointer",
+                      width: "16px"
+                    }}
+                    onClick={this.handleExpand.bind(this, item.id)}
+                  />
+                ) : (
+                  <span style={{ paddingLeft: "20px" }} />
+                )}
+                <span> {item.name}</span>
               </div>
-            )}
-          </div>
-        ))}
-        {/* <div>
-          <div
-            style={{
-              cursor: "pointer",
-              padding: "2px 10px 2px 6px",
-              marginBottom: "2px"
-            }}
-            className="w3-block"
-            onClick={e =>
-              this.props.userListByBuildingIdRequest({ buildingID: "null" })
-            }
+
+              {item.positions && this.isExpanded(item.id) && (
+                <div className="">
+                  <ul className="w3-ul">
+                    {item.positions.map(position => (
+                      <li
+                        key={position.id}
+                        style={{
+                          cursor: "pointer",
+                          padding: "2px 10px 2px 25px",
+                          margin: "0 0 2px 10px",
+                          background:
+                            this.props.selectedNode.buildingID &&
+                            "" +
+                              this.props.selectedNode.buildingID +
+                              "-" +
+                              this.props.selectedNode.id ===
+                              "" + position.buildingID + "-" + position.id
+                              ? "#bae7ff"
+                              : ""
+                        }}
+                        className="font-weight-light font-italic w3-border-0 w3-padding-left"
+                        onClick={e => this.nodeClick(position)}
+                      >
+                        {this.props.checkable && (
+                          <input
+                            type="checkbox"
+                            checked={position.isChecked}
+                            value={position.id}
+                            defaultChecked={
+                              this.props.selectedItem &&
+                              this.props.selectedItem.positionList.indexOf(
+                                "" + position.id
+                              ) > -1
+                                ? true
+                                : false
+                            }
+                            onClick={e => {
+                              e.stopPropagation();
+                              this.toggleChecked(position);
+                            }}
+                          />
+                        )}
+                        {position.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ))}
+
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+
+          <Modal
+            isOpen={this.props.showModal}
+            contentLabel="측정기 관리 Modal"
+            style={customStyles}
           >
-            <i
-              className="p-1 fa fa-cog"
-              aria-hidden="true"
-              style={{
-                cursor: "pointer",
-                width: "24px"
-              }}
-            />
-            <span>기타폴더</span>
-          </div>
-        </div> */}
-        <Modal
-          isOpen={this.props.showModal}
-          // onRequestClose={this.closeModal}
-          contentLabel="측정기 관리 Modal"
-          style={customStyles}
-          // className="w3-display-container"
-        >
-          <button
-            className="w3-display-topright w3-button w3-white w3-hover-text-white"
-            onClick={this.closeModal}
-          >
-            X
-          </button>
-          <div className="" style={{ minWidth: "400px" }} />
-          {
+            <button
+              className="w3-display-topright w3-button w3-white w3-hover-text-white"
+              onClick={this.closeModal}
+            >
+              X
+            </button>
+            <div className="" style={{ minWidth: "400px" }} />
             {
-              addBuilding: <AddBuilding />,
-              updateBuilding: <UpdateBuilding />,
-              addPosition: <AddPosition />,
-              updatePosition: <UpdatePosition />
-            }[this.state.modalMode]
-          }
-        </Modal>
-      </div>
+              {
+                addBuilding: <AddBuilding />,
+                updateBuilding: <UpdateBuilding />,
+                addPosition: <AddPosition />,
+                updatePosition: <UpdatePosition />
+              }[this.state.modalMode]
+            }
+          </Modal>
+        </div>
+      </React.Fragment>
     );
   }
 }

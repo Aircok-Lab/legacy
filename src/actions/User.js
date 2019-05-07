@@ -8,7 +8,8 @@ import {
   USER_SET_ITEM,
   USER_CHANGE_PASSWORD_REQUEST,
   USER_FIND_USER_REQUEST,
-  USER_FIND_PASSWORD_REQUEST
+  USER_FIND_PASSWORD_REQUEST,
+  USER_LIST_SET
 } from "constants/ActionTypes";
 
 export const userListByBuildingIdRequest = payload => {
@@ -21,6 +22,13 @@ export const userListByBuildingIdRequest = payload => {
 export const userListByPositionIdRequest = payload => {
   return {
     type: USER_LIST_BY_POSITION_ID_REQUEST,
+    payload
+  };
+};
+
+export const userListSet = payload => {
+  return {
+    type: USER_LIST_SET,
     payload
   };
 };

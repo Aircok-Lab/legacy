@@ -11,6 +11,7 @@ import { Prompt } from "react-router-dom";
 import { selectTreeNode, toggleTreeNode } from "actions/Tree";
 import { positionListSuccess } from "actions/Position";
 import { deviceListSet } from "actions/Device";
+import { userListSet } from "actions/User";
 
 const Step = Steps.Step;
 
@@ -31,6 +32,7 @@ class Container extends React.Component {
     this.props.deviceListSet(null);
 
     // User List 초기화
+    this.props.userListSet(null);
 
     const steps = JSON.parse(localStorage.getItem("steps"));
     if (steps) {
@@ -75,7 +77,6 @@ class Container extends React.Component {
     ) {
       return true;
     }
-    console.log("1111", this.props);
     if (
       this.state.step === 2 &&
       this.props.positionListByBuildingId &&
@@ -127,7 +128,7 @@ class Container extends React.Component {
     }
 
     return (
-      <div className="border-top">
+      <div className="col-12 border-top">
         <div className="">{stepData}</div>
         <div className="row border-top border-bottom py-4">
           <div className="col-2" />
@@ -178,7 +179,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   selectTreeNode,
   positionListSuccess,
-  deviceListSet
+  deviceListSet,
+  userListSet
 };
 
 export default connect(

@@ -30,12 +30,15 @@ class List extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.selectedNode.buildingID) {
+    // const steps = JSON.parse(localStorage.getItem("steps"));
+    // if (!steps) {
+    // }
+    if (this.props.selectedNode && this.props.selectedNode.buildingID) {
       // 층
       this.props.userListByPositionIdRequest({
         positionID: "" + this.props.selectedNode.id
       });
-    } else if (this.props.selectedNode.id) {
+    } else if (this.props.selectedNode && this.props.selectedNode.id) {
       // 건물
       this.props.userListByBuildingIdRequest({
         buildingID: "" + this.props.selectedNode.id
@@ -99,132 +102,132 @@ class List extends React.Component {
 
   render() {
     return (
-      <div className="">
-        <div className="animated slideInUpTiny animation-duration-3">
-          {!this.props.hideButton && (
-            <div className="clearfix pb-1">
-              <div className="float-left">
-                <div style={{ width: "200px" }}>
-                  <select
-                    className="form-control"
-                    name="userType"
-                    value={this.state.userType}
-                    onChange={this.handleChange}
-                  >
-                    <option value="">All</option>
-                    <option value="manager">Manager</option>
-                    <option value="user">User</option>
-                    <option value="monitoring">Monitoring</option>
-                  </select>
-                </div>
-              </div>
-              <div className="float-right">
-                <button
-                  className="btn btn-primary"
-                  onClick={e => this.props.setViewMode("add")}
-                  style={{ marginLeft: "2px" }}
+      <React.Fragment>
+        {!this.props.hideButton && (
+          <div className="clearfix flex-shrink-0 pb-1 pt-2">
+            <div className="float-left">
+              <div style={{ width: "200px" }}>
+                <select
+                  className="form-control"
+                  name="userType"
+                  value={this.state.userType}
+                  onChange={this.handleChange}
                 >
-                  등록
-                </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={e => {
-                    const selectedUsers = this.state.userList.filter(
-                      user => user.isChecked
-                    );
-                    this.props.setViewMode("update", selectedUsers[0]);
-                  }}
-                  style={{ marginLeft: "2px" }}
-                  disabled={
-                    this.state.userList.filter(user => user.isChecked).length !=
-                    1
-                  }
-                >
-                  수정
-                </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={e => {
-                    this.delete();
-                  }}
-                  style={{ marginLeft: "2px" }}
-                  disabled={
-                    this.state.userList.filter(user => user.isChecked).length ==
-                    0
-                  }
-                >
-                  삭제
-                </button>
+                  <option value="">All</option>
+                  <option value="manager">Manager</option>
+                  <option value="user">User</option>
+                  <option value="monitoring">Monitoring</option>
+                </select>
               </div>
             </div>
-          )}
+            <div className="float-right">
+              <button
+                className="btn btn-primary"
+                onClick={e => this.props.setViewMode("add")}
+                style={{ marginLeft: "2px" }}
+              >
+                등록
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={e => {
+                  const selectedUsers = this.state.userList.filter(
+                    user => user.isChecked
+                  );
+                  this.props.setViewMode("update", selectedUsers[0]);
+                }}
+                style={{ marginLeft: "2px" }}
+                disabled={
+                  this.state.userList.filter(user => user.isChecked).length != 1
+                }
+              >
+                수정
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={e => {
+                  this.delete();
+                }}
+                style={{ marginLeft: "2px" }}
+                disabled={
+                  this.state.userList.filter(user => user.isChecked).length == 0
+                }
+              >
+                삭제
+              </button>
+            </div>
+          </div>
+        )}
 
-          <div className="table-responsive">
-            <table className="table table-bordered text-center text-nowrap">
-              <thead>
-                <tr>
+        <div className="flex-fill overflow-auto table-responsive">
+          <table className="table table-bordered text-center text-nowrap">
+            <thead>
+              <tr>
+                {!this.props.hideButton && (
+                  <th>
+                    <input
+                      type="checkbox"
+                      onChange={event => {
+                        let userList = [...this.state.userList];
+                        userList.forEach(user => {
+                          user.isChecked = event.target.checked;
+                        });
+                        this.setState({ userList: userList });
+                      }}
+                    />
+                  </th>
+                )}
+                <th>번호</th>
+                <th>구분</th>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>소속(부서)</th>
+                <th>전화번호</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.userList.map((row, index) => (
+                <tr key={row.id}>
                   {!this.props.hideButton && (
-                    <th>
+                    <td>
                       <input
                         type="checkbox"
+                        checked={row.isChecked}
+                        value={row.id}
                         onChange={event => {
-                          let userList = [...this.state.userList];
+                          let userList = this.state.userList;
                           userList.forEach(user => {
-                            user.isChecked = event.target.checked;
+                            if (user.id === Number(event.target.value)) {
+                              user.isChecked = event.target.checked;
+                            }
                           });
                           this.setState({ userList: userList });
                         }}
                       />
-                    </th>
-                  )}
-                  <th>번호</th>
-                  <th>구분</th>
-                  <th>아이디</th>
-                  <th>이름</th>
-                  <th>이메일</th>
-                  <th>소속(부서)</th>
-                  <th>전화번호</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.userList.map((row, index) => (
-                  <tr key={row.id}>
-                    {!this.props.hideButton && (
-                      <td>
-                        <input
-                          type="checkbox"
-                          checked={row.isChecked}
-                          value={row.id}
-                          onChange={event => {
-                            let userList = this.state.userList;
-                            userList.forEach(user => {
-                              if (user.id === Number(event.target.value)) {
-                                user.isChecked = event.target.checked;
-                              }
-                            });
-                            this.setState({ userList: userList });
-                          }}
-                        />
-                      </td>
-                    )}
-                    <td>{index + 1}</td>
-                    <td>
-                      <span style={{ textTransform: "capitalize" }}>
-                        {row.userType}
-                      </span>
                     </td>
-                    <td>{row.loginID}</td>
-                    <td>{row.name}</td>
-                    <td>{row.email}</td>
-                    <td>{row.department}</td>
-                    <td>{row.phone}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                  )}
+                  <td>{index + 1}</td>
+                  <td>
+                    <span style={{ textTransform: "capitalize" }}>
+                      {row.userType}
+                    </span>
+                  </td>
+                  <td>{row.loginID}</td>
+                  <td>{row.name}</td>
+                  <td>{row.email}</td>
+                  <td>{row.department}</td>
+                  <td>{row.phone}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+      </React.Fragment>
     );
   }
 }
