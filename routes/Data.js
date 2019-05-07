@@ -60,44 +60,44 @@ router.post("/addData", function(req, res, next) {
       paramDeviceSN
   );
 
-  Data.addData(
-    paramPM25,
-    paramPM10,
-    paramCO2,
-    paramHCHO,
-    paramVOC,
-    paramTemperature,
-    paramHumidity,
-    paramNoise,
-    // paramCo,
-    paramDate,
-    paramDeviceSN,
-    function(err, addedData) {
-      // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
-      if (err) {
-        console.error("데이터 추가 중 오류 발생 :" + err.stack);
-        result.statusCode = FAIL;
-        result.message = "오류 발생";
-        res.send(result);
-        return;
-      }
+  // Data.addData(
+  //   paramPM25,
+  //   paramPM10,
+  //   paramCO2,
+  //   paramHCHO,
+  //   paramVOC,
+  //   paramTemperature,
+  //   paramHumidity,
+  //   paramNoise,
+  //   // paramCo,
+  //   paramDate,
+  //   paramDeviceSN,
+  //   function(err, addedData) {
+  //     // 동일한 id로 추가할 때 오류 발생 - 클라이언트 오류 전송
+  //     if (err) {
+  //       console.error("데이터 추가 중 오류 발생 :" + err.stack);
+  //       result.statusCode = FAIL;
+  //       result.message = "오류 발생";
+  //       res.send(result);
+  //       return;
+  //     }
 
-      //결과 객체 있으면 성공 응답 전송
-      if (addedData) {
-        console.dir(addedData);
-        console.log("추가된 레코드의 아이디 : " + addedData.insertId);
+  //     //결과 객체 있으면 성공 응답 전송
+  //     if (addedData) {
+  //       console.dir(addedData);
+  //       console.log("추가된 레코드의 아이디 : " + addedData.insertId);
 
-        result.statusCode = OK;
-        result.message = "성공";
-        result.data = addedData.insertId;
-        res.send(result);
-      } else {
-        result.statusCode = FAIL;
-        result.message = "실패";
-        res.send(result);
-      }
-    }
-  );
+  //       result.statusCode = OK;
+  //       result.message = "성공";
+  //       result.data = addedData.insertId;
+  //       res.send(result);
+  //     } else {
+  //       result.statusCode = FAIL;
+  //       result.message = "실패";
+  //       res.send(result);
+  //     }
+  //   }
+  // );
   Building.getBuildingType(paramDeviceSN, function(err, buildingInfo) {
     if (err) {
       console.error("빌딩타입 정보 오류 :" + err.stack);
@@ -157,7 +157,7 @@ router.post("/addData", function(req, res, next) {
           }
         }
       );
-      Alarm.addAlarm(
+      Data.addData(
         status.pm10,
         status.pm25,
         status.co2,
@@ -173,10 +173,24 @@ router.post("/addData", function(req, res, next) {
         function(err, success) {
           if (err) {
             console.error("데이터 추가 중 오류 발생 :" + err.stack);
+            result.statusCode = FAIL;
+            result.message = "오류 발생";
+            res.send(result);
             return;
           }
-          if (success) {
-            console.log("알람 데이터 추가 완료 ");
+          // 결과 객체 있으면 성공 응답 전송
+          if (addedData) {
+            console.dir(addedData);
+            console.log("추가된 레코드의 아이디 : " + addedData.insertId);
+
+            result.statusCode = OK;
+            result.message = "성공";
+            result.data = addedData.insertId;
+            res.send(result);
+          } else {
+            result.statusCode = FAIL;
+            result.message = "실패";
+            res.send(result);
           }
         }
       );

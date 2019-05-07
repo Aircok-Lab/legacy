@@ -18,19 +18,15 @@ router.post("/addDevice", function(req, res, next) {
   var paramIP = req.body.ip || req.query.ip || null;
   var paramPositionID = req.body.positionID || req.query.positionID;
   var paramProductID = req.body.productID || req.query.productID;
-  var paramIMEI = req.body.imei || req.query.imei ||null;
+  var paramIMEI = req.body.imei || req.query.imei || null;
   var paramGateway = req.body.gateway || req.query.gateway || null;
   var paramSubnet = req.body.subnet || req.query.subnet || null;
-  var paramNetworkType = req.body.networkType || req.query.networkType || 'cellular';
+  var paramNetworkType =
+    req.body.networkType || req.query.networkType || "cellular";
   var paramReportType = req.body.reportType || req.query.reportType;
   var result = { statusCode: null, message: null, data: null };
 
-  if (
-    !paramName ||
-    !paramSerialNumber ||
-    !paramPositionID ||
-    !paramProductID
-  ) {
+  if (!paramName || !paramSerialNumber || !paramPositionID || !paramProductID) {
     result.statusCode = FAIL;
     result.message = "입력 값을 확인하세요";
     res.send(result);
@@ -57,7 +53,7 @@ router.post("/addDevice", function(req, res, next) {
       "," +
       paramSubnet +
       "," +
-      paramNetworkType + 
+      paramNetworkType +
       "," +
       paramReportType
   );
@@ -114,20 +110,20 @@ router.post("/addDevice", function(req, res, next) {
               }
             });
 
-            Alarm.createTable(paramSerialNumber, productInfo[0], function(
-              err,
-              createAlarmTable
-            ) {
-              if (err) {
-                console.error("Alarm table 추가 중 오류 발생 :" + err.stack);
-                return;
-              }
-              if (createAlarmTable) {
-                console.log("Alarm table 추가 성공");
-              } else {
-                console.log("createAlarmTable 정보가 없음");
-              }
-            });
+            // Alarm.createTable(paramSerialNumber, productInfo[0], function(
+            //   err,
+            //   createAlarmTable
+            // ) {
+            //   if (err) {
+            //     console.error("Alarm table 추가 중 오류 발생 :" + err.stack);
+            //     return;
+            //   }
+            //   if (createAlarmTable) {
+            //     console.log("Alarm table 추가 성공");
+            //   } else {
+            //     console.log("createAlarmTable 정보가 없음");
+            //   }
+            // });
           } else {
             console.log("Product 정보가 없음");
           }
