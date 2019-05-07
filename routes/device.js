@@ -91,59 +91,59 @@ router.post("/", function(req, res, next) {
           var paramHumidity = Number(arr[10]) / 10;
         }
 
-        Data.addData(
-          paramPM25,
-          paramPM10,
-          paramCO2,
-          paramHCHO,
-          paramVOC,
-          paramTemperature,
-          paramHumidity,
-          paramNoise,
-          paramCo,
-          paramDate,
-          paramDeviceSN,
-          function(err, addedData) {
-            if (err) {
-              console.error("데이터 추가 중 오류 발생 :" + err.stack);
-              res.statusCode = 200;
-              res.setHeader("Content-Type", "text/plain");
-              res.end(result);
-              return;
-            }
-            var urlInfo = "115.178.65.141:13704";
-            //결과 객체 있으면 성공 응답 전송
-            if (addedData) {
-              // 펌웨어 확인
-              if (info.version !== arr[13]) {
-                // 버젼 체크
-                if (deviceType == 1) {
-                  result =
-                    "0|00060" +
-                    "|" +
-                    info.version +
-                    "|" +
-                    info.filesize +
-                    "|!=";
-                } else if (deviceType == 3) {
-                  result =
-                    "0|" +
-                    "00060" +
-                    "|" +
-                    info.version +
-                    "|" +
-                    info.filesize +
-                    "|" +
-                    urlInfo +
-                    "|!=";
-                }
-              }
-            }
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "text/plain");
-            res.end(result);
-          }
-        );
+        // Data.addData(
+        //   paramPM25,
+        //   paramPM10,
+        //   paramCO2,
+        //   paramHCHO,
+        //   paramVOC,
+        //   paramTemperature,
+        //   paramHumidity,
+        //   paramNoise,
+        //   paramCo,
+        //   paramDate,
+        //   paramDeviceSN,
+        //   function(err, addedData) {
+        //     if (err) {
+        //       console.error("데이터 추가 중 오류 발생 :" + err.stack);
+        //       res.statusCode = 200;
+        //       res.setHeader("Content-Type", "text/plain");
+        //       res.end(result);
+        //       return;
+        //     }
+        //     var urlInfo = "115.178.65.141:13704";
+        //     //결과 객체 있으면 성공 응답 전송
+        //     if (addedData) {
+        //       // 펌웨어 확인
+        //       if (info.version !== arr[13]) {
+        //         // 버젼 체크
+        //         if (deviceType == 1) {
+        //           result =
+        //             "0|00060" +
+        //             "|" +
+        //             info.version +
+        //             "|" +
+        //             info.filesize +
+        //             "|!=";
+        //         } else if (deviceType == 3) {
+        //           result =
+        //             "0|" +
+        //             "00060" +
+        //             "|" +
+        //             info.version +
+        //             "|" +
+        //             info.filesize +
+        //             "|" +
+        //             urlInfo +
+        //             "|!=";
+        //         }
+        //       }
+        //     }
+        //     res.statusCode = 200;
+        //     res.setHeader("Content-Type", "text/plain");
+        //     res.end(result);
+        //   }
+        // );
 
         if (info.buildingType) {
           // 빌딩의 타입에 따른 지수 계산
@@ -199,7 +199,7 @@ router.post("/", function(req, res, next) {
               }
             }
           );
-          Alarm.addAlarm(
+          Data.addData(
             status.pm10,
             status.pm25,
             status.co2,
@@ -212,14 +212,45 @@ router.post("/", function(req, res, next) {
             totalScore,
             paramDate,
             paramDeviceSN,
-            function(err, success) {
+            function(err, addedData) {
               if (err) {
                 console.error("데이터 추가 중 오류 발생 :" + err.stack);
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "text/plain");
+                res.end(result);
                 return;
               }
-              if (success) {
-                console.log("알람 데이터 추가 완료 ");
+              var urlInfo = "115.178.65.141:13704";
+              //결과 객체 있으면 성공 응답 전송
+              if (addedData) {
+                // 펌웨어 확인
+                if (info.version !== arr[13]) {
+                  // 버젼 체크
+                  if (deviceType == 1) {
+                    result =
+                      "0|00060" +
+                      "|" +
+                      info.version +
+                      "|" +
+                      info.filesize +
+                      "|!=";
+                  } else if (deviceType == 3) {
+                    result =
+                      "0|" +
+                      "00060" +
+                      "|" +
+                      info.version +
+                      "|" +
+                      info.filesize +
+                      "|" +
+                      urlInfo +
+                      "|!=";
+                  }
+                }
               }
+              res.statusCode = 200;
+              res.setHeader("Content-Type", "text/plain");
+              res.end(result);
             }
           );
         }
