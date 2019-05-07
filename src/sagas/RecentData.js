@@ -282,25 +282,25 @@ function* getOutdoorWeatherDataWorker(payload) {
 }
 
 function* getChartDataWorker(payload) {
-  var today = Date.now();
-  var startDate = moment(today)
+  const { deviceInfo } = payload;
+  var startDate = moment(deviceInfo.date)
     .tz("Asia/Seoul")
     .format("YYYY-MM-DD");
-  var endDate = moment(today)
+  var endDate = moment(deviceInfo.date)
     .add(1, "days")
     .tz("Asia/Seoul")
     .format("YYYY-MM-DD");
-  const { serialNumber } = payload;
 
   try {
     const chartData = yield call(
       getChartDataRequest,
-      serialNumber,
+      deviceInfo.serialNumber,
       startDate,
       endDate
     );
     var sensorData = {
       labels: [],
+      e3Score: [],
       pm10: [],
       pm25: [],
       co2: [],
@@ -308,21 +308,24 @@ function* getChartDataWorker(payload) {
       voc: [],
       temperature: [],
       humidity: [],
-      noise: []
+      noise: [],
+      co: []
     };
     chartData.data.data.forEach(function(data, index) {
-      var date = moment(data.Date)
+      var date = moment(data.date)
         .tz("Asia/Seoul")
         .format("HH:mm");
       sensorData.labels[index] = date; //data.Date; //data.Date.substr(11, 5);
-      sensorData.pm10[index] = data.pm10;
-      sensorData.pm25[index] = data.pm25;
-      sensorData.co2[index] = data.co2;
-      sensorData.hcho[index] = data.hcho;
-      sensorData.voc[index] = data.voc;
-      sensorData.temperature[index] = data.temperature;
-      sensorData.humidity[index] = data.humidity;
-      sensorData.noise[index] = data.noise;
+      if (data.e3Score) sensorData.e3Score[index] = data.e3Score;
+      if (data.pm10) sensorData.pm10[index] = data.pm10;
+      if (data.pm25) sensorData.pm25[index] = data.pm25;
+      if (data.co2) sensorData.co2[index] = data.co2;
+      if (data.hcho) sensorData.hcho[index] = data.hcho;
+      if (data.voc) sensorData.voc[index] = data.voc;
+      if (data.temperature) sensorData.temperature[index] = data.temperature;
+      if (data.humidity) sensorData.humidity[index] = data.humidity;
+      if (data.noise) sensorData.noise[index] = data.noise;
+      if (data.co) sensorData.co[index] = data.co;
     });
 
     yield put(chartDataSuccess(sensorData));

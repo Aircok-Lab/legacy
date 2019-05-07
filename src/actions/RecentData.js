@@ -68,10 +68,10 @@ export const outdoorWeatherDataSuccess = outdoorWeatherData => {
   };
 };
 
-export const chartDataRequest = serialNumber => {
+export const chartDataRequest = deviceInfo => {
   return {
     type: CHART_DATA_REQUEST,
-    serialNumber: serialNumber
+    deviceInfo: deviceInfo
   };
 };
 
