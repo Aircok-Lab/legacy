@@ -28,6 +28,7 @@ export default (state = INIT_STATE, action) => {
       };
     }
     case USER_LIST_SET: {
+      console.log("USER_LIST - action.payload", action.payload);
       const list = action.payload
         ? action.payload.map(item => {
             return {
