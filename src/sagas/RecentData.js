@@ -301,31 +301,89 @@ function* getChartDataWorker(payload) {
     var sensorData = {
       labels: [],
       e3Score: [],
+      e3ScoreIndex: [0, 0, 0, 0, 0, 0],
       pm10: [],
+      pm10Index: [0, 0, 0, 0, 0, 0],
+      pm10Alarm: 0,
       pm25: [],
+      pm25Index: [0, 0, 0, 0, 0, 0],
+      pm25Alarm: 0,
       co2: [],
+      co2Index: [0, 0, 0, 0, 0, 0],
+      co2Alarm: 0,
       hcho: [],
+      hchoIndex: [0, 0, 0, 0, 0, 0],
+      hchoAlarm: 0,
       voc: [],
+      vocIndex: [0, 0, 0, 0, 0, 0],
+      vocAlarm: 0,
       temperature: [],
+      temperatureIndex: [0, 0, 0, 0, 0, 0],
+      temperatureAlarm: 0,
       humidity: [],
+      humidityIndex: [0, 0, 0, 0, 0, 0],
+      humidityAlarm: 0,
       noise: [],
-      co: []
+      noiseIndex: [0, 0, 0, 0, 0, 0],
+      noiseAlarm: 0,
+      co: [],
+      coIndex: [0, 0, 0, 0, 0, 0],
+      coAlarm: 0
     };
     chartData.data.data.forEach(function(data, index) {
       var date = moment(data.date)
         .tz("Asia/Seoul")
         .format("HH:mm");
       sensorData.labels[index] = date; //data.Date; //data.Date.substr(11, 5);
-      if (data.e3Score) sensorData.e3Score[index] = data.e3Score;
-      if (data.pm10) sensorData.pm10[index] = data.pm10;
-      if (data.pm25) sensorData.pm25[index] = data.pm25;
-      if (data.co2) sensorData.co2[index] = data.co2;
-      if (data.hcho) sensorData.hcho[index] = data.hcho;
-      if (data.voc) sensorData.voc[index] = data.voc;
-      if (data.temperature) sensorData.temperature[index] = data.temperature;
-      if (data.humidity) sensorData.humidity[index] = data.humidity;
-      if (data.noise) sensorData.noise[index] = data.noise;
-      if (data.co) sensorData.co[index] = data.co;
+      if (data.e3Score !== null) {
+        sensorData.e3Score[index] = data.e3Score;
+        sensorData.e3ScoreIndex[data.e3Index - 1]++;
+      }
+      if (data.pm10 !== null) {
+        sensorData.pm10[index] = data.pm10;
+        sensorData.pm10Index[data.pm10Index - 1]++;
+        if (data.pm10Alarm) sensorData.pm10Alarm++;
+      }
+      if (data.pm25 !== null) {
+        sensorData.pm25[index] = data.pm25;
+        sensorData.pm25Index[data.pm25Index - 1]++;
+        if (data.pm25Alarm) sensorData.pm25Alarm++;
+      }
+      if (data.co2 !== null) {
+        sensorData.co2[index] = data.co2;
+        sensorData.co2Index[data.co2Index - 1]++;
+        if (data.co2Alarm) sensorData.co2Alarm++;
+      }
+      if (data.hcho !== null) {
+        sensorData.hcho[index] = data.hcho;
+        sensorData.hchoIndex[data.hchoIndex - 1]++;
+        if (data.hchoAlarm) sensorData.hchoAlarm++;
+      }
+      if (data.voc !== null) {
+        sensorData.voc[index] = data.voc;
+        sensorData.vocIndex[data.vocIndex - 1]++;
+        if (data.vocAlarm) sensorData.vocAlarm++;
+      }
+      if (data.temperature !== null) {
+        sensorData.temperature[index] = data.temperature;
+        sensorData.temperatureIndex[data.temperatureIndex - 1]++;
+        if (data.temperatureAlarm) sensorData.temperatureAlarm++;
+      }
+      if (data.humidity !== null) {
+        sensorData.humidity[index] = data.humidity;
+        sensorData.humidityIndex[data.humidityIndex - 1]++;
+        if (data.humidityAlarm) sensorData.humidityAlarm++;
+      }
+      if (data.noise !== null) {
+        sensorData.noise[index] = data.noise;
+        sensorData.noiseIndex[data.noiseIndex - 1]++;
+        if (data.noiseAlarm) sensorData.noiseAlarm++;
+      }
+      if (data.co !== null) {
+        sensorData.co[index] = data.co;
+        sensorData.coIndex[data.coIndex - 1]++;
+        if (data.coAlarm) sensorData.coAlarm++;
+      }
     });
 
     yield put(chartDataSuccess(sensorData));

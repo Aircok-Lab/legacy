@@ -1,10 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Modal, ModalHeader } from "reactstrap";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import { chartDataRequest } from "actions/RecentData";
-import { Line } from "react-chartjs-2";
+import { Line, Doughnut } from "react-chartjs-2";
 import moment from "moment-timezone";
+import LineChart from "./lineChart.js";
 
-var chart = {
+var lineChart = {
   labels: [],
   datasets: [
     {
@@ -31,6 +35,31 @@ var chart = {
   ]
 };
 
+const donutChart = {
+  labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+  datasets: [
+    {
+      data: [0, 0, 0, 0, 0, 0],
+      backgroundColor: [
+        "#289ed7",
+        "#36A2EB",
+        "#e5a222",
+        "#e24a1b",
+        "#d50119",
+        "#141414"
+      ],
+      hoverBackgroundColor: [
+        "#289ed7",
+        "#36A2EB",
+        "#e5a222",
+        "#e24a1b",
+        "#d50119",
+        "#141414"
+      ]
+    }
+  ]
+};
+
 class ChartPage extends React.Component {
   constructor(props) {
     super(props);
@@ -42,17 +71,32 @@ class ChartPage extends React.Component {
       .add(1, "days")
       .tz("Asia/Seoul");
     this.state = {
+      show: false,
       date: today,
-      e3Score: chart,
-      pm10: chart,
-      pm25: chart,
-      co2: chart,
-      hcho: chart,
-      voc: chart,
-      temperature: chart,
-      humidity: chart,
-      noise: chart,
-      co: chart
+      e3Score: lineChart,
+      pm10: lineChart,
+      pm25: lineChart,
+      co2: lineChart,
+      hcho: lineChart,
+      voc: lineChart,
+      temperature: lineChart,
+      humidity: lineChart,
+      noise: lineChart,
+      co: lineChart,
+      e3ScoreIndex: donutChart,
+      pm10Index: donutChart,
+      pm25Index: donutChart,
+      co2Index: donutChart,
+      hchoIndex: donutChart,
+      vocIndex: donutChart,
+      temperatureIndex: donutChart,
+      humidityIndex: donutChart,
+      noiseIndex: donutChart,
+      coIndex: donutChart,
+      modalTitle: "",
+      modalLineData: lineChart,
+      modalDonutData: donutChart,
+      modalAlaramData: 0
     };
 
     this.props.chartDataRequest({
@@ -60,16 +104,8 @@ class ChartPage extends React.Component {
       date: today
     });
 
-    this.loadData = this.loadData.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
-    // this.intervalLoadDataHandle = setInterval(this.loadData, 60000);
-  }
-
-  componentWillUnmount() {
-    // clearInterval(this.intervalLoadDataHandle);
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -308,27 +344,250 @@ class ChartPage extends React.Component {
               data: nextProps.chartData.noise
             }
           ]
+        },
+        e3ScoreIndex: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.e3ScoreIndex,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
+        },
+        pm10Index: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.pm10Index,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
+        },
+        pm25Index: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.pm25Index,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
+        },
+        co2Index: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.co2Index,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
+        },
+        hchoIndex: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.hchoIndex,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
+        },
+        vocIndex: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.vocIndex,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
+        },
+        temperatureIndex: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.temperatureIndex,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
+        },
+        humidityIndex: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.humidityIndex,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
+        },
+        noiseIndex: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.noiseIndex,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
+        },
+        coIndex: {
+          labels: ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"],
+          datasets: [
+            {
+              data: nextProps.chartData.coIndex,
+              backgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ],
+              hoverBackgroundColor: [
+                "#289ed7",
+                "#2ab67f",
+                "#e5a222",
+                "#e24a1b",
+                "#d50119",
+                "#141414"
+              ]
+            }
+          ]
         }
       });
     }
   }
-
-  loadData() {
-    // this.props.chartDataRequest(this.props.match.params.deviceList);
-  }
-
-  leftDay = () => {
-    var startDate = moment(this.state.startDate)
-      .subtract(1, "days")
-      .tz("Asia/Seoul");
-    var endDate = moment(startDate)
-      .add(1, "days")
-      .tz("Asia/Seoul");
-    this.setState({
-      startDate: startDate,
-      endDate: endDate
-    });
-  };
 
   handleChange = arrow => {
     var today = Date.now();
@@ -379,8 +638,80 @@ class ChartPage extends React.Component {
     }
   };
 
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow(title) {
+    console.log(title.currentTarget.innerText);
+    var sensor = title.currentTarget.innerText;
+    if (sensor === "통합지수") {
+      this.setState({
+        modalTitle: sensor,
+        modalLineData: this.state.e3Score,
+        modalDonutData: this.state.e3ScoreIndex
+      });
+    } else if (sensor === "PM10") {
+      this.setState({
+        modalTitle: sensor,
+        modalLineData: this.state.pm10,
+        modalDonutData: this.state.pm10Index,
+        modalAlaramData: this.props.chartData.pm10Alarm
+      });
+    } else if (sensor === "PM2.5") {
+      this.setState({
+        modalTitle: sensor,
+        modalLineData: this.state.pm25,
+        modalDonutData: this.state.pm25Index,
+        modalAlaramData: this.props.chartData.pm25Alarm
+      });
+    } else if (sensor === "CO2") {
+      this.setState({
+        modalTitle: sensor,
+        modalLineData: this.state.co2,
+        modalDonutData: this.state.co2Index,
+        modalAlaramData: this.props.chartData.co2Alarm
+      });
+    } else if (sensor === "HCHO") {
+      this.setState({
+        modalTitle: sensor,
+        modalLineData: this.state.hcho,
+        modalDonutData: this.state.hchoIndex,
+        modalAlaramData: this.props.chartData.hchoAlarm
+      });
+    } else if (sensor === "VOC") {
+      this.setState({
+        modalTitle: sensor,
+        modalLineData: this.state.voc,
+        modalDonutData: this.state.vocIndex,
+        modalAlaramData: this.props.chartData.vocAlarm
+      });
+    } else if (sensor === "온도") {
+      this.setState({
+        modalTitle: sensor,
+        modalLineData: this.state.temperature,
+        modalDonutData: this.state.temperatureIndex,
+        modalAlaramData: this.props.chartData.temperatureAlarm
+      });
+    } else if (sensor === "습도") {
+      this.setState({
+        modalTitle: sensor,
+        modalLineData: this.state.humidity,
+        modalDonutData: this.state.humidityIndex,
+        modalAlaramData: this.props.chartData.humidityAlarm
+      });
+    } else if (sensor === "소음") {
+      this.setState({
+        modalTitle: sensor,
+        modalLineData: this.state.noise,
+        modalDonutData: this.state.noiseIndex,
+        modalAlaramData: this.props.chartData.noiseAlarm
+      });
+    }
+    this.setState({ show: true });
+  }
+
   render() {
-    // const contact = this.props.chartData;
     var startDate = moment(this.state.date)
       .tz("Asia/Seoul")
       .format("YYYY-MM-DD");
@@ -412,67 +743,58 @@ class ChartPage extends React.Component {
           </div>
           <div className="mt-3">
             <div className="card-deck mx-3 pb-3">
-              <div className="card" style={{ borderRadius: "10px" }}>
-                <h2>통합지수</h2>
-                {this.state.e3Score.labels.length ? (
-                  <Line data={this.state.e3Score} />
-                ) : null}
-              </div>
-              <div className="card" style={{ borderRadius: "10px" }}>
-                <h2>PM10</h2>
-                {this.state.pm10.labels.length ? (
-                  <Line data={this.state.pm10} />
-                ) : null}
-              </div>
-              <div className="card" style={{ borderRadius: "10px" }}>
-                <h2>PM2.5</h2>
-                {this.state.pm25.labels.length ? (
-                  <Line data={this.state.pm25} />
-                ) : null}
-              </div>
+              <LineChart
+                title="통합지수"
+                lineData={this.state.e3Score}
+                modalShow={this.handleShow}
+              />
+              <LineChart
+                title="PM10"
+                lineData={this.state.pm10}
+                modalShow={this.handleShow}
+              />
+              <LineChart
+                title="PM2.5"
+                lineData={this.state.pm25}
+                modalShow={this.handleShow}
+              />
             </div>
           </div>
           <div className="mt-3">
             <div className="card-deck mx-3 pb-3">
-              <div className="card" style={{ borderRadius: "10px" }}>
-                <h2>CO2</h2>
-                {this.state.co2.labels.length ? (
-                  <Line data={this.state.co2} />
-                ) : null}
-              </div>
-              <div className="card" style={{ borderRadius: "10px" }}>
-                <h2>HCHO</h2>
-                {this.state.hcho.labels.length ? (
-                  <Line data={this.state.hcho} />
-                ) : null}
-              </div>
-              <div className="card" style={{ borderRadius: "10px" }}>
-                <h2>VOC</h2>
-                {this.state.voc.labels.length ? (
-                  <Line data={this.state.voc} />
-                ) : null}
-              </div>
+              <LineChart
+                title="CO2"
+                lineData={this.state.co2}
+                modalShow={this.handleShow}
+              />
+              <LineChart
+                title="HCHO"
+                lineData={this.state.hcho}
+                modalShow={this.handleShow}
+              />
+              <LineChart
+                title="VOC"
+                lineData={this.state.voc}
+                modalShow={this.handleShow}
+              />
             </div>
             <div className="mt-3">
               <div className="card-deck mx-3 pb-3">
-                <div className="card" style={{ borderRadius: "10px" }}>
-                  <h2>온도</h2>
-                  {this.state.temperature.labels.length ? (
-                    <Line data={this.state.temperature} />
-                  ) : null}
-                </div>
-                <div className="card" style={{ borderRadius: "10px" }}>
-                  <h2>습도</h2>
-                  {this.state.humidity.labels.length ? (
-                    <Line data={this.state.humidity} />
-                  ) : null}
-                </div>
-                <div className="card" style={{ borderRadius: "10px" }}>
-                  <h2>소음</h2>
-                  {this.state.noise.labels.length ? (
-                    <Line data={this.state.noise} />
-                  ) : null}
-                </div>
+                <LineChart
+                  title="온도"
+                  lineData={this.state.temperature}
+                  modalShow={this.handleShow}
+                />
+                <LineChart
+                  title="습도"
+                  lineData={this.state.humidity}
+                  modalShow={this.handleShow}
+                />
+                <LineChart
+                  title="소음"
+                  lineData={this.state.noise}
+                  modalShow={this.handleShow}
+                />
                 {/* <div className="card" style={{ borderRadius: "10px" }}>
                   <h2>CO</h2>
                   {this.state.co.labels.length ? (
@@ -482,6 +804,25 @@ class ChartPage extends React.Component {
               </div>
             </div>
           </div>
+          <Modal
+            className="modal-box"
+            isOpen={this.state.show}
+            toggle={this.handleClose}
+          >
+            <ModalHeader className="modal-box-header bg-primary">
+              {this.state.modalTitle}
+              <IconButton className="text-white" onClick={this.handleClose}>
+                <CloseIcon />
+              </IconButton>
+            </ModalHeader>
+            <div className="modal-box-content d-flex flex-column">
+              <Line data={this.state.modalLineData} />
+              <Doughnut data={this.state.modalDonutData} />
+              {this.state.modalTitle !== "통합지수" ? (
+                <div> 알람 총 {this.state.modalAlaramData}번 울림</div>
+              ) : null}
+            </div>
+          </Modal>
         </div>
       </div>
     );
