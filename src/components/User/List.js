@@ -7,6 +7,7 @@ import {
   userSetItem
 } from "actions/User";
 import { setViewMode } from "actions/Setting";
+import { selectTreeNode, toggleTreeNode } from "actions/Tree";
 
 class List extends React.Component {
   state = {
@@ -31,7 +32,9 @@ class List extends React.Component {
 
   componentDidMount() {
     // const steps = JSON.parse(localStorage.getItem("steps"));
-    // if (!steps) {
+    // if (steps) {
+    //   this.props.selectTreeNode(null);
+    //   localStorage.removeItem("selectedNode");
     // }
     if (this.props.selectedNode && this.props.selectedNode.buildingID) {
       // 층
@@ -61,25 +64,29 @@ class List extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (
-      JSON.stringify(prevProps.userList) != JSON.stringify(this.props.userList)
-    ) {
-    }
+    const steps = JSON.parse(localStorage.getItem("steps"));
+    // console.log("5555", steps, prevProps.selectedNode, this.props.selectedNode);
+    // // if (!steps) {
+    // //   this.props.selectTreeNode(null);
+    // //   localStorage.removeItem("selectedNode");
+    // // }
 
     if (
       JSON.stringify(prevProps.selectedNode) !=
       JSON.stringify(this.props.selectedNode)
     ) {
-      if (this.props.selectedNode.buildingID) {
+      if (this.props.selectedNode && this.props.selectedNode.buildingID) {
         // 층
         this.props.userListByPositionIdRequest({
           positionID: "" + this.props.selectedNode.id
         });
-      } else if (this.props.selectedNode.id) {
+      } else if (this.props.selectedNode && this.props.selectedNode.id) {
         // 건물
-        this.props.userListByBuildingIdRequest({
-          buildingID: "" + this.props.selectedNode.id
-        });
+        if (!(steps && steps.step === 4)) {
+          this.props.userListByBuildingIdRequest({
+            buildingID: "" + this.props.selectedNode.id
+          });
+        }
       }
     }
   }

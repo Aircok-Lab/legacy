@@ -14,7 +14,7 @@ import {
   positionAddRequest,
   positionToggleChecked
 } from "actions/Position";
-import { userListByBuildingIdRequest } from "actions/User";
+// import { userListByBuildingIdRequest } from "actions/User";
 import { setShowModal } from "actions/Setting";
 
 const customStyles = {
@@ -65,7 +65,14 @@ class BuildingPositionTree extends Component {
       id: "" + this.props.authUser.positionList
     });
     const selectedNode = JSON.parse(localStorage.getItem("selectedNode"));
-    if (selectedNode) {
+    console.log("7777", steps, selectedNode);
+    if (steps) {
+      if (steps.step != 4) {
+        console.log("888");
+        this.nodeClick(selectedNode);
+      }
+    } else {
+      console.log("999");
       this.nodeClick(selectedNode);
     }
   }
@@ -283,6 +290,7 @@ class BuildingPositionTree extends Component {
                           padding: "2px 10px 2px 25px",
                           margin: "0 0 2px 10px",
                           background:
+                            this.props.selectedNode &&
                             this.props.selectedNode.buildingID &&
                             "" +
                               this.props.selectedNode.buildingID +
@@ -373,8 +381,8 @@ const mapDispatchToProps = {
   positionToggleChecked,
   selectTreeNode,
   toggleTreeNode,
-  setShowModal,
-  userListByBuildingIdRequest
+  setShowModal
+  // userListByBuildingIdRequest
 };
 
 export default connect(
