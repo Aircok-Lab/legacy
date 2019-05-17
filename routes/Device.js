@@ -382,26 +382,36 @@ router.delete("/deleteDevice", function(req, res, next) {
       //     console.log("실패");
       //   }
       // });
-      User.getUserByDeviceSN(paramDeviceSerialNumber, function(err, users) {
-        if (users) {
-          users.map(user => {
-            let delStr = "/" + paramDeviceSerialNumber + ",/";
-            let inStr = "/";
-            let deviceList = user.deviceList.replace(delStr, inStr);
+      // User.getUserByDeviceSN(paramDeviceSerialNumber, function(err, users) {
+      //   if (users) {
+      //     users.map(user => {
+      //       let delStr = "/" + paramDeviceSerialNumber + ",/";
+      //       let inStr = "/";
+      //       let deviceList = user.deviceList.replace(delStr, inStr);
 
-            User.updateUserBuildingList(user.id, deviceList);
-            if (user.id == paramUserID) {
-              user.deviceList = deviceList;
-              let userData = userPattern.deletePattern(user);
-              result.statusCode = OK;
-              result.message = "성공";
-              result.data = userData;
-              res.send(result);
-            }
-          });
+      //       User.updateUserBuildingList(user.id, deviceList);
+      //       if (user.id == paramUserID) {
+      //         user.deviceList = deviceList;
+      //         let userData = userPattern.deletePattern(user);
+      //         result.statusCode = OK;
+      //         result.message = "성공";
+      //         result.data = userData;
+      //         res.send(result);
+      //       }
+      //     });
+      //   }
+      // });
+      User.updateUserDeviceList(paramUserID, false, deviceList);
+      User.getUserInfo(paramUserID, function(err, userInfo) {
+        if (userInfo) {
+          let userData = userPattern.deletePattern(userInfo);
+          result.statusCode = OK;
+          result.message = "성공";
+          result.data = userData;
+          res.send(result);
         }
       });
-      Alarm.changeTableName(paramDeviceSerialNumber);
+      // Alarm.changeTableName(paramDeviceSerialNumber);
       Data.changeTableName(paramDeviceSerialNumber);
     } else {
       result.statusCode = FAIL;
