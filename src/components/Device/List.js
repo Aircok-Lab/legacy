@@ -53,6 +53,7 @@ class List extends React.Component {
     if (
       JSON.stringify(prevProps.selectedNode) !=
         JSON.stringify(this.props.selectedNode) &&
+      this.props.selectedNode &&
       this.props.selectedNode.id
     ) {
       if (this.props.selectedNode.buildingID) {
