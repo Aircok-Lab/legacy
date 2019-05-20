@@ -90,7 +90,17 @@ router.post("/", function(req, res, next) {
           var paramTemperature = (Number(arr[9]) - 1000) / 10;
           var paramHumidity = Number(arr[10]) / 10;
         }
-
+        console.log(
+          paramPM10,
+          paramPM25,
+          paramCO2,
+          paramHCHO,
+          paramVOC,
+          paramTemperature,
+          paramHumidity,
+          paramNoise,
+          paramCo
+        );
         // Data.addData(
         //   paramPM25,
         //   paramPM10,
