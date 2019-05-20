@@ -185,7 +185,7 @@ router.post("/", function(req, res, next) {
             status.temperature,
             status.humidity,
             status.noise,
-            status.co2,
+            status.co,
             totalScore,
             paramDate,
             paramDeviceSN,
