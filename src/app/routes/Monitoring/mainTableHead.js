@@ -102,13 +102,25 @@ const mainTableHead = props => {
         </th>
         <th
           className="table-header-row0-class"
+          colSpan={3}
+          style={{ width: `${sensorTabWidth}` }}
+        >
+          일산화탄소(CO)
+          <br />
+          (db)
+        </th>
+        <th
+          className="table-header-row0-class"
           rowSpan={2}
-          style={{ width: "100px" }}
+          style={{ width: "60px" }}
         >
           SMS
         </th>
       </tr>
       <tr className="table-header-row1-class">
+        <th>기준</th>
+        <th>현재</th>
+        <th>알람</th>
         <th>기준</th>
         <th>현재</th>
         <th>알람</th>

@@ -229,10 +229,18 @@ class SamplePage extends React.Component {
                         sensorAlarm={contact.vocAlarm}
                       />
                       <SensorData
-                        alarmReferenceValue={this.props.alarmReferenceValue.voc}
+                        alarmReferenceValue={
+                          this.props.alarmReferenceValue.noise
+                        }
                         sensorData={contact.noise}
                         sensorIndex={contact.noiseIndex}
                         sensorAlarm={contact.noiseAlarm}
+                      />
+                      <SensorData
+                        alarmReferenceValue={this.props.alarmReferenceValue.co}
+                        sensorData={contact.co}
+                        sensorIndex={contact.coIndex}
+                        sensorAlarm={contact.coAlarm}
                       />
                       <td style={{ width: "60px" }}>
                         <div>

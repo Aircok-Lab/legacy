@@ -33,7 +33,7 @@ const sensorData = ({
       <td style={{ width: `${sensorTabWidth}` }}>
         <span
           className={getClassText(sensorIndex)}
-          style={{ fontWweight: "bold", fontSize: "20px" }}
+          style={{ fontWweight: "bold", fontSize: "15px" }}
         >
           {sensorData}
         </span>
