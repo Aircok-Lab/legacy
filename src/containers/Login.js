@@ -46,7 +46,7 @@ class Login extends React.Component {
 
   login(e) {
     if (e.keyCode == 13) {
-      this.props.showAuthLoader();
+      // this.props.showAuthLoader();
       this.props.userSignIn({
         loginId: this.state.loginId,
         password: this.state.password,
@@ -115,7 +115,7 @@ class Login extends React.Component {
                     <Button
                       className="text-center btn-block"
                       onClick={() => {
-                        this.props.showAuthLoader();
+                        // this.props.showAuthLoader();
                         this.props.userSignIn({ loginId, password, pkey });
                       }}
                       variant="contained"

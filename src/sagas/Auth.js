@@ -70,9 +70,7 @@ function* signInUserWithEmailPassword({ payload }) {
       loginId,
       newpw
     );
-    if (signInUser.message) {
-      yield put(showAuthMessage(signInUser.message));
-    } else {
+    if (responseDataProcess(signInUser.data)) {
       yield put(userSignInSuccess(signInUser.data.data));
       yield put(setInitUrl("/app/monitoring"));
       localStorage.setItem("user_id", JSON.stringify(signInUser.data.data));
