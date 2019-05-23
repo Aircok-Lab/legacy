@@ -90,6 +90,7 @@ class Add extends Component {
   }
 
   render() {
+    const steps = JSON.parse(localStorage.getItem("steps"));
     return (
       <form className="text-blue w3-margin">
         <h2 className="text-center">측정기 등록</h2>
@@ -104,6 +105,11 @@ class Add extends Component {
                 : this.props.selectedNode.name}{" "}
               &nbsp;
             </div>
+            {steps && (
+              <div className="small">
+                건물목록에서 건물명을 선택할 수 있습니다.
+              </div>
+            )}
           </div>
         </div>
         <div className="w3-row w3-section">
@@ -117,6 +123,11 @@ class Add extends Component {
                 : ""}{" "}
               &nbsp;
             </div>
+            {steps && (
+              <div className="small">
+                건물목록에서 위치명을 선택할 수 있습니다.
+              </div>
+            )}
           </div>
         </div>
         <div className="w3-row w3-section">

@@ -45,6 +45,7 @@ class AddPosition extends Component {
     });
   };
   render() {
+    const steps = JSON.parse(localStorage.getItem("steps"));
     return (
       <form className="w3-text-blue w3-margin">
         {/* {JSON.stringify(this.props.selectedNode)} */}
@@ -58,6 +59,11 @@ class AddPosition extends Component {
               <div className="form-control" style={{ background: "#eee" }}>
                 {this.props.selectedNode && this.props.selectedNode.name} &nbsp;
               </div>
+              {steps && (
+                <div className="small">
+                  건물목록에서 건물명을 선택할 수 있습니다.
+                </div>
+              )}
             </div>
           </div>
 

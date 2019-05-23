@@ -107,7 +107,7 @@ class Add extends Component {
               className="form-control"
               name="password"
               value={this.state.postData.password}
-              type="text"
+              type="password"
               placeholder=""
               onChange={this.handleChange}
             />
