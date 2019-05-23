@@ -184,14 +184,10 @@ class Update extends Component {
             S/N
           </div>
           <div className="w3-rest">
-            <input
-              className="form-control"
-              name="serialNumber"
-              value={this.state.postData.serialNumber}
-              type="text"
-              placeholder=""
-              onChange={this.handleChange}
-            />
+            <div className="form-control" style={{ background: "#eee" }}>
+              {this.state.postData.serialNumber}
+              &nbsp;
+            </div>
           </div>
         </div>
         <div className="w3-row w3-section">
