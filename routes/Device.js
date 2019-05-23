@@ -401,7 +401,7 @@ router.delete("/deleteDevice", function(req, res, next) {
       //     });
       //   }
       // });
-      User.updateUserDeviceList(paramUserID, false, deviceList);
+      User.updateUserDeviceList(paramUserID, false, paramDeviceSerialNumber);
       User.getUserInfo(paramUserID, function(err, userInfo) {
         if (userInfo) {
           let userData = userPattern.deletePattern(userInfo);
