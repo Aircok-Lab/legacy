@@ -205,6 +205,7 @@ class BuildingPositionTree extends Component {
                     건물등록
                   </button>
                 )}
+
                 <button
                   className="btn btn-primary"
                   style={{ marginLeft: "2px" }}
@@ -212,7 +213,9 @@ class BuildingPositionTree extends Component {
                   disabled={
                     (this.props.selectedNode &&
                       this.props.selectedNode.buildingID) ||
-                    (this.props.selectedNode && !this.props.selectedNode.id)
+                    (this.props.selectedNode && !this.props.selectedNode.id) ||
+                    (this.props.selectedNode &&
+                      this.props.selectedNode.id === "null")
                   }
                 >
                   위치등록
@@ -233,6 +236,10 @@ class BuildingPositionTree extends Component {
                       className="btn btn-primary"
                       style={{ marginLeft: "2px" }}
                       onClick={this.openModal("updateBuilding")}
+                      disabled={
+                        this.props.selectedNode &&
+                        this.props.selectedNode.id === "null"
+                      }
                     >
                       수정
                     </button>
