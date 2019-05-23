@@ -111,42 +111,44 @@ var User = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var ids = positionId.split(",");
-      console.log(ids);
-      var queryString =
-        "select User.*, group_concat(distinct UserBuilding.buildingID) as buildingList, \
+      if (positionId) {
+        var ids = positionId.split(",");
+        console.log(ids);
+        var queryString =
+          "select User.*, group_concat(distinct UserBuilding.buildingID) as buildingList, \
         group_concat(distinct UserPosition.positionID) as positionList, \
         group_concat(distinct UserDevice.deviceID) as deviceList \
         from User, UserBuilding, UserPosition, UserDevice \
         where  (";
-      for (i in ids) {
-        let str = "UserPosition.positionID = " + ids[i];
-        queryString = queryString + str;
-        if (i < ids.length - 1) queryString = queryString + " or ";
-      }
-      queryString =
-        queryString +
-        ") and User.id = UserBuilding.userID and UserBuilding.userID = UserPosition.userID and UserBuilding.userID = UserDevice.userID \
+        for (i in ids) {
+          let str = "UserPosition.positionID = " + ids[i];
+          queryString = queryString + str;
+          if (i < ids.length - 1) queryString = queryString + " or ";
+        }
+        queryString =
+          queryString +
+          ") and User.id = UserBuilding.userID and UserBuilding.userID = UserPosition.userID and UserBuilding.userID = UserDevice.userID \
         group by User.id;";
 
-      // SQL문을 실행합니다.
-      var exec = conn.query(queryString, function(err, result) {
-        conn.release(); // 반드시 해제해야 합니다.
-        console.log("실행 대상 SQL : " + exec.sql);
+        // SQL문을 실행합니다.
+        var exec = conn.query(queryString, function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
 
-        if (err) {
-          console.log("SQL 실행 시 오류 발생함");
-          console.dir(err);
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
 
-          callback(err, null);
-          return;
-        }
-        var string = JSON.stringify(result);
-        var json = JSON.parse(string);
-        var usersByPositionId = json;
+            callback(err, null);
+            return;
+          }
+          var string = JSON.stringify(result);
+          var json = JSON.parse(string);
+          var usersByPositionId = json;
 
-        callback(null, usersByPositionId);
-      });
+          callback(null, usersByPositionId);
+        });
+      }
     });
   },
 
@@ -164,42 +166,44 @@ var User = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var ids = deviceList.split(",");
-      console.log(ids);
-      var queryString =
-        "select User.*, group_concat(distinct UserBuilding.buildingID) as buildingList, \
+      if (deviceList) {
+        var ids = deviceList.split(",");
+        console.log(ids);
+        var queryString =
+          "select User.*, group_concat(distinct UserBuilding.buildingID) as buildingList, \
         group_concat(distinct UserPosition.positionID) as positionList, \
         group_concat(distinct UserDevice.deviceID) as deviceList \
         from User, UserBuilding, UserPosition, UserDevice \
         where  (";
-      for (i in ids) {
-        let str = "UserDevice.deviceID = '" + ids[i] + "'";
-        queryString = queryString + str;
-        if (i < ids.length - 1) queryString = queryString + " or ";
-      }
-      queryString =
-        queryString +
-        ") and User.id = UserBuilding.userID and UserBuilding.userID = UserPosition.userID and UserBuilding.userID = UserDevice.userID \
+        for (i in ids) {
+          let str = "UserDevice.deviceID = '" + ids[i] + "'";
+          queryString = queryString + str;
+          if (i < ids.length - 1) queryString = queryString + " or ";
+        }
+        queryString =
+          queryString +
+          ") and User.id = UserBuilding.userID and UserBuilding.userID = UserPosition.userID and UserBuilding.userID = UserDevice.userID \
         group by User.id;";
 
-      // SQL문을 실행합니다.
-      var exec = conn.query(queryString, function(err, result) {
-        conn.release(); // 반드시 해제해야 합니다.
-        console.log("실행 대상 SQL : " + exec.sql);
+        // SQL문을 실행합니다.
+        var exec = conn.query(queryString, function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
 
-        if (err) {
-          console.log("SQL 실행 시 오류 발생함");
-          console.dir(err);
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
 
-          callback(err, null);
-          return;
-        }
-        var string = JSON.stringify(result);
-        var json = JSON.parse(string);
-        var usersByDeviceSN = json;
+            callback(err, null);
+            return;
+          }
+          var string = JSON.stringify(result);
+          var json = JSON.parse(string);
+          var usersByDeviceSN = json;
 
-        callback(null, usersByDeviceSN);
-      });
+          callback(null, usersByDeviceSN);
+        });
+      }
     });
   },
 
@@ -445,7 +449,7 @@ var User = {
           return;
         }
         // 데이터를 객체로 만듭니다.
-        if (buildingList !== null) {
+        if (buildingList) {
           var ids = buildingList.split(",");
           console.log(ids);
           for (i in ids) {
@@ -458,7 +462,7 @@ var User = {
           }
         }
 
-        if (positionList !== null) {
+        if (positionList) {
           ids = positionList.split(",");
           console.log(ids);
           for (i in ids) {
@@ -471,7 +475,7 @@ var User = {
           }
         }
 
-        if (deviceList !== null) {
+        if (deviceList) {
           ids = deviceList.split(",");
           console.log(ids);
           for (i in ids) {
@@ -594,9 +598,9 @@ var User = {
         email,
         department,
         userType,
-        buildingList,
-        positionList,
-        deviceList,
+        // buildingList,
+        // positionList,
+        // deviceList,
         userId
       ];
 
@@ -609,6 +613,7 @@ var User = {
           console.log("실행 대상 SQL : " + exec.sql);
 
           if (err) {
+            conn.release();
             console.log("SQL 실행 시 오류 발생함");
             console.dir(err);
 
@@ -622,11 +627,17 @@ var User = {
             "delete from UserPosition where userID = ?";
           var queryStringByDevice = "delete from UserDevice where userID = ?";
 
-          conn.query(queryStringByBuilding, userId);
-          conn.query(queryStringByPosition, userId);
-          conn.query(queryStringByDevice, userId);
+          conn.query(queryStringByBuilding, userId, function(err, result) {
+            if (err) console.log("delete Building error");
+          });
+          conn.query(queryStringByPosition, userId, function(err, result) {
+            if (err) console.log("delete Position error");
+          });
+          conn.query(queryStringByDevice, userId, function(err, result) {
+            if (err) console.log("delete Device error");
+          });
 
-          if (buildingList !== null) {
+          if (buildingList) {
             var ids = buildingList.split(",");
             console.log(ids);
             for (i in ids) {
@@ -634,12 +645,17 @@ var User = {
                 userID: userId,
                 buildingID: ids[i]
               };
-              conn.query("insert into UserBuilding set ?", data);
+              conn.query("insert into UserBuilding set ?", data, function(
+                err,
+                result
+              ) {
+                if (err) console.log("add Building error");
+              });
               // conn.release();
             }
           }
 
-          if (positionList !== null) {
+          if (positionList) {
             ids = positionList.split(",");
             console.log(ids);
             for (i in ids) {
@@ -647,12 +663,17 @@ var User = {
                 userID: userId,
                 positionID: ids[i]
               };
-              conn.query("insert into UserPosition set ?", data);
+              conn.query("insert into UserPosition set ?", data, function(
+                err,
+                result
+              ) {
+                if (err) console.log("add Position error");
+              });
               // conn.release();
             }
           }
 
-          if (deviceList !== null) {
+          if (deviceList) {
             ids = deviceList.split(",");
             console.log(ids);
             for (i in ids) {
@@ -660,9 +681,25 @@ var User = {
                 userID: userId,
                 deviceID: ids[i]
               };
-              conn.query("insert into UserDevice set ?", data);
+              conn.query("insert into UserDevice set ?", data, function(
+                err,
+                result
+              ) {
+                if (err) console.log("add Device error");
+              });
               // conn.release();
             }
+          } else {
+            var data = {
+              userID: userId,
+              deviceID: null
+            };
+            conn.query("insert into UserDevice set ?", data, function(
+              err,
+              result
+            ) {
+              if (err) console.log("add Device null error");
+            });
           }
           conn.release(); // 반드시 해제해야 합니다.
           var success = true;
@@ -901,31 +938,33 @@ var User = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // 데이터를 객체로 만듭니다.
-      var ids = userId.split(",");
-      console.log(ids);
-      var queryString = "Update User Set approval = true where ";
-      for (i in ids) {
-        let str = "id=" + ids[i];
-        queryString = queryString + str;
-        if (i < ids.length - 1) queryString = queryString + " or ";
-      }
-
-      // SQL문을 실행합니다.
-      var exec = conn.query(queryString, function(err, result) {
-        conn.release(); // 반드시 해제해야 합니다.
-        console.log("실행 대상 SQL : " + exec.sql);
-
-        if (err) {
-          console.log("SQL 실행 시 오류 발생함");
-          console.dir(err);
-
-          callback(err, null);
-          return;
+      if (userId) {
+        var ids = userId.split(",");
+        console.log(ids);
+        var queryString = "Update User Set approval = true where ";
+        for (i in ids) {
+          let str = "id=" + ids[i];
+          queryString = queryString + str;
+          if (i < ids.length - 1) queryString = queryString + " or ";
         }
-        var success = true;
 
-        callback(null, success);
-      });
+        // SQL문을 실행합니다.
+        var exec = conn.query(queryString, function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
+
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
+
+            callback(err, null);
+            return;
+          }
+          var success = true;
+
+          callback(null, success);
+        });
+      }
     });
   },
 
@@ -942,7 +981,7 @@ var User = {
       }
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-      if (userId !== null) {
+      if (userId) {
         var ids = userId.split(",");
         var queryStringByBuilding = "delete from UserBuilding where ";
         var queryStringByPosition = "delete from UserPosition where ";
@@ -966,32 +1005,34 @@ var User = {
       }
 
       // 데이터를 객체로 만듭니다.
-      var ids = userId.split(",");
-      console.log(ids);
-      var queryString = "delete from User where ";
-      for (i in ids) {
-        let str = "id=" + ids[i];
-        queryString = queryString + str;
-        if (i < ids.length - 1) queryString = queryString + " or ";
-      }
-
-      // SQL문을 실행합니다.
-      var exec = conn.query(queryString, function(err, result) {
-        conn.release(); // 반드시 해제해야 합니다.
-        console.log("실행 대상 SQL : " + exec.sql);
-
-        if (err) {
-          console.log("SQL 실행 시 오류 발생함");
-          console.dir(err);
-
-          callback(err, null);
-          return;
+      if (userId) {
+        var ids = userId.split(",");
+        console.log(ids);
+        var queryString = "delete from User where ";
+        for (i in ids) {
+          let str = "id=" + ids[i];
+          queryString = queryString + str;
+          if (i < ids.length - 1) queryString = queryString + " or ";
         }
 
-        var success = true;
+        // SQL문을 실행합니다.
+        var exec = conn.query(queryString, function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
 
-        callback(null, success);
-      });
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
+
+            callback(err, null);
+            return;
+          }
+
+          var success = true;
+
+          callback(null, success);
+        });
+      }
     });
   },
 
