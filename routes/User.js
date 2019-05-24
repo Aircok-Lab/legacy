@@ -70,6 +70,58 @@ router.post("/login", function(req, res, next) {
   });
 });
 
+router.post("/testLogin", function(req, res, next) {
+  console.log("/testLogin 호출됨.");
+  var paramLoginId = req.body.loginId || req.query.loginId;
+  var paramPassword = req.body.password || req.query.password;
+  var result = { statusCode: null, message: null, data: null };
+
+  if (!paramLoginId || !paramPassword) {
+    result.statusCode = FAIL;
+    result.message = "입력 값을 확인하세요";
+    res.send(result);
+    return;
+  }
+
+  console.log("요청 파라미터 : " + paramLoginId + "," + paramPassword);
+  User.loginUser(paramLoginId, paramPassword, function(err, loginUser) {
+    if (err) {
+      console.error("사용자 추가 중 오류 발생 :" + err.stack);
+      result.statusCode = FAIL;
+      result.message = "오류 발생";
+      res.send(result);
+      return;
+    }
+
+    //결과 객체 있으면 성공 응답 전송
+    if (loginUser) {
+      console.dir(loginUser);
+      if (loginUser.approval) {
+        res.cookie("user", {
+          loginId: loginUser.loginID,
+          name: loginUser.name,
+          authorized: true
+        });
+        var user = userPattern.deletePattern(loginUser);
+
+        result.statusCode = OK;
+        result.message = "성공";
+        result.data = user;
+
+        res.send(result);
+      } else {
+        result.statusCode = APPROVE;
+        result.message = "승인완료 후 로그인이 가능합니다.";
+        res.send(result);
+      }
+    } else {
+      result.statusCode = FAIL;
+      result.message = "실패";
+      res.send(result);
+    }
+  });
+});
+
 /*LOGOUT user */
 router.get("/logout", function(req, res, next) {
   console.log("/logout 호출됨.");
@@ -530,7 +582,7 @@ router.put("/updateUser", function(req, res, next) {
   var paramPositionList = req.body.positionList || req.query.positionList;
   var paramDeviceList = req.body.deviceList || req.query.deviceList;
   var result = { statusCode: null, message: null, data: null };
-  let password = privateKey.decrypt(paramPassword, "base64", "utf8");
+  let password = 'test123';//privateKey.decrypt(paramPassword, "base64", "utf8");
 
   paramBuildingList = userPattern.setBuildingListPattern(paramBuildingList);
   paramPositionList = userPattern.setPositionListPattern(paramPositionList);
