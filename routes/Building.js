@@ -65,18 +65,10 @@ router.post("/addBuilding", function(req, res, next) {
       if (addedBuilding) {
         console.dir(addedBuilding);
 
+        User.updateUserBuildingList(paramUserID, true, addedBuilding.insertId);
         User.getUserInfo(paramUserID, function(err, userInfo) {
-          if (err) {
-            console.error("층 추가 중 오류 발생 :" + err.stack);
-            return;
-          }
-
           if (userInfo) {
-            userInfo.buildingList =
-              userInfo.buildingList + addedBuilding.insertId + ",/";
-            User.updateUserBuildingList(paramUserID, userInfo.buildingList);
             let userData = userPattern.deletePattern(userInfo);
-            console.log("추가된 레코드의 아이디 : " + addedBuilding.insertId);
             result.statusCode = OK;
             result.message = "성공";
             result.data = userData;
@@ -248,24 +240,14 @@ router.delete("/deleteBuilding", function(req, res, next) {
         //결과 객체 있으면 성공 응답 전송
         if (success) {
           console.dir(success);
-
-          User.getUserByBuildingId(paramBuildingID, function(err, users) {
-            if (users) {
-              users.map(user => {
-                let delStr = "/" + paramBuildingID + ",/";
-                let inStr = "/";
-                let buildingList = user.buildingList.replace(delStr, inStr);
-
-                User.updateUserBuildingList(user.id, buildingList);
-                if (user.id == paramUserID) {
-                  user.buildingList = buildingList;
-                  let userData = userPattern.deletePattern(user);
-                  result.statusCode = OK;
-                  result.message = "성공";
-                  result.data = userData;
-                  res.send(result);
-                }
-              });
+          User.updateUserBuildingList(paramUserID, false, paramBuildingID);
+          User.getUserInfo(paramUserID, function(err, userInfo) {
+            if (userInfo) {
+              let userData = userPattern.deletePattern(userInfo);
+              result.statusCode = OK;
+              result.message = "성공";
+              result.data = userData;
+              res.send(result);
             }
           });
         }

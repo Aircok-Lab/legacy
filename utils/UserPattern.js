@@ -25,29 +25,29 @@ userPattern.deletePattern = function(userInfo) {
   delete userInfo.password;
   var insertStr = ",";
   var user = userInfo;
-  if (userInfo.buildingList) {
-    userInfo.buildingList = userInfo.buildingList.replace(/\,\//g, insertStr);
-    if (userInfo.buildingList.endsWith(","))
-      user.buildingList = userInfo.buildingList.slice(0, -1);
-    if (userInfo.buildingList.startsWith("/"))
-      user.buildingList = user.buildingList.substring(1);
-  }
+  // if (userInfo.buildingList) {
+  //   userInfo.buildingList = userInfo.buildingList.replace(/\,\//g, insertStr);
+  //   if (userInfo.buildingList.endsWith(","))
+  //     user.buildingList = userInfo.buildingList.slice(0, -1);
+  //   if (userInfo.buildingList.startsWith("/"))
+  //     user.buildingList = user.buildingList.substring(1);
+  // }
 
-  if (userInfo.positionList) {
-    userInfo.positionList = userInfo.positionList.replace(/\,\//g, insertStr);
-    if (userInfo.positionList.endsWith(","))
-      user.positionList = userInfo.positionList.slice(0, -1);
-    if (userInfo.positionList.startsWith("/"))
-      user.positionList = user.positionList.substring(1);
-  }
+  // if (userInfo.positionList) {
+  //   userInfo.positionList = userInfo.positionList.replace(/\,\//g, insertStr);
+  //   if (userInfo.positionList.endsWith(","))
+  //     user.positionList = userInfo.positionList.slice(0, -1);
+  //   if (userInfo.positionList.startsWith("/"))
+  //     user.positionList = user.positionList.substring(1);
+  // }
 
-  if (userInfo.deviceList) {
-    userInfo.deviceList = userInfo.deviceList.replace(/\,\//g, insertStr);
-    if (userInfo.deviceList.endsWith(","))
-      user.deviceList = userInfo.deviceList.slice(0, -1);
-    if (userInfo.deviceList.startsWith("/"))
-      user.deviceList = user.deviceList.substring(1);
-  }
+  // if (userInfo.deviceList) {
+  //   userInfo.deviceList = userInfo.deviceList.replace(/\,\//g, insertStr);
+  //   if (userInfo.deviceList.endsWith(","))
+  //     user.deviceList = userInfo.deviceList.slice(0, -1);
+  //   if (userInfo.deviceList.startsWith("/"))
+  //     user.deviceList = user.deviceList.substring(1);
+  // }
   return user;
 };
 
