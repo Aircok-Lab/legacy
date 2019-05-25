@@ -93,10 +93,14 @@ function* userUpdateWorker(action) {
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
       delete postData.password;
-      // if (postData.id === action.authUser.id) {
-      //   localStorage.setItem("user_id", JSON.stringify(postData));
-      //   yield put(userSignInSuccess(postData));
-      // }
+      console.log("userUpdate postData zzzzz", postData, action);
+      if (action.isAuthUser) {
+        localStorage.setItem("user_id", JSON.stringify(postData));
+        yield put(userSignInSuccess(postData));
+      }
+      // localStorage.setItem("user_id", JSON.stringify(postData));
+      // yield put(userSignInSuccess(postData));
+
       yield put({
         type: SET_VIEW_MODE,
         payload: "list"

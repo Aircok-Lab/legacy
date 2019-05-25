@@ -40,12 +40,11 @@ export const userAddRequest = payload => {
   };
 };
 
-export const userUpdateRequest = (payload, authUser, pkey) => {
+export const userUpdateRequest = (payload, isAuthUser) => {
   return {
     type: USER_UPDATE_REQUEST,
     payload,
-    authUser,
-    pkey
+    isAuthUser
   };
 };
 

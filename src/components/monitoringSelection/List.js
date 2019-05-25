@@ -13,11 +13,17 @@ class List extends React.Component {
       return device.isChecked;
     });
     const ids = selectedDevices.map(({ serialNumber }) => serialNumber);
-    let authUser = { ...this.props.authUser, deviceList: ids.join() };
-    this.props.userUpdateRequest(authUser);
+    let user = { ...this.props.authUser, deviceList: ids.join() };
+    this.props.userUpdateRequest(user, true);
   };
 
   componentDidMount() {
+    console.log(
+      "1111 comoponentDidMount",
+      this.props.authUser.positionList,
+      this.props.authUser.deviceList
+    );
+    this.setState({ deviceList: this.props.deviceList });
     this.props.deviceGetAllByPositionIdRequest({
       id: this.props.authUser.positionList,
       deviceList: this.props.authUser.deviceList
@@ -27,10 +33,16 @@ class List extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(
+      "2222 comoponentDidUpdate",
+      prevProps.deviceList,
+      this.props.deviceList
+    );
     if (
       JSON.stringify(prevProps.deviceList) !=
       JSON.stringify(this.props.deviceList)
     ) {
+      console.log("3333 setState.... ");
       this.setState({ deviceList: this.props.deviceList });
     }
   }
