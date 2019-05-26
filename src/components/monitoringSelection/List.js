@@ -49,26 +49,23 @@ class List extends React.Component {
 
   render() {
     return (
-      <div className="">
-        <div className="animated slideInUpTiny animation-duration-3">
-          <div className="clearfix pb-1">
-            <div className="float-left" />
-            <div className="float-right">
-              <button
-                className="btn btn-primary"
-                onClick={e => {
-                  this.update();
-                }}
-                style={{ marginLeft: "2px" }}
-                disabled={
-                  this.state.deviceList.filter(device => device.isChecked)
-                    .length == 0
-                }
-              >
-                모니터링 측정기 적용
-              </button>
-            </div>
-          </div>
+      <div className="h-100 d-flex flex-column">
+        <div className="text-right mt-2">
+          <button
+            className="btn btn-primary"
+            onClick={e => {
+              this.update();
+            }}
+            style={{ marginLeft: "2px" }}
+            disabled={
+              this.state.deviceList.filter(device => device.isChecked).length ==
+              0
+            }
+          >
+            모니터링 측정기 적용
+          </button>
+        </div>
+        <div className="flex-grow-1 overflow-auto">
           <table className="w3-table-all w3-centered">
             <thead>
               <tr>
@@ -126,6 +123,11 @@ class List extends React.Component {
                 ))}
             </tbody>
           </table>
+
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
       </div>
     );
