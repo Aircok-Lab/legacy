@@ -1,19 +1,6 @@
-// import React, { Component } from "react";
-// import List from "./List";
-
-// class Container extends React.Component {
-//   render() {
-//     return <List />;
-//   }
-// }
-
-// export default Container;
-
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import List from "./List";
-// import Add from "./Add";
-// import Update from "./Update";
 import { setViewMode } from "actions/Setting";
 
 class Container extends React.Component {

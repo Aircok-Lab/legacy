@@ -9,6 +9,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import { userSignOut } from "actions/Auth";
+import { selectTreeNode } from "actions/Tree";
+import { userLogout } from "actions/User";
 import {
   hideMessage,
   showAuthLoader,
@@ -25,6 +28,7 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
+    // this.handleLogout();
     this.props.publicKeyRequest();
   }
 
@@ -39,13 +43,21 @@ class Login extends React.Component {
     }
   }
 
+  handleLogout = () => {
+    this.props.userSignOut();
+    this.setState({ open: false });
+    this.props.selectTreeNode({});
+    localStorage.removeItem("selectedNode");
+  };
+
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
     localStorage.setItem("stayLogin", JSON.stringify(event.target.checked));
   };
 
   login(e) {
-    if (e.keyCode == 13) {
+    console.log("e.keyCode: ", e.keyCode);
+    if (e.keyCode === 13) {
       // this.props.showAuthLoader();
       this.props.userSignIn({
         loginId: this.state.loginId,
@@ -69,69 +81,69 @@ class Login extends React.Component {
             </div>
 
             <div className="app-login-form">
-              <form>
-                <fieldset>
-                  <TextField
-                    label="아이디"
-                    fullWidth
-                    onChange={event =>
-                      this.setState({ loginId: event.target.value })
-                    }
-                    defaultValue={loginId}
-                    margin="normal"
-                    className="mt-1 my-sm-3"
-                    onKeyDown={e => this.login(e)}
-                  />
-                  <TextField
-                    type="password"
-                    label="비밀번호"
-                    fullWidth
-                    onChange={event =>
-                      this.setState({ password: event.target.value })
-                    }
-                    defaultValue={password}
-                    margin="normal"
-                    className="mt-1 my-sm-3"
-                    onKeyDown={e => this.login(e)}
-                  />
+              {/* <form> */}
+              <fieldset>
+                <TextField
+                  label="아이디"
+                  fullWidth
+                  onChange={event =>
+                    this.setState({ loginId: event.target.value })
+                  }
+                  defaultValue={loginId}
+                  margin="normal"
+                  className="mt-1 my-sm-3"
+                  onKeyDown={e => this.login(e)}
+                />
+                <TextField
+                  type="password"
+                  label="비밀번호"
+                  fullWidth
+                  onChange={event =>
+                    this.setState({ password: event.target.value })
+                  }
+                  defaultValue={password}
+                  margin="normal"
+                  className="mt-1 my-sm-3"
+                  onKeyDown={e => this.login(e)}
+                />
 
-                  <div className="mb-3 d-flex align-items-center justify-content-between">
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            color="primary"
-                            checked={this.state.stayLogin}
-                            onChange={this.handleChange("stayLogin")}
-                            value="stayLogin"
-                          />
-                        }
-                        label="로그인 상태 유지"
-                      />
-                    </FormGroup>
-                  </div>
+                <div className="mb-3 d-flex align-items-center justify-content-between">
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          color="primary"
+                          checked={this.state.stayLogin}
+                          onChange={this.handleChange("stayLogin")}
+                          value="stayLogin"
+                        />
+                      }
+                      label="로그인 상태 유지"
+                    />
+                  </FormGroup>
+                </div>
 
-                  <div className="mb-3 d-flex align-items-center justify-content-between">
-                    <Button
-                      className="text-center btn-block"
-                      onClick={() => {
-                        // this.props.showAuthLoader();
-                        this.props.userSignIn({ loginId, password, pkey });
-                      }}
-                      variant="contained"
-                      color="primary"
-                    >
-                      로그인
-                    </Button>
-                  </div>
+                <div className="mb-3 d-flex align-items-center justify-content-between">
+                  <Button
+                    className="text-center btn-block"
+                    onClick={() => {
+                      // this.props.showAuthLoader();
+                      this.props.userSignIn({ loginId, password, pkey });
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    로그인
+                  </Button>
+                </div>
 
-                  <div className="row mb-3 d-flex align-items-center justify-content-between">
-                    <div className="col text-center">
-                      <Link to="/forgot">아이디/비밀번호 찾기</Link>
-                    </div>
+                <div className="row mb-3 d-flex align-items-center justify-content-between">
+                  <div className="col text-center">
+                    <Link to="/forgot">아이디/비밀번호 찾기</Link>
                   </div>
-                </fieldset>
-              </form>
+                </div>
+              </fieldset>
+              {/* </form> */}
             </div>
           </div>
         </div>
@@ -157,6 +169,9 @@ export default connect(
     userSignIn,
     hideMessage,
     showAuthLoader,
-    publicKeyRequest
+    publicKeyRequest,
+    userSignOut,
+    selectTreeNode,
+    userLogout
   }
 )(Login);
