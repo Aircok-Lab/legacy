@@ -28,36 +28,19 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
-    console.log("componentDidMount called")
     // this.handleLogout();
     this.props.publicKeyRequest();
-
-
   }
 
   componentDidUpdate() {
-    // console.log("componentDidUpdate....")
-    // if (this.props.showMessage) {
-    //   setTimeout(() => {
-    //     this.props.hideMessage();
-    //   }, 100);
-    // }
+    if (this.props.showMessage) {
+      setTimeout(() => {
+        this.props.hideMessage();
+      }, 100);
+    }
     if (this.props.authUser !== null) {
       this.props.history.push("/");
     }
-
-    console.log("componentDidUpdate called")
-    // if (window.history && window.history.pushState) {  
-    //   $(window).on('popstate', function() {        
-    //     alert('Back button was pressed.');
-    //   });
-    // }
-
-    // window.onpopstate  = (e) => {
-    //   console.log("componentDidUpdate - Back button clicked !!!")
-    // }
-
-
   }
 
   handleLogout = () => {
@@ -73,22 +56,15 @@ class Login extends React.Component {
   };
 
   login(e) {
-    // console.log("e.keyCode: ", e.keyCode, this.state.password);
-    // if (e.keyCode === 13) {
-    //   // this.props.showAuthLoader();
-    //   this.props.userSignIn({
-    //     loginId: this.state.loginId,
-    //     password: this.state.password,
-    //     pkey: this.props.pkey
-    //   });
-    // }
-
-    this.props.userSignIn({
-      loginId: this.state.loginId,
-      password: this.state.password,
-      pkey: this.props.pkey
-    });
-
+    console.log("e.keyCode: ", e.keyCode);
+    if (e.keyCode === 13) {
+      // this.props.showAuthLoader();
+      this.props.userSignIn({
+        loginId: this.state.loginId,
+        password: this.state.password,
+        pkey: this.props.pkey
+      });
+    }
   }
 
   render() {
@@ -105,7 +81,7 @@ class Login extends React.Component {
             </div>
 
             <div className="app-login-form">
-              <form>
+              {/* <form> */}
               <fieldset>
                 <TextField
                   label="아이디"
@@ -116,7 +92,7 @@ class Login extends React.Component {
                   defaultValue={loginId}
                   margin="normal"
                   className="mt-1 my-sm-3"
-                  // onKeyDown={e => this.login(e)}
+                  onKeyDown={e => this.login(e)}
                 />
                 <TextField
                   type="password"
@@ -128,7 +104,7 @@ class Login extends React.Component {
                   defaultValue={password}
                   margin="normal"
                   className="mt-1 my-sm-3"
-                  // onKeyDown={e => this.login(e)}
+                  onKeyDown={e => this.login(e)}
                 />
 
                 <div className="mb-3 d-flex align-items-center justify-content-between">
@@ -167,7 +143,7 @@ class Login extends React.Component {
                   </div>
                 </div>
               </fieldset>
-              </form>
+              {/* </form> */}
             </div>
           </div>
         </div>

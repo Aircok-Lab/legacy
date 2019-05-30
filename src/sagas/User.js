@@ -26,7 +26,13 @@ import toaster from "util/toaster";
 
 function* userListByBuildingIdWorker(action) {
   try {
-    const res = yield api.post(`user/getUserByBuildingId`, action.payload);
+    console.log("action.payload : ", action.payload);
+    let res;
+    if (action.payload.buildingID === "null") {
+      res = yield api.get(`user/etcUser`);
+    } else {
+      res = yield api.post(`user/getUserByBuildingId`, action.payload);
+    }
     if (responseDataProcess(res.data)) {
       yield put({
         type: USER_LIST_BY_BUILDING_ID_SUCCESS,
