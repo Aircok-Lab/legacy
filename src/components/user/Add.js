@@ -75,6 +75,7 @@ class Add extends Component {
   };
 
   componentDidMount() {
+    console.log("componentDidMount");
     this.props.productListRequest();
     this.props.positionClearChecked();
   }
