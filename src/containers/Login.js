@@ -38,10 +38,10 @@ class Login extends React.Component {
   }
 
   componentDidUpdate() {
-]    if (this.props.authUser !== null) {
+    if (this.props.authUser !== null) {
       this.props.history.push("/");
     }
- }
+  }
 
   handleLogout = () => {
     this.props.userSignOut();
