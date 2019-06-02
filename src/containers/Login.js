@@ -28,37 +28,20 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
-    console.log("componentDidMount called")
-    // this.handleLogout();
-    this.props.publicKeyRequest();
+    // browser backkey 일때 사용자정보 Clear
+    this.handleLogout();
 
-
+    // auth가 Clear되어 1초후 pkey를 가져온다.
+    setTimeout(() => {
+      this.props.publicKeyRequest();
+    }, 1000);
   }
 
   componentDidUpdate() {
-    // console.log("componentDidUpdate....")
-    // if (this.props.showMessage) {
-    //   setTimeout(() => {
-    //     this.props.hideMessage();
-    //   }, 100);
-    // }
-    if (this.props.authUser !== null) {
+]    if (this.props.authUser !== null) {
       this.props.history.push("/");
     }
-
-    console.log("componentDidUpdate called")
-    // if (window.history && window.history.pushState) {  
-    //   $(window).on('popstate', function() {        
-    //     alert('Back button was pressed.');
-    //   });
-    // }
-
-    // window.onpopstate  = (e) => {
-    //   console.log("componentDidUpdate - Back button clicked !!!")
-    // }
-
-
-  }
+ }
 
   handleLogout = () => {
     this.props.userSignOut();
@@ -73,22 +56,11 @@ class Login extends React.Component {
   };
 
   login(e) {
-    // console.log("e.keyCode: ", e.keyCode, this.state.password);
-    // if (e.keyCode === 13) {
-    //   // this.props.showAuthLoader();
-    //   this.props.userSignIn({
-    //     loginId: this.state.loginId,
-    //     password: this.state.password,
-    //     pkey: this.props.pkey
-    //   });
-    // }
-
     this.props.userSignIn({
       loginId: this.state.loginId,
       password: this.state.password,
       pkey: this.props.pkey
     });
-
   }
 
   render() {
@@ -106,67 +78,68 @@ class Login extends React.Component {
 
             <div className="app-login-form">
               <form>
-              <fieldset>
-                <TextField
-                  label="아이디"
-                  fullWidth
-                  onChange={event =>
-                    this.setState({ loginId: event.target.value })
-                  }
-                  defaultValue={loginId}
-                  margin="normal"
-                  className="mt-1 my-sm-3"
-                  // onKeyDown={e => this.login(e)}
-                />
-                <TextField
-                  type="password"
-                  label="비밀번호"
-                  fullWidth
-                  onChange={event =>
-                    this.setState({ password: event.target.value })
-                  }
-                  defaultValue={password}
-                  margin="normal"
-                  className="mt-1 my-sm-3"
-                  // onKeyDown={e => this.login(e)}
-                />
+                <fieldset>
+                  <TextField
+                    label="아이디"
+                    fullWidth
+                    onChange={event =>
+                      this.setState({ loginId: event.target.value })
+                    }
+                    defaultValue={loginId}
+                    margin="normal"
+                    className="mt-1 my-sm-3"
+                    // onKeyDown={e => this.login(e)}
+                  />
+                  <TextField
+                    type="password"
+                    label="비밀번호"
+                    fullWidth
+                    onChange={event =>
+                      this.setState({ password: event.target.value })
+                    }
+                    defaultValue={password}
+                    margin="normal"
+                    className="mt-1 my-sm-3"
+                    // onKeyDown={e => this.login(e)}
+                  />
 
-                <div className="mb-3 d-flex align-items-center justify-content-between">
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={this.state.stayLogin}
-                          onChange={this.handleChange("stayLogin")}
-                          value="stayLogin"
-                        />
-                      }
-                      label="로그인 상태 유지"
-                    />
-                  </FormGroup>
-                </div>
-
-                <div className="mb-3 d-flex align-items-center justify-content-between">
-                  <Button
-                    className="text-center btn-block"
-                    onClick={() => {
-                      // this.props.showAuthLoader();
-                      this.props.userSignIn({ loginId, password, pkey });
-                    }}
-                    variant="contained"
-                    color="primary"
-                  >
-                    로그인
-                  </Button>
-                </div>
-
-                <div className="row mb-3 d-flex align-items-center justify-content-between">
-                  <div className="col text-center">
-                    <Link to="/forgot">아이디/비밀번호 찾기</Link>
+                  <div className="mb-3 d-flex align-items-center justify-content-between">
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            color="primary"
+                            checked={this.state.stayLogin}
+                            onChange={this.handleChange("stayLogin")}
+                            value="stayLogin"
+                          />
+                        }
+                        label="로그인 상태 유지"
+                      />
+                    </FormGroup>
                   </div>
-                </div>
-              </fieldset>
+
+                  <div className="mb-3 d-flex align-items-center justify-content-between">
+                    <Button
+                      className="text-center btn-block"
+                      onClick={() => {
+                        // this.props.showAuthLoader();
+                        // this.props.userSignIn({ loginId, password, pkey });
+                        this.login();
+                      }}
+                      variant="contained"
+                      color="primary"
+                    >
+                      로그인
+                    </Button>
+                  </div>
+
+                  <div className="row mb-3 d-flex align-items-center justify-content-between">
+                    <div className="col text-center">
+                      <Link to="/forgot">아이디/비밀번호 찾기</Link>
+                    </div>
+                  </div>
+                </fieldset>
               </form>
             </div>
           </div>
@@ -176,7 +149,7 @@ class Login extends React.Component {
             <CircularProgress />
           </div>
         )}
-        {showMessage && console.log(alertMessage)}
+        {/* {showMessage && console.log(alertMessage)} */}
       </div>
     );
   }
