@@ -34,7 +34,9 @@ class SamplePage extends React.Component {
     this.handleSortingChange = this.handleSortingChange.bind(this);
     this.state = {
       uniqBuildingName: [],
-      sorting: "all"
+      sorting: "all",
+      height: window.innerHeight,
+      width: window.innerWidth
     };
   }
 
@@ -44,11 +46,18 @@ class SamplePage extends React.Component {
       this.pageScroll,
       this.props.data.scrollTime * 1000
     );
+    console.log(this.state.height);
+    console.log(this.state.width);
+    this.updateDimensions();
+
+    window.addEventListener("resize", this.updateDimensions.bind(this));
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalScrollHandle);
     clearInterval(this.loadDataintervalLoadDataHandle);
+
+    window.removeEventListener("resize", this.updateDimensions.bind(this));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,6 +78,15 @@ class SamplePage extends React.Component {
       console.log(uniqBuildingName);
       this.setState({ uniqBuildingName: uniqBuildingName });
     }
+  }
+
+  updateDimensions() {
+    this.setState({
+      height: window.innerHeight - 267,
+      width: window.innerWidth
+    });
+    console.log(window.innerHeight);
+    console.log(window.innerWidth);
   }
 
   handleSortingChange(event) {
@@ -114,10 +132,25 @@ class SamplePage extends React.Component {
       return classText;
     };
     return (
-      <div className="app-wrapper" style={{ overflowX: "auto" }}>
-        <div className="col-2 pl-0">
+      <div
+        className="app-wrapper"
+        style={{
+          //width: "2188px",
+          overflowX: "auto",
+          marginLeft: "auto",
+          marginRight: "auto"
+        }}
+      >
+        <div
+          className="col-2 pl-0"
+          style={{
+            maxWidth: "2140px",
+            marginLeft: "auto",
+            marginRight: "auto"
+          }}
+        >
           {this.state.uniqBuildingName.length ? (
-            <form>
+            <form style={{ width: "250px" }}>
               <select
                 className="form-control"
                 name="sorting"
@@ -136,9 +169,16 @@ class SamplePage extends React.Component {
             </form>
           ) : null}
         </div>
-        <table className="table table-fixed">
+        <table
+          className="table table-fixed"
+          style={{ marginLeft: "auto", marginRight: "auto" }}
+        >
           <MainTableHead />
-          <tbody id="contain" ref="contain">
+          <tbody
+            id="contain"
+            ref="contain"
+            style={{ width: "2140px", height: this.state.height }}
+          >
             {this.props.allRecentData &&
               this.props.allRecentData.map((contact, i) => {
                 if (
