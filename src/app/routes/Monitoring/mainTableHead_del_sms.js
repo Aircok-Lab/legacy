@@ -4,7 +4,6 @@ const mainTableHead = props => {
   const nameTabWidth = "170px";
   const indexTabWidth = "120px";
   const sensorTabWidth = "180px";
-  const smsTabWidth = "60px";
   return (
     <thead>
       <tr>
@@ -109,13 +108,6 @@ const mainTableHead = props => {
           일산화탄소(CO)
           <br />
           (㎍/㎥)
-        </th>
-        <th
-          className="table-header-row0-class"
-          rowSpan={2}
-          style={{ width: `${smsTabWidth}` }}
-        >
-          SMS
         </th>
       </tr>
       <tr className="table-header-row1-class">
