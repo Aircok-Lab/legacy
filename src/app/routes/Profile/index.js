@@ -6,7 +6,7 @@ const ProfilePage = () => {
   return (
     <div className="app-wrapper">
       <div className="row w3-white shadow-sm p-2 mb-3">
-        <h2 className="mb-0">프로파일 관리</h2>
+        <h2 className="mb-0">내 정보 관리</h2>
       </div>
       <div className="row">
         <div className="col-md-12">
