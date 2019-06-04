@@ -16,7 +16,10 @@ var RecentData = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       // SQL문을 실행합니다.
-      var exec = conn.query("Select * from RecentData where id=?", id, function(err, result) {
+      var exec = conn.query("Select * from RecentData where id=?", id, function(
+        err,
+        result
+      ) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
 
@@ -92,8 +95,10 @@ var RecentData = {
 
       var device = deviceSN.split(",");
       var queryString =
-        "select Building.name as buildingName , Position.name as positionName, Device.name as deviceName, Building.latitude as latitude, Building.longitude as longitude, RecentData.* from RecentData, Position, Building, Device\
-      where RecentData.deviceSN = Device.serialNumber and  Device.positionID = Position.id and Position.buildingID = Building.id and RecentData.deviceSN in( ";
+        "select Building.name as buildingName , Position.name as positionName, Device.name as deviceName, Building.latitude as latitude, Building.longitude as longitude, RecentData.*, \
+        Product.name as productName, Product.indoor, Product.pm25 as isPm25, Product.pm10 as isPm10, Product.co2 as isCo2, Product.hcho as isHcho, Product.voc as isVoc , Product.temperature as isTemp, Product.humidity as isHumi, Product.noise as isNoise, Product.co as isCo\
+        from RecentData, Position, Building, Device, Product\
+        where RecentData.deviceSN = Device.serialNumber and  Device.positionID = Position.id and Position.buildingID = Building.id and Device.productID = Product.id and  RecentData.deviceSN in( ";
       for (i in device) {
         let str = "'" + device[i] + "'";
         queryString = queryString + str + ",";
@@ -184,7 +189,10 @@ var RecentData = {
       };
 
       // SQL문을 실행합니다.
-      var exec = conn.query("insert into RecentData set ?", data, function(err, result) {
+      var exec = conn.query("insert into RecentData set ?", data, function(
+        err,
+        result
+      ) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
 
@@ -265,21 +273,25 @@ var RecentData = {
 
       var data = [value, deviceSN];
       // SQL문을 실행합니다.
-      var exec = conn.query("update RecentData set ? where deviceSN=?", data, function(err, result) {
-        conn.release(); // 반드시 해제해야 합니다.
-        console.log("실행 대상 SQL : " + exec.sql);
+      var exec = conn.query(
+        "update RecentData set ? where deviceSN=?",
+        data,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
 
-        if (err) {
-          console.log("SQL 실행 시 오류 발생함");
-          console.dir(err);
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
 
-          callback(err, null);
-          return;
+            callback(err, null);
+            return;
+          }
+          var success = true;
+
+          callback(null, success);
         }
-        var success = true;
-
-        callback(null, success);
-      });
+      );
     });
   },
   deleteRecentDataByID: function(dataId, callback) {
