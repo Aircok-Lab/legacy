@@ -89,14 +89,19 @@ class DetailPage extends React.Component {
     const contact = this.props.allRecentData[this.state.index];
 
     return (
-      <div className="h-100" style={{ overflow: "hidden" }}>
-        <div
-          className=""
-          style={{ background: "#e7ebee", width: "1920px", height: "1080px" }}
-        >
+      <div
+        className="h-100"
+        style={{
+          overflow: "hidden",
+          background: "#e7ebee",
+          width: "100%",
+          height: "1080px"
+        }}
+      >
+        <div>
           <div className="mt-3">
             <div className="card-deck mx-3 pb-3">
-              {contact ? (
+              {contact.indoor ? (
                 <SensorCard
                   title="통합공기질관리지수"
                   sensorData={contact.e3Score}
@@ -105,7 +110,7 @@ class DetailPage extends React.Component {
                   deviceList={contact.deviceSN}
                 />
               ) : null}
-              {contact ? (
+              {contact.isTemp ? (
                 <SensorCard
                   title="온도"
                   sensorData={contact.temperature}
@@ -114,7 +119,7 @@ class DetailPage extends React.Component {
                   deviceList={contact.deviceSN}
                 />
               ) : null}
-              {contact ? (
+              {contact.isHumi ? (
                 <SensorCard
                   title="습도"
                   sensorData={contact.humidity}
@@ -123,27 +128,7 @@ class DetailPage extends React.Component {
                   deviceList={contact.deviceSN}
                 />
               ) : null}
-              {contact ? (
-                <SensorCard
-                  title="미세먼지 (PM10)"
-                  sensorData={contact.pm10}
-                  sensorIndex={contact.pm10Index}
-                  sensorType="pm10"
-                  deviceList={contact.deviceSN}
-                />
-              ) : null}
-            </div>
-            <div className="card-deck mx-3 pb-3">
-              {contact ? (
-                <SensorCard
-                  title="초미세먼지 (PM2.5)"
-                  sensorData={contact.pm25}
-                  sensorIndex={contact.pm25Index}
-                  sensorType="pm25"
-                  deviceList={contact.deviceSN}
-                />
-              ) : null}
-              {contact ? (
+              {contact.isCo2 ? (
                 <SensorCard
                   title="이산화탄소 (CO2)"
                   sensorData={contact.co2}
@@ -152,7 +137,7 @@ class DetailPage extends React.Component {
                   deviceList={contact.deviceSN}
                 />
               ) : null}
-              {contact ? (
+              {contact.isHcho ? (
                 <SensorCard
                   title="포름알데히드 (HCHO)"
                   sensorData={contact.hcho}
@@ -161,7 +146,28 @@ class DetailPage extends React.Component {
                   deviceList={contact.deviceSN}
                 />
               ) : null}
-              {contact ? (
+            </div>
+
+            <div className="card-deck mx-3 pb-3" style={{ height: "33%" }}>
+              {contact.isPm10 ? (
+                <SensorCard
+                  title="미세먼지 (PM10)"
+                  sensorData={contact.pm10}
+                  sensorIndex={contact.pm10Index}
+                  sensorType="pm10"
+                  deviceList={contact.deviceSN}
+                />
+              ) : null}
+              {contact.isPm25 ? (
+                <SensorCard
+                  title="초미세먼지 (PM2.5)"
+                  sensorData={contact.pm25}
+                  sensorIndex={contact.pm25Index}
+                  sensorType="pm25"
+                  deviceList={contact.deviceSN}
+                />
+              ) : null}
+              {contact.isVoc ? (
                 <SensorCard
                   title="휘발성유기화합물 (VOCs)"
                   sensorData={contact.voc}
@@ -170,23 +176,40 @@ class DetailPage extends React.Component {
                   deviceList={contact.deviceSN}
                 />
               ) : null}
-            </div>
-          </div>
-          <div>
-            <div className="card-deck mx-3 mb-3">
-              {contact ? (
-                <DeviceInfo
-                  time={contact.date}
-                  buildingName={contact.buildingName}
-                  positionName={contact.positionName}
-                  deviceName={contact.deviceName}
-                  serialNumber={contact.deviceSN}
-                  outdoorDustData={this.props.outdoorDustData}
-                  outdoorWeatherData={this.props.outdoorWeatherData}
+              {contact.isNoise ? (
+                <SensorCard
+                  title="소음"
+                  sensorData={contact.noise}
+                  sensorIndex={contact.noiseIndex}
+                  sensorType="noise"
+                  deviceList={contact.deviceSN}
                 />
               ) : null}
-              {contact ? <AdviceInfo deviceData={contact} /> : null}
+              {contact.isCo ? (
+                <SensorCard
+                  title="일산화탄소 (CO)"
+                  sensorData={contact.co}
+                  sensorIndex={contact.coIndex}
+                  sensorType="co"
+                  deviceList={contact.deviceSN}
+                />
+              ) : null}
             </div>
+          </div>
+
+          <div className="card-deck mx-3 mb-3">
+            {contact ? (
+              <DeviceInfo
+                time={contact.date}
+                buildingName={contact.buildingName}
+                positionName={contact.positionName}
+                deviceName={contact.deviceName}
+                serialNumber={contact.deviceSN}
+                outdoorDustData={this.props.outdoorDustData}
+                outdoorWeatherData={this.props.outdoorWeatherData}
+              />
+            ) : null}
+            {contact ? <AdviceInfo deviceData={contact} /> : null}
           </div>
         </div>
       </div>

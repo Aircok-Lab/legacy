@@ -17,7 +17,8 @@ const unitType = {
   co2: "ppm",
   hcho: "㎍/㎥",
   voc: "ppb",
-  noise: "db"
+  noise: "db",
+  co: "㎍/㎥"
 };
 
 const getClassText = grade => {
@@ -64,7 +65,7 @@ class SensorCard extends React.Component {
           style={{
             borderBottomLeftRadius: "10px",
             borderBottomRightRadius: "10px",
-            padding: "28px"
+            padding: "20px"
           }}
         >
           <div className="row align-items-center">
@@ -78,7 +79,7 @@ class SensorCard extends React.Component {
             <div className="d-inline" style={{ width: "50%" }}>
               <div
                 className="text-white font-weight-bold"
-                style={{ fontSize: "3.6em" }}
+                style={{ fontSize: "3.2em" }}
               >
                 {qualityType[`${sensorIndex}`]}
               </div>
@@ -87,7 +88,7 @@ class SensorCard extends React.Component {
                 style={{ fontSize: "3.2em" }}
               >
                 {sensorData}
-                <span style={{ fontSize: "1em" }}>
+                <span style={{ fontSize: "0.8em" }}>
                   {unitType[`${sensorType}`]}
                 </span>
               </div>
