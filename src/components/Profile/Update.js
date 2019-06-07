@@ -129,7 +129,7 @@ class Update extends Component {
     return (
       <div className="">
         <form className="text-blue w3-margin">
-          <h2 className="text-center">프로파일 수정</h2>
+          <h2 className="text-center">내 정보 수정</h2>
           <div className="w3-row w3-section">
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               아이디
