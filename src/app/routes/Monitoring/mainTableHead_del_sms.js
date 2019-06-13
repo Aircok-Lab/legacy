@@ -107,7 +107,7 @@ const mainTableHead = props => {
         >
           일산화탄소(CO)
           <br />
-          (㎍/㎥)
+          (ppb)
         </th>
       </tr>
       <tr className="table-header-row1-class">

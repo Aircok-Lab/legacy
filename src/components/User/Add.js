@@ -38,6 +38,8 @@ class Add extends Component {
       alert("사용자이름을 입력하세요");
     } else if (!this.state.postData.password) {
       alert("암호를 입력하세요");
+    } else if (this.state.postData.password.length < 8) {
+      alert("암호를 8자 이상 입력하세요");
     } else if (!this.state.postData.email) {
       alert("이메일을 입력하세요");
     } else if (!this.state.postData.department) {

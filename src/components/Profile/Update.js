@@ -63,13 +63,19 @@ class Update extends Component {
   };
 
   changePassword = () => {
-    const data = {
-      id: this.state.postData.id,
-      oldPassword: this.state.postData.oldPassword,
-      newPassword: this.state.postData.newPassword,
-      pkey: this.props.pkey
-    };
-    this.props.userChangePasswordRequest(data);
+    if (!this.state.postData.newPassword) {
+      alert("암호를 입력하세요");
+    } else if (this.state.postData.newPassword.length < 8) {
+      alert("암호를 8자 이상 입력하세요");
+    } else {
+      const data = {
+        id: this.state.postData.id,
+        oldPassword: this.state.postData.oldPassword,
+        newPassword: this.state.postData.newPassword,
+        pkey: this.props.pkey
+      };
+      this.props.userChangePasswordRequest(data);
+    }
   };
 
   update = () => {

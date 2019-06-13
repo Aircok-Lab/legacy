@@ -155,7 +155,7 @@ class Update extends Component {
             <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
               이메일
             </div>
-            <div className="w3-rest">
+            {/* <div className="w3-rest">
               <input
                 className="form-control"
                 name="email"
@@ -164,6 +164,11 @@ class Update extends Component {
                 placeholder=""
                 onChange={this.handleChange}
               />
+            </div> */}
+            <div className="w3-rest">
+              <div className="form-control" style={{ background: "#eee" }}>
+                {this.state.postData.email}
+              </div>
             </div>
           </div>
           <div className="w3-row w3-section">
