@@ -589,7 +589,7 @@ router.put("/updateUser", function(req, res, next) {
   var paramPositionList = req.body.positionList || req.query.positionList;
   var paramDeviceList = req.body.deviceList || req.query.deviceList;
   var result = { statusCode: null, message: null, data: null };
-  let password = 'test123';//privateKey.decrypt(paramPassword, "base64", "utf8");
+  let password = privateKey.decrypt(paramPassword, "base64", "utf8");
 
   console.log(
     "요청 파라미터 : " +
@@ -777,7 +777,7 @@ router.get("/etcUser", function(req, res, next) {
   console.log("/etcUser 호출됨.");
 
   var result = { statusCode: null, message: null, data: null };
-  
+
   User.etcUser(function(err, success) {
     if (err) {
       console.error("사용자 분류 중 오류 발생 :" + err.stack);

@@ -417,26 +417,29 @@ var User = {
       }
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
-      // 데이터를 객체로 만듭니다.
-      var data = {
-        loginID: loginId,
-        name: name,
-        password: password,
-        email: email,
-        department: department,
-        approval: approval,
-        userType: userType,
-        phone: phone
-        // buildingList: buildingList,
-        // positionList: positionList,
-        // deviceList: deviceList
-      };
+      var queryString =
+        "insert into User(loginID, name, password, email, department, approval, userType, phone) values('" +
+        loginId +
+        "','" +
+        name +
+        "'," +
+        "AES_ENCRYPT('" +
+        password +
+        "',SHA2('key',512))" +
+        ",'" +
+        email +
+        "','" +
+        department +
+        "'," +
+        approval +
+        ",'" +
+        userType +
+        "','" +
+        phone +
+        "')";
 
       // SQL문을 실행합니다.
-      var exec = conn.query("insert into User set ?", data, function(
-        err,
-        result
-      ) {
+      var exec = conn.query(queryString, function(err, result) {
         //conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 SQL : " + exec.sql);
 
@@ -483,18 +486,29 @@ var User = {
               userID: result.insertId,
               deviceID: ids[i]
             };
-            conn.query("insert into UserDevice set ?", data);
-            // conn.release();
+            conn.query("insert into UserDevice set ?", data, function(
+              err,
+              result
+            ) {
+              if (ids.length - 1 == i) {
+                console.log("release i : " + i);
+                conn.release();
+              }
+            });
           }
         } else {
           var data = {
             userID: result.insertId,
             deviceID: null
           };
-          conn.query("insert into UserDevice set ?", data);
-          // conn.release();
+          conn.query("insert into UserDevice set ?", data, function(
+            err,
+            result
+          ) {
+            conn.release();
+          });
         }
-        conn.release();
+
         callback(null, result);
       });
     });
@@ -526,7 +540,6 @@ var User = {
         return;
       }
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
-
       // 데이터를 객체로 만듭니다.
       // TODO: Approval을 임시로 true 로 설정했습니다.
       var data = [
@@ -545,7 +558,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set name=?, password=?, email=?, department=?, approval=?, userType=?, phone=? where id=?",
+        "update User set name=?, password=AES_ENCRYPT(?,SHA2('key',512)), email=?, department=?, approval=?, userType=?, phone=? where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -741,7 +754,7 @@ var User = {
           var string = JSON.stringify(result);
           var json = JSON.parse(string);
           var success = json;
-          
+
           callback(null, success);
         }
       );
@@ -936,7 +949,9 @@ var User = {
         group_concat(distinct UserDevice.deviceID) as deviceList \
         from User, UserBuilding, UserPosition, UserDevice";
       queryString =
-        queryString + " where User.loginID = ?" + " and User.password = ?";
+        queryString +
+        " where User.loginID = ?" +
+        " and User.password = AES_ENCRYPT(?, SHA2('key', 512))";
       queryString =
         queryString +
         " and User.id = UserBuilding.userID and User.id = UserPosition.userID and \
@@ -1129,7 +1144,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "select password from User where id=?",
+        "select CONVERT(AES_DECRYPT(`password`,SHA2('key',512)) using utf8) password  from User where id = ?",
         id,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
@@ -1143,6 +1158,7 @@ var User = {
             return;
           }
           console.dir(result);
+          console.dir(oldPassword);
           var success = false;
           if (result[0].password === oldPassword) {
             success = true;
@@ -1171,7 +1187,7 @@ var User = {
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update User set password=? where id=?",
+        "update User set password=AES_ENCRYPT(?,SHA2('key',512)) where id=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
