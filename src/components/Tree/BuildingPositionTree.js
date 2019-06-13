@@ -37,6 +37,7 @@ Modal.setAppElement("#body");
 
 class BuildingPositionTree extends Component {
   state = {
+    forceUpdate: true,
     // showModal: false,
     // modalMode: "addBuilding",
     modalMode: "updateBuilding",
@@ -44,7 +45,15 @@ class BuildingPositionTree extends Component {
     // selectedNodeId: "31-25"
     selectedNode: {},
     deviceList: [],
-    expandedNodes: []
+    expandedNodes: [],
+    buildingList: this.props.buildingList,
+    positionList: this.props.positionList,
+    arrList: [
+      {"id":386,"name":"a연습1","position":"1","buildingID":476, "checked": true},
+      {"id":387,"name":"a연습2","position":"1","buildingID":476, "checked": false},
+      {"id":393,"name":"a연습3","position":"1","buildingID":476, "checked": true},
+      {"id":399,"name":"a테스트1","position":"1","buildingID":496, "checked": false},
+      {"id":400,"name":"a테스트2","position":"1","buildingID":496, "checked": false}]
   };
   componentDidMount() {
     const steps = JSON.parse(localStorage.getItem("steps"));
@@ -98,9 +107,34 @@ class BuildingPositionTree extends Component {
         id: this.props.authUser.positionList
       });
     }
+    this.props.selectedItem && console.log("CDU positionList", this.props.selectedItem.positionList)
+    
+
+    if (this.props.selectedItem && prevProps.selectedItem && prevProps.selectedItem.positionList !== this.props.selectedItem.positionList) {
+      console.log("force render", this.props.selectedItem.positionList);
+      let positionList = JSON.parse(JSON.stringify(this.props.positionList))
+      let positions = this.props.selectedItem.positionList.split(",");
+      positionList.map(p => {
+        if (positions.indexOf(""+p.id) > -1) {
+          p.checked = true;
+          return p;
+        } else {
+          p.checked = false;
+          return p;
+        }
+
+      })
+
+      console.log("positionList :::: ", positionList);
+      this.setState({buildingList: this.props.buildingList});
+      this.setState({positionList: positionList});
+      this.setState({forceUpdate: true});
+    }
+
   }
 
   static getDerivedStateFromProps(props, state) {
+    props.selectedItem && console.log("GDS positionList", props.selectedItem.positionList)
     let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
     if (arrayNodes && props.buildingList) {
       const expandedObjects = props.buildingList.filter(building => {
@@ -158,6 +192,49 @@ class BuildingPositionTree extends Component {
     this.props.positionToggleChecked(item);
   };
 
+  // handleCheckboxChange = 
+  handleCheckboxChange = (event) => {
+    console.log(event.target.value);
+    
+    
+    let positionList = JSON.parse(JSON.stringify(this.state.positionList)) // state를 읽어와야 한다.
+    // let positions = this.props.selectedItem.positionList.split(",");
+    positionList.map(p => {
+      console.log(p.id, p.checked, event.target.checked);
+      if (event.target.value === ""+p.id) {
+        // console.log(p.checked);
+        // p.checked = (event.target.checked === 'true') ? true : false;
+
+        p.checked = event.target.checked;
+      }
+      // console.log(p);
+      // return p;
+    })
+
+    this.setState({positionList: positionList});
+
+
+    // const target = event.target;
+    // const value = target.type === 'checkbox' ? target.checked : target.value;
+    // const name = target.name;
+
+    // this.setState({
+    //   [name]: value
+    // });
+  }
+  handleCheckboxChangeArr = (event) => {
+    console.log(event.target.value);
+    let arrList = JSON.parse(JSON.stringify(this.state.arrList))
+    arrList.map(p => {
+      // console.log(p.id, p.checked, event.target.checked);
+      if (event.target.value === ""+p.id) {
+        p.checked = event.target.checked;
+      }
+    })
+
+    this.setState({arrList: arrList});
+  }
+
   render() {
     // 중요 : Spread Operator는 Sharrow Copy만 하므로 JSON.stringify로 Deep Clone 해야 합니다.
     // let buildingPositionList = [...this.props.buildingList];
@@ -166,18 +243,18 @@ class BuildingPositionTree extends Component {
 
     let buildingPositionList = null;
     if (steps) {
-      buildingPositionList = this.props.buildingList.filter(building => {
+      buildingPositionList = this.state.buildingList.filter(building => {
         return steps.prevBuildingList.indexOf("" + building.id) === -1;
       });
     } else {
-      // filterOutList = this.props.buildingList;
+      // filterOutList = this.state.buildingList;
       buildingPositionList = JSON.parse(
-        JSON.stringify(this.props.buildingList)
+        JSON.stringify(this.state.buildingList)
       );
     }
 
     buildingPositionList.map(building => {
-      let positions = this.props.positionList.filter(
+      let positions = this.state.positionList.filter(
         position => position.buildingID == building.id
       );
       if (positions.length) {
@@ -189,10 +266,15 @@ class BuildingPositionTree extends Component {
         building.positions = positions;
       }
     });
+    // console.log("buildingPositionList", buildingPositionList);
+    // this.state.selectedItem && console.log("this.state.selectedItem.positionList", this.state.selectedItem.positionList)
 
     return (
       <React.Fragment>
         <div className="flex-shrink-0 pt-2">
+          {/* <div>this.props.buildingList { JSON.stringify(this.state.buildingList) }</div>
+          <div>this.props.positionList { JSON.stringify(this.state.positionList) }</div> */}
+          {this.state.arrList.map(position => (<div><input type="checkbox" value={position.id} checked={position.checked} onChange={this.handleCheckboxChangeArr}/>{position.name}</div>))}
           <div className="clearfix">
             {!this.props.hideButton && (
               <div className="float-right">
@@ -310,24 +392,27 @@ class BuildingPositionTree extends Component {
                         className="font-weight-light font-italic w3-border-0 w3-padding-left"
                         onClick={e => this.nodeClick(position)}
                       >
+                          
                         {this.props.checkable && (
-                          <input
-                            type="checkbox"
-                            checked={position.isChecked}
-                            value={position.id}
-                            defaultChecked={
-                              this.props.selectedItem &&
-                              this.props.selectedItem.positionList.indexOf(
-                                "" + position.id
-                              ) > -1
-                                ? true
-                                : false
-                            }
-                            onClick={e => {
-                              e.stopPropagation();
-                              this.toggleChecked(position);
-                            }}
-                          />
+                          <input type="checkbox" value={position.id} checked={position.checked} onChange={this.handleCheckboxChange}/>
+                          // <input type="checkbox" checked={position.checked} />
+                          // <input
+                          //   type="checkbox"
+                          //   checked={position.isChecked}
+                          //   value={position.id}
+                          //   defaultChecked={
+                          //     this.props.selectedItem &&
+                          //     this.props.selectedItem.positionList.indexOf(
+                          //       "" + position.id
+                          //     ) > -1
+                          //       ? true
+                          //       : false
+                          //   }
+                          //   onClick={e => {
+                          //     e.stopPropagation();
+                          //     this.toggleChecked(position);
+                          //   }}
+                          // />
                         )}
                         {position.name}
                       </li>
