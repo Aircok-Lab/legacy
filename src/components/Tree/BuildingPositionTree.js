@@ -36,25 +36,52 @@ const customStyles = {
 Modal.setAppElement("#body");
 
 class BuildingPositionTree extends Component {
-  state = {
-    forceUpdate: true,
-    // showModal: false,
-    // modalMode: "addBuilding",
-    modalMode: "updateBuilding",
-    selectedNodeId: "",
-    // selectedNodeId: "31-25"
-    selectedNode: {},
-    deviceList: [],
-    expandedNodes: [],
-    buildingList: this.props.buildingList,
-    positionList: this.props.positionList,
-    arrList: [
-      {"id":386,"name":"a연습1","position":"1","buildingID":476, "checked": true},
-      {"id":387,"name":"a연습2","position":"1","buildingID":476, "checked": false},
-      {"id":393,"name":"a연습3","position":"1","buildingID":476, "checked": true},
-      {"id":399,"name":"a테스트1","position":"1","buildingID":496, "checked": false},
-      {"id":400,"name":"a테스트2","position":"1","buildingID":496, "checked": false}]
-  };
+  // state = {
+  //   forceUpdate: true,
+  //   // showModal: false,
+  //   // modalMode: "addBuilding",
+  //   modalMode: "updateBuilding",
+  //   selectedNodeId: "",
+  //   // selectedNodeId: "31-25"
+  //   selectedNode: {},
+  //   deviceList: [],
+  //   expandedNodes: [],
+  //   buildingList: this.props.buildingList,
+  //   positionList: this.props.positionList,
+  //   arrList: [
+  //     {"id":386,"name":"a연습1","position":"1","buildingID":476, "checked": true},
+  //     {"id":387,"name":"a연습2","position":"1","buildingID":476, "checked": false},
+  //     {"id":393,"name":"a연습3","position":"1","buildingID":476, "checked": true},
+  //     {"id":399,"name":"a테스트1","position":"1","buildingID":496, "checked": false},
+  //     {"id":400,"name":"a테스트2","position":"1","buildingID":496, "checked": false}]
+  // };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      updateCount: 0,
+      forceUpdate: true,
+      // showModal: false,
+      // modalMode: "addBuilding",
+      modalMode: "updateBuilding",
+      selectedNodeId: "",
+      // selectedNodeId: "31-25"
+      selectedNode: {},
+      deviceList: [],
+      expandedNodes: [],
+      buildingList: props.buildingList,
+      positionList: props.positionList,
+      arrList: [
+        {"id":386,"name":"a연습1","position":"1","buildingID":476, "checked": true},
+        {"id":387,"name":"a연습2","position":"1","buildingID":476, "checked": false},
+        {"id":393,"name":"a연습3","position":"1","buildingID":476, "checked": true},
+        {"id":399,"name":"a테스트1","position":"1","buildingID":496, "checked": false},
+        {"id":400,"name":"a테스트2","position":"1","buildingID":496, "checked": false}]
+      };
+  }  
+  
+
   componentDidMount() {
     const steps = JSON.parse(localStorage.getItem("steps"));
     this.props.buildingListRequest({
@@ -74,19 +101,22 @@ class BuildingPositionTree extends Component {
       id: "" + this.props.authUser.positionList
     });
     const selectedNode = JSON.parse(localStorage.getItem("selectedNode"));
-    console.log("7777", steps, selectedNode);
     if (steps) {
       if (steps.step != 4) {
-        console.log("888");
         this.nodeClick(selectedNode);
       }
     } else {
-      console.log("999");
       this.nodeClick(selectedNode);
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    // console.log("update", prevProps.buildingList, prevState.buildingList);
+    // if (prevProps.buildingList != prevState.buildingList) {
+    //   this.setState({})
+    // }
+
+
     if (!prevState.selectedNode.id && prevProps.buildingList.length) {
       const selectedNode = prevProps.buildingList[0];
       this.setState({ selectedNode }, () => {
@@ -107,44 +137,58 @@ class BuildingPositionTree extends Component {
         id: this.props.authUser.positionList
       });
     }
-    this.props.selectedItem && console.log("CDU positionList", this.props.selectedItem.positionList)
     
-
-    if (this.props.selectedItem && prevProps.selectedItem && prevProps.selectedItem.positionList !== this.props.selectedItem.positionList) {
-      console.log("force render", this.props.selectedItem.positionList);
-      let positionList = JSON.parse(JSON.stringify(this.props.positionList))
-      let positions = this.props.selectedItem.positionList.split(",");
-      positionList.map(p => {
-        if (positions.indexOf(""+p.id) > -1) {
-          p.checked = true;
-          return p;
-        } else {
-          p.checked = false;
-          return p;
-        }
-
-      })
-
-      console.log("positionList :::: ", positionList);
-      this.setState({buildingList: this.props.buildingList});
-      this.setState({positionList: positionList});
-      this.setState({forceUpdate: true});
-    }
 
   }
 
   static getDerivedStateFromProps(props, state) {
-    props.selectedItem && console.log("GDS positionList", props.selectedItem.positionList)
+    console.log("state.updateCount", state.updateCount);
+    // if (state.updateCount > 1) {
+    //   return null;
+    // }
+    let update = {};
+
     let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
     if (arrayNodes && props.buildingList) {
       const expandedObjects = props.buildingList.filter(building => {
         return arrayNodes.indexOf(building.id) > -1;
       });
       const expandedNodes = expandedObjects.map(building => building.id);
-      return {
-        expandedNodes
-      };
+      update.expandedNodes = expandedNodes;
     }
+
+    if (props.buildingList !== state.buildingList) {
+        update.buildingList = props.buildingList;
+    }
+
+
+    
+
+
+    if (props.positionList) {
+      let positionList;
+      if (props.selectedItem && props.selectedItem.positionList) {
+        console.log("333333", props.selectedItem.positionList);
+        positionList = JSON.parse(JSON.stringify(props.positionList))
+        let positions = props.selectedItem.positionList.split(",");
+        positionList.map(p => {
+          if (positions.indexOf(""+p.id) > -1) {
+            p.checked = true;
+            return p;
+          } else {
+            p.checked = false;
+            return p;
+          }
+        })
+        update.updateCount = state.updateCount + 1;
+        update.positionList = positionList;
+      } else {
+        update.positionList = props.positionList;
+      }
+      
+    }
+
+    return update;    
   }
 
   openModal = modalMode => e => {
@@ -197,21 +241,21 @@ class BuildingPositionTree extends Component {
     console.log(event.target.value);
     
     
-    let positionList = JSON.parse(JSON.stringify(this.state.positionList)) // state를 읽어와야 한다.
-    // let positions = this.props.selectedItem.positionList.split(",");
-    positionList.map(p => {
-      console.log(p.id, p.checked, event.target.checked);
-      if (event.target.value === ""+p.id) {
-        // console.log(p.checked);
-        // p.checked = (event.target.checked === 'true') ? true : false;
+    // let positionList = JSON.parse(JSON.stringify(this.state.positionList)) // state를 읽어와야 한다.
+    // // let positions = this.props.selectedItem.positionList.split(",");
+    // positionList.map(p => {
+    //   console.log(p.id, p.checked, event.target.checked);
+    //   if (event.target.value === ""+p.id) {
+    //     // console.log(p.checked);
+    //     // p.checked = (event.target.checked === 'true') ? true : false;
 
-        p.checked = event.target.checked;
-      }
-      // console.log(p);
-      // return p;
-    })
+    //     p.checked = event.target.checked;
+    //   }
+    //   // console.log(p);
+    //   // return p;
+    // })
 
-    this.setState({positionList: positionList});
+    // this.setState({positionList: positionList});
 
 
     // const target = event.target;
@@ -272,9 +316,9 @@ class BuildingPositionTree extends Component {
     return (
       <React.Fragment>
         <div className="flex-shrink-0 pt-2">
-          {/* <div>this.props.buildingList { JSON.stringify(this.state.buildingList) }</div>
-          <div>this.props.positionList { JSON.stringify(this.state.positionList) }</div> */}
-          {this.state.arrList.map(position => (<div><input type="checkbox" value={position.id} checked={position.checked} onChange={this.handleCheckboxChangeArr}/>{position.name}</div>))}
+          {/* <div>this.state.buildingList { JSON.stringify(this.state.buildingList) }</div>
+          <div>this.state.positionList { JSON.stringify(this.state.positionList) }</div> */}
+          {/* {this.state.arrList.map(position => (<div key={position.id}><input type="checkbox" value={position.id} checked={position.checked} onChange={this.handleCheckboxChangeArr}/>{position.name}</div>))} */}
           <div className="clearfix">
             {!this.props.hideButton && (
               <div className="float-right">
@@ -394,6 +438,7 @@ class BuildingPositionTree extends Component {
                       >
                           
                         {this.props.checkable && (
+                          // <input type="checkbox" value={position.id} defaultChecked={position.checked} onChange={this.handleCheckboxChange}/>
                           <input type="checkbox" value={position.id} checked={position.checked} onChange={this.handleCheckboxChange}/>
                           // <input type="checkbox" checked={position.checked} />
                           // <input

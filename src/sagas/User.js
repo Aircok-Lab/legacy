@@ -15,7 +15,8 @@ import {
   USER_CHANGE_PASSWORD_REQUEST,
   USER_CHANGE_PASSWORD_SUCCESS,
   USER_FIND_USER_REQUEST,
-  USER_FIND_PASSWORD_REQUEST
+  USER_FIND_PASSWORD_REQUEST,
+  USER_INFO_REQUEST
 } from "constants/ActionTypes";
 import forge from "node-forge";
 import api from "api";
@@ -23,6 +24,7 @@ import { userSignInSuccess } from "actions/Auth";
 import { setShowModal } from "actions/Setting";
 import responseDataProcess from "util/responseDataProcess";
 import toaster from "util/toaster";
+import { setViewMode } from "actions/Setting";
 
 function* userListByBuildingIdWorker(action) {
   try {
@@ -252,6 +254,25 @@ export function* userFindPasswordWatcher() {
   yield takeEvery(USER_FIND_PASSWORD_REQUEST, userFindPasswordWorker);
 }
 
+function* userInfoWorker(action) {
+  try {
+    console.log("action...", action)
+    const res = yield api.get(`user/getUserInfo?id=${action.payload}`);
+    if (responseDataProcess(res.data)) {
+      // alert(res.data.message);
+      // setViewMode("update", res.data.data);
+      yield put(setViewMode("update", res.data.data));
+    }
+    console.log("getUserInfo success.. ", res.data);
+    //yield put(push("/login"));
+  } catch (error) {
+    console.log("[ERROR#####]", error);
+  }
+}
+export function* userInfoWatcher() {
+  yield takeEvery(USER_INFO_REQUEST, userInfoWorker);
+}
+
 export default function* rootSaga() {
   yield all([fork(userListByBuildingIdWatcher)]);
   yield all([fork(userListByPositionIdWatcher)]);
@@ -262,4 +283,5 @@ export default function* rootSaga() {
   yield all([fork(userChangePasswordWatcher)]);
   yield all([fork(userFindUserWatcher)]);
   yield all([fork(userFindPasswordWatcher)]);
+  yield all([fork(userInfoWatcher)]);
 }

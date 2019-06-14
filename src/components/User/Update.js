@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userUpdateRequest, userChangePasswordRequest } from "actions/User";
+import { userUpdateRequest, userChangePasswordRequest, userInfoRequest } from "actions/User";
 import { setViewMode, setShowModal } from "actions/Setting";
 import { publicKeyRequest } from "actions/Auth";
 import { positionClearChecked, positionToggleChecked } from "actions/Position";
@@ -110,6 +110,12 @@ class Update extends Component {
   };
 
   componentDidMount() {
+    //console.log("this.props.selectedItem .....", this.props.selectedItem.id)
+    // userId로 호출
+    const userId = this.props.selectedItem.id;
+    console.log("userInfoRequest", userId);
+    this.props.userInfoRequest(userId);
+
     this.props.publicKeyRequest();
     this.props.positionClearChecked();
     this.props.positionList.map(p => {
@@ -244,6 +250,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   publicKeyRequest,
   userUpdateRequest,
+  userInfoRequest,
   setViewMode,
   userChangePasswordRequest,
   setShowModal,
