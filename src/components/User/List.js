@@ -4,7 +4,8 @@ import {
   userListByBuildingIdRequest,
   userListByPositionIdRequest,
   userDeleteRequest,
-  userSetItem
+  userSetItem,
+  userInfoSuccess
 } from "actions/User";
 import { setViewMode } from "actions/Setting";
 import { selectTreeNode, toggleTreeNode } from "actions/Tree";
@@ -31,6 +32,7 @@ class List extends React.Component {
   };
 
   componentDidMount() {
+    this.props.userInfoSuccess("");
     // const steps = JSON.parse(localStorage.getItem("steps"));
     // if (steps) {
     //   this.props.selectTreeNode(null);
@@ -250,7 +252,8 @@ const mapDispatchToProps = {
   userListByPositionIdRequest,
   userDeleteRequest,
   setViewMode,
-  userSetItem
+  userSetItem,
+  userInfoSuccess
 };
 
 export default connect(

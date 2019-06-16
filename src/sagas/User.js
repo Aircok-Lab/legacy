@@ -16,7 +16,8 @@ import {
   USER_CHANGE_PASSWORD_SUCCESS,
   USER_FIND_USER_REQUEST,
   USER_FIND_PASSWORD_REQUEST,
-  USER_INFO_REQUEST
+  USER_INFO_REQUEST,
+  USER_INFO_SUCCESS
 } from "constants/ActionTypes";
 import forge from "node-forge";
 import api from "api";
@@ -256,15 +257,14 @@ export function* userFindPasswordWatcher() {
 
 function* userInfoWorker(action) {
   try {
-    console.log("action...", action)
     const res = yield api.get(`user/getUserInfo?id=${action.payload}`);
     if (responseDataProcess(res.data)) {
-      // alert(res.data.message);
-      // setViewMode("update", res.data.data);
-      yield put(setViewMode("update", res.data.data));
+      // yield put(setViewMode("update", res.data.data));
+      yield put({
+        type: USER_INFO_SUCCESS,
+        payload: res.data.data.positionList
+      });
     }
-    console.log("getUserInfo success.. ", res.data);
-    //yield put(push("/login"));
   } catch (error) {
     console.log("[ERROR#####]", error);
   }

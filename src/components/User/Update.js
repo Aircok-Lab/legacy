@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userUpdateRequest, userChangePasswordRequest, userInfoRequest } from "actions/User";
+import {
+  userUpdateRequest,
+  userChangePasswordRequest,
+  userInfoRequest
+} from "actions/User";
 import { setViewMode, setShowModal } from "actions/Setting";
 import { publicKeyRequest } from "actions/Auth";
 import { positionClearChecked, positionToggleChecked } from "actions/Position";
@@ -94,7 +98,8 @@ class Update extends Component {
         },
         () => {
           //포지션 저장완료 후, 서버에 데이터 전송
-          this.props.userUpdateRequest(this.state.postData);
+          console.log(this.props.userPositionList);
+          // this.props.userUpdateRequest(this.state.postData);
         }
       );
     }
@@ -113,7 +118,6 @@ class Update extends Component {
     //console.log("this.props.selectedItem .....", this.props.selectedItem.id)
     // userId로 호출
     const userId = this.props.selectedItem.id;
-    console.log("userInfoRequest", userId);
     this.props.userInfoRequest(userId);
 
     this.props.publicKeyRequest();

@@ -15,7 +15,7 @@ class Add extends Component {
       email: setInitValue("test@test.com"),
       department: setInitValue("Sales Department"),
       phone: setInitValue("010-555-5555"),
-      userType: setInitValue("monitoring"),
+      userType: setInitValue("user"),
       buildingList: "" + this.props.selectedNode.buildingID,
       positionList: "" + this.props.selectedNode.id,
       deviceList: ""

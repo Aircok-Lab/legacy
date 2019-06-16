@@ -10,8 +10,8 @@ import {
   USER_FIND_USER_REQUEST,
   USER_FIND_PASSWORD_REQUEST,
   USER_LIST_SET,
-  USER_INFO_REQUEST
-
+  USER_INFO_REQUEST,
+  USER_INFO_SUCCESS
 } from "constants/ActionTypes";
 
 export const userListByBuildingIdRequest = payload => {
@@ -97,6 +97,13 @@ export const userFindPasswordRequest = payload => {
 export const userInfoRequest = payload => {
   return {
     type: USER_INFO_REQUEST,
+    payload
+  };
+};
+
+export const userInfoSuccess = payload => {
+  return {
+    type: USER_INFO_SUCCESS,
     payload
   };
 };

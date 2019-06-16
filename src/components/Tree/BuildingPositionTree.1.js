@@ -36,17 +36,82 @@ const customStyles = {
 Modal.setAppElement("#body");
 
 class BuildingPositionTree extends Component {
-  state = {
-    // showModal: false,
-    // modalMode: "addBuilding",
-    modalMode: "updateBuilding",
-    selectedNodeId: "",
-    // selectedNodeId: "31-25"
-    selectedNode: {},
-    deviceList: [],
-    expandedNodes: [],
-    userPositionList: ""
-  };
+  // state = {
+  //   forceUpdate: true,
+  //   // showModal: false,
+  //   // modalMode: "addBuilding",
+  //   modalMode: "updateBuilding",
+  //   selectedNodeId: "",
+  //   // selectedNodeId: "31-25"
+  //   selectedNode: {},
+  //   deviceList: [],
+  //   expandedNodes: [],
+  //   buildingList: this.props.buildingList,
+  //   positionList: this.props.positionList,
+  //   arrList: [
+  //     {"id":386,"name":"a연습1","position":"1","buildingID":476, "checked": true},
+  //     {"id":387,"name":"a연습2","position":"1","buildingID":476, "checked": false},
+  //     {"id":393,"name":"a연습3","position":"1","buildingID":476, "checked": true},
+  //     {"id":399,"name":"a테스트1","position":"1","buildingID":496, "checked": false},
+  //     {"id":400,"name":"a테스트2","position":"1","buildingID":496, "checked": false}]
+  // };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      updateCount: 0,
+      forceUpdate: true,
+      // showModal: false,
+      // modalMode: "addBuilding",
+      modalMode: "updateBuilding",
+      selectedNodeId: "",
+      // selectedNodeId: "31-25"
+      selectedNode: {},
+      deviceList: [],
+      expandedNodes: [],
+      buildingList: props.buildingList,
+      positionList: props.positionList,
+      arrList: [
+        {
+          id: 386,
+          name: "a연습1",
+          position: "1",
+          buildingID: 476,
+          checked: true
+        },
+        {
+          id: 387,
+          name: "a연습2",
+          position: "1",
+          buildingID: 476,
+          checked: false
+        },
+        {
+          id: 393,
+          name: "a연습3",
+          position: "1",
+          buildingID: 476,
+          checked: true
+        },
+        {
+          id: 399,
+          name: "a테스트1",
+          position: "1",
+          buildingID: 496,
+          checked: false
+        },
+        {
+          id: 400,
+          name: "a테스트2",
+          position: "1",
+          buildingID: 496,
+          checked: false
+        }
+      ]
+    };
+  }
+
   componentDidMount() {
     const steps = JSON.parse(localStorage.getItem("steps"));
     this.props.buildingListRequest({
@@ -66,19 +131,22 @@ class BuildingPositionTree extends Component {
       id: "" + this.props.authUser.positionList
     });
     const selectedNode = JSON.parse(localStorage.getItem("selectedNode"));
-    console.log("7777", steps, selectedNode);
     if (steps) {
       if (steps.step != 4) {
-        console.log("888");
         this.nodeClick(selectedNode);
       }
     } else {
-      console.log("999");
       this.nodeClick(selectedNode);
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("componentDidUpdate");
+    // console.log("update", prevProps.buildingList, prevState.buildingList);
+    // if (prevProps.buildingList != prevState.buildingList) {
+    //   this.setState({})
+    // }
+
     if (!prevState.selectedNode.id && prevProps.buildingList.length) {
       const selectedNode = prevProps.buildingList[0];
       this.setState({ selectedNode }, () => {
@@ -101,45 +169,112 @@ class BuildingPositionTree extends Component {
     }
   }
 
-  static getDerivedStateFromProps(props, state) {
-    let update = {};
-    let userPositionListArr = [];
-    if (props.userPositionList != undefined) {
-      if (props.userPositionList) {
-        userPositionListArr = props.userPositionList.split(",");
-      }
-      update.userPositionListArr = userPositionListArr;
-      console.log("userPositionListArr", userPositionListArr);
-      console.log("props.buildingList", props.buildingList);
-      console.log("props.positionList", props.positionList);
-      props.positionList.map(
-        p =>
-          (p.checked =
-            userPositionListArr.indexOf("" + p.id) > -1 ? true : false)
-        // p => (p.checked = true)
-      );
-      console.log("state.userPositionListArr >>>> ", state.userPositionListArr);
+  handleCheckboxChange = event => {
+    console.log(event.target.value);
+
+    // let positionList = JSON.parse(JSON.stringify(this.state.positionList)) // state를 읽어와야 한다.
+    // // let positions = this.props.selectedItem.positionList.split(",");
+    // positionList.map(p => {
+    //   console.log(p.id, p.checked, event.target.checked);
+    //   if (event.target.value === ""+p.id) {
+    //     // console.log(p.checked);
+    //     // p.checked = (event.target.checked === 'true') ? true : false;
+
+    //     p.checked = event.target.checked;
+    //   }
+    //   // console.log(p);
+    //   // return p;
+    // })
+
+    // this.setState({positionList: positionList});
+
+    // const target = event.target;
+    // const value = target.type === 'checkbox' ? target.checked : target.value;
+    // const name = target.name;
+
+    // this.setState({
+    //   [name]: value
+    // });
+  };
+
+  componentWillReceiveProps(nextProps) {
+    // nextProps.selectedItem &&
+    //   console.log(
+    //     "componentWillReceiveProps",
+    //     nextProps.selectedItem.positionList
+    //   );
+
+    // if (nextProps.selected !== this.props.selected) {
+    //   this.setState({ selected: nextProps.selected });
+    //   this.selectNew();
+    // }
+
+    if (nextProps.selectedItem && this.props.selectedItem) {
       if (
-        state.userPositionListArr == undefined ||
-        state.userPositionListArr.length === 0
+        JSON.stringify(nextProps.selectedItem.positionList) !==
+        JSON.stringify(this.props.selectedItem.positionList)
       ) {
-        console.log("state.positionList will be changed");
-        update.buildingList = props.buildingList;
-        update.positionList = props.positionList;
+        console.log(
+          "componentWillReceiveProps",
+          nextProps.selectedItem.positionList
+        );
+        this.setState({
+          positionList: nextProps.selectedItem.positionList
+        });
       }
     }
+  }
 
-    return update;
+  // static getDerivedStateFromProps(props, state) {
+  //   console.log("getDerivedStateFromProps");
+  //   return null;
+  // }
+
+  static __getDerivedStateFromProps(props, state) {
+    console.log("getDerivedStateFromProps");
+    return null;
+    // console.log("state.updateCount", state.updateCount);
+    // // if (state.updateCount > 1) {
+    // //   return null;
+    // // }
+    // let update = {};
+
     // let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
     // if (arrayNodes && props.buildingList) {
     //   const expandedObjects = props.buildingList.filter(building => {
     //     return arrayNodes.indexOf(building.id) > -1;
     //   });
     //   const expandedNodes = expandedObjects.map(building => building.id);
-    //   return {
-    //     expandedNodes
-    //   };
+    //   update.expandedNodes = expandedNodes;
     // }
+
+    // if (props.buildingList !== state.buildingList) {
+    //   update.buildingList = props.buildingList;
+    // }
+
+    // if (props.positionList) {
+    //   let positionList;
+    //   if (props.selectedItem && props.selectedItem.positionList) {
+    //     console.log("333333", props.selectedItem.positionList);
+    //     positionList = JSON.parse(JSON.stringify(props.positionList));
+    //     let positions = props.selectedItem.positionList.split(",");
+    //     positionList.map(p => {
+    //       if (positions.indexOf("" + p.id) > -1) {
+    //         p.checked = true;
+    //         return p;
+    //       } else {
+    //         p.checked = false;
+    //         return p;
+    //       }
+    //     });
+    //     update.updateCount = state.updateCount + 1;
+    //     update.positionList = positionList;
+    //   } else {
+    //     update.positionList = props.positionList;
+    //   }
+    // }
+
+    // return update;
   }
 
   openModal = modalMode => e => {
@@ -177,50 +312,74 @@ class BuildingPositionTree extends Component {
     let array = [...this.state.expandedNodes];
     const index = array.indexOf(id);
     if (index === -1) {
-      // return false;
-      return true;
+      return false;
     } else {
       return true;
     }
   };
 
-  __toggleChecked = item => {
+  toggleChecked = item => {
     this.props.positionToggleChecked(item);
   };
 
-  toggleChecked = item => {
-    let positionList = JSON.parse(JSON.stringify(this.state.positionList)); // state를 읽어와야 한다.
-    positionList.map(p => {
-      if (event.target.value === "" + p.id) {
-        // console.log(p.checked);
-        // p.checked = (event.target.checked === 'true') ? true : false;
+  // handleCheckboxChange =
+  __handleCheckboxChange = event => {
+    console.log(event.target.value);
 
+    // let positionList = JSON.parse(JSON.stringify(this.state.positionList)) // state를 읽어와야 한다.
+    // // let positions = this.props.selectedItem.positionList.split(",");
+    // positionList.map(p => {
+    //   console.log(p.id, p.checked, event.target.checked);
+    //   if (event.target.value === ""+p.id) {
+    //     // console.log(p.checked);
+    //     // p.checked = (event.target.checked === 'true') ? true : false;
+
+    //     p.checked = event.target.checked;
+    //   }
+    //   // console.log(p);
+    //   // return p;
+    // })
+
+    // this.setState({positionList: positionList});
+
+    // const target = event.target;
+    // const value = target.type === 'checkbox' ? target.checked : target.value;
+    // const name = target.name;
+
+    // this.setState({
+    //   [name]: value
+    // });
+  };
+
+  handleCheckboxChangeArr = event => {
+    console.log(event.target.value);
+    let arrList = JSON.parse(JSON.stringify(this.state.arrList));
+    arrList.map(p => {
+      // console.log(p.id, p.checked, event.target.checked);
+      if (event.target.value === "" + p.id) {
         p.checked = event.target.checked;
       }
-      // console.log(p);
-      // return p;
     });
 
-    this.setState({ positionList: positionList });
+    this.setState({ arrList: arrList });
+    // this.setState({ arrList: [] });
   };
 
   render() {
     // 중요 : Spread Operator는 Sharrow Copy만 하므로 JSON.stringify로 Deep Clone 해야 합니다.
     // let buildingPositionList = [...this.props.buildingList];
 
-    console.log("this.state", this.state);
-
     const steps = JSON.parse(localStorage.getItem("steps"));
 
     let buildingPositionList = null;
     if (steps) {
-      buildingPositionList = this.props.buildingList.filter(building => {
+      buildingPositionList = this.state.buildingList.filter(building => {
         return steps.prevBuildingList.indexOf("" + building.id) === -1;
       });
     } else {
-      // filterOutList = this.props.buildingList;
+      // filterOutList = this.state.buildingList;
       buildingPositionList = JSON.parse(
-        JSON.stringify(this.props.buildingList)
+        JSON.stringify(this.state.buildingList)
       );
     }
 
@@ -230,11 +389,6 @@ class BuildingPositionTree extends Component {
       );
       if (positions.length) {
         positions = positions.map(position => {
-          // console.log("position", position);
-          // position.checked =
-          //   this.state.userPositionListArr.indexOf("" + position.id) > -1
-          //     ? true
-          //     : false;
           position.buildingName = building.name;
           return position;
         });
@@ -242,12 +396,26 @@ class BuildingPositionTree extends Component {
         building.positions = positions;
       }
     });
-
     // console.log("buildingPositionList", buildingPositionList);
+    // this.state.selectedItem && console.log("this.state.selectedItem.positionList", this.state.selectedItem.positionList)
 
     return (
       <React.Fragment>
         <div className="flex-shrink-0 pt-2">
+          version{React.version}
+          {/* <div>this.state.buildingList { JSON.stringify(this.state.buildingList) }</div>
+          <div>this.state.positionList { JSON.stringify(this.state.positionList) }</div> */}
+          {this.state.arrList.map(position => (
+            <div key={position.id}>
+              <input
+                type="checkbox"
+                value={position.id}
+                checked={position.checked}
+                onChange={this.handleCheckboxChangeArr}
+              />
+              {position.name}
+            </div>
+          ))}
           <div className="clearfix">
             {!this.props.hideButton && (
               <div className="float-right">
@@ -338,78 +506,63 @@ class BuildingPositionTree extends Component {
                 ) : (
                   <span style={{ paddingLeft: "20px" }} />
                 )}
-                <span>
-                  {" "}
-                  {item.name}[{item.id}]
-                </span>
+                <span> {item.name}</span>
               </div>
 
               {item.positions && this.isExpanded(item.id) && (
                 <div className="">
                   <ul className="w3-ul">
-                    {item.positions.map(position =>
-                      this.props.checkable ? (
-                        <li
-                          key={position.id}
-                          style={{
-                            cursor: "pointer",
-                            padding: "2px 10px 2px 25px",
-                            margin: "0 0 2px 10px",
-                            background:
-                              this.props.selectedNode &&
-                              this.props.selectedNode.buildingID &&
-                              "" +
-                                this.props.selectedNode.buildingID +
-                                "-" +
-                                this.props.selectedNode.id ===
-                                "" + position.buildingID + "-" + position.id
-                                ? "#bae7ff"
-                                : ""
-                          }}
-                          className="font-weight-light font-italic w3-border-0 w3-padding-left"
-                        >
-                          {this.props.checkable && (
-                            <input
-                              type="checkbox"
-                              checked={position.checked}
-                              value={position.id}
-                              onChange={e => {
-                                e.stopPropagation();
-                                this.toggleChecked(item.positions);
-                              }}
-                            />
-                          )}
-                          {position.name}[{position.id}] -{" "}
-                          {this.props.userPositionList} -{" "}
-                          {"" + position.checked}
-                        </li>
-                      ) : (
-                        <li
-                          key={position.id}
-                          style={{
-                            cursor: "pointer",
-                            padding: "2px 10px 2px 25px",
-                            margin: "0 0 2px 10px",
-                            background:
-                              this.props.selectedNode &&
-                              this.props.selectedNode.buildingID &&
-                              "" +
-                                this.props.selectedNode.buildingID +
-                                "-" +
-                                this.props.selectedNode.id ===
-                                "" + position.buildingID + "-" + position.id
-                                ? "#bae7ff"
-                                : ""
-                          }}
-                          className="font-weight-light font-italic w3-border-0 w3-padding-left"
-                          onClick={e => this.nodeClick(position)}
-                        >
-                          {position.name}[{position.id}] -{" "}
-                          {this.props.userPositionList} -{" "}
-                          {"a" + position.checked}
-                        </li>
-                      )
-                    )}
+                    {item.positions.map(position => (
+                      <li
+                        key={position.id}
+                        style={{
+                          cursor: "pointer",
+                          padding: "2px 10px 2px 25px",
+                          margin: "0 0 2px 10px",
+                          background:
+                            this.props.selectedNode &&
+                            this.props.selectedNode.buildingID &&
+                            "" +
+                              this.props.selectedNode.buildingID +
+                              "-" +
+                              this.props.selectedNode.id ===
+                              "" + position.buildingID + "-" + position.id
+                              ? "#bae7ff"
+                              : ""
+                        }}
+                        className="font-weight-light font-italic w3-border-0 w3-padding-left"
+                        onClick={e => this.nodeClick(position)}
+                      >
+                        {this.props.checkable && (
+                          // <input type="checkbox" value={position.id} defaultChecked={position.checked} onChange={this.handleCheckboxChange}/>
+                          <input
+                            type="checkbox"
+                            value={position.id}
+                            defaultChecked={position.checked}
+                            onChange={this.handleCheckboxChange}
+                          />
+                          // <input type="checkbox" checked={position.checked} />
+                          // <input
+                          //   type="checkbox"
+                          //   checked={position.isChecked}
+                          //   value={position.id}
+                          //   defaultChecked={
+                          //     this.props.selectedItem &&
+                          //     this.props.selectedItem.positionList.indexOf(
+                          //       "" + position.id
+                          //     ) > -1
+                          //       ? true
+                          //       : false
+                          //   }
+                          //   onClick={e => {
+                          //     e.stopPropagation();
+                          //     this.toggleChecked(position);
+                          //   }}
+                          // />
+                        )}
+                        {position.name}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
@@ -455,8 +608,7 @@ const mapStateToProps = state => ({
   selectedNode: state.tree.selectedNode,
   expandedNodes: state.tree.expandedNodes,
   selectedItem: state.settings.selectedItem,
-  showModal: state.settings.showModal,
-  userPositionList: state.user.userPositionList
+  showModal: state.settings.showModal
 });
 
 const mapDispatchToProps = {
