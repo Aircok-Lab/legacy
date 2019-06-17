@@ -66,6 +66,8 @@ class Update extends Component {
   };
 
   update = () => {
+    console.log("this.props.checked", this.props.checked)
+    // return;
     let arr = this.props.checked.map(position => position.buildingID);
     const bildingIds = arr.filter(
       (value, idx, arr) => arr.indexOf(value) === idx
@@ -73,6 +75,8 @@ class Update extends Component {
     let positionIds = this.props.checked.map(position => position.id);
     const buildingList = bildingIds.join();
     const positionList = positionIds.join();
+    console.log("this.props.checked", buildingList, positionList, this.props.buildingList, this.props.positionList);
+    return;
 
     if (!this.props.checked.length) {
       alert("위치를 선택하세요");
@@ -122,11 +126,11 @@ class Update extends Component {
 
     this.props.publicKeyRequest();
     this.props.positionClearChecked();
-    this.props.positionList.map(p => {
-      if (this.state.postData.positionList.indexOf("" + p.id) > -1) {
-        this.props.positionToggleChecked(p);
-      }
-    });
+    // this.props.positionList.map(p => {
+    //   if (this.state.postData.positionList.indexOf("" + p.id) > -1) {
+    //     this.props.positionToggleChecked(p);
+    //   }
+    // });
   }
 
   render() {
@@ -245,6 +249,7 @@ const mapStateToProps = state => ({
 
   checked: state.position.checked,
   positionList: state.position.list,
+  buildingList: state.building.list,
   viewMode: state.settings.viewMode,
   selectedItem: state.settings.selectedItem,
   showModal: state.settings.showModal,

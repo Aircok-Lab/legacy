@@ -66,14 +66,14 @@ class BuildingPositionTree extends Component {
       id: "" + this.props.authUser.positionList
     });
     const selectedNode = JSON.parse(localStorage.getItem("selectedNode"));
-    console.log("7777", steps, selectedNode);
+    // console.log("7777", steps, selectedNode);
     if (steps) {
       if (steps.step != 4) {
-        console.log("888");
+        // console.log("888");
         this.nodeClick(selectedNode);
       }
     } else {
-      console.log("999");
+      // console.log("999");
       this.nodeClick(selectedNode);
     }
   }
@@ -109,21 +109,22 @@ class BuildingPositionTree extends Component {
         userPositionListArr = props.userPositionList.split(",");
       }
       update.userPositionListArr = userPositionListArr;
-      console.log("userPositionListArr", userPositionListArr);
-      console.log("props.buildingList", props.buildingList);
-      console.log("props.positionList", props.positionList);
+      // console.log("userPositionListArr", userPositionListArr);
+      // console.log("props.buildingList", props.buildingList);
+      // console.log("props.positionList", props.positionList);
       props.positionList.map(
         p =>
           (p.checked =
             userPositionListArr.indexOf("" + p.id) > -1 ? true : false)
         // p => (p.checked = true)
       );
-      console.log("state.userPositionListArr >>>> ", state.userPositionListArr);
+      // console.log("state.userPositionListArr >>>> ", state.userPositionListArr);
       if (
         state.userPositionListArr == undefined ||
         state.userPositionListArr.length === 0
       ) {
-        console.log("state.positionList will be changed");
+        // console.log("state.positionList will be changed");
+        props.positionToggleChecked(props.positionList);
         update.buildingList = props.buildingList;
         update.positionList = props.positionList;
       }
@@ -201,14 +202,17 @@ class BuildingPositionTree extends Component {
       // return p;
     });
 
-    this.setState({ positionList: positionList });
+    this.setState({ positionList: positionList },() => {
+      console.log(this.state.positionList);
+      this.props.positionToggleChecked(this.state.positionList);
+    });
   };
 
   render() {
     // 중요 : Spread Operator는 Sharrow Copy만 하므로 JSON.stringify로 Deep Clone 해야 합니다.
     // let buildingPositionList = [...this.props.buildingList];
 
-    console.log("this.state", this.state);
+    // console.log("this.state", this.state);
 
     const steps = JSON.parse(localStorage.getItem("steps"));
 
@@ -354,17 +358,7 @@ class BuildingPositionTree extends Component {
                           style={{
                             cursor: "pointer",
                             padding: "2px 10px 2px 25px",
-                            margin: "0 0 2px 10px",
-                            background:
-                              this.props.selectedNode &&
-                              this.props.selectedNode.buildingID &&
-                              "" +
-                                this.props.selectedNode.buildingID +
-                                "-" +
-                                this.props.selectedNode.id ===
-                                "" + position.buildingID + "-" + position.id
-                                ? "#bae7ff"
-                                : ""
+                            margin: "0 0 2px 10px"
                           }}
                           className="font-weight-light font-italic w3-border-0 w3-padding-left"
                         >

@@ -29,7 +29,7 @@ import { setViewMode } from "actions/Setting";
 
 function* userListByBuildingIdWorker(action) {
   try {
-    console.log("action.payload : ", action.payload);
+    // console.log("action.payload : ", action.payload);
     let res;
     if (action.payload.buildingID === "null") {
       res = yield api.get(`user/etcUser`);
