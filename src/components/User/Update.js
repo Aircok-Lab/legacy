@@ -66,16 +66,24 @@ class Update extends Component {
   };
 
   update = () => {
-    console.log("this.props.checked", this.props.checked)
-    // return;
-    let arr = this.props.checked.map(position => position.buildingID);
-    const bildingIds = arr.filter(
-      (value, idx, arr) => arr.indexOf(value) === idx
-    );
-    let positionIds = this.props.checked.map(position => position.id);
-    const buildingList = bildingIds.join();
-    const positionList = positionIds.join();
-    console.log("this.props.checked", buildingList, positionList, this.props.buildingList, this.props.positionList);
+    
+    const data = this.props.checked.filter(p => p.checked === true);
+    console.log("this.props.checked", this.props.checked, data);
+    // // return;
+    // let arr = this.props.checked.map(position => position.buildingID);
+    // const bildingIds = arr.filter(
+    //   (value, idx, arr) => arr.indexOf(value) === idx
+    // );
+    // let positionIds = this.props.checked.map(position => position.id);
+    // const buildingList = bildingIds.join();
+    // const positionList = positionIds.join();
+    // console.log("this.props.checked", buildingList, positionList, this.props.buildingList, this.props.positionList);
+    // let buildingListArray = this.props.buildingList.map(b => b.id);
+    // console.log("buildingListArray", buildingListArray); // [499, "null"]
+    // let positionListArray = this.props.positionList.filter(p => buildingListArray.indexOf(p.buildingID) > -1 && p.checked);
+    // console.log("positionListArray", positionListArray);
+
+
     return;
 
     if (!this.props.checked.length) {
