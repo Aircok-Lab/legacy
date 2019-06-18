@@ -79,7 +79,7 @@ class SensorCard extends React.Component {
             <div className="d-inline" style={{ width: "50%" }}>
               <div
                 className="text-white font-weight-bold"
-                style={{ fontSize: "3.2em" }}
+                style={{ fontSize: "2.2em" }}
               >
                 {qualityType[`${sensorIndex}`]}
               </div>
@@ -88,7 +88,7 @@ class SensorCard extends React.Component {
                 style={{ fontSize: "3.2em" }}
               >
                 {sensorData}
-                <span style={{ fontSize: "0.8em" }}>
+                <span style={{ fontSize: "0.6em" }}>
                   {unitType[`${sensorType}`]}
                 </span>
               </div>
