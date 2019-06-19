@@ -191,19 +191,15 @@ class BuildingPositionTree extends Component {
 
   toggleChecked = item => {
     let positionList = JSON.parse(JSON.stringify(this.state.positionList)); // state를 읽어와야 한다.
+    console.log("positionList", positionList);
     positionList.map(p => {
       if (event.target.value === "" + p.id) {
-        // console.log(p.checked);
-        // p.checked = (event.target.checked === 'true') ? true : false;
-
         p.checked = event.target.checked;
       }
-      // console.log(p);
-      // return p;
     });
 
     this.setState({ positionList: positionList },() => {
-      console.log(this.state.positionList);
+      console.log("this.state.positionList", this.state.positionList);
       this.props.positionToggleChecked(this.state.positionList);
     });
   };

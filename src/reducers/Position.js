@@ -30,28 +30,7 @@ export default (state = INIT_STATE, action) => {
     }
 
     case POSITION_TOGGLE_CHECKED: {
-      // const list = action.payload.map(item => {
-      //   return {
-      //     ...item,
-      //     nodeId: "" + item.buildingID + "-" + item.id
-      //   };
-      // });
-      //arr: state.arr.concat(action.newItem)
-
-      console.log("position reducer", action.payload);
-
-
-      // const found = state.checked.filter(p => p.id === action.payload.id);
-      // let checked = null;
-      // if (found.length) {
-      //   checked = state.checked.filter(p => p.id !== action.payload.id);
-      // } else {
-      //   checked = state.checked.concat(action.payload);
-      // }
-      // return {
-      //   ...state,
-      //   checked
-      // };
+      // console.log("position reducer", action.payload);
       return {
         ...state,
         checked: action.payload

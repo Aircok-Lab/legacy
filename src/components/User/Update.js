@@ -66,25 +66,15 @@ class Update extends Component {
   };
 
   update = () => {
-    
-    const data = this.props.checked.filter(p => p.checked === true);
-    console.log("this.props.checked", this.props.checked, data);
-    // // return;
-    // let arr = this.props.checked.map(position => position.buildingID);
-    // const bildingIds = arr.filter(
-    //   (value, idx, arr) => arr.indexOf(value) === idx
-    // );
-    // let positionIds = this.props.checked.map(position => position.id);
-    // const buildingList = bildingIds.join();
-    // const positionList = positionIds.join();
-    // console.log("this.props.checked", buildingList, positionList, this.props.buildingList, this.props.positionList);
-    // let buildingListArray = this.props.buildingList.map(b => b.id);
-    // console.log("buildingListArray", buildingListArray); // [499, "null"]
-    // let positionListArray = this.props.positionList.filter(p => buildingListArray.indexOf(p.buildingID) > -1 && p.checked);
-    // console.log("positionListArray", positionListArray);
-
-
-    return;
+    const buildingListArray = this.props.buildingList.map(b => b.id);// [499, "null"]
+    const checked = this.props.checked.filter(p => buildingListArray.indexOf(p.buildingID) > -1 && p.checked);
+    let arr = checked.map(position => position.buildingID);
+    const bildingIds = arr.filter(
+      (value, idx, arr) => arr.indexOf(value) === idx
+    ); 
+    let positionIds = checked.map(position => position.id);
+    const buildingList = bildingIds.join();
+    const positionList = positionIds.join();
 
     if (!this.props.checked.length) {
       alert("위치를 선택하세요");
@@ -110,8 +100,8 @@ class Update extends Component {
         },
         () => {
           //포지션 저장완료 후, 서버에 데이터 전송
-          console.log(this.props.userPositionList);
-          // this.props.userUpdateRequest(this.state.postData);
+          // console.log(this.state.postData);
+          this.props.userUpdateRequest(this.state.postData);
         }
       );
     }
@@ -133,7 +123,7 @@ class Update extends Component {
     this.props.userInfoRequest(userId);
 
     this.props.publicKeyRequest();
-    this.props.positionClearChecked();
+    // this.props.positionClearChecked();
     // this.props.positionList.map(p => {
     //   if (this.state.postData.positionList.indexOf("" + p.id) > -1) {
     //     this.props.positionToggleChecked(p);

@@ -102,7 +102,7 @@ function* userUpdateWorker(action) {
     if (responseDataProcess(res.data)) {
       toaster("적용하였습니다.", 3000, "bg-success");
       delete postData.password;
-      console.log("userUpdate postData zzzzz", postData, action);
+      // console.log("userUpdate postData zzzzz", postData, action);
       if (action.isAuthUser) {
         localStorage.setItem("user_id", JSON.stringify(postData));
         yield put(userSignInSuccess(postData));
