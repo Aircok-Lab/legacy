@@ -99,22 +99,138 @@ class DetailPage extends React.Component {
         }}
       >
         <div style={{ height: "33%" }}>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.indoor ? (
+              <SensorCard
+                title="통합공기질관리지수"
+                sensorData={contact.e3Score}
+                sensorIndex={contact.e3Index}
+                sensorType="totalindex"
+                deviceList={contact.deviceSN}
+              />
+            ) : null}
+          </div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.isTemp ? (
+              <SensorCard
+                title="온도"
+                sensorData={contact.temperature}
+                sensorIndex={contact.temperatureIndex}
+                sensorType="temperature"
+                deviceList={contact.deviceSN}
+              />
+            ) : null}
+          </div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.isHumi ? (
+              <SensorCard
+                title="습도"
+                sensorData={contact.humidity}
+                sensorIndex={contact.humidityIndex}
+                sensorType="humidity"
+                deviceList={contact.deviceSN}
+              />
+            ) : null}
+          </div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.isCo2 ? (
+              <SensorCard
+                title="이산화탄소 (CO2)"
+                sensorData={contact.co2}
+                sensorIndex={contact.co2Index}
+                sensorType="co2"
+                deviceList={contact.deviceSN}
+              />
+            ) : null}
+          </div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.isHcho ? (
+              <SensorCard
+                title="포름알데히드 (HCHO)"
+                sensorData={contact.hcho}
+                sensorIndex={contact.hchoIndex}
+                sensorType="hcho"
+                deviceList={contact.deviceSN}
+              />
+            ) : null}
+          </div>
         </div>
         <div style={{ height: "33%" }}>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
-          <div style={{ width: "20%", display: "inline-block" }}>test</div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.isPm10 ? (
+              <SensorCard
+                title="미세먼지 (PM10)"
+                sensorData={contact.pm10}
+                sensorIndex={contact.pm10Index}
+                sensorType="pm10"
+                deviceList={contact.deviceSN}
+              />
+            ) : null}
+          </div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.isPm25 ? (
+              <SensorCard
+                title="초미세먼지 (PM2.5)"
+                sensorData={contact.pm25}
+                sensorIndex={contact.pm25Index}
+                sensorType="pm25"
+                deviceList={contact.deviceSN}
+              />
+            ) : null}
+          </div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.isVoc ? (
+              <SensorCard
+                title="휘발성유기화합물 (VOCs)"
+                sensorData={contact.voc}
+                sensorIndex={contact.vocIndex}
+                sensorType="voc"
+                deviceList={contact.deviceSN}
+              />
+            ) : null}
+          </div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.isNoise ? (
+              <SensorCard
+                title="소음"
+                sensorData={contact.noise}
+                sensorIndex={contact.noiseIndex}
+                sensorType="noise"
+                deviceList={contact.deviceSN}
+              />
+            ) : null}
+          </div>
+          <div style={{ width: "20%", display: "inline-block" }}>
+            {contact.isCo ? (
+              <SensorCard
+                title="일산화탄소 (CO)"
+                sensorData={contact.co}
+                sensorIndex={contact.coIndex}
+                sensorType="co"
+                deviceList={contact.deviceSN}
+              />
+            ) : (
+              <SensorCard title="일산화탄소 (CO)" sensorType="co" />
+            )}
+          </div>
         </div>
         <div style={{ height: "33%" }}>
-          <div style={{ width: "50%", display: "inline-block" }}>test</div>
-          <div style={{ width: "50%", display: "inline-block" }}>test</div>
+          <div style={{ width: "50%", display: "inline-block" }}>
+            {contact ? (
+              <DeviceInfo
+                time={contact.date}
+                buildingName={contact.buildingName}
+                positionName={contact.positionName}
+                deviceName={contact.deviceName}
+                serialNumber={contact.deviceSN}
+                outdoorDustData={this.props.outdoorDustData}
+                outdoorWeatherData={this.props.outdoorWeatherData}
+              />
+            ) : null}
+          </div>
+          <div style={{ width: "50%", display: "inline-block" }}>
+            {contact ? <AdviceInfo deviceData={contact} /> : null}
+          </div>
         </div>
       </div>
     );
