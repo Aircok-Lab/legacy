@@ -5,6 +5,7 @@ import { productListRequest } from "actions/Product";
 import { positionClearChecked } from "actions/Position";
 import { setViewMode } from "actions/Setting";
 import setInitValue from "../../util/setInitValue";
+import { string } from "prop-types";
 
 class Add extends Component {
   state = {
@@ -42,6 +43,8 @@ class Add extends Component {
       alert("암호를 8자 이상 입력하세요");
     } else if (!this.state.postData.email) {
       alert("이메일을 입력하세요");
+    } else if (this.state.postData.email != /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/) {
+      alert("잘못된 형식의 이메일 주소입니다.");
     } else if (!this.state.postData.department) {
       alert("부서를 입력하세요");
     } else if (!this.state.postData.phone) {
