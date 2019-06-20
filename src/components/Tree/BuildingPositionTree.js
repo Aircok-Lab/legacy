@@ -45,7 +45,9 @@ class BuildingPositionTree extends Component {
     selectedNode: {},
     deviceList: [],
     expandedNodes: [],
-    userPositionList: ""
+    userPositionList: "",
+    positionList : [],
+    buildingList : []
   };
   componentDidMount() {
     const steps = JSON.parse(localStorage.getItem("steps"));
@@ -102,6 +104,7 @@ class BuildingPositionTree extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    console.log("getDerivedStateFromProps 1111")
     let update = {};
     let userPositionListArr = [];
     if (props.userPositionList != undefined) {
@@ -119,28 +122,30 @@ class BuildingPositionTree extends Component {
         // p => (p.checked = true)
       );
       // console.log("state.userPositionListArr >>>> ", state.userPositionListArr);
+      const steps = JSON.parse(localStorage.getItem("steps"));
+      
       if (
         state.userPositionListArr == undefined ||
         state.userPositionListArr.length === 0
       ) {
-        // console.log("state.positionList will be changed");
-        props.positionToggleChecked(props.positionList);
-        update.buildingList = props.buildingList;
-        update.positionList = props.positionList;
+        if (props.viewMode != "add" && props.viewMode != "steps" ) { // 사용자 추가시 업데이트 제한 && 일괄등록이면 업데이트 제한
+          console.log("state.positionList will be changed", props);
+          props.positionToggleChecked(props.positionList);
+          update.buildingList = props.buildingList;
+          update.positionList = props.positionList;  
+        }
       }
+    }
+    let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
+    if (arrayNodes && props.buildingList) {
+      const expandedObjects = props.buildingList.filter(building => {
+        return arrayNodes.indexOf(building.id) > -1;
+      });
+      const expandedNodes = expandedObjects.map(building => building.id);
+      update.expandedNodes = expandedNodes;
     }
 
     return update;
-    // let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
-    // if (arrayNodes && props.buildingList) {
-    //   const expandedObjects = props.buildingList.filter(building => {
-    //     return arrayNodes.indexOf(building.id) > -1;
-    //   });
-    //   const expandedNodes = expandedObjects.map(building => building.id);
-    //   return {
-    //     expandedNodes
-    //   };
-    // }
   }
 
   openModal = modalMode => e => {
@@ -178,8 +183,8 @@ class BuildingPositionTree extends Component {
     let array = [...this.state.expandedNodes];
     const index = array.indexOf(id);
     if (index === -1) {
-      // return false;
-      return true;
+      return false;
+      // return true;
     } else {
       return true;
     }
@@ -190,8 +195,11 @@ class BuildingPositionTree extends Component {
   };
 
   toggleChecked = item => {
+
     let positionList = JSON.parse(JSON.stringify(this.state.positionList)); // state를 읽어와야 한다.
     console.log("positionList", positionList);
+    console.log("toggleChecked ", event.target.value, event.target.checked);
+
     positionList.map(p => {
       if (event.target.value === "" + p.id) {
         p.checked = event.target.checked;
@@ -208,7 +216,7 @@ class BuildingPositionTree extends Component {
     // 중요 : Spread Operator는 Sharrow Copy만 하므로 JSON.stringify로 Deep Clone 해야 합니다.
     // let buildingPositionList = [...this.props.buildingList];
 
-    // console.log("this.state", this.state);
+    console.log("this.state", this.state);
 
     const steps = JSON.parse(localStorage.getItem("steps"));
 
@@ -340,7 +348,7 @@ class BuildingPositionTree extends Component {
                 )}
                 <span>
                   {" "}
-                  {item.name}[{item.id}]
+                  {item.name}
                 </span>
               </div>
 
@@ -369,9 +377,7 @@ class BuildingPositionTree extends Component {
                               }}
                             />
                           )}
-                          {position.name}[{position.id}] -{" "}
-                          {this.props.userPositionList} -{" "}
-                          {"" + position.checked}
+                          {position.name}
                         </li>
                       ) : (
                         <li
@@ -394,9 +400,7 @@ class BuildingPositionTree extends Component {
                           className="font-weight-light font-italic w3-border-0 w3-padding-left"
                           onClick={e => this.nodeClick(position)}
                         >
-                          {position.name}[{position.id}] -{" "}
-                          {this.props.userPositionList} -{" "}
-                          {"a" + position.checked}
+                          {position.name}
                         </li>
                       )
                     )}
@@ -446,7 +450,8 @@ const mapStateToProps = state => ({
   expandedNodes: state.tree.expandedNodes,
   selectedItem: state.settings.selectedItem,
   showModal: state.settings.showModal,
-  userPositionList: state.user.userPositionList
+  userPositionList: state.user.userPositionList,
+  viewMode: state.settings.viewMode
 });
 
 const mapDispatchToProps = {

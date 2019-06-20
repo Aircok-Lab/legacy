@@ -12,6 +12,7 @@ import { selectTreeNode, toggleTreeNode } from "actions/Tree";
 import { positionListSuccess } from "actions/Position";
 import { deviceListSet } from "actions/Device";
 import { userListSet } from "actions/User";
+import { setViewMode } from "actions/Setting";
 
 const Step = Steps.Step;
 
@@ -33,6 +34,7 @@ class Container extends React.Component {
 
     // User List 초기화
     this.props.userListSet(null);
+    this.props.setViewMode("steps");
 
     const steps = JSON.parse(localStorage.getItem("steps"));
     if (steps) {
@@ -180,7 +182,8 @@ const mapDispatchToProps = {
   selectTreeNode,
   positionListSuccess,
   deviceListSet,
-  userListSet
+  userListSet,
+  setViewMode
 };
 
 export default connect(

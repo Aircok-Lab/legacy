@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { setViewMode } from "actions/Setting";
 
 class DoneContainer extends React.Component {
   componentDidMount() {
     localStorage.removeItem("steps");
+    this.props.setViewMode("list");
+
   }
 
   render() {
@@ -17,7 +20,9 @@ class DoneContainer extends React.Component {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setViewMode
+};
 
 export default connect(
   mapStateToProps,

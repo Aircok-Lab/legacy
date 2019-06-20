@@ -22,12 +22,22 @@ class Add extends Component {
     }
   };
   add = () => {
-    console.log("this.props.checked", this.props.checked);
-    let arr = this.props.checked.map(position => position.buildingID);
+    // console.log("this.props.checked", this.props.checked);
+    // let arr = this.props.checked.map(position => position.buildingID);
+    // const bildingIds = arr.filter(
+    //   (value, idx, arr) => arr.indexOf(value) === idx
+    // );
+    // let positionIds = this.props.checked.map(position => position.id);
+    // const buildingList = bildingIds.join();
+    // const positionList = positionIds.join();
+
+    const buildingListArray = this.props.buildingList.map(b => b.id);// [499, "null"]
+    const checked = this.props.checked.filter(p => buildingListArray.indexOf(p.buildingID) > -1 && p.checked);
+    let arr = checked.map(position => position.buildingID);
     const bildingIds = arr.filter(
       (value, idx, arr) => arr.indexOf(value) === idx
-    );
-    let positionIds = this.props.checked.map(position => position.id);
+    ); 
+    let positionIds = checked.map(position => position.id);
     const buildingList = bildingIds.join();
     const positionList = positionIds.join();
 
@@ -59,8 +69,8 @@ class Add extends Component {
         },
         () => {
           //포지션 저장완료 후, 서버에 데이터 전송
-          console.log("this.state.postData", this.state.postData)
-          // this.props.userAddRequest(this.state.postData);
+          // console.log("this.state.postData", this.state.postData)
+          this.props.userAddRequest(this.state.postData);
 
         }
       );
@@ -229,7 +239,8 @@ const mapStateToProps = state => ({
   selectedNode: state.tree.selectedNode,
   productList: state.product.list,
   viewMode: state.settings.viewMode,
-  checked: state.position.checked
+  checked: state.position.checked,
+  buildingList: state.building.list,  
 });
 
 const mapDispatchToProps = {
