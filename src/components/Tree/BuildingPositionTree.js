@@ -46,8 +46,8 @@ class BuildingPositionTree extends Component {
     deviceList: [],
     expandedNodes: [],
     userPositionList: "",
-    positionList : [],
-    buildingList : []
+    // positionList : [],
+    // buildingList : []
   };
   componentDidMount() {
     const steps = JSON.parse(localStorage.getItem("steps"));
@@ -104,6 +104,41 @@ class BuildingPositionTree extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    let update = {};
+    
+    let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
+    if (arrayNodes && props.buildingList) {
+      const expandedObjects = props.buildingList.filter(building => {
+        return arrayNodes.indexOf(building.id) > -1;
+      });
+      const expandedNodes = expandedObjects.map(building => building.id);
+      update.expandedNodes = expandedNodes;
+    }    
+    console.log("props $$$$ ", props)
+    let userPositionListArr = [];
+    if (props.userPositionList != undefined) {
+      if (props.userPositionList) {
+        userPositionListArr = props.userPositionList.split(",");
+      }
+      // update.userPositionListArr = userPositionListArr;
+      props.positionList.map(
+        p =>
+          (p.checked =
+            userPositionListArr.indexOf("" + p.id) > -1 ? true : false)
+        // p => (p.checked = true)
+      );
+    };
+    
+    if (props.positionList != state.positionListCopy) {
+      console.log("copy.......");
+      update.positionList = props.positionList;
+      update.positionListCopy = props.positionList;
+    }
+
+    return update;
+  }
+
+  static __getDerivedStateFromProps(props, state) {
     console.log("getDerivedStateFromProps 1111")
     let update = {};
     let userPositionListArr = [];
