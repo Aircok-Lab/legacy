@@ -22,8 +22,8 @@ import setInitValue from "../util/setInitValue";
 
 class Login extends React.Component {
   state = {
-    loginId: setInitValue("linkit"),
-    password: setInitValue("1"),
+    loginId: setInitValue("master1"),
+    password: setInitValue("master1"),
     stayLogin: JSON.parse(localStorage.getItem("stayLogin"))
   };
 
