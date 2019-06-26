@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userUpdateRequest, userChangePasswordRequest } from "actions/User";
+import {
+  userUpdateRequest,
+  userChangePasswordRequest,
+  userInfoRequest
+} from "actions/User";
 import { setViewMode, setShowModal } from "actions/Setting";
 import { publicKeyRequest } from "actions/Auth";
 import { positionClearChecked, positionToggleChecked } from "actions/Position";
@@ -62,11 +66,13 @@ class Update extends Component {
   };
 
   update = () => {
-    let arr = this.props.checked.map(position => position.buildingID);
+    const buildingListArray = this.props.buildingList.map(b => b.id);// [499, "null"]
+    const checked = this.props.checked.filter(p => buildingListArray.indexOf(p.buildingID) > -1 && p.checked);
+    let arr = checked.map(position => position.buildingID);
     const bildingIds = arr.filter(
       (value, idx, arr) => arr.indexOf(value) === idx
-    );
-    let positionIds = this.props.checked.map(position => position.id);
+    ); 
+    let positionIds = checked.map(position => position.id);
     const buildingList = bildingIds.join();
     const positionList = positionIds.join();
 
@@ -94,6 +100,7 @@ class Update extends Component {
         },
         () => {
           //포지션 저장완료 후, 서버에 데이터 전송
+          // console.log(this.state.postData);
           this.props.userUpdateRequest(this.state.postData);
         }
       );
@@ -110,13 +117,18 @@ class Update extends Component {
   };
 
   componentDidMount() {
+    //console.log("this.props.selectedItem .....", this.props.selectedItem.id)
+    // userId로 호출
+    const userId = this.props.selectedItem.id;
+    this.props.userInfoRequest(userId);
+
     this.props.publicKeyRequest();
-    this.props.positionClearChecked();
-    this.props.positionList.map(p => {
-      if (this.state.postData.positionList.indexOf("" + p.id) > -1) {
-        this.props.positionToggleChecked(p);
-      }
-    });
+    // this.props.positionClearChecked();
+    // this.props.positionList.map(p => {
+    //   if (this.state.postData.positionList.indexOf("" + p.id) > -1) {
+    //     this.props.positionToggleChecked(p);
+    //   }
+    // });
   }
 
   render() {
@@ -240,6 +252,7 @@ const mapStateToProps = state => ({
 
   checked: state.position.checked,
   positionList: state.position.list,
+  buildingList: state.building.list,
   viewMode: state.settings.viewMode,
   selectedItem: state.settings.selectedItem,
   showModal: state.settings.showModal,
@@ -249,6 +262,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   publicKeyRequest,
   userUpdateRequest,
+  userInfoRequest,
   setViewMode,
   userChangePasswordRequest,
   setShowModal,
