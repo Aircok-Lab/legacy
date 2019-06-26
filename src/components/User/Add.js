@@ -7,6 +7,7 @@ import { setViewMode } from "actions/Setting";
 import setInitValue from "../../util/setInitValue";
 import { string } from "prop-types";
 
+
 class Add extends Component {
   state = {
     postData: {
@@ -30,6 +31,7 @@ class Add extends Component {
     let positionIds = this.props.checked.map(position => position.id);
     const buildingList = bildingIds.join();
     const positionList = positionIds.join();
+    let emailValid = this.state.postData.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
 
     if (!this.props.checked.length) {
       alert("위치를 선택하세요");
@@ -43,7 +45,7 @@ class Add extends Component {
       alert("암호를 8자 이상 입력하세요");
     } else if (!this.state.postData.email) {
       alert("이메일을 입력하세요");
-    } else if (this.state.postData.email != /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/) {
+    } else if (!emailValid) {
       alert("잘못된 형식의 이메일 주소입니다.");
     } else if (!this.state.postData.department) {
       alert("부서를 입력하세요");
