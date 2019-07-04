@@ -8,7 +8,7 @@ import {
 } from "actions/Sensor";
 import { setViewMode } from "actions/Setting";
 
-const grades = ["좋음", "보통", "민감군Ⅰ", "민감군Ⅱ", "나쁨", "매우나쁨"];
+const grades = ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"];
 const seasons = ["봄", "여름", "가을", "겨울"];
 
 const sensorTypes = [
