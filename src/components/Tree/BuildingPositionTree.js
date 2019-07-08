@@ -44,7 +44,10 @@ class BuildingPositionTree extends Component {
     // selectedNodeId: "31-25"
     selectedNode: {},
     deviceList: [],
-    expandedNodes: []
+    expandedNodes: [],
+    userPositionList: "",
+    positionList : [],
+    // buildingList : []
   };
   componentDidMount() {
     const steps = JSON.parse(localStorage.getItem("steps"));
@@ -65,14 +68,11 @@ class BuildingPositionTree extends Component {
       id: "" + this.props.authUser.positionList
     });
     const selectedNode = JSON.parse(localStorage.getItem("selectedNode"));
-    console.log("7777", steps, selectedNode);
     if (steps) {
       if (steps.step != 4) {
-        console.log("888");
         this.nodeClick(selectedNode);
       }
     } else {
-      console.log("999");
       this.nodeClick(selectedNode);
     }
   }
@@ -101,16 +101,43 @@ class BuildingPositionTree extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    let update = {};
+    
     let arrayNodes = JSON.parse(localStorage.getItem("expandedNodes"));
     if (arrayNodes && props.buildingList) {
       const expandedObjects = props.buildingList.filter(building => {
         return arrayNodes.indexOf(building.id) > -1;
       });
       const expandedNodes = expandedObjects.map(building => building.id);
-      return {
-        expandedNodes
-      };
+      update.expandedNodes = expandedNodes;
+    }    
+
+    let userPositionListArr = [];
+    let positionList = JSON.parse(JSON.stringify(props.positionList));
+    if (props.userPositionList != undefined) {
+      if (props.userPositionList) {
+        userPositionListArr = props.userPositionList.split(",");
+      }
+      positionList.map(
+        p =>
+          (p.checked =
+            userPositionListArr.indexOf("" + p.id) > -1 ? true : false)
+      );
+    };
+    positionList.forEach(function(p) {
+      const building = props.buildingList.find(x => x.id === p.buildingID)
+      if (building) {
+        p.buildingName = building.name;
+      }
+    })
+    if (JSON.stringify(positionList) !== JSON.stringify(state.positionListCopy)) {
+      update.positionList = positionList;
+      update.positionListCopy = positionList;
+      // 중요 : checked item을 initialize
+      props.positionToggleChecked(positionList);
     }
+
+    return update;
   }
 
   openModal = modalMode => e => {
@@ -149,13 +176,28 @@ class BuildingPositionTree extends Component {
     const index = array.indexOf(id);
     if (index === -1) {
       return false;
+      // return true;
     } else {
       return true;
     }
   };
 
-  toggleChecked = item => {
+  __toggleChecked = item => {
     this.props.positionToggleChecked(item);
+  };
+
+  toggleChecked = item => {
+
+    let positionList = JSON.parse(JSON.stringify(this.state.positionList)); // state를 읽어와야 한다.
+    positionList.map(p => {
+      if (event.target.value === "" + p.id) {
+        p.checked = event.target.checked;
+      }
+    });
+
+    this.setState({ positionList: positionList },() => {
+      this.props.positionToggleChecked(this.state.positionList);
+    });
   };
 
   render() {
@@ -177,7 +219,7 @@ class BuildingPositionTree extends Component {
     }
 
     buildingPositionList.map(building => {
-      let positions = this.props.positionList.filter(
+      let positions = this.state.positionList.filter(
         position => position.buildingID == building.id
       );
       if (positions.length) {
@@ -283,55 +325,64 @@ class BuildingPositionTree extends Component {
                 ) : (
                   <span style={{ paddingLeft: "20px" }} />
                 )}
-                <span> {item.name}</span>
+                <span>
+                  {" "}
+                  {item.name}
+                </span>
               </div>
 
               {item.positions && this.isExpanded(item.id) && (
                 <div className="">
                   <ul className="w3-ul">
-                    {item.positions.map(position => (
-                      <li
-                        key={position.id}
-                        style={{
-                          cursor: "pointer",
-                          padding: "2px 10px 2px 25px",
-                          margin: "0 0 2px 10px",
-                          background:
-                            this.props.selectedNode &&
-                            this.props.selectedNode.buildingID &&
-                            "" +
-                              this.props.selectedNode.buildingID +
-                              "-" +
-                              this.props.selectedNode.id ===
-                              "" + position.buildingID + "-" + position.id
-                              ? "#bae7ff"
-                              : ""
-                        }}
-                        className="font-weight-light font-italic w3-border-0 w3-padding-left"
-                        onClick={e => this.nodeClick(position)}
-                      >
-                        {this.props.checkable && (
-                          <input
-                            type="checkbox"
-                            checked={position.isChecked}
-                            value={position.id}
-                            defaultChecked={
-                              this.props.selectedItem &&
-                              this.props.selectedItem.positionList.indexOf(
-                                "" + position.id
-                              ) > -1
-                                ? true
-                                : false
-                            }
-                            onClick={e => {
-                              e.stopPropagation();
-                              this.toggleChecked(position);
-                            }}
-                          />
-                        )}
-                        {position.name}
-                      </li>
-                    ))}
+                    {item.positions.map(position =>
+                      this.props.checkable ? (
+                        <li
+                          key={position.id}
+                          style={{
+                            cursor: "pointer",
+                            padding: "2px 10px 2px 25px",
+                            margin: "0 0 2px 10px"
+                          }}
+                          className="font-weight-light font-italic w3-border-0 w3-padding-left"
+                        >
+                          {this.props.checkable && (
+                            <input
+                              type="checkbox"
+                              checked={position.checked}
+                              value={position.id}
+                              onChange={e => {
+                                e.stopPropagation();
+                                this.toggleChecked(item.positions);
+                              }}
+                            />
+                          )}
+                          {position.name}
+                        </li>
+                      ) : (
+                        <li
+                          key={position.id}
+                          style={{
+                            cursor: "pointer",
+                            padding: "2px 10px 2px 25px",
+                            margin: "0 0 2px 10px",
+                            background:
+                              this.props.selectedNode &&
+                              this.props.selectedNode.buildingID &&
+                              "" +
+                                this.props.selectedNode.buildingID +
+                                "-" +
+                                this.props.selectedNode.id ===
+                                "" + position.buildingID + "-" + position.id
+                                ? "#bae7ff"
+                                : ""
+                          }}
+                          className="font-weight-light font-italic w3-border-0 w3-padding-left"
+                          onClick={e => this.nodeClick(position)}
+                        >
+                          {position.name}
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               )}
@@ -377,7 +428,9 @@ const mapStateToProps = state => ({
   selectedNode: state.tree.selectedNode,
   expandedNodes: state.tree.expandedNodes,
   selectedItem: state.settings.selectedItem,
-  showModal: state.settings.showModal
+  showModal: state.settings.showModal,
+  userPositionList: state.user.userPositionList,
+  viewMode: state.settings.viewMode
 });
 
 const mapDispatchToProps = {

@@ -4,7 +4,8 @@ import {
   USER_ADD_SUCCESS,
   USER_SET_ITEM,
   USER_CHANGE_PASSWORD_SUCCESS,
-  USER_LIST_SET
+  USER_LIST_SET,
+  USER_INFO_SUCCESS
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -40,6 +41,13 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         list
+      };
+    }
+
+    case USER_INFO_SUCCESS: {
+      return {
+        ...state,
+        userPositionList: action.payload
       };
     }
 

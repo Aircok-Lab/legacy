@@ -56,10 +56,64 @@ class Forgot extends React.Component {
       name: "김영국",
       email: "sbwoo87@gmail.com",
       value: 0,
-      forgotDialogOpen: false
+      forgotDialogOpen: false,
+      nameEntered: '',
+      isNameValid: false,
+      emailEntered: '',
+      isEmailValid: false,
+      phoneNumberEntered: '',
+      isPhoneNumberValid: false
     };
   }
-
+  validateName = nameEntered => {
+    if (nameEntered.length > 1) {
+      this.setState({
+        isNameValid: true,
+        nameEntered
+      });
+    } else {
+      this.setState({
+        isNameValid: false,
+        nameEntered
+      });
+    }
+  };
+  isEnteredNameValid = () => {
+    const { nameEntered, isNameValid } = this.state;
+  
+    if (nameEntered) return isNameValid;
+  };
+  
+  inputClassNameHelper = boolean => {
+    switch (boolean) {
+      case true:
+        return 'is-valid';
+      case false:
+        return 'is-invalid';
+      default:
+        return '';
+    }
+  };
+  validateEmail = emailEntered => {
+    const emailRegExp = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
+  
+    if (emailEntered.match(emailRegExp)) {
+      this.setState({
+        isEmailValid: true,
+        emailEntered
+      });
+    } else {
+      this.setState({
+        isEmailValid: false,
+        emailEntered
+      });
+    }
+  };
+  isEnteredEmailValid = () => {
+    const { emailEntered, isEmailValid } = this.state;
+  
+    if (emailEntered) return isEmailValid;
+  };
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -93,6 +147,7 @@ class Forgot extends React.Component {
       loader,
       alertMessage
     } = this.props;
+    
     const { theme } = this.props;
     return (
       <div className="app-login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
@@ -117,22 +172,22 @@ class Forgot extends React.Component {
             >
               <TabContainer dir={theme.direction}>
                 <div className="app-login-form">
-                  <form method="post" action="/">
+                  <form method="post" action="/" className="myForm">
                     <div className="row">
                       <div className="col-md-3" style={{ lineHeight: "40px" }}>
                         <label>이름</label>
                       </div>
                       <div className="col-md-9">
-                        <TextField
+                        <input
                           type="text"
                           label=""
-                          onChange={event =>
-                            this.setState({ name: event.target.value })
-                          }
+                          onChange={e => this.validateName(e.target.value)}
                           fullWidth
+                          id="nameInput"
                           defaultValue={name}
                           margin="normal"
-                          className="mt-0 mb-2"
+                          className={`form-control ${this.inputClassNameHelper(this.isEnteredNameValid())}`}
+                          required
                         />
                       </div>
                     </div>
@@ -141,20 +196,19 @@ class Forgot extends React.Component {
                         <label>이메일</label>
                       </div>
                       <div className="col-md-9">
-                        <TextField
+                        <input
                           type="email"
                           label=""
-                          onChange={event =>
-                            this.setState({ email: event.target.value })
-                          }
+                          onChange={e => this.validateEmail(e.target.value)}
                           fullWidth
                           defaultValue={email}
+                          id="emailInput"
                           margin="normal"
-                          className="mt-0 mb-2"
+                          className={`form-control ${this.inputClassNameHelper(this.isEnteredEmailValid())}`}
+                          required
                         />
                       </div>
                     </div>
-
                     <div className="mt-5 mb-3 d-flex align-items-center justify-content-between">
                       <Button
                         className="btn-block"
@@ -180,9 +234,9 @@ class Forgot extends React.Component {
                   <form method="post" action="/">
                     <div className="row">
                       <div className="col-md-12">
-                        <p>
+                        <p >
                           회원가입시 등록한 아이디와 이메일주소를 입력하시면
-                          해당 메일로 비밀번호 초기화 메일이 발송됩니다.
+                          메일로 비밀번호 초기화 메일이 발송됩니다.
                         </p>
                       </div>
                     </div>
@@ -209,16 +263,14 @@ class Forgot extends React.Component {
                         <label>이메일</label>
                       </div>
                       <div className="col-md-9">
-                        <TextField
+                        <input
                           type="email"
                           label=""
-                          onChange={event =>
-                            this.setState({ email: event.target.value })
-                          }
+                          onChange={e => this.validateEmail(e.target.value)}
                           fullWidth
                           defaultValue={email}
                           margin="normal"
-                          className="mt-0 mb-2"
+                          className={`form-control ${this.inputClassNameHelper(this.isEnteredEmailValid())}`}
                         />
                       </div>
                     </div>

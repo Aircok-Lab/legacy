@@ -22,7 +22,7 @@ class Add extends Component {
     }
   };
   add = () => {
-    const positionId = this.props.selectedNode.buildingID
+    const positionId = this.props.selectedNode && this.props.selectedNode.buildingID
       ? this.props.selectedNode.id
       : "";
     if (!positionId) {
@@ -100,7 +100,7 @@ class Add extends Component {
           </div>
           <div className="w3-rest">
             <div className="form-control" style={{ background: "#eee" }}>
-              {this.props.selectedNode.buildingID
+              {this.props.selectedNode && this.props.selectedNode.buildingID
                 ? this.props.selectedNode.buildingName
                 : this.props.selectedNode.name}{" "}
               &nbsp;
@@ -118,7 +118,7 @@ class Add extends Component {
           </div>
           <div className="w3-rest">
             <div className="form-control" style={{ background: "#eee" }}>
-              {this.props.selectedNode.buildingID
+              {this.props.selectedNode && this.props.selectedNode.buildingID
                 ? this.props.selectedNode.name
                 : ""}{" "}
               &nbsp;
