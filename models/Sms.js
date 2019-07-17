@@ -16,13 +16,11 @@ var SmsMesage = {
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
 
       sqlStr =
-        "select User.phone as phone, Device.name as deviceName, RecentData.* from Device, User, RecentData " +
-        "where Device.serialNumber = '" +
+        "select User.phone, Device.name, RecentData.* from User, UserPosition, Device, RecentData " +
+        "where User. userType = 'manager' " +
+        "and User.id = UserPosition.userID and UserPosition.positionID = Device.positionID and Device.serialNumber = '" +
         serialNumber +
-        "' and instr(User.positionList, '/" +
-        positionID +
-        ",/') > 0 " +
-        "and User.userType = 'manager' and RecentData.deviceSN = Device.serialNumber";
+        "' and RecentData.deviceSN = Device.serialNumber";
 
       // SQL문을 실행합니다.
       var exec = conn.query(sqlStr, function(err, result) {
@@ -45,7 +43,7 @@ var SmsMesage = {
 
         if (smsInfo.length) {
           var deviceInfo = json[0];
-          message = deviceInfo.deviceName + " 측정기는";
+          message = deviceInfo.name + " 측정기는";
           if (deviceInfo.phone) {
             if (deviceInfo.pm10Alarm) {
               alarmCnt++;
@@ -85,7 +83,8 @@ var SmsMesage = {
             }
             if (alarmCnt > 0) {
               if (message.endsWith(",")) message = message.slice(0, -1);
-              message = message + " 총 " + alarmCnt + "건의 알람이 발생하였습니다.";
+              message =
+                message + " 총 " + alarmCnt + "건의 알람이 발생하였습니다.";
             } else message = message + " 알람 내역 없이 잘 관리되고 있습니다.";
           } else {
             message = message + " 관리자가 없습니다.";
