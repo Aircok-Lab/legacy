@@ -7,7 +7,7 @@ import {
   sensorMaxUpdateRequest
 } from "actions/Sensor";
 import { setViewMode } from "actions/Setting";
-ㄴ;
+
 const grades = ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "최악"];
 const seasons = ["봄", "여름", "가을", "겨울"];
 
