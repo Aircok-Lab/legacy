@@ -156,8 +156,8 @@ var Data = {
     });
   },
   addData: function(
-    pm25,
     pm10,
+    pm25,
     co2,
     hcho,
     voc,
