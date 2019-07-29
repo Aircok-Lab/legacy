@@ -66,7 +66,7 @@ router.post("/", function(req, res, next) {
             var paramHumidity = Number(arr[10]) / 10;
             var paramNoise = arr[7];
             var paramCo = null;
-          } else if (deviceType == 3) {
+          } else if (deviceType == 3 || deviceType == 4) {
             // HMW
             var paramPM10 = arr[3];
             var paramPM25 = arr[4];
