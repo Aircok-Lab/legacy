@@ -129,11 +129,11 @@ class Update extends Component {
           <div className="table-responsive">
             <table
               className="table table-bordered text-center"
-              style={{ background: "#fff" }}
+              style={{ background: "#fff",borderRight:'1px solid' }}
             >
               <thead className="text-white bg-primary">
                 <tr>
-                  <th rowSpan="2" style={{ verticalAlign: "middle" }}>
+                  <th rowSpan="2" style={{ verticalAlign: "middle" ,borderRight:"1px solid",color:'black'}}>
                     구분
                   </th>
                   {grades.map((grade, index) => (

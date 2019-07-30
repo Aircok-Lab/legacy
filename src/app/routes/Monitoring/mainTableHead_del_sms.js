@@ -9,22 +9,22 @@ const mainTableHead = props => {
       <tr>
         <th
           className="table-header-row0-class"
-          rowSpan={2}
+          rowSpan={3}
           style={{ width: `${nameTabWidth}` }}
         >
           구분
         </th>
         <th
           className="table-header-row0-class"
-          rowSpan={2}
-          style={{ width: `${nameTabWidth}` }}
+          rowSpan={3}
+          style={{ width: `${nameTabWidth}`,borderRight:'1px solid'}}
         >
           측정기명
         </th>
         <th
           className="table-header-row0-class"
-          rowSpan={2}
-          style={{ width: `${indexTabWidth}` }}
+          rowSpan={3}
+          style={{ width: `${sensorTabWidth}` }}
         >
           공기질관리지수
         </th>
@@ -111,33 +111,33 @@ const mainTableHead = props => {
         </th>
       </tr>
       <tr className="table-header-row1-class">
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
         <th>기준</th>
         <th>현재</th>
-        <th>알람</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
         <th>기준</th>
         <th>현재</th>
-        <th>알람</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
         <th>기준</th>
         <th>현재</th>
-        <th>알람</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
         <th>기준</th>
         <th>현재</th>
-        <th>알람</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
         <th>기준</th>
         <th>현재</th>
-        <th>알람</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
         <th>기준</th>
         <th>현재</th>
-        <th>알람</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
         <th>기준</th>
         <th>현재</th>
-        <th>알람</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
         <th>기준</th>
         <th>현재</th>
-        <th>알람</th>
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
       </tr>
     </thead>
   );

@@ -117,10 +117,10 @@ class MonitoringPage extends React.Component {
 
   render() {
     const formWidth = "300px";
-    const nameTabWidth = "170px";
-    const indexTabWidth = "120px";
+    const nameTabWidth = "160px";
+    const indexTabWidth = "250px";
     const smsTabWidth = "60px";
-
+    
     const getClassText = grade => {
       let classText = "text-good";
       if (grade == 1) classText = "text-good";
@@ -167,7 +167,7 @@ class MonitoringPage extends React.Component {
           <tbody
             id="contain"
             ref="contain"
-            style={{ height: this.state.height }}
+            style={{ height: this.state.height ,borderRight:'1px solid #bbbbbb'}}
           >
             {this.props.allRecentData &&
               this.props.allRecentData.map((contact, i) => {
@@ -188,11 +188,11 @@ class MonitoringPage extends React.Component {
                   else deviceList = contact.deviceSN;
 
                   return (
-                    <tr key={i} style={{ height: `${tableLineHeight}px` }}>
-                      <td style={{ width: `${nameTabWidth}` }}>
+                    <tr key={i} style={{ height: `${tableLineHeight}px`}}>
+                      <td style={{ width: `${nameTabWidth}` ,borderRight:'1px solid #bbbbbb'}}>
                         {contact.buildingName}
                       </td>
-                      <td style={{ width: `${nameTabWidth}` }}>
+                      <td style={{ width: `${nameTabWidth}`,borderRight:'1px solid #bbbbbb'}}>
                         {days > 1 ? (
                           contact.deviceName
                         ) : (
@@ -201,7 +201,7 @@ class MonitoringPage extends React.Component {
                           </a>
                         )}
                       </td>
-                      <td style={{ width: `${indexTabWidth}` }}>
+                      <td style={{ width: `${nameTabWidth}` ,borderRight:'1px solid #bbbbbb'}}>
                         <span className={getClassText(contact.e3Index)}>
                           {qualityType[`${contact.e3Index}`]}({contact.e3Score})
                         </span>
@@ -272,11 +272,11 @@ class MonitoringPage extends React.Component {
                         sensorIndex={contact.coIndex}
                         sensorAlarm={contact.coAlarm}
                       />
-                      <td style={{ width: `${smsTabWidth}` }}>
+                      {/* <td style={{ width: `${smsTabWidth}`,borderLeft:'1px solid #bbbbbb',borderRight:'1px solid #bbbbbb'}}>
                         <div>
                           <img
                             src="assets/icons/sms.jpg"
-                            style={{ width: "30px", height: "30px" }}
+                            style={{ width: "20px", height: "20px" }}
                             alt="sms"
                             title="SMS Icon"
                             onClick={e => {
@@ -287,7 +287,7 @@ class MonitoringPage extends React.Component {
                             }}
                           />
                         </div>
-                      </td>
+                      </td> */}
                     </tr>
                   );
                 }

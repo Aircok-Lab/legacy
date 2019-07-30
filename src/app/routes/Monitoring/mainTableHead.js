@@ -1,8 +1,8 @@
 import React from "react";
 
 const mainTableHead = props => {
-  const nameTabWidth = "170px";
-  const indexTabWidth = "120px";
+  const nameTabWidth = "160px";
+  const indexTabWidth = "182px";
   const sensorTabWidth = "180px";
   const smsTabWidth = "60px";
   return (
@@ -10,29 +10,29 @@ const mainTableHead = props => {
       <tr>
         <th
           className="table-header-row0-class"
-          rowSpan={2}
-          style={{ width: `${nameTabWidth}` }}
+          rowSpan={3}
+          style={{ width: `${nameTabWidth}` ,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           구분
         </th>
         <th
           className="table-header-row0-class"
-          rowSpan={2}
-          style={{ width: `${nameTabWidth}` }}
+          rowSpan={3}
+          style={{ width: `${nameTabWidth}` ,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           측정기명
         </th>
         <th
           className="table-header-row0-class"
-          rowSpan={2}
-          style={{ width: `${indexTabWidth}` }}
+          rowSpan={3}
+          style={{ width: `${nameTabWidth}` ,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           공기질관리지수
         </th>
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: `${sensorTabWidth}` }}
+          style={{ width: `${sensorTabWidth}`,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           온도
           <br />
@@ -41,7 +41,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: `${sensorTabWidth}` }}
+          style={{ width: `${sensorTabWidth}` ,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           습도
           <br />
@@ -50,7 +50,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: `${sensorTabWidth}` }}
+          style={{ width: `${sensorTabWidth}` ,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           미세먼지(PM10)
           <br />
@@ -59,7 +59,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: `${sensorTabWidth}` }}
+          style={{ width: `${sensorTabWidth}` ,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           초미세먼지(PM2.5)
           <br />
@@ -68,7 +68,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: `${sensorTabWidth}` }}
+          style={{ width: `${sensorTabWidth}` ,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           이산화탄소(CO2)
           <br />
@@ -77,7 +77,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: `${sensorTabWidth}` }}
+          style={{ width: `${sensorTabWidth}`,borderRight:'1px solid',borderLeft:'1px solid' }}
         >
           포름알데히드(HCHO)
           <br />
@@ -86,7 +86,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: `${sensorTabWidth}` }}
+          style={{ width: `${sensorTabWidth}`,borderRight:'1px solid',borderLeft:'1px solid' }}
         >
           휘발성유기화합물(VOCs)
           <br />
@@ -95,7 +95,7 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: `${sensorTabWidth}` }}
+          style={{ width: `${sensorTabWidth}` ,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           소음
           <br />
@@ -104,48 +104,48 @@ const mainTableHead = props => {
         <th
           className="table-header-row0-class"
           colSpan={3}
-          style={{ width: `${sensorTabWidth}` }}
+          style={{ width: `${sensorTabWidth}` ,borderRight:'1px solid',borderLeft:'1px solid'}}
         >
           일산화탄소(CO)
           <br />
           (ppb)
         </th>
-        <th
+        {/* <th
           className="table-header-row0-class"
-          rowSpan={2}
+          rowSpan={3}
           style={{ width: `${smsTabWidth}` }}
         >
           SMS
-        </th>
+        </th> */}
       </tr>
       <tr className="table-header-row1-class">
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
-        <th>기준</th>
-        <th>현재</th>
-        <th>알람</th>
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th style={{borderRight:'1px solid'}}>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th style={{borderRight:'1px solid'}}>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th style={{borderRight:'1px solid'}}>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th style={{borderRight:'1px solid'}}>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th style={{borderRight:'1px solid'}}>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th style={{borderRight:'1px solid'}}>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th style={{borderRight:'1px solid'}}>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th style={{borderRight:'1px solid'}}>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
+        <th style={{borderRight:'1px solid'}}>기준</th>
+        <th style={{borderRight:'1px solid'}}>현재</th>
+        <th style={{borderRight:'1px solid'}}>보정</th>
       </tr>
     </thead>
   );

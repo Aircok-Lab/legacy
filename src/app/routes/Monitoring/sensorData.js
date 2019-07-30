@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const sensorData = ({
   alarmReferenceValue,
   sensorData,
@@ -29,8 +30,8 @@ const sensorData = ({
 
   return (
     <React.Fragment>
-      <td style={{ width: `${sensorTabWidth}` }}>{alarmReferenceValue}</td>
-      <td style={{ width: `${sensorTabWidth}` }}>
+      <td style={{ width: `${sensorTabWidth}` ,borderLeft:'1px solid #bbbbbb'}}>{alarmReferenceValue}</td>
+      <td style={{ width: `${sensorTabWidth}`}}>
         <span
           className={getClassText(sensorIndex)}
           style={{ fontWweight: "bold", fontSize: "15px" }}
@@ -41,7 +42,7 @@ const sensorData = ({
       <td style={{ width: `${sensorTabWidth}` }}>
         <div
           className={getClassAlarmIcon(sensorAlarm)}
-          style={{ width: "15px", height: "15px" }}
+          style={{ width: "10px", height: "10px" }}
         />
       </td>
     </React.Fragment>

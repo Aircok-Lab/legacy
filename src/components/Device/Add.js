@@ -184,7 +184,7 @@ class Add extends Component {
         </div>
         <div className="w3-row w3-section">
           <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
-            S/N
+            IMEI 번호
           </div>
           <div className="w3-rest">
             <input
@@ -255,7 +255,7 @@ class Add extends Component {
                 className="w3-col w3-padding-right"
                 style={{ width: "80px" }}
               >
-                IMEI 번호
+                S/N
               </div>
               <div className="w3-rest">
                 <input

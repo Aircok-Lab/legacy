@@ -32,7 +32,7 @@ class DeviceInfo extends React.Component {
                 <span>{positionName}</span>
               </div>
               <div>
-                <span className="badge badge-pill badge-warning text-white mr-2" style={{ width: "120px" }}>
+                <span className="badge badge-pill badge-warning text-white mr-2" style={{ width: "120px"}}>
                   측정기명
                 </span>
                 {deviceName}
