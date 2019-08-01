@@ -17,8 +17,13 @@ const sensorTypes = [
   { sensorType: "co2", engName: "CO2", korName: "이산화탄소" },
   { sensorType: "hcho", engName: "HCHO", korName: "포름알데히드" },
   { sensorType: "voc", engName: "VOC", korName: "휘발성유기화합물" },
+  { sensorType: "co", engName: "CO", korName: "일산화탄소" },
   { sensorType: "noise", engName: "Noise", korName: "소음" },
-  { sensorType: "temperature", engName: "Temperature", korName: "온도" },
+  
+  { sensorType: "temperature", 
+    engName: "Temperature", 
+    korName: "온도" 
+  },
   {
     sensorType: "temperaturePublic",
     engName: "Temperature",
@@ -107,7 +112,7 @@ class Update extends Component {
       sensor.alarm = props.alarmData[sensor.sensorType];
     });
 
-    const sensors_temp_humi = sensors.splice(6);
+    const sensors_temp_humi = sensors.splice(7);
     return {
       sensors,
       sensors_temp_humi
