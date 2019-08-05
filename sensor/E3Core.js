@@ -39,7 +39,7 @@ var E3Core = {
       value: sensorValue
     };
 
-    if (sensorValue == null) return result;
+    if (sensorValue === null) return result;
 
     score = global.sensorTable.score;
     if (sensorType === PM10) {

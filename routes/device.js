@@ -244,7 +244,7 @@ router.post("/", function(req, res, next) {
                       "|" +
                       info.filesize +
                       "|!=";
-                  } else if (deviceType == 3) {
+                  } else if (deviceType == 3 || deviceType == 4) {
                     result =
                       "0|" +
                       "00060" +
