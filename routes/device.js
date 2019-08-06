@@ -16,6 +16,7 @@ var Device = require("../models/Device");
 var RecentData = require("../models/RecentData");
 var E3Core = require("../sensor/E3Core");
 var global = require("../global");
+const fs = require("fs");
 
 function dateFormat(dateStr) {
   var year = dateStr.substr(0, 4);
@@ -30,7 +31,13 @@ function dateFormat(dateStr) {
 router.post("/", function(req, res, next) {
   var paramData = req.body || req.query || null;
   console.log("/ 호출됨.");
-  //console.dir(paramData);
+  var date = arr[0].substr(0, 8);
+  var filename = "/aircok/log/" + date;
+  fs.writeFile(filename, paramData, "utf-8", err => {
+    if (err) throw err;
+    console.dir(paramData);
+  });
+
   if (paramData) {
     var result = "";
     var arr = paramData.split("|");
