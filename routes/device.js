@@ -45,9 +45,15 @@ router.post("/", function(req, res, next) {
 
     var date = arr[0].substr(0, 8);
     var filename = "/aircok/log/" + date;
-    fs.writeFile(filename, paramData, "utf-8", err => {
+
+    fs.open(filename, "a", function(err, fileId) {
       if (err) throw err;
-      console.dir(paramData);
+      fs.write(fileId, paramData, 0, paramData.length, null, (err, length) => {
+        if (err) throw err;
+
+        // open 이후 write 작업이 끝나면 close 실행
+        fs.close(fileId);
+      });
     });
 
     Device.getDeviceInfo(paramDeviceSN, function(err, info) {
