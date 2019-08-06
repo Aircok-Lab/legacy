@@ -31,12 +31,6 @@ function dateFormat(dateStr) {
 router.post("/", function(req, res, next) {
   var paramData = req.body || req.query || null;
   console.log("/ 호출됨.");
-  var date = arr[0].substr(0, 8);
-  var filename = "/aircok/log/" + date;
-  fs.writeFile(filename, paramData, "utf-8", err => {
-    if (err) throw err;
-    console.dir(paramData);
-  });
 
   if (paramData) {
     var result = "";
@@ -48,6 +42,14 @@ router.post("/", function(req, res, next) {
     console.log(paramDate);
     var deviceType = arr[1].substring(2, 4);
     var indoor = arr[1].substring(4, 6);
+
+    var date = arr[0].substr(0, 8);
+    var filename = "/aircok/log/" + date;
+    fs.writeFile(filename, paramData, "utf-8", err => {
+      if (err) throw err;
+      console.dir(paramData);
+    });
+
     Device.getDeviceInfo(paramDeviceSN, function(err, info) {
       // indoor, BuildingType, version 정보 얻어옴
       if (err) {
