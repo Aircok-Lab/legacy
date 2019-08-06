@@ -389,7 +389,7 @@ var Device = {
       }
       console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
       var exec = conn.query(
-        "select Building.buildingType, Building.isPublicBuilding, version, firmware, period, indoor from Device, Product, Position, Building\
+        "select Building.buildingType, Building.isPublicBuilding, Product.* from Device, Product, Position, Building\
          where Device.productID = Product.id and Device.PositionID = Position.id and Position.BuildingID = Building.id and \
          Device.serialNumber=?",
         deviceSerialNumber,

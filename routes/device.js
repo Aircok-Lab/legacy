@@ -222,6 +222,7 @@ router.post("/", function(req, res, next) {
             totalScore,
             paramDate,
             paramDeviceSN,
+            info,
             function(err, addedData) {
               if (err) {
                 console.error("데이터 추가 중 오류 발생 :" + err.stack);
@@ -230,7 +231,7 @@ router.post("/", function(req, res, next) {
                 res.end(result);
                 return;
               }
-              var urlInfo = "115.178.65.141:13704";
+              //var urlInfo = "115.178.65.141:13704";
               //결과 객체 있으면 성공 응답 전송
               if (addedData) {
                 // 펌웨어 확인
@@ -253,7 +254,7 @@ router.post("/", function(req, res, next) {
                       "|" +
                       info.filesize +
                       "|" +
-                      urlInfo +
+                      info.ip +
                       "|!=";
                   }
                 }

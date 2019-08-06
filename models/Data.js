@@ -168,6 +168,7 @@ var Data = {
     total,
     date,
     deviceSN,
+    info,
     callback
   ) {
     console.log("addData 호출됨");
@@ -186,47 +187,47 @@ var Data = {
       // 데이터를 객체로 만듭니다.
       var tableName = "Data_" + deviceSN;
       var data = { date: date, e3Index: total.index, e3Score: total.score };
-      if (pm10.value !== null) {
+      if (info.pm10) {
         data.pm10 = pm10.value;
         data.pm10Index = pm10.index;
         data.pm10Alarm = pm10.alarm;
       }
-      if (pm25.value !== null) {
+      if (info.pm25) {
         data.pm25 = pm25.value;
         data.pm25Index = pm25.index;
         data.pm25Alarm = pm25.alarm;
       }
-      if (co2.value !== null) {
+      if (info.co2) {
         data.co2 = co2.value;
         data.co2Index = co2.index;
         data.co2Alarm = co2.alarm;
       }
-      if (hcho.value !== null) {
+      if (info.hcho) {
         data.hcho = hcho.value;
         data.hchoIndex = hcho.index;
         data.hchoAlarm = hcho.alarm;
       }
-      if (voc.value !== null) {
+      if (info.voc) {
         data.voc = voc.value;
         data.vocIndex = voc.index;
         data.vocAlarm = voc.alarm;
       }
-      if (temperature.value !== null) {
+      if (info.temperature) {
         data.temperature = temperature.value;
         data.temperatureIndex = temperature.index;
         data.temperatureAlarm = temperature.alarm;
       }
-      if (humidity.value !== null) {
+      if (info.humidity) {
         data.humidity = humidity.value;
         data.humidityIndex = humidity.index;
         data.humidityAlarm = humidity.alarm;
       }
-      if (noise.value !== null) {
+      if (info.noise) {
         data.noise = noise.value;
         data.noiseIndex = noise.index;
         data.noiseAlarm = noise.alarm;
       }
-      if (co.value !== null) {
+      if (info.co) {
         data.co = co.value;
         data.coIndex = co.index;
         data.coAlarm = co.alarm;
