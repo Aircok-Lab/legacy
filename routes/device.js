@@ -50,9 +50,10 @@ router.post("/", function(req, res, next) {
       if (err) throw err;
       fs.write(fileId, paramData, 0, paramData.length, null, (err, length) => {
         if (err) throw err;
-
-        // open 이후 write 작업이 끝나면 close 실행
-        fs.close(fileId);
+        console.log(paramData);
+        fs.close(fileId, () => {
+          console.log("close file");
+        });
       });
     });
 
