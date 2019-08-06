@@ -17,6 +17,7 @@ var RecentData = require("../models/RecentData");
 var E3Core = require("../sensor/E3Core");
 var global = require("../global");
 const fs = require("fs");
+var os = require("os");
 
 function dateFormat(dateStr) {
   var year = dateStr.substr(0, 4);
@@ -32,9 +33,9 @@ function writeLog(date, log) {
   var filename = "/aircok/log/" + date;
   fs.open(filename, "a", function(err, fileId) {
     if (err) throw err;
-    fs.write(fileId, log + "\r\n", 0, log.length + 1, null, (err, length) => {
+    fs.write(fileId, log + os.EOL, null, "utf8", (err, length) => {
       if (err) throw err;
-      console.log(paramData);
+      console.log(log);
       fs.close(fileId, () => {
         console.log("file is updated'");
       });
