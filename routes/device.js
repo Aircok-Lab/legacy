@@ -28,6 +28,20 @@ function dateFormat(dateStr) {
   return result;
 }
 
+function writeLog(date, log) {
+  var filename = "/aircok/log/" + date;
+  fs.open(filename, "a", function(err, fileId) {
+    if (err) throw err;
+    fs.write(fileId, log + "\r\n", 0, log.length + 1, null, (err, length) => {
+      if (err) throw err;
+      console.log(paramData);
+      fs.close(fileId, () => {
+        console.log("file is updated'");
+      });
+    });
+  });
+}
+
 router.post("/", function(req, res, next) {
   var paramData = req.body || req.query || null;
   console.log("/ 호출됨.");
@@ -42,20 +56,9 @@ router.post("/", function(req, res, next) {
     console.log(paramDate);
     var deviceType = arr[1].substring(2, 4);
     var indoor = arr[1].substring(4, 6);
-
     var date = arr[0].substr(0, 8);
-    var filename = "/aircok/log/" + date;
 
-    fs.open(filename, "a", function(err, fileId) {
-      if (err) throw err;
-      fs.write(fileId, paramData, 0, paramData.length, null, (err, length) => {
-        if (err) throw err;
-        console.log(paramData);
-        fs.close(fileId, () => {
-          console.log("close file");
-        });
-      });
-    });
+    writeLog(date, paramData);
 
     Device.getDeviceInfo(paramDeviceSN, function(err, info) {
       // indoor, BuildingType, version 정보 얻어옴
