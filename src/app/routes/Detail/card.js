@@ -44,7 +44,7 @@ class SensorCard extends React.Component {
       sensorData,
       sensorIndex,
       sensorType,
-      deviceList,
+      deviceList
     } = this.props;
     let icon = "assets/icons/" + sensorType + ".png";
 
@@ -80,7 +80,7 @@ class SensorCard extends React.Component {
             <div className="d-inline" style={{ width: "50%" }}>
               <div
                 className="text-white font-weight-bold"
-                style={{ fontSize: "2.2em" }}
+                style={{ fontSize: "3em" }}
               >
                 {qualityType[`${sensorIndex}`]}
               </div>
