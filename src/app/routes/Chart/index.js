@@ -245,7 +245,7 @@ class ChartPage extends React.Component {
           labels: nextProps.chartData.labels,
           datasets: [
             {
-              label: "휘발성유기화합물 (VOCs)",
+              label: "휘발성유기화합물 (TVOC)",
               fill: false,
               lineTension: 0.1,
               // backgroundColor: "rgba(75,192,192,0.4)",
