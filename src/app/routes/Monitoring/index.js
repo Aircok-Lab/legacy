@@ -119,7 +119,6 @@ class MonitoringPage extends React.Component {
     const formWidth = "300px";
     const nameTabWidth = "170px";
     const indexTabWidth = "120px";
-    const smsTabWidth = "60px";
 
     const getClassText = grade => {
       let classText = "text-good";
@@ -272,22 +271,6 @@ class MonitoringPage extends React.Component {
                         sensorIndex={contact.coIndex}
                         sensorAlarm={contact.coAlarm}
                       />
-                      <td style={{ width: `${smsTabWidth}` }}>
-                        <div>
-                          <img
-                            src="assets/icons/sms.jpg"
-                            style={{ width: "30px", height: "30px" }}
-                            alt="sms"
-                            title="SMS Icon"
-                            onClick={e => {
-                              this.props.sendSMS(
-                                contact.deviceSN,
-                                contact.positionID
-                              );
-                            }}
-                          />
-                        </div>
-                      </td>
                     </tr>
                   );
                 }

@@ -4,7 +4,6 @@ const mainTableHead = props => {
   const nameTabWidth = "170px";
   const indexTabWidth = "120px";
   const sensorTabWidth = "180px";
-  const smsTabWidth = "60px";
   return (
     <thead>
       <tr>
@@ -88,7 +87,7 @@ const mainTableHead = props => {
           colSpan={3}
           style={{ width: `${sensorTabWidth}` }}
         >
-          휘발성유기화합물(TVOC)
+          휘발성유기화합물(VOCs)
           <br />
           (ppb)
         </th>
@@ -108,14 +107,7 @@ const mainTableHead = props => {
         >
           일산화탄소(CO)
           <br />
-          (ppm)
-        </th>
-        <th
-          className="table-header-row0-class"
-          rowSpan={2}
-          style={{ width: `${smsTabWidth}` }}
-        >
-          SMS
+          (ppb)
         </th>
       </tr>
       <tr className="table-header-row1-class">
