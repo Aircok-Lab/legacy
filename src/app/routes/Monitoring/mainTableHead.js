@@ -88,7 +88,7 @@ const mainTableHead = props => {
           colSpan={3}
           style={{ width: `${sensorTabWidth}`,borderRight:'1px solid',borderLeft:'1px solid' }}
         >
-          휘발성유기화합물(VOCs)
+          휘발성유기화합물(TVOC)
           <br />
           (ppb)
         </th>
