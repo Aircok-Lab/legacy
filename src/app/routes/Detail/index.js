@@ -169,7 +169,7 @@ class DetailPage extends React.Component {
               ) : null}
               {contact.isVoc ? (
                 <SensorCard
-                  title="휘발성유기화합물 (VOCs)"
+                  title="휘발성유기화합물 (TVOC)"
                   sensorData={contact.voc}
                   sensorIndex={contact.vocIndex}
                   sensorType="voc"

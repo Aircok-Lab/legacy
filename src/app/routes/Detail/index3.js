@@ -181,7 +181,7 @@ class DetailPage extends React.Component {
           <div style={{ width: "20%", display: "inline-block" }}>
             {contact.isVoc ? (
               <SensorCard
-                title="휘발성유기화합물 (VOCs)"
+                title="휘발성유기화합물 (TVOC)"
                 sensorData={contact.voc}
                 sensorIndex={contact.vocIndex}
                 sensorType="voc"
