@@ -10,7 +10,7 @@ var HEXfileData = [];
 var firmwareFilePath = "http://115.178.65.141:13701/uploads/";
 
 // 펌웨어 파일 이름
-var firmwareFileName = "AIRCOK_APP.hex";
+var firmwareFileName = "AIRCOK_ETHERNET.hex";
 
 // 펌웨어 파일을 라인별로 읽기 처리
 var rl = readline.createInterface({
