@@ -11,7 +11,6 @@ var expressSession = require("express-session");
 var cors = require("cors");
 
 var logger = require("morgan");
-//var mailer = require('express-mailer');
 
 // express 객체 생성
 var app = express();

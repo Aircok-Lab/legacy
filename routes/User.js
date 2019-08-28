@@ -2,6 +2,7 @@ import { OK, FAIL, APPROVE } from "../public/javascripts/defined";
 var express = require("express");
 var router = express.Router();
 var User = require("../models/User");
+var Mail = require("../models/Mail");
 var ursa = require("ursa");
 var fs = require("fs");
 var path = require("path");
@@ -11,6 +12,15 @@ const publicKey = fs.readFileSync(path.resolve("ssl/public.pem"));
 const privateKey = ursa.createPrivateKey(
   fs.readFileSync(path.resolve("ssl/private.pem"))
 );
+
+function randomString(n) {
+  var r = "";
+  while (n--)
+    r += String.fromCharCode(
+      ((r = (Math.random() * 62) | 0), (r += r > 9 ? (r < 36 ? 55 : 61) : 48))
+    );
+  return r;
+}
 
 router.get("/pkey", function(req, res) {
   return res.send(publicKey);
@@ -302,13 +312,42 @@ router.post("/findPassword", function(req, res, next) {
     //결과 객체 있으면 성공 응답 전송
     if (findPassword) {
       console.dir(findPassword);
-      //console.log('DB에 임시비번 변경 후 임시 비번 메일 전송');
-      result.statusCode = OK;
-      result.message = "임시 비번 메일 전송";
-      res.send(result);
+      var newPassword = randomString(10);
+      console.log("newPassword : " + newPassword);
+      User.changePasswordByLoginID(paramLoginID, newPassword, function(
+        err,
+        success
+      ) {
+        if (err) {
+          console.error("사용자 새비밀번호 적용 오류 발생 :" + err.stack);
+          return;
+        }
+
+        if (success) {
+          //console.log('DB에 임시비번 변경 후 임시 비번 메일 전송');
+          Mail.sendNewPassword(paramEmail, newPassword, function(err, success) {
+            if (err) {
+              console.error("새비밀번호 메일 전송 오류 발생 :" + err.stack);
+              result.statusCode = FAIL;
+              result.message = "새로운 비밀번호 적용 실패하였습니다.";
+              res.send(result);
+            }
+
+            if (success) {
+              result.statusCode = OK;
+              result.message = "임시 비번 메일 전송하였습니다.";
+              res.send(result);
+            }
+          });
+        } else {
+          result.statusCode = FAIL;
+          result.message = "새로운 비밀번호 적용 실패하였습니다.";
+          res.send(result);
+        }
+      });
     } else {
       result.statusCode = FAIL;
-      result.message = "실패";
+      result.message = "아이디와 이메일 정보가 잘 못 입력되었습니다.";
       res.send(result);
     }
   });

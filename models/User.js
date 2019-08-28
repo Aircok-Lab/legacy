@@ -241,9 +241,11 @@ var User = {
             return;
           }
 
-          findPassword = result[0].password;
-
-          callback(null, findPassword);
+          if (result.length == 0) callback(null, false);
+          else {
+            findPassword = result[0].password;
+            callback(null, findPassword);
+          }
         }
       );
     });
@@ -1188,6 +1190,47 @@ var User = {
       // SQL문을 실행합니다.
       var exec = conn.query(
         "update User set password=AES_ENCRYPT(?,SHA2('key',512)) where id=?",
+        data,
+        function(err, result) {
+          conn.release(); // 반드시 해제해야 합니다.
+          console.log("실행 대상 SQL : " + exec.sql);
+
+          if (err) {
+            console.log("SQL 실행 시 오류 발생함");
+            console.dir(err);
+
+            callback(err, null);
+            return;
+          }
+          var success = false;
+          if (result.changedRows > 0) {
+            success = true;
+          }
+          callback(null, success);
+        }
+      );
+    });
+  },
+  changePasswordByLoginID: function(loginID, newPassword, callback) {
+    console.log("changePassword 호출됨");
+
+    pool.getConnection(function(err, conn) {
+      if (err) {
+        if (conn) {
+          conn.release(); // 반드시 해제해야 합니다.
+        }
+
+        callback(err, null);
+        return;
+      }
+      console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+      // SQL문을 실행합니다.
+      var data = [newPassword, loginID];
+
+      // SQL문을 실행합니다.
+      var exec = conn.query(
+        "update User set password=AES_ENCRYPT(?,SHA2('key',512)) where loginID=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
