@@ -330,6 +330,20 @@ class Add extends Component {
               </select>
             </div>
           </div>
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              서버 IP
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="version"
+                type="text"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
           <div className="w3-right">
             <button
               type="button"

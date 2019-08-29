@@ -228,6 +228,19 @@ class Add extends Component {
                 Ethernet
               </label>
             </div>
+            <div className="form-check form-check-inline">
+              <label className="form-check-label">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="networkType"
+                  value="ethernet"
+                  checked={this.state.postData.networkType === "DHCP"}
+                  onChange={this.handleChange}
+                />
+                DHCP
+              </label>
+            </div>
           </div>
         </div>
         {this.state.postData.networkType === "cellular" && (
