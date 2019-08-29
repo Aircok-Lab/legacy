@@ -52,36 +52,34 @@ class Forgot extends React.Component {
   constructor() {
     super();
     this.state = {
-      loginId: "linkit",
-      name: "김영국",
-      email: "sbwoo87@gmail.com",
+      loginId: "",
+      name: "",
+      email: "",
       value: 0,
       forgotDialogOpen: false,
-      nameEntered: '',
       isNameValid: false,
-      emailEntered: '',
       isEmailValid: false,
       phoneNumberEntered: '',
       isPhoneNumberValid: false
     };
   }
-  validateName = nameEntered => {
-    if (nameEntered.length > 1) {
+  validateName = name => {
+    if (name.length > 1) {
       this.setState({
         isNameValid: true,
-        nameEntered
+        name
       });
     } else {
       this.setState({
         isNameValid: false,
-        nameEntered
+        name
       });
     }
   };
   isEnteredNameValid = () => {
-    const { nameEntered, isNameValid } = this.state;
+    const { name, isNameValid } = this.state;
   
-    if (nameEntered) return isNameValid;
+    if (name) return isNameValid;
   };
   
   inputClassNameHelper = boolean => {
@@ -94,25 +92,25 @@ class Forgot extends React.Component {
         return '';
     }
   };
-  validateEmail = emailEntered => {
+  validateEmail = email => {
     const emailRegExp = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
   
-    if (emailEntered.match(emailRegExp)) {
+    if (email.match(emailRegExp)) {
       this.setState({
         isEmailValid: true,
-        emailEntered
+        email
       });
     } else {
       this.setState({
         isEmailValid: false,
-        emailEntered
+        email
       });
     }
   };
   isEnteredEmailValid = () => {
-    const { emailEntered, isEmailValid } = this.state;
+    const { email, isEmailValid } = this.state;
   
-    if (emailEntered) return isEmailValid;
+    if (email) return isEmailValid;
   };
   handleChange = (event, value) => {
     this.setState({ value });
