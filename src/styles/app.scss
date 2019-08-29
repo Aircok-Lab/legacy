@@ -144,7 +144,7 @@ Version        : 1.0
 }
 
 .table-fixed {
-  width: 2140px !important; // delete SMS : 2080
+  width: 2080px !important; // delete SMS : 2080
   margin-left: auto;
   margin-right: auto;
   tbody {
@@ -160,12 +160,13 @@ Version        : 1.0
     td {
       text-align: center !important;
       vertical-align: middle !important;
+      //height: 55px; // tableHeight
     }
   }
 }
 
 .building-filter {
-  max-width: 2140px; // delete SMS : 2080
+  max-width: 2080px; // delete SMS : 2080
   margin-left: auto;
   margin-right: auto;
 }
