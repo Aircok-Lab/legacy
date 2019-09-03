@@ -27,6 +27,7 @@ var indexTableRouter = require("./routes/IndexTable");
 var alarmTableRouter = require("./routes/AlarmTable");
 var proxyRouter = require("./routes/Proxy");
 var reportRouter = require("./routes/Report");
+var sensorRouter = require("./routes/Sensor");
 
 var score = require("./sensor/score");
 var pm10 = require("./sensor/pm10");
@@ -84,6 +85,7 @@ app.use("/indexTable", indexTableRouter);
 app.use("/alarmTable", alarmTableRouter);
 app.use("/proxy", proxyRouter);
 app.use("/report", reportRouter);
+app.use("/sensor", sensorRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
