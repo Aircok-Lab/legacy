@@ -245,6 +245,7 @@ var Device = {
     subnet,
     networkType,
     reportType,
+    dhcp,
     callback
   ) {
     console.log("addDevice 호출됨");
@@ -273,6 +274,7 @@ var Device = {
         subnet: subnet,
         networkType: networkType,
         reportType: reportType,
+        dhcp: dhcp
       };
 
       // SQL문을 실행합니다.
@@ -306,6 +308,7 @@ var Device = {
     subnet,
     networkType,
     reportType,
+    dhcp,
     callback
   ) {
     console.log("updateDevice 호출됨");
@@ -333,12 +336,13 @@ var Device = {
         subnet,
         networkType,
         reportType,
+        dhcp,
         serialNumber
       ];
 
       // SQL문을 실행합니다.
       var exec = conn.query(
-        "update Device set name=?, phone=?, ip=?, positionID=?, productID=?, imei=?, gateway=?, subnet=?, networkType=?, reportType=? where serialNumber=?",
+        "update Device set name=?, phone=?, ip=?, positionID=?, productID=?, imei=?, gateway=?, subnet=?, networkType=?, reportType=?, dhcp=? where serialNumber=?",
         data,
         function(err, result) {
           conn.release(); // 반드시 해제해야 합니다.
