@@ -48,6 +48,10 @@ var server = net.createServer(function(client) {
     console.log("Client disconnected", new Date().toString());
   });
 
+  client.on("error", function(e) {
+    console.log(e);
+  });
+
   // 클라이언트와 연결시에 클라이언트에 응답
   //client.write('Hello');
 });
