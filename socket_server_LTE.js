@@ -39,10 +39,6 @@ var server = net.createServer(function(client) {
       var index = parseInt(data.toString(), 10);
       if (HEXfileData[index]) {
         client.write(HEXfileData[index]);
-        console.log(
-          "Client write " + HEXfileData[index].toString(),
-          new Date().toString()
-        );
       }
     }
   });
