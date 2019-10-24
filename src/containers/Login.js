@@ -54,7 +54,7 @@ class Login extends React.Component {
     this.setState({ [name]: event.target.checked });
     localStorage.setItem("stayLogin", JSON.stringify(event.target.checked));
   };
-
+  
   login(e) {
     this.props.userSignIn({
       loginId: this.state.loginId,
@@ -62,7 +62,11 @@ class Login extends React.Component {
       pkey: this.props.pkey
     });
   }
-
+  appKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.login();
+    }
+  }
   render() {
     const { loginId, password } = this.state;
     const { showMessage, loader, alertMessage, pkey } = this.props;
@@ -97,6 +101,7 @@ class Login extends React.Component {
                     onChange={event =>
                       this.setState({ password: event.target.value })
                     }
+                    onKeyPress={this.appKeyPress}
                     defaultValue={password}
                     margin="normal"
                     className="mt-1 my-sm-3"
