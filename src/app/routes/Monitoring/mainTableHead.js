@@ -12,7 +12,7 @@ const mainTableHead = props => {
           rowSpan={2}
           style={{ width: `${nameTabWidth}` }}
         >
-          구분1
+          구분
         </th>
         <th
           className="table-header-row0-class"
