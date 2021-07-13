@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "123335303508",
+    "project_id": "aircokv3-1355f",
+    "storage_bucket": "aircokv3-1355f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123335303508:android:a7ad4fa580f72a1cf468c1",
+        "android_client_info": {
+          "package_name": "com.aircokv3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123335303508-fc55v3b8gp11d9heucnbvnul0sco7u3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-gIneURWDJBTHaCNfc0MO6EkR5MNEnBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123335303508-fc55v3b8gp11d9heucnbvnul0sco7u3a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
