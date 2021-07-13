@@ -25,6 +25,7 @@
 			<AppenderRef ref="console" />
 		</Root>
 		<!-- exception -->
+		<!-- exception -->
 		<logger name="com.ethree.iot.handler.APIControllerAdvice"
 			level="ERROR" additivity="false">
 			<AppenderRef ref="console" />
