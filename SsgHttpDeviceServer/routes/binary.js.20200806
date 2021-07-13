@@ -1,0 +1,82 @@
+var express = require("express");
+var router = express.Router();
+const fs = require("fs");
+var os = require("os");
+
+var result = "";
+
+function isEmptyObject(param) {
+  return Object.keys(param).length === 0 && param.constructor === Object;
+}
+
+router.post("/", function(req, res, next) {
+
+  console.log("/ binary 호출됨.......");
+
+  if ( isEmptyObject(req.body) && isEmptyObject(req.query)) {    
+     result =
+      "NO|" +
+      //paramDate +                                
+      "전송데이터가없습니다." +
+      "|!="; 
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "text/plain");
+      res.end(result);  
+      return;
+  }
+  
+  // 스트림 단위로 파일 읽고 쓰기
+  var paramPageNum = req.body.pageNum || req.query.pageNum;
+  var paramFileName = req.body.fileName || req.query.fileName;
+  var sratNum = 0;
+  var endNum = 0;
+
+  if ( parseInt(paramPageNum) > 64 || parseInt(paramPageNum) < 1) {
+    result =
+    "NO|" +
+    //paramDate +                                
+    "페이지 요청번호를 초과 하였습니다." +
+    "|!="; 
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    res.end(result);  
+    return;
+  }
+
+  startNum = ( paramPageNum * 2048 ) - 2048; 
+  endNum = ( paramPageNum * 2048) - 1; 
+
+  console.log("starrNUm:" + startNum);
+  console.log("endNum:" + endNum);
+
+  var fs = require('fs');
+  var infile = fs.createReadStream('./uploads/'+paramFileName,{falgs : 'r',start: startNum,end:endNum });
+  
+  infile.on('data',function(data){
+
+    console.log('읽어 들인 데이터',data);
+    console.log('읽어 들인 데이터길이',data.length);    
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/octet-stream");
+    res.end(data);      
+  });
+
+  // Stream 이벤트 등록
+
+  /* infile.on('end',function(){
+    console.log('파일 읽기 종료');
+    outfile.end(function(){
+        console.log('파일 쓰기 종료');
+    })
+  }) */
+  
+  
+  // res.end();
+  //return; 
+
+  
+  //result = "dddddddddddd";  
+  
+});
+
+module.exports = router;
