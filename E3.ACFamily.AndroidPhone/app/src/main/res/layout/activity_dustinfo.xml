@@ -1,0 +1,1848 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_drawer"
+    android:background="@drawable/bg_default">
+
+    <include
+        android:id="@+id/layout_header"
+        layout="@layout/family_view_header"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal"
+                android:background="#f9f9f9">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_index_dust"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5.3dp"
+                    android:text="@string/menu_title1"
+                    android:textSize="14.7dp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="#eeeeee"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17.3dp"
+                    android:layout_marginLeft="18.7dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="24.7dp"
+                    android:textSize="14dp"
+                    android:textColor="#5a5a5a"
+                    android:text="@string/dust_info_des"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16.7dp"
+                    android:layout_marginRight="16.7dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="#eeeeee"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/circle_a"
+                    android:layout_marginLeft="16.7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#4ed2fb"
+                    android:textStyle="bold"
+                    android:text="@string/dust_info_state_title0"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="#aaaaaa"
+                    android:text="@string/dust_info_state_title0_1"
+                    android:layout_marginLeft="10dp"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#e8e8e8"
+                    android:layout_marginLeft="25.7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12.7dp"
+                    android:textColor="#5a5a5a"
+                    android:text="@string/dust_info_state_des0"
+                    android:layout_marginTop="9.7dp"
+                    android:layout_marginBottom="22.3dp"
+                    android:layout_marginLeft="19.3dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/circle_b"
+                    android:layout_marginLeft="16.7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#5ed36f"
+                    android:textStyle="bold"
+                    android:text="@string/dust_info_state_title1"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="#aaaaaa"
+                    android:text="@string/dust_info_state_title1_1"
+                    android:layout_marginLeft="10dp"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#e8e8e8"
+                    android:layout_marginLeft="25.7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12.7dp"
+                    android:textColor="#5a5a5a"
+                    android:text="@string/dust_info_state_des1"
+                    android:layout_marginTop="9.7dp"
+                    android:layout_marginBottom="22.3dp"
+                    android:layout_marginLeft="19.3dp"
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/circle_c"
+                    android:layout_marginLeft="16.7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#ffb71c"
+                    android:textStyle="bold"
+                    android:text="@string/dust_info_state_title2"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="#aaaaaa"
+                    android:text="@string/dust_info_state_title2_1"
+                    android:layout_marginLeft="10dp"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#e8e8e8"
+                    android:layout_marginLeft="25.7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12.7dp"
+                    android:textColor="#5a5a5a"
+                    android:text="@string/dust_info_state_des2"
+                    android:layout_marginTop="9.7dp"
+                    android:layout_marginBottom="22.3dp"
+                    android:layout_marginLeft="19.3dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/circle_d"
+                    android:layout_marginLeft="16.7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#ff6e35"
+                    android:textStyle="bold"
+                    android:text="@string/dust_info_state_title3"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="#aaaaaa"
+                    android:text="@string/dust_info_state_title3_1"
+                    android:layout_marginLeft="10dp"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#e8e8e8"
+                    android:layout_marginLeft="25.7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12.7dp"
+                    android:textColor="#5a5a5a"
+                    android:text="@string/dust_info_state_des3"
+                    android:layout_marginTop="9.7dp"
+                    android:layout_marginBottom="22.3dp"
+                    android:layout_marginLeft="19.3dp"
+                    />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/circle_e"
+                    android:layout_marginLeft="16.7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#ea3046"
+                    android:textStyle="bold"
+                    android:text="@string/dust_info_state_title4"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="#aaaaaa"
+                    android:text="@string/dust_info_state_title4_1"
+                    android:layout_marginLeft="10dp"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12.7dp"
+                    android:textColor="#5a5a5a"
+                    android:text="@string/dust_info_state_des4"
+                    android:layout_marginTop="9.7dp"
+                    android:layout_marginBottom="22.3dp"
+                    android:layout_marginLeft="46dp"
+                    />
+
+            </LinearLayout>
+
+            <!--행동요령 타이틀-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal"
+                android:background="#f9f9f9">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_index_data"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5.3dp"
+                    android:text="@string/dust_info_actiontip_title"
+                    android:textSize="14.7dp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="#eeeeee"/>
+
+            <!--행동요령 탭-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:id="@+id/action_tips_tab_a"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/action_tips_title_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/dust_info_state_title0"
+                        android:textSize="14.7dp"
+                        android:textColor="#4ed2fb"/>
+
+                    <ImageView
+                        android:id="@+id/tab_action_tips_a"
+                        android:layout_width="36dp"
+                        android:layout_height="4dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="#4ed2fb"/>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/action_tips_tab_b"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/action_tips_title_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/dust_info_state_title1"
+                        android:textSize="14.7dp"
+                        android:textColor="#a0a0a0"/>
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/tab_action_tips_b"
+                        android:layout_width="36dp"
+                        android:layout_height="4dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="#5ed36f"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/action_tips_tab_c"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/action_tips_title_c"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/dust_info_state_title2_0"
+                        android:gravity="center_horizontal"
+                        android:textSize="14.7dp"
+                        android:textColor="#a0a0a0"/>
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/tab_action_tips_c"
+                        android:layout_width="62.7dp"
+                        android:layout_height="4dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="#ffb71c"/>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/action_tips_tab_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/action_tips_title_d"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/dust_info_state_title3"
+                        android:textSize="14.7dp"
+                        android:textColor="#a0a0a0"/>
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/tab_action_tips_d"
+                        android:layout_width="36dp"
+                        android:layout_height="4dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="#ff6e35"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/action_tips_tab_e"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/action_tips_title_e"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/dust_info_state_title4"
+                        android:textSize="14.7dp"
+                        android:textColor="#a0a0a0"/>
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/tab_action_tips_e"
+                        android:layout_width="52dp"
+                        android:layout_height="4dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="#ea3046"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="#eeeeee"/>
+
+            <!--행동요령 좋음-->
+            <RelativeLayout
+                android:id="@+id/a_action_tips_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="20.7dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+
+                <LinearLayout
+                    android:id="@+id/a_in_out_tab"
+                    android:layout_width="180dp"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="#ffffff">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RelativeLayout
+                        android:id="@+id/a_inside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/a_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_inside"
+                            android:textSize="12dp"
+                            android:textColor="#333333"/>
+
+                        <ImageView
+                            android:id="@+id/a_inside_dot"
+                            android:layout_below="@id/a_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/a_outside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/a_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_outside"
+                            android:textSize="12dp"
+                            android:textColor="#a0a0a0"/>
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/a_outside_dot"
+                            android:layout_below="@id/a_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/a_inside_action_tips"
+                    android:layout_below="@id/a_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="17.7dp"
+                        android:src="@drawable/ic_dust_good_in"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="96dp"
+                        android:text="@string/dust_info_action_tips0"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/a_outside_action_tips"
+                    android:layout_below="@id/a_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="17.7dp"
+                        android:src="@drawable/ic_dust_good_out"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="96dp"
+                        android:text="@string/dust_info_action_tips1"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!--행동요령 보통-->
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/b_action_tips_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="20.7dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+
+                <LinearLayout
+                    android:id="@+id/b_in_out_tab"
+                    android:layout_width="180dp"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="#ffffff">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RelativeLayout
+                        android:id="@+id/b_inside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/b_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_inside"
+                            android:textSize="12dp"
+                            android:textColor="#333333"/>
+
+                        <ImageView
+                            android:id="@+id/b_inside_dot"
+                            android:layout_below="@id/b_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/b_outside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/b_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_outside"
+                            android:textSize="12dp"
+                            android:textColor="#a0a0a0"/>
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/b_outside_dot"
+                            android:layout_below="@id/b_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/b_inside_action_tips"
+                    android:layout_below="@id/b_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="17.7dp"
+                        android:src="@drawable/ic_dust_soso_in"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="96dp"
+                        android:text="@string/dust_info_action_tips2"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/b_outside_action_tips"
+                    android:layout_below="@id/b_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="17.7dp"
+                        android:src="@drawable/ic_dust_soso_out"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="96dp"
+                        android:text="@string/dust_info_action_tips3"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <!--행동요령 민감군 영향-->
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/c_action_tips_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="20.7dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+
+                <LinearLayout
+                    android:id="@+id/c_in_out_tab"
+                    android:layout_width="180dp"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="#ffffff">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RelativeLayout
+                        android:id="@+id/c_inside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/c_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_inside"
+                            android:textSize="12dp"
+                            android:textColor="#333333"/>
+
+                        <ImageView
+                            android:id="@+id/c_inside_dot"
+                            android:layout_below="@id/c_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/c_outside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/c_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_outside"
+                            android:textSize="12dp"
+                            android:textColor="#a0a0a0"/>
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/c_outside_dot"
+                            android:layout_below="@id/c_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/c_inside_action_tips"
+                    android:layout_below="@id/c_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="18.3dp"
+                        android:src="@drawable/ic_dust_sensitive_in"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips4"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips4_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips5"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips5_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips6"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips6_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips7"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips7_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips8"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="40dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips8_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/c_outside_action_tips"
+                    android:layout_below="@id/c_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="12.3dp"
+                        android:src="@drawable/ic_dust_sensitive_out"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="27.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips9"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips10"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips10_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips11"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="41dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips11_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!--행동요령 나쁨-->
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/d_action_tips_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="20.7dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+
+                <LinearLayout
+                    android:id="@+id/d_in_out_tab"
+                    android:layout_width="180dp"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="#ffffff">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RelativeLayout
+                        android:id="@+id/d_inside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/d_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_inside"
+                            android:textSize="12dp"
+                            android:textColor="#333333"/>
+
+                        <ImageView
+                            android:id="@+id/d_inside_dot"
+                            android:layout_below="@id/d_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/d_outside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/d_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_outside"
+                            android:textSize="12dp"
+                            android:textColor="#a0a0a0"/>
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/d_outside_dot"
+                            android:layout_below="@id/d_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/d_inside_action_tips"
+                    android:layout_below="@id/d_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="18dp"
+                        android:src="@drawable/ic_dust_bad_in"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips12"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips12_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips13"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips13_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips14"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips14_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips15"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips15_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips16"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips16_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips17"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips17_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips18"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="41.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips18_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/d_outside_action_tips"
+                    android:layout_below="@id/d_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="18.3dp"
+                        android:src="@drawable/ic_dust_bad_out"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="27.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips19"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips20"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="- 정전기 기능이 있는 황사방지용 마스크 사용\n(미세먼지80% 이상 차단)\n- 일반 마스크의 경우 미세먼지 약 30% 차단"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips21"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips21_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips22"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips22_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips23"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="41.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips23_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!--행동요령 매우나쁨-->
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/e_action_tips_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="20.7dp"
+                android:gravity="center_vertical"
+                android:background="#ffffff">
+
+
+                <LinearLayout
+                    android:id="@+id/e_in_out_tab"
+                    android:layout_width="180dp"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="#ffffff">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RelativeLayout
+                        android:id="@+id/e_inside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/e_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_inside"
+                            android:textSize="12dp"
+                            android:textColor="#333333"/>
+
+                        <ImageView
+                            android:id="@+id/e_inside_dot"
+                            android:layout_below="@id/e_inside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/e_outside_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/e_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dust_info_outside"
+                            android:textSize="12dp"
+                            android:textColor="#a0a0a0"/>
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/e_outside_dot"
+                            android:layout_below="@id/e_outside_tab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.7dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/depth_dot"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/e_inside_action_tips"
+                    android:layout_below="@id/e_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="18dp"
+                        android:src="@drawable/ic_dust_vertbad_in"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips24"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips24_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips25"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips25_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips26"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips26_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips27"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips27_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips28"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips28_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips29"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips29_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips30"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="41.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips30_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/e_outside_action_tips"
+                    android:layout_below="@id/e_in_out_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="18.3dp"
+                        android:src="@drawable/ic_dust_serious_out"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips31"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips31_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips32"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips32_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips33"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips33_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips34"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips34_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="11.7dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips35"
+                        android:textSize="16.7dp"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="43dp"
+                        android:layout_marginRight="15.7dp"
+                        android:text="@string/dust_info_action_tips35_0"
+                        android:textSize="14dp"
+                        android:textColor="#5a5a5a"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

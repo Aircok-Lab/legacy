@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_drawer"
+    android:background="@drawable/bg_default">
+
+    <include
+        android:id="@+id/layout_header"
+        layout="@layout/family_view_header" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        android:background="#ffffff">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/dust_measure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="onClick">
+
+                <TextView
+                    android:id="@+id/dust_measure_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18.7dp"
+                    android:layout_marginBottom="13.7dp"
+                    android:layout_centerInParent="true"
+                    android:text="@string/monitoring_dust_measure"
+                    android:textColor="#333333"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:id="@+id/dust_measure_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dust_measure_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5.7dp"
+                    android:background="@drawable/tap_monitoring_line" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/dust_exposure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="onClick">
+
+                <TextView
+                    android:id="@+id/dust_exposure_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18.7dp"
+                    android:layout_marginBottom="13.7dp"
+                    android:layout_centerInParent="true"
+                    android:text="@string/monitoring_dust_exposure"
+                    android:textColor="#a0a0a0"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:id="@+id/dust_exposure_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dust_exposure_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5.7dp"
+                    android:background="@drawable/tap_monitoring_line"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/monitoring_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical"
+                android:background="#ffffff">
+
+                <LinearLayout
+                    android:id="@+id/list_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#cad0db"
+                        android:layout_marginLeft="95.7dp"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="#ffffff"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="9.7dp"
+                        android:layout_marginRight="28dp"
+                        android:text="@string/monitoring_dust_mg"/>
+
+                </LinearLayout>
+
+                <ListView
+                    android:scrollbars="none"
+                    android:id="@+id/dust_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="#ffffff"
+                    android:choiceMode="singleChoice"/>
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/dust_exposure_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                >
+                <include layout="@layout/layout_dust_exposure"/>
+            </FrameLayout>
+
+
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

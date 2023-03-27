@@ -1,0 +1,1959 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_index_good"
+    >
+
+    <!-- Main -->
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <include
+            android:id="@+id/layout_header"
+            layout="@layout/family_view_header" />
+
+        <ScrollView
+            android:scrollbars="none"
+            android:id="@+id/main_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/main_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="105.3"/>
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tv_state_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffffff"
+                        android:text="@string/common_very"
+                        android:textSize="40dp"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tv_main_index"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/dust_info_state_title0"
+                            android:textColor="#ffffff"
+                            android:textSize="100dp"/>
+                        <LinearLayout
+                            android:id="@+id/ll_no_device"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/tv_no_device"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#ffffff"
+                                android:text="@string/setting_device_no_connect"
+                                android:textSize="18dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_gravity="center_horizontal"/>
+                            <Button
+                                android:id="@+id/btn_connect"
+                                android:layout_width="72dp"
+                                android:layout_height="28dp"
+                                android:onClick="onClickDeviceConnect"
+                                android:layout_marginTop="10dp"
+                                android:paddingRight="18.3dp"
+                                android:text="연결"
+                                android:textSize="14.7dp"
+                                android:textColor="#1fc4ba"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/btn_aircok_connect"/>
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tv_state_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffffff"
+                        android:text="@string/dust_info_state_title2"
+                        android:textSize="24dp"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:id="@+id/tv_pm25_index"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/common_main_pm25"
+                        android:textColor="#99000000"
+                        android:textSize="18dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="222"/>
+
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent">
+
+                        <com.family.aircok.acfamily.common.widget.CXSeekBar
+                            android:id="@+id/seekbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tv_main_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="54.4dp"
+                        android:layout_marginBottom="21.3dp"
+                        android:text="@string/dust_state_comment_0"
+                        android:textColor="#ffffff"
+                        android:textSize="14dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/btn_index_arrow"
+                        android:background="@android:color/transparent"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="22.3dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#f9f9f9"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/ic_index_dust"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4.7dp"
+                            android:textSize="14.7dp"
+                            android:textColor="#666666"
+                            android:text="@string/main_dust_info"
+                            android:layout_gravity="center_vertical"/>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#eeeeee"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_dust_info_status"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="18.7dp"
+                                android:layout_marginRight="18.7dp"
+                                android:text="@string/dust_status_0"
+                                android:textSize="16dp"
+                                android:textColor="#333333"/>
+
+                            <com.family.aircok.acfamily.common.widget.CircleChartView
+                                android:id="@+id/circle_chart"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="18dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#f9f9f9"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/ic_index_data2"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="44.3dp"
+                            android:textSize="14.7dp"
+                            android:textColor="#666666"
+                            android:text="@string/main_out_info"
+                            android:layout_centerVertical="true"/>
+
+
+                        <ImageView
+                            android:id="@+id/btn_data_setting"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/btn_data_setting"/>
+
+                        <TextView
+                            android:visibility="invisible"
+                            android:id="@+id/tv_data_setting"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="16dp"
+                            android:textSize="12dp"
+                            android:textColor="#1fc4ba"
+                            android:text="@string/common_complete"/>
+
+
+                        <ImageView
+                            android:id="@+id/btn_data_refresh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/btn_data_setting"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginRight="12dp"
+                            android:background="@drawable/btn_data_refresh"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#ffffff"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#eeeeee"/>
+
+                        <!--실외데이터-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="20dp">
+
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <!--현재위치-->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:orientation="vertical"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="@string/common_current_location"
+                                    android:textSize="10.7dp"
+                                    android:textColor="#8e8e8e"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="6.3dp"
+                                    android:text="@string/common_out"
+                                    android:textSize="16dp"
+                                    android:textColor="#333333"/>
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="19.7dp">
+
+                                    <Button
+                                        android:visibility="invisible"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/btn_add_del_bg"
+                                        android:text="@string/common_delete"
+                                        android:textSize="14dp"
+                                        android:textColor="#ffffff"
+                                        android:gravity="center"
+                                        android:layout_centerInParent="true"/>
+
+                                    <LinearLayout
+                                        android:id="@+id/location"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:background="@color/white"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="pm10"/>
+
+                                            <com.family.aircok.acfamily.common.widget.MainLineChartView
+                                                android:id="@+id/pm10_linchart1"
+                                                android:layout_width="30dp"
+                                                android:layout_height="80dp"/>
+
+                                            <TextView
+                                                android:id="@+id/tv_chart_pm10"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="16dp"
+                                                android:textColor="#333333"
+                                                android:textStyle="bold"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="㎍/㎥"/>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="pm2.5"/>
+
+                                            <com.family.aircok.acfamily.common.widget.MainLineChartView
+                                                android:id="@+id/pm25_linchart1"
+                                                android:layout_width="30dp"
+                                                android:layout_height="80dp"/>
+
+                                            <TextView
+                                                android:id="@+id/tv_chart_pm25"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="16dp"
+                                                android:textColor="#333333"
+                                                android:textStyle="bold"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="㎍/㎥"/>
+
+                                        </LinearLayout>
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:id="@+id/btn_graph_more"
+                                        android:layout_below="@id/location"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:background="@drawable/btn_graph_more_n"
+                                        android:layout_marginTop="6.3dp"/>
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <!--관심지역1-->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:orientation="vertical"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="@string/common_interest"
+                                    android:textSize="10.7dp"
+                                    android:textColor="#8e8e8e"/>
+
+                                <TextView
+                                    android:id="@+id/tv_location1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="6.3dp"
+                                    android:textSize="16dp"
+                                    android:textColor="#333333"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="19.7dp">
+
+                                    <Button
+                                        android:id="@+id/btn_location1_delete"
+                                        android:visibility="invisible"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/btn_add_del_bg"
+                                        android:text="@string/common_delete"
+                                        android:textSize="14dp"
+                                        android:textColor="#ffffff"
+                                        android:gravity="center"
+                                        android:layout_centerInParent="true"/>
+
+                                    <LinearLayout
+                                        android:id="@+id/add_area1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:layout_centerInParent="true">
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/btn_add_area"
+                                            android:layout_gravity="center_horizontal"/>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_horizontal"
+                                            android:layout_marginTop="4.3dp"
+                                            android:text="@string/common_add"
+                                            android:textSize="14dp"
+                                            android:textColor="#bbbbbb"/>
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:visibility="invisible"
+                                        android:id="@+id/location1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:background="@color/white"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="pm10"/>
+
+                                            <com.family.aircok.acfamily.common.widget.MainLineChartView
+                                                android:id="@+id/pm10_linchart2"
+                                                android:layout_width="30dp"
+                                                android:layout_height="80dp"/>
+
+                                            <TextView
+                                                android:id="@+id/tv_chart_pm10_2"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="16dp"
+                                                android:textColor="#333333"
+                                                android:textStyle="bold"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="㎍/㎥"/>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="pm2.5"/>
+
+                                            <com.family.aircok.acfamily.common.widget.MainLineChartView
+                                                android:id="@+id/pm25_linchart2"
+                                                android:layout_width="30dp"
+                                                android:layout_height="80dp"/>
+
+                                            <TextView
+                                                android:id="@+id/tv_chart_pm25_2"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="16dp"
+                                                android:textColor="#333333"
+                                                android:textStyle="bold"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="㎍/㎥"/>
+
+                                        </LinearLayout>
+                                    </LinearLayout>
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <!--관심지역2-->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:orientation="vertical"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="@string/common_interest"
+                                    android:textSize="10.7dp"
+                                    android:textColor="#8e8e8e"/>
+
+                                <TextView
+                                    android:id="@+id/tv_location2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="6.3dp"
+                                    android:textSize="16dp"
+                                    android:textColor="#333333"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="19.7dp">
+                                    <Button
+                                        android:visibility="invisible"
+                                        android:id="@+id/btn_location2_delete"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/btn_add_del_bg"
+                                        android:text="@string/common_delete"
+                                        android:textSize="14dp"
+                                        android:textColor="#ffffff"
+                                        android:gravity="center"
+                                        android:layout_centerInParent="true"/>
+
+                                    <LinearLayout
+                                        android:id="@+id/add_area2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:layout_centerInParent="true">
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/btn_add_area"
+                                            android:layout_gravity="center_horizontal"/>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_horizontal"
+                                            android:layout_marginTop="4.3dp"
+                                            android:text="@string/common_add"
+                                            android:textSize="14dp"
+                                            android:textColor="#bbbbbb"/>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:visibility="invisible"
+                                        android:id="@+id/location2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:background="@color/white"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="pm10"/>
+
+                                            <com.family.aircok.acfamily.common.widget.MainLineChartView
+                                                android:id="@+id/pm10_linchart3"
+                                                android:layout_width="30dp"
+                                                android:layout_height="80dp"/>
+
+                                            <TextView
+                                                android:id="@+id/tv_chart_pm10_3"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="16dp"
+                                                android:textColor="#333333"
+                                                android:textStyle="bold"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="㎍/㎥"/>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="pm2.5"/>
+
+                                            <com.family.aircok.acfamily.common.widget.MainLineChartView
+                                                android:id="@+id/pm25_linchart3"
+                                                android:layout_width="30dp"
+                                                android:layout_height="80dp"/>
+
+                                            <TextView
+                                                android:id="@+id/tv_chart_pm25_3"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="16dp"
+                                                android:textColor="#333333"
+                                                android:textStyle="bold"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:textSize="8dp"
+                                                android:textColor="#aaaaaa"
+                                                android:text="㎍/㎥"/>
+
+                                        </LinearLayout>
+                                    </LinearLayout>
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                         </LinearLayout>
+
+                        <!--<ImageView-->
+                            <!--android:id="@+id/btn_graph_more"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@drawable/btn_graph_more_n"-->
+                            <!--android:layout_marginTop="6.3dp"-->
+                            <!--android:layout_marginLeft="42.7dp"/>-->
+
+                        <LinearLayout
+                            android:id="@+id/graph_more_lay"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:textColor="#ffffff"
+                                android:text="@string/common_yesterday"
+                                android:textSize="14dp"
+                                android:background="#a6acae"/>
+
+                            <com.family.aircok.acfamily.common.widget.ACChart
+                                android:id="@+id/acchart_20_yesterday"
+                                android:layout_width="match_parent"
+                                android:layout_height="215.3dp"
+                                android:background="#ffffffff"/>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:textColor="#ffffff"
+                                android:text="@string/common_today"
+                                android:textSize="14dp"
+                                android:background="#37a6cf"/>
+
+                            <com.family.aircok.acfamily.common.widget.ACChart
+                                android:id="@+id/acchart_20_today"
+                                android:layout_width="match_parent"
+                                android:layout_height="215.3dp"
+                                android:background="#ffffffff"/>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="18dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:textColor="#ffffff"
+                                android:text="@string/common_tomorrow"
+                                android:textSize="14dp"
+                                android:background="#2dc554"/>
+
+                            <TextView
+                                android:id="@+id/forecast"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginBottom="24dp"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_marginLeft="13.7dp"
+                        android:layout_marginRight="13.7dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:textColor="#b3ffffff"
+                        android:text="@string/main_data_info"
+                        android:textSize="9.3dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#f9f9f9"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/ic_index_data"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4.7dp"
+                            android:textSize="14.7dp"
+                            android:textColor="#666666"
+                            android:text="@string/main_action_tips"
+                            android:layout_gravity="center_vertical"/>
+                    </LinearLayout>
+
+
+                    <!--행동요령 좋음-->
+                    <LinearLayout
+                        android:visibility="visible"
+                        android:id="@+id/action_tips_a"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_inside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#37a6cf"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_good_in"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="40.3dp"
+                                android:text="@string/dust_info_action_tips0"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_outside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#2dc554"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_good_out"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="51.3dp"
+                                android:text="@string/dust_info_action_tips1"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--행동요령 보통-->
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/action_tips_b"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_inside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#37a6cf"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_soso_in"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="40.3dp"
+                                android:text="@string/dust_info_action_tips2"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_outside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#2dc554"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_soso_out"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="51.3dp"
+                                android:text="@string/dust_info_action_tips3"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--행동요령 민감-->
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/action_tips_c"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_inside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#37a6cf"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_sensitive_in"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips4"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips4_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips5"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips5_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips6"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips6_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips7"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips7_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips8"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="40dp"
+                                android:text="@string/dust_info_action_tips8_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_outside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#2dc554"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_sensitive_out"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="27.7dp"
+                                android:text="@string/dust_info_action_tips9"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips10"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips10_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips11"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="41dp"
+                                android:text="@string/dust_info_action_tips11_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--행동요령 나쁨-->
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/action_tips_d"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_inside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#37a6cf"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_bad_in"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips12"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips12_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips13"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips13_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips14"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips14_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips15"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips15_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips16"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips16_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips17"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips17_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips18"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="40dp"
+                                android:text="@string/dust_info_action_tips18_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_outside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#2dc554"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_bad_out"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="27.7dp"
+                                android:text="@string/dust_info_action_tips19"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips20"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips20_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips21"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips21_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips22"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="28dp"
+                                android:text="@string/dust_info_action_tips22_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:text="@string/dust_info_action_tips23"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="15.7dp"
+                                android:layout_marginBottom="38dp"
+                                android:text="@string/dust_info_action_tips23_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--행동요령 매우나쁨-->
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/action_tips_e"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_inside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#37a6cf"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_vertbad_in"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips24"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips24_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips25"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips25_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips26"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips26_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips27"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips27_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips28"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips28_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips29"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips29_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips30"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="41.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips30_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="#ffffff"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#eeeeee"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:paddingLeft="12.3dp"
+                                android:paddingRight="12.3dp"
+                                android:paddingTop="7.7dp"
+                                android:paddingBottom="7.7dp"
+                                android:text="@string/dust_info_outside"
+                                android:textColor="#ffffff"
+                                android:textSize="14dp"
+                                android:background="#2dc554"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="17.7dp"
+                                android:src="@drawable/ic_dust_serious_out"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips31"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips31_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips32"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips32_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips33"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips33_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips34"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="28dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips34_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="11.7dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips35"
+                                android:textSize="16.7dp"
+                                android:textColor="#333333"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="43dp"
+                                android:layout_marginRight="15.7dp"
+                                android:text="@string/dust_info_action_tips35_0"
+                                android:textSize="14dp"
+                                android:textColor="#5a5a5a"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/btn_"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Button"/>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!-- Menu -->
+    <FrameLayout
+        android:id="@+id/layout_main_menu_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginLeft="-32dp"
+        />
+
+</android.support.v4.widget.DrawerLayout>

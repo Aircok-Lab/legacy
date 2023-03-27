@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_menu_dimd">
+
+    <ImageView
+        android:id="@+id/btn_menu_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_nav_close_n"
+        android:layout_marginTop="76.7dp"
+        android:layout_marginLeft="72dp"/>
+
+    <RelativeLayout
+        android:id="@+id/product_info"
+        android:layout_below="@id/btn_menu_close"
+        android:layout_width="256dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="39dp"
+        android:background="@drawable/btn_menu_selector">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/btn_menu01_selector"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="47.7dp"
+            android:textSize="18sp"
+            android:textColor="@color/menu_text_color"
+            android:text="@string/menu_title0"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/dust_info"
+        android:layout_below="@id/product_info"
+        android:layout_width="256dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_menu_selector">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/btn_menu02_selector"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="47.7dp"
+            android:textSize="18sp"
+            android:textColor="@color/menu_text_color"
+            android:text="@string/menu_title1"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/monitoring"
+        android:layout_below="@id/dust_info"
+        android:layout_width="256dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_menu_selector">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/btn_menu03_selector"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="47.7dp"
+            android:textSize="18sp"
+            android:textColor="@color/menu_text_color"
+            android:text="@string/menu_title2"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/buy_info"
+        android:layout_below="@id/monitoring"
+        android:layout_width="256dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_menu_selector">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/btn_menu04_selector"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="47.7dp"
+            android:textSize="18sp"
+            android:textColor="@color/menu_text_color"
+            android:text="@string/menu_title3"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/setting"
+        android:layout_below="@id/buy_info"
+        android:layout_width="256dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_menu_selector">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/btn_menu05_selector"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="47.7dp"
+            android:textSize="18sp"
+            android:textColor="@color/menu_text_color"
+            android:text="@string/menu_title4"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/terms_info"
+        android:layout_below="@id/setting"
+        android:layout_width="256dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_menu_selector">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/btn_menu06_selector"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="47.7dp"
+            android:textSize="18sp"
+            android:textColor="@color/menu_text_color"
+            android:text="@string/menu_title5"/>
+    </RelativeLayout>
+</RelativeLayout>
