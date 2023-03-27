@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+  crossorigin="*">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+    </script>
+</head>
+<body>
+ 
+    <div class="row">
+        <input type="text" id="inputId" style="margin-left: 119px; margin-top: 59px;">
+        <input type="button" onclick="getData()" value="검색">
+        
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <th>Date</th>
+            <th>DATA</th>
+          </thead>
+          <tbody id="result">
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+<script type="text/javascript">
+var apiUrl;
+    if (location.hostname === 'localhost') {
+        apiUrl = 'http://localhost:5000/newjelly/device_log.html';
+    } else {
+        apiUrl = 'http://smart.aircok.com:13701/newjelly/device_log.html'
+    }
+       function getData(v) {
+        var valueById = $('#inputId').val();
+       $.ajax({
+        url: 'http://smart.aircok.com:13701/report/getChartDataByDate3?serialNumber='+valueById,
+        type: 'POST',
+        dataType : "text",
+        success: function(res) {
+          res = JSON.parse(res);
+          var data = res.data,
+          html = '';
+            $.each(data, function(i, item) {
+              html += '<tr>';
+              html += '<td>' + item.date + '</td>';
+              html += '<td>' + 'PM10 : '+ item.pm10 + ' PM25 : '+item.pm25 +' CO2 : ' + item.co2 +' HCHO : '  +item.hcho +' VOC : '  +item.voc+' TEMPERATURE : '  +item.temperature+' HUMIDITY : '+item.humidity+' NOISE : '+item.noise+ '</td>';
+              html += '</tr>';
+            ;
+          });
+          $("#result").empty();
+          $('#result').append(html);
+        
+        }
+        ,
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    }
+
+  
+
+   
+
+    // setInterval(function() {
+    //   getData();
+    // }, 10000);
+  </script>
+
+</body>
+</html>
+<!-- // if (!html) {
+  //   html += '<tr><td colspan="3" class="text-center">no data</td></tr>';
+  // } -->

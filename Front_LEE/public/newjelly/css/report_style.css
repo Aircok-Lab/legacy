@@ -1,0 +1,98 @@
+
+/* content */
+.total_content { width: 1000px; font-family: 'Bebas Neue', cursive; }
+.numbering { margin-top:30px; font-size:14pt; font-weight: bold; width: 1018px; }
+.content { width: 1000px; border: 0px solid; font-family: 'Nanum Pen Script', cursive; font-size:17pt; height: 50%; }
+
+.wrap_2_1 { border: 0px solid; width:45%; height:300px; float:left; }
+.wrap_2_2 { border: 0px solid; width:100%; height:300px; display: table-cell; vertical-align:middle; font-size: 20pt; }
+.wrap_2_1_1 { border: 0px solid; height:70%; width:40%; }
+.wrap_2_1_2 { border: 0px solid; height:30%; width:40%; }
+
+.wrap_3_header { border: 0px solid; height:50px; width:33%; float:left; text-align: center;}
+.wrap_3_body_chart { border: 0px solid; height:130px; width:33%; float:left; font-size: 5pt;}
+.wrap_3_body_table { border: 0px solid; height:50px; width:33%; float:left;  font-size: 5pt;}
+
+.wrap_4_1_1 { border: 0px solid; display: block; height: 325px; width: 480px; float:left;}
+.wrap_4_1_2 { border: 0px solid; width:102%;}
+.wrap_4_1_3 { border: 0px solid; width:120%;  float:left;}
+
+.wrap_5_1 { border: 0px solid; width:50%; float:left; }
+.wrap_5_2 { border: 0px solid; width:100%;  }
+.wrap_5_header { border: 0px solid; width:100%; text-align: center; font-size: 22px;} 
+.wrap_5_body_chart { border: 0px solid; height:350px; width:200%; }
+.wrap_5_body_description { border: 0px solid; height:80px; width:95%; text-align: left;}
+
+.wrap_6_1 { border: 0px solid; width:100%; text-align: center; font-size: 22px; border-bottom: 1px solid #000000; border-top: 1px solid #000000;}
+.wrap_6_1_1 { border: 0px solid; width:50%; float: left; }
+.wrap_6_1_2 { border: 0px solid; width:100%; }
+.wrap_6_1_header { border: 0px solid; height:30px; width:100%; text-align: center;}
+.wrap_6_1_body_chart { border: 0px solid; height:350px; width:300%; }
+.wrap_6_1_body_description { border: 0px solid; height:50px; width:97%; font-size: 18px;}
+
+.wrap_7 { border: 0px solid; width:100%; }
+.wrap_7_title { border: 0px solid; width:100%; padding: 5px; }
+
+.wrap_8_title { border: 0px solid; width:100%; padding: 5px; margin-bottom: 5px; font-weight: bold;}
+.wrap_8_content { border: 0px solid; width:100%; padding:2px; margin-bottom: 20px;}
+
+/* tables */
+.info_table { border-collapse: collapse; width:1026px; }
+.info_table td {
+    /* padding: 10px; */
+    min-width: -10px;
+    border-bottom: 1px solid #000000;
+    border-top: 1px solid #000000;
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+  }
+
+
+.sensor_val_table { border-collapse: collapse; font-size: 5px; text-align: center;}
+.sensor_val_table td {
+    font-size: 5px;
+    background-color: #bdbebe;
+    color: #ffffff;
+}
+.sensor_val_table th {
+    font-size: 5px;
+    width: 80px;
+    color: #ffffff;
+}
+.sensor_val_table th:nth-child( 1 ) { background-color: #2a85fd; font-size: 10px;}
+.sensor_val_table th:nth-child( 2 ) { background-color: #78c9a7; font-size: 10px;}
+.sensor_val_table th:nth-child( 3 ) { background-color: #f8ce12; font-size: 10px;}
+.sensor_val_table th:nth-child( 4 ) { background-color: #ee7b1c; font-size: 10px;}
+.sensor_val_table th:nth-child( 5 ) { background-color: #ff0404; font-size: 10px;}
+.sensor_val_table th:nth-child( 6 ) { background-color: #000000; font-size: 10px;}
+.sensor_val_table td:nth-child( 1 ) { color: #2a85fd; font-size: 10px;}
+.sensor_val_table td:nth-child( 2 ) { color: #78c9a7; font-size: 10px;}
+.sensor_val_table td:nth-child( 3 ) { color: #f8ce12; font-size: 10px;}
+.sensor_val_table td:nth-child( 4 ) { color: #ee7b1c; font-size: 10px;}
+.sensor_val_table td:nth-child( 5 ) { color: #ff0404; font-size: 10px;}
+.sensor_val_table td:nth-child( 6 ) { color: #000000; font-size: 10px;}
+
+.air_anal_table { border-collapse: collapse; 
+    border-bottom: 1px solid #000000;
+    border-top: 1px solid #000000;
+    border-right: 0px solid #000000;
+    border-left: 0px solid #000000; 
+}
+
+.air_anal_table td { padding: 8px; border: 1px solid #000000; }
+.air_anal_table tr td:first-child { border-left: 0; }
+.air_anal_table tr td:last-child { border-right: 0; }
+
+.air_anal_table th { padding:1px; border: 1px solid #000000; border-bottom: 1px solid #000000; }
+.air_anal_table tr th:first-child { border-left: 0; }
+.air_anal_table tr th:last-child { border-right: 0; }
+
+
+
+
+/* charts */
+.rep2_1_chart { width:"100px"; }
+
+
+/* ext */
+.table_font_size { font-size: 5pt; }
