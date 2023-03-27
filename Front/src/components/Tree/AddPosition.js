@@ -1,0 +1,127 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { positionAddRequest, positionDeleteRequest } from "actions/Position";
+import setInitValue from "../../util/setInitValue";
+
+class AddPosition extends Component {
+  state = {
+    name: setInitValue("" + new Date().getTime()),
+    position: "1",
+    buildingID: this.props.selectedNode ? "" + this.props.selectedNode.id : "",
+    // buildingID: this.props.selectedNode.id,
+    userID: this.props.authUser.id
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (
+      props.selectedNode &&
+      state.buildingID !== String(props.selectedNode.id)
+    ) {
+      return {
+        buildingID: String(props.selectedNode.id)
+      };
+    }
+    return null;
+  }
+
+  addPosition = () => {
+    if (
+      !this.props.selectedNode ||
+      (this.props.selectedNode && !this.props.selectedNode.id) ||
+      (this.props.selectedNode &&
+        this.props.selectedNode.id &&
+        this.props.selectedNode.buildingID)
+    ) {
+      alert("건물목록에서 건물을 선택하세요");
+    } else if (!this.state.name) {
+      alert("위치명을 입력하세요");
+    } else {
+      this.props.positionAddRequest(this.state);
+    }
+  };
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+  render() {
+    const steps = JSON.parse(localStorage.getItem("steps"));
+    return (
+      <form className="w3-text-blue w3-margin">
+        {/* {JSON.stringify(this.props.selectedNode)} */}
+        <h2 className="w3-center">위치등록</h2>
+        <div className="w3-row w3-section">
+          <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+            건물명
+          </div>
+          <div className="w3-rest">
+            <div className="w3-rest">
+              <div className="form-control" style={{ background: "#eee" }}>
+                {this.props.selectedNode && this.props.selectedNode.name} &nbsp;
+              </div>
+              {steps && (
+                <div className="small">
+                  건물목록에서 건물명을 선택할 수 있습니다.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="w3-row w3-section">
+            <div className="w3-col w3-padding-right" style={{ width: "80px" }}>
+              위치
+            </div>
+            <div className="w3-rest">
+              <input
+                className="form-control"
+                name="name"
+                value={this.state.name}
+                type="text"
+                placeholder=""
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+
+          {/* <button
+            type="button"
+            className="w3-button w3-right w3-blue w3-padding"
+            onClick={e => {
+              this.addPosition();
+            }}
+          >
+            OK
+          </button> */}
+
+          <div className="clearfix">
+            <div className="float-right">
+              <button
+                type="button"
+                className="w3-button w3-blue w3-padding"
+                onClick={e => {
+                  this.addPosition();
+                }}
+              >
+                추가
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  authUser: state.auth.authUser,
+  selectedNode: state.tree.selectedNode
+});
+
+const mapDispatchToProps = {
+  positionAddRequest
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddPosition);
