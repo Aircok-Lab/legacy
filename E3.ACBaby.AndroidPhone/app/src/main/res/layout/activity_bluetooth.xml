@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <Button
+        android:id="@+id/btn_scan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="스캔"
+        />
+
+    <Button
+        android:id="@+id/btn_connect_gatt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GATT 서버에 연결하기"
+        />
+    <Button
+        android:id="@+id/btn_send_tp1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="tp=1"
+        />
+    <Button
+        android:id="@+id/btn_send_tp3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="tp=3"
+        />
+
+
+</LinearLayout>

@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="163dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@drawable/bg_login">
+
+        <include
+            android:id="@+id/layout_header"
+            layout="@layout/view_header"/>
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="36dp"/>
+
+
+        <LinearLayout
+            android:id="@+id/tab"
+            android:layout_below="@id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center_horizontal|bottom"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/text_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login"
+                    android:textSize="14.7dp"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/login_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6.3dp"
+                    android:background="@drawable/bg_card_arrow"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/join"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center_horizontal|bottom"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/text_join"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/join"
+                    android:textSize="14.7dp"
+                    android:textColor="@color/black333333"/>
+
+                <ImageView
+                    android:id="@+id/join_arrow"
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6.3dp"
+                    android:background="@drawable/bg_card_arrow"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_layout"
+        android:layout_below="@id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/input_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:hint="@string/input_id"
+                    android:paddingLeft="16dip"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textSize="18dp"
+                    android:background="@drawable/edittext_selector"/>
+
+                <EditText
+                    android:id="@+id/input_password"
+                    android:layout_below="@id/input_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/input_password"
+                    android:paddingLeft="16dip"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textSize="18dp"
+                    android:background="@drawable/edittext_selector"/>
+
+                <TextView
+                    android:id="@+id/guide_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/login_guide"
+                    android:textSize="12dp"
+                    android:textColor="#777f7e"
+                    android:layout_below="@+id/input_password"
+                    android:layout_centerHorizontal="true" />
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_below="@id/guide_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="onClick"
+                    android:gravity="center"
+                    android:layout_marginTop="27.7dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/btn_blue_selector"
+                    android:text="@string/login"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:id="@+id/findpassword"
+                    android:layout_below="@id/btn_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:onClick="onClick"
+                    android:text="@string/findpassword"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="14dp"
+                    android:textColor="#0fb4e7"/>
+
+                <ImageView
+                    android:id="@+id/or"
+                    android:layout_below="@id/findpassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="68.7dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/or"/>
+                <ImageView
+                    android:layout_below="@id/findpassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="71.7dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/line_index_contents_or"/>
+
+                <LinearLayout
+                    android:layout_below="@id/or"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="21.3dp"
+                    android:layout_marginBottom="32dp">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/join_kakao"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onClick"
+                            android:background="@drawable/btn_share_kakaotalk"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/join_naver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onClick"
+                            android:background="@drawable/btn_share_naver"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/join_facebook"
+                            android:onClick="onClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_share_facebook"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/join_google"
+                            android:onClick="onClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_share_google"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/join_layout"
+        android:layout_below="@id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/input_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:hint="@string/input_email"
+                    android:paddingLeft="16dip"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textSize="18dp"
+                    android:background="@drawable/edittext_selector"/>
+
+                <Button
+                    android:id="@+id/btn_dodublecheck"
+                    android:onClick="onClick"
+                    android:layout_width="80dp"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginRight="28dp"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/doublecheck"
+                    android:background="@drawable/btn_emailcheck_n"/>
+
+                <EditText
+                    android:id="@+id/input_join_password"
+                    android:layout_below="@id/input_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/input_password"
+                    android:paddingLeft="16dip"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textSize="18dp"
+                    android:background="@drawable/edittext_selector"/>
+
+                <EditText
+                    android:id="@+id/input_join_confirm_password"
+                    android:layout_below="@id/input_join_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/confirm_password"
+                    android:paddingLeft="16dip"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textSize="18dp"
+                    android:background="@drawable/edittext_selector"/>
+
+                <TextView
+                    android:visibility="invisible"
+                    android:id="@+id/same_password"
+                    android:layout_below="@id/input_join_confirm_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="28dp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#0fb4e7"
+                    android:text="일치합니다."/>
+
+                <EditText
+                    android:id="@+id/input_join_birth"
+                    android:layout_below="@id/same_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
+                    android:hint="@string/baby_birth"
+                    android:paddingLeft="16dip"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textSize="18dp"
+                    android:background="@drawable/edittext_selector"/>
+
+                <TextView
+                    android:id="@+id/guide_text2"
+                    android:layout_below="@id/input_join_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15.7dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/login_guide"
+                    android:textSize="12dp"
+                    android:textColor="#777f7e"/>
+
+                <Button
+                    android:id="@+id/btn_join"
+                    android:layout_below="@id/guide_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="onClick"
+                    android:gravity="center"
+                    android:layout_marginTop="27.7dp"
+                    android:minHeight="48dp"
+                    android:background="@drawable/btn_blue_selector"
+                    android:text="@string/dojoin"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:id="@+id/guide_text3"
+                    android:layout_below="@id/btn_join"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="19.7dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/login_guide1"
+                    android:textSize="12dp"
+                    android:textColor="#777f7e"/>
+
+                <ImageView
+                    android:id="@+id/or2"
+                    android:layout_below="@id/guide_text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="57dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/or"/>
+                <ImageView
+                    android:layout_below="@id/guide_text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="60dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/line_index_contents_or"/>
+
+                <LinearLayout
+                    android:layout_below="@id/or2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="21.3dp"
+                    android:layout_marginBottom="32dp">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/join_kakao2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onClick"
+                            android:background="@drawable/btn_share_kakaotalk"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/join_naver2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onClick"
+                            android:background="@drawable/btn_share_naver"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/join_facebook2"
+                            android:onClick="onClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_share_facebook"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/join_google2"
+                            android:onClick="onClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_share_google"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>
