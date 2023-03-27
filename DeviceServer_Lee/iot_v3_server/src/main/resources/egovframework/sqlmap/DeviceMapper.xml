@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethree.iot.mapper.DeviceMapper">
+
+	<resultMap id="device" type="com.ethree.iot.vo.DeviceVO">
+		<result property="serialNumber" column="serial_number" />
+		<result property="name" column="name" />
+		<result property="imei" column="imei" />
+		<result property="positionId" column="position_id" />
+		<result property="productId" column="product_id" />
+		<result property="buildingType" column="building_type" />
+		<result property="reportType" column="report_type" />
+		<result property="networkType" column="network_type" />
+		<result property="phone" column="phone" />
+		<result property="ip" column="ip" />
+		<result property="subnet" column="subnet" />
+		<result property="gateway" column="gateway" />
+		<result property="dhcp" column="dhcp" />
+		<result property="dns" column="dns" />
+		<result property="uploadUrl" column="upload_url" />
+		<result property="fotaUrl" column="fota_url" />
+		<result property="sendPeriod" column="send_period" />
+		<result property="resetInfo" column="reset_info" />
+		<result property="version" column="version" />
+		<result property="firmware" column="firmware" />
+		<result property="checksum" column="checksum" />
+		<result property="uploadIp" column="upload_ip" />
+		<result property="fotaIp" column="fota_ip" />
+		<result property="windowOpen" column="window_open" />
+		<result property="reportYn" column="report_yn" />
+		<result property="predictYn" column="predict_yn" />
+		<result property="delYn" column="del_yn" />
+	</resultMap>
+
+	<select id="findDeviceBySerialNumber" parameterType="hashMap"
+		resultType="hashMap">
+		select
+		t1.building_type, t1.is_public_building, t1.id, t1.name, t1.version, t1.ip,
+		t1.firmware, t1.period, t1.indoor, t1.filesize,
+		t1.pm25, t1.pm10, t1.co2, t1.hcho, t1.voc, t1.temperature, t1.humidity,
+		t1.noise, t1.co, t1.ethernet_ip, t1.subnet, t1.gateway, t1.dhcp,
+		t1.dns,
+		t1.upload_url, t1.fota_url, t1.send_period,t1.reset_info,
+		t2.serial_number, t2.pm10_gang_start, t2.pm10_gang_end, t2.pm10_jung_start,
+		t2.pm10_jung_end, t2.pm10_yag_start, t2.pm10_yag_end,
+		t2.pm25_gang_start, t2.pm25_gang_end,
+		t2.pm25_jung_start, t2.pm25_jung_end, t2.pm25_yag_start, t2.pm25_yag_end, t2.temperature
+		as temperature_ir, t2.reg_dt, t2.co2 as co2_ir,
+		t1.checksum,t1.upload_ip,t1.fota_ip
+		from
+		(
+		select Device.serial_number, Building.building_type,
+		Building.is_public_building, Product.id, Product.name, Device.version,
+		Product.ip, Device.firmware,
+		Product.period, Product.indoor, Product.filesize, Product.pm25, Product.pm10,
+		Product.co2, Product.hcho, Product.voc,
+		Product.temperature, Product.humidity, Product.noise, Product.co,
+		Device.ip ethernet_ip, Device.subnet, Device.gateway, Device.dhcp, Device.dns,
+		Device.upload_url, Device.fota_url, Device.send_period,
+		Device.reset_info, Device.checksum , Device.upload_ip, Device.fota_ip
+		from public.device Device, public.product Product, public.position
+		Position, public.building Building
+		where Device.product_id = Product.id
+		and Device.position_id = Position.id
+		and Position.building_id = Building.id
+		and Device.serial_number=#{recentDataVO.serialNumber} ) t1 LEFT JOIN public.device_ir_yul
+		t2 on t1.serial_number = t2.serial_number
+	</select>
+	
+	<select id="findDeviceYulBySerialNumber" parameterType="hashMap"
+		resultType="hashMap">
+		select serial_number, sensor_type, min, max, calc from public."device_yul" where serial_number =  #{recentDataVO.serialNumber} and sensor_type is not null
+	</select>
+	
+	<update id="updateDeviceResetInfoBySerialNumber" parameterType="hashMap">
+		update public."device" set reset_info = '0' where serial_number = #{recentDataVO.serialNumber}
+	</update>
+
+</mapper>

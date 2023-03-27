@@ -1,0 +1,261 @@
+/*
+Author         : G-axon
+Template Name  : Jumbo React - Admin Template
+Version        : 1.0
+*/
+/*=============================================================
+    Table of Contents:
+    =============================
+    A. Globals
+        01. Custom Animation
+    B. Base
+        01. Base Styles
+        02. Typography Styles
+    C. Layouts
+        01. App Layout Styles
+        02. Sidebar Styles
+        03. Header Styles
+        04. Main Content Styles
+        05. Footer Styles
+        06. Right Sidebar Styles
+    D. UI Components
+        01. Alert Styles
+        02. Avatar Styles
+        03. Badges Styles
+        04. Blockquotes Styles
+        05. Bottom Navigation Styles
+        06. Breadcrumb Styles
+        07. Button Styles
+        08. Button Group Styles
+        09. Callout Styles
+        10. Cards Styles
+        11. Charts Styles
+        12. Chips Styles
+        13. Carousel Styles
+        14. Color Picker Styles
+        15. Drawer Styles
+        16. E-commerce Styles
+        17. Grids List Styles
+        18. Icons Styles
+        19. Label Styles
+        20. List Styles
+        21. Nav Style
+        22. Pricing Styles
+        23. Progressbar Styles
+        24. Popover Styles
+        25. React Joyride Styles
+        26. Tables Styles
+        27. Tabs Styles
+        28. Testimonial Styles
+        29. Time Lines Style
+        30. Joyride Tour Styles
+        31. Form Styles
+    E. Pages
+        01. Login Styles
+        02. Error Styles
+        03. Editor Styles
+        04. Contact Page Styles
+        05. Portfolio Styles
+        06. Faqs Styles
+        07. Dashboard Styles
+    F. Slider
+    G. Modules
+        01. App Module Style
+        02. Chat Module Styles
+        03. Mails Module Styles
+        04. Contact Module Styles
+        05. Calendar Module Style
+  =============================================================*/
+//Custom Variables
+@import "global/_global-dir";
+//Custom Files
+@import "base/_base-dir";
+@import "layout/_layout-dir";
+@import "ui/_ui-dir";
+@import "pages/_pages-dir";
+@import "slider/owl-carousel";
+@import "module/_module-dir";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Poor+Story&family=Song+Myung&display=swap');
+
+.app-login-content {
+  width: 100%;
+}
+
+.app-login-main-content.join {
+  width: 100%;
+}
+
+// index header
+.bg-good {
+  background-color: #289ed7;
+}
+.text-good {
+  color: #289ed7;
+}
+
+.bg-normal {
+  background-color: #2ab67f;
+  color: #ffffff;
+}
+.text-normal {
+  color: #2ab67f;
+}
+
+.bg-sensitive1 {
+  background-color: #e5a222;
+}
+.text-sensitive1 {
+  color: #e5a222;
+}
+
+.bg-sensitive2 {
+  background-color: #e24a1b;
+}
+.text-sensitive2 {
+  color: #e24a1b;
+}
+
+.bg-bad {
+  background-color: #d50119;
+}
+.text-bad {
+  color: #d50119;
+}
+
+.bg-very-bad {
+  background-color: #6D30A9;
+}
+.text-very-bad {
+  color: #656e78;
+}
+
+table header
+.table-header-row0-class {
+  background-color: #cccccc;
+  color: white;
+  text-align: center !important;
+  vertical-align: middle !important;
+  white-space: normal !important;
+  font-size: 12px;
+}
+
+.table-header-row1-class {
+  background-color: #cccccc;
+  color: #505050;
+  white-space: normal !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  font-size: 11px;
+}
+
+.table-header-row2-class {
+  background-color: #47484d;
+  color: rgb(27, 49, 70);
+  text-align: center !important;
+  vertical-align: middle !important;
+  font-size: 12px;
+}
+
+.table-fixed {
+  width: 2080px !important; // delete SMS : 2080
+  margin-left: auto;
+  margin-right: auto;
+  tbody {
+    width:inherit;
+    background-color: #f3f3f3;
+    table-layout:fixed;
+    line-height : 100%;
+  }
+  thead,
+  tbody {
+    td {
+      width:inherit;
+      line-height : 100%;
+      text-align: center !important;
+      vertical-align: middle !important;
+    }
+  }
+}
+.building-filter {
+  max-width: 2080px; // delete SMS : 2080
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -26px;
+  left: 5px;
+}
+
+/*** ACCORDION ***/
+
+/* Header */
+.accordion > div > div:first-of-type {
+  padding: 1em;
+  background-color: #4abdac;
+  color: white;
+  text-transform: uppercase;
+  user-select: none;
+  font-weight: 200;
+  cursor: pointer;
+  border-radius: 0.5em;
+  box-shadow: 0 -10px 30px 2px rgba(0, 0, 0, 0.1) inset;
+}
+.accordion > div > div:first-of-type:hover {
+  background-color: #59c3b3;
+}
+
+/* Content */
+.accordion > div > div:last-of-type {
+  background-color: #f9f9f9;
+  margin: 0 0.5em;
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Inner */
+.accordion .accordion-item {
+  padding: 1em;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  overflow: auto;
+}
+.accordion > div:first-child .accordion-item {
+  max-height: 200px;
+}
+.accordion > div.open .accordion-item {
+  opacity: 1;
+  transition: opacity 700ms ease;
+}
+.accordion img.accordion-item {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  width: 1896px; //1913
+  // overflow-x: scroll;
+  display: block;
+}
+thead {
+  // background-color: #EFEFEF;
+  text-align: center !important;
+}
+thead, tbody {
+  display: block;
+}
+tbody {
+  width:91%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 140px;
+  text-align: center !important;
+}
+td, th {
+  min-width: 71px;
+  height: 55px;
+  // height: 25px;
+  // border: dashed 1px #bfbfbf;
+}
