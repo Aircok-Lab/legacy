@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethree.iot.mapper.CommonMapper">
+	<select id="findAllIndexTable" parameterType="hashMap"
+		resultType="hashMap">
+		SELECT a.id, a.sensor_type, a.grade, a.min, a.max, b.alarm_value as alarm from public."index_table" a
+		left outer join public."alarm_table" b on a.sensor_type = b.sensor_type 
+		order by a.id
+	</select>
+</mapper>
